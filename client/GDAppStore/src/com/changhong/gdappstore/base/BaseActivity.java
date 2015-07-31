@@ -8,7 +8,7 @@ import android.util.DisplayMetrics;
 public class BaseActivity extends Activity {
 
 	protected Context context;
-
+	/**频幕宽高*/
 	protected int screenWidth, screenHeight;
 
 	@Override
