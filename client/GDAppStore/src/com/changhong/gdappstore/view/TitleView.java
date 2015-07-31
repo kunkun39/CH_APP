@@ -13,13 +13,13 @@ import com.changhong.gdappstore.base.BaseRelativeLayout;
 
 public class TitleView extends BaseRelativeLayout implements
 		OnFocusChangeListener, OnClickListener {
-
+	/**标签按钮 */
 	private Button btn_jingpin, btn_yule, btn_yingyong, btn_youxi;
-
+	/**外部点击监听器回调 */
 	private OnClickListener onClickListener;
-
+	/**外部焦点监听器回调*/
 	private OnFocusChangeListener onFocusChangeListener;
-
+	/**上一个选中view*/
 	private View lastSelectedView;
 
 	public TitleView(Context context) {
@@ -54,7 +54,10 @@ public class TitleView extends BaseRelativeLayout implements
 		btn_youxi.setOnFocusChangeListener(this);
 		btn_yule.setOnFocusChangeListener(this);
 	}
-
+	/**
+	 * 根据按钮ID选中选中view（选中非焦点）
+	 * @param btnid
+	 */
 	public void setSelectedItemById(int btnid) {
 		if (lastSelectedView != null) {
 			lastSelectedView.setSelected(false);
