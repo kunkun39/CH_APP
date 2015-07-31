@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <Button
+        android:id="@+id/bt_title_jingpin"
+        android:layout_width="@dimen/title_btn_width"
+        android:layout_height="@dimen/title_btn_height"
+        android:background="@drawable/selector_btn_title"
+        android:gravity="center"
+        android:nextFocusLeft="@id/bt_title_jingpin"
+        android:text="@string/jingpin"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="@dimen/title_btn_textsize" />
+
+    <Button
+        android:id="@+id/bt_title_yule"
+        android:layout_width="@dimen/title_btn_width"
+        android:layout_height="@dimen/title_btn_height"
+        android:layout_alignTop="@id/bt_title_jingpin"
+        android:layout_marginLeft="@dimen/title_btn_marginleft"
+        android:layout_toRightOf="@id/bt_title_jingpin"
+        android:background="@drawable/selector_btn_title"
+        android:gravity="center"
+        android:text="@string/yule"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="@dimen/title_btn_textsize" />
+
+    <Button
+        android:id="@+id/bt_title_yingyong"
+        android:layout_width="@dimen/title_btn_width"
+        android:layout_height="@dimen/title_btn_height"
+        android:layout_alignTop="@id/bt_title_jingpin"
+        android:layout_marginLeft="@dimen/title_btn_marginleft"
+        android:layout_toRightOf="@id/bt_title_yule"
+        android:background="@drawable/selector_btn_title"
+        android:gravity="center"
+        android:text="@string/yingyong"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="@dimen/title_btn_textsize" />
+
+    <Button
+        android:id="@+id/bt_title_youxi"
+        android:layout_width="@dimen/title_btn_width"
+        android:layout_height="@dimen/title_btn_height"
+        android:layout_alignTop="@id/bt_title_jingpin"
+        android:layout_marginLeft="@dimen/title_btn_marginleft"
+        android:layout_toRightOf="@id/bt_title_yingyong"
+        android:background="@drawable/selector_btn_title"
+        android:gravity="center"
+        android:text="@string/youxi"
+        android:nextFocusRight="@id/bt_title_youxi"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="@dimen/title_btn_textsize" />
+
+<!--     <Button -->
+<!--         android:id="@+id/bt_title_faxian" -->
+<!--         android:layout_width="@dimen/title_btn_width" -->
+<!--         android:layout_height="@dimen/title_btn_height" -->
+<!--         android:layout_alignTop="@id/bt_title_jingpin" -->
+<!--         android:layout_marginLeft="@dimen/title_btn_marginleft" -->
+<!--         android:layout_toRightOf="@id/bt_title_youxi" -->
+<!--         android:background="@drawable/selector_btn_title" -->
+<!--         android:gravity="center" -->
+<!--         android:nextFocusRight="@id/bt_title_faxian" -->
+<!--         android:text="@string/faxian" -->
+<!--         android:textColor="@android:color/darker_gray" -->
+<!--         android:textSize="@dimen/title_btn_textsize" /> -->
+
+</RelativeLayout>

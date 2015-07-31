@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 标题 -->
+    <dimen name="title_btn_width">115dp</dimen>
+    <dimen name="title_btn_height">47dp</dimen>
+    <dimen name="title_btn_marginleft">40dp</dimen>
+    <dimen name="title_btn_textsize">28sp</dimen>
+
+    <!-- 一级页面推荐位 -->
+    <dimen name="item_square1_width">142dp</dimen>
+    <dimen name="item_square1_height">118dp</dimen>
+    <dimen name="item_square1_margintop">8dp</dimen>
+    <dimen name="item_big1_width">292dp</dimen>
+    <dimen name="item_big1_height">369dp</dimen>
+    <dimen name="item_first_margintop">50dp</dimen>
+    <dimen name="item_first_marginleft">50dp</dimen>
+</resources>

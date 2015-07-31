@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 常用颜色 -->
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="blue">#0000FF</color>
+    <color name="gold">#FFD700</color>
+    <color name="green">#008000</color>
+    <color name="red">#FF0000</color>
+    <color name="lime">#00FF00</color>
+    <color name="black_half50">#7F000000</color>
+    <color name="white_half50">#7FFFFFFF</color>
+	<!-- 局部使用颜色 -->
+	<color name="postbg">#616b72</color>
+</resources>
