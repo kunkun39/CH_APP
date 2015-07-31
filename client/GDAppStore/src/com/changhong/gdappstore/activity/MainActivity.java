@@ -3,18 +3,22 @@ package com.changhong.gdappstore.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
-import android.widget.ViewFlipper;
+import android.view.animation.TranslateAnimation;
 
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.adapter.MainViewPagerAdapter;
 import com.changhong.gdappstore.base.BaseActivity;
+import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.view.JingpinView;
 import com.changhong.gdappstore.view.TitleView;
 import com.changhong.gdappstore.view.YingYongView;
@@ -31,11 +35,11 @@ public class MainActivity extends BaseActivity {
 	/** 标签按钮view **/
 	private TitleView titleView;
 	/***/
-	private ViewPager viewflipper;
-	/**viewpager适配器*/
+	private ViewPager viewPager;
+	/** viewpager适配器 */
 	private MainViewPagerAdapter viewPagerAdapter;
-	/**每页view*/
-	private List<View> pageViews=new ArrayList<View>();
+	/** 每页view */
+	private List<View> pageViews = new ArrayList<View>();
 	/** 精品view */
 	private JingpinView view_jingpin;
 	/** 娱乐view */
@@ -46,6 +50,10 @@ public class MainActivity extends BaseActivity {
 	private YouXiView view_youxi;
 	/*** Animation is running? */
 	boolean b_AnimationIsRun = false;
+	/**viewpager 翻页动画*/
+	private Animation anim_rightin,anim_leftin;
+	/**viewpager 当前选中标签页*/
+	private int currIndex=0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +64,11 @@ public class MainActivity extends BaseActivity {
 	}
 
 	private void initView() {
+		// init title view
 		titleView = findView(R.id.titleview);
-		viewflipper = findView(R.id.viewflipper);
+		titleView.setOnFocusChangeListener(titleFocusChangeListener);
+		
+		// init page views
 		view_jingpin = new JingpinView(context);
 		view_yingyong = new YingYongView(context);
 		view_youxi = new YouXiView(context);
@@ -66,12 +77,23 @@ public class MainActivity extends BaseActivity {
 		pageViews.add(view_yule);
 		pageViews.add(view_yingyong);
 		pageViews.add(view_youxi);
-		viewPagerAdapter=new MainViewPagerAdapter(pageViews);
-		viewflipper.setAdapter(viewPagerAdapter);
-		viewflipper.setCurrentItem(0);
+		// init view pager
+		viewPager = findView(R.id.viewpager);
+		viewPagerAdapter = new MainViewPagerAdapter(pageViews);
+		viewPager.setAdapter(viewPagerAdapter);
+		viewPager.setCurrentItem(0);
+		viewPager.setAnimationCacheEnabled(true);
+		viewPager.setOnPageChangeListener(pageChangeListener);
+		initPageChangeAnimtion();
+		
+		titleView.getBtn_jingpin().requestFocus();
 	}
 
+	/**
+	 * 初始化数据
+	 */
 	private void initData() {
+		// 目前是初始化默认数据
 		view_jingpin.initData();
 		view_yingyong.initData();
 		view_youxi.initData();
@@ -92,17 +114,6 @@ public class MainActivity extends BaseActivity {
 		return super.onKeyDown(keyCode, event);
 	}
 
-
-	private void slide_left() {
-
-	}
-
-	private void slide_right() {
-
-
-	}
-
-
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -117,4 +128,85 @@ public class MainActivity extends BaseActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 	}
+
+	private OnFocusChangeListener titleFocusChangeListener = new OnFocusChangeListener() {
+
+		@Override
+		public void onFocusChange(View v, boolean hasFocus) {
+			if (hasFocus) {
+				if (v.getId() == R.id.bt_title_jingpin) {
+					viewPager.setCurrentItem(0);
+				} else if (v.getId() == R.id.bt_title_yule) {
+					viewPager.setCurrentItem(1);
+				} else if (v.getId() == R.id.bt_title_yingyong) {
+					viewPager.setCurrentItem(2);
+				} else if (v.getId() == R.id.bt_title_youxi) {
+					viewPager.setCurrentItem(3);
+				}
+			}
+		}
+	};
+
+	/**
+	 * 初始化动画
+	 */
+	private void initPageChangeAnimtion() {
+		int halfscreen=screenWidth/2;
+		int duration=300;
+		anim_leftin=new TranslateAnimation(-halfscreen, 0, 0, 0);
+		anim_rightin=new TranslateAnimation(halfscreen, 0, 0, 0);
+		anim_leftin.setFillAfter(false);
+		anim_rightin.setFillAfter(false);
+		anim_leftin.setDuration(duration);
+		anim_rightin.setDuration(duration);
+	}
+	/**
+	 * 页卡切换监听
+	 */
+	OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
+
+		
+		@Override
+		public void onPageSelected(int arg0) {
+			switch (arg0) {
+			case 0://选中精品标签
+				if (currIndex == 1) {
+					pageViews.get(arg0).startAnimation(anim_leftin);
+				}
+				titleView.setSelectedItemById(R.id.bt_title_jingpin);
+				break;
+			case 1://选中娱乐标签
+				if (currIndex == 0) {
+					pageViews.get(arg0).startAnimation(anim_rightin);
+				} else if (currIndex == 2) {
+					pageViews.get(arg0).startAnimation(anim_leftin);
+				}
+				titleView.setSelectedItemById(R.id.bt_title_yule);
+				break;
+			case 2://选中应用标签
+				if (currIndex == 1) {
+					pageViews.get(arg0).startAnimation(anim_rightin);
+				} else if (currIndex == 3) {
+					pageViews.get(arg0).startAnimation(anim_leftin);
+				}
+				titleView.setSelectedItemById(R.id.bt_title_yingyong);
+				break;
+			case 3://选中游戏标签
+				if (currIndex == 2) {
+					pageViews.get(arg0).startAnimation(anim_rightin);
+				}
+				titleView.setSelectedItemById(R.id.bt_title_youxi);
+				break;
+			}
+			currIndex = arg0;
+		}
+
+		@Override
+		public void onPageScrolled(int arg0, float arg1, int arg2) {
+		}
+
+		@Override
+		public void onPageScrollStateChanged(int arg0) {
+		}
+	};
 }

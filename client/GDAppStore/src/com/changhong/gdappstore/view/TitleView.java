@@ -55,6 +55,26 @@ public class TitleView extends BaseRelativeLayout implements
 		btn_yule.setOnFocusChangeListener(this);
 	}
 
+	public void setSelectedItemById(int btnid) {
+		if (lastSelectedView != null) {
+			lastSelectedView.setSelected(false);
+		}
+		
+		if (btnid == R.id.bt_title_jingpin) {
+			btn_jingpin.setSelected(true);
+			lastSelectedView = btn_jingpin;
+		} else if (btnid == R.id.bt_title_yingyong) {
+			btn_yingyong.setSelected(true);
+			lastSelectedView = btn_yingyong;
+		} else if (btnid == R.id.bt_title_youxi) {
+			btn_youxi.setSelected(true);
+			lastSelectedView = btn_youxi;
+		} else if (btnid == R.id.bt_title_yule) {
+			btn_yule.setSelected(true);
+			lastSelectedView = btn_yule;
+		}
+	}
+
 	@Override
 	public void onClick(View v) {
 		if (onClickListener != null) {
@@ -96,6 +116,26 @@ public class TitleView extends BaseRelativeLayout implements
 	public boolean hasChildFocesed() {
 		return btn_jingpin.isFocused() || btn_yingyong.isFocused()
 				|| btn_youxi.isFocused() || btn_yule.isFocused();
+	}
+
+	public Button getBtn_jingpin() {
+		return btn_jingpin;
+	}
+
+	public Button getBtn_yule() {
+		return btn_yule;
+	}
+
+	public Button getBtn_yingyong() {
+		return btn_yingyong;
+	}
+
+	public Button getBtn_youxi() {
+		return btn_youxi;
+	}
+
+	public View getLastSelectedView() {
+		return lastSelectedView;
 	}
 
 }
