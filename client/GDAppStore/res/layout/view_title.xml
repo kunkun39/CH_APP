@@ -11,7 +11,7 @@
         android:gravity="center"
         android:nextFocusLeft="@id/bt_title_jingpin"
         android:text="@string/jingpin"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="@drawable/selector_btn_title_textcolor"
         android:textSize="@dimen/title_btn_textsize" />
 
     <Button
@@ -24,7 +24,7 @@
         android:background="@drawable/selector_btn_title"
         android:gravity="center"
         android:text="@string/yule"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="@drawable/selector_btn_title_textcolor"
         android:textSize="@dimen/title_btn_textsize" />
 
     <Button
@@ -37,7 +37,7 @@
         android:background="@drawable/selector_btn_title"
         android:gravity="center"
         android:text="@string/yingyong"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="@drawable/selector_btn_title_textcolor"
         android:textSize="@dimen/title_btn_textsize" />
 
     <Button
@@ -51,7 +51,7 @@
         android:gravity="center"
         android:text="@string/youxi"
         android:nextFocusRight="@id/bt_title_youxi"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="@drawable/selector_btn_title_textcolor"
         android:textSize="@dimen/title_btn_textsize" />
 
 <!--     <Button -->
