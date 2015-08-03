@@ -80,9 +80,11 @@ public class YuLeView extends BaseRelativeLayout implements
 				R.drawable.icon_yule_health, "健康"));
 		itemViews[3].setData(new PostItemModel(true, R.drawable.icon_yule_more,
 				"更多"));
+		itemViews[11].setData(new PostItemModel(false, R.drawable.img_post2, "海报2名字"));
+		itemViews[12].setData(new PostItemModel(false, R.drawable.img_post3, "海报3名字"));
 		for (int i = 4; i < 10; i++) {
 			itemViews[i].setData(new PostItemModel(true,
-					R.drawable.icon_jingpin_appname, "应用名字"));
+					R.drawable.img_post1+i%3, "应用名字"));
 		}
 	}
 

@@ -36,7 +36,7 @@ public class YouXiView extends BaseRelativeLayout implements
 	private ImageView ivFocues;
 
 	private Animation animationbig, animationsmall;
-	/**是否第一列或者最后一列获取焦点*/
+	/** 是否第一列或者最后一列获取焦点 */
 	public boolean isLeftFocues = false;
 
 	public YouXiView(Context context) {
@@ -73,17 +73,19 @@ public class YouXiView extends BaseRelativeLayout implements
 	}
 
 	public void initData() {
-		itemViews[0].setData(new PostItemModel(true, R.drawable.icon_yule_life,
-				"生活"));
+		itemViews[0].setData(new PostItemModel(true,
+				R.drawable.icon_youxi_relax, "休闲"));
 		itemViews[1].setData(new PostItemModel(true,
-				R.drawable.icon_yule_child, "亲子"));
+				R.drawable.icon_youxi_card, "棋牌"));
 		itemViews[2].setData(new PostItemModel(true,
-				R.drawable.icon_yule_health, "健康"));
+				R.drawable.icon_youxi_move, "动作"));
 		itemViews[3].setData(new PostItemModel(true, R.drawable.icon_yule_more,
 				"更多"));
+		itemViews[11].setData(new PostItemModel(false, R.drawable.img_post2, "海报2名字"));
+		itemViews[12].setData(new PostItemModel(false, R.drawable.img_post3, "海报3名字"));
 		for (int i = 4; i < 10; i++) {
 			itemViews[i].setData(new PostItemModel(true,
-					R.drawable.icon_jingpin_appname, "应用名字"));
+					R.drawable.img_post1+i%3, "应用名字"));
 		}
 	}
 
@@ -98,7 +100,7 @@ public class YouXiView extends BaseRelativeLayout implements
 		itemViews[11].setNextFocusUpId(id);
 		itemViews[12].setNextFocusUpId(id);
 	}
-	
+
 	public void setFocuesItem(int position) {
 		if (itemViews != null && position >= 0 && position < itemViews.length
 				&& itemViews[position] != null) {
