@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
 import com.changhong.gdappstore.R;
+import com.changhong.gdappstore.base.BasePageView;
 import com.changhong.gdappstore.base.BaseRelativeLayout;
 import com.changhong.gdappstore.model.PostItemModel;
 import com.changhong.gdappstore.util.L;
@@ -24,26 +25,15 @@ import com.changhong.gdappstore.util.L;
  * @author wangxiufeng
  * 
  */
-public class JingpinView extends BaseRelativeLayout implements
+public class JingpinView extends BasePageView implements
 		OnFocusChangeListener, OnClickListener {
-	/** 推荐位ID */
-	private int[] itemIds = { R.id.jingping_item1, R.id.jingping_item2,
-			R.id.jingping_item3, R.id.jingping_item4, R.id.jingping_item5,
-			R.id.jingping_item6, R.id.jingping_item7, R.id.jingping_item8,
-			R.id.jingping_item9, R.id.jingping_item10, R.id.jingping_item11,
-			R.id.jingping_item12, R.id.jingping_item13 };
-	/** 推荐位个数 */
-	private final int itemCount = 13;
-	/** 推荐位view */
-	private PostItemView[] itemViews = new PostItemView[itemCount];
+	
 	/** 外部回调点击监听器 */
 	private OnClickListener onClickListener;
 	/** 外部回调焦点监听器 */
 	private OnFocusChangeListener onFocusChangeListener;
 	/** 焦点框view */
 	private ImageView ivFocues;
-
-	private Animation animationbig, animationsmall;
 
 	public boolean isRightItemFocused = false;
 
@@ -75,9 +65,7 @@ public class JingpinView extends BaseRelativeLayout implements
 			itemViews[i].setOnClickListener(this);
 		}
 		setNextFocuesUpId(R.id.bt_title_jingpin);
-		animationbig = AnimationUtils.loadAnimation(context, R.anim.scale_big);
-		animationsmall = AnimationUtils.loadAnimation(context,
-				R.anim.scale_small);
+		
 		//最左一排不能再按左。
 		itemViews[0].setNextFocusLeftId(R.id.jingping_item1);
 		itemViews[1].setNextFocusLeftId(R.id.jingping_item2);
@@ -114,12 +102,6 @@ public class JingpinView extends BaseRelativeLayout implements
 		itemViews[12].setNextFocusUpId(id);
 	}
 
-	public void setFocuesItem(int position) {
-		if (itemViews != null && position >= 0 && position < itemViews.length
-				&& itemViews[position] != null) {
-			itemViews[position].requestFocus();
-		}
-	}
 
 	@Override
 	public void onClick(View v) {
@@ -132,7 +114,9 @@ public class JingpinView extends BaseRelativeLayout implements
 	@Override
 	public void onFocusChange(View v, boolean hasFocus) {
 		if (hasFocus) {
+			L.d(TAG+"jingpinview onfocueschange "+v.getId());
 			int viewId = v.getId();
+			currentFocuesId = v.getId();
 			if (viewId == R.id.jingping_item13
 					|| viewId == R.id.jingping_item10) {
 				isRightItemFocused = true;

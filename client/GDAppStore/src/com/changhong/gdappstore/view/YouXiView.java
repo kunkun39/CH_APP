@@ -13,29 +13,18 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
 import com.changhong.gdappstore.R;
+import com.changhong.gdappstore.base.BasePageView;
 import com.changhong.gdappstore.base.BaseRelativeLayout;
 import com.changhong.gdappstore.model.PostItemModel;
 
-public class YouXiView extends BaseRelativeLayout implements
-		OnFocusChangeListener, OnClickListener {
-	/** 推荐位ID */
-	private int[] itemIds = { R.id.jingping_item1, R.id.jingping_item2,
-			R.id.jingping_item3, R.id.jingping_item4, R.id.jingping_item5,
-			R.id.jingping_item6, R.id.jingping_item7, R.id.jingping_item8,
-			R.id.jingping_item9, R.id.jingping_item10, R.id.jingping_item11,
-			R.id.jingping_item12, R.id.jingping_item13 };
-	/** 推荐位个数 */
-	private final int itemCount = 13;
-	/** 推荐位view */
-	private PostItemView[] itemViews = new PostItemView[itemCount];
+public class YouXiView extends BasePageView implements OnFocusChangeListener,
+		OnClickListener {
 	/** 外部回调点击监听器 */
 	private OnClickListener onClickListener;
 	/** 外部回调焦点监听器 */
 	private OnFocusChangeListener onFocusChangeListener;
 	/** 焦点框view */
 	private ImageView ivFocues;
-
-	private Animation animationbig, animationsmall;
 	/** 是否第一列或者最后一列获取焦点 */
 	public boolean isLeftFocues = false;
 
@@ -67,9 +56,6 @@ public class YouXiView extends BaseRelativeLayout implements
 			itemViews[i].setOnClickListener(this);
 		}
 		setNextFocuesUpId(R.id.bt_title_youxi);
-		animationbig = AnimationUtils.loadAnimation(context, R.anim.scale_big);
-		animationsmall = AnimationUtils.loadAnimation(context,
-				R.anim.scale_small);
 	}
 
 	public void initData() {
@@ -81,11 +67,13 @@ public class YouXiView extends BaseRelativeLayout implements
 				R.drawable.icon_youxi_move, "动作"));
 		itemViews[3].setData(new PostItemModel(true, R.drawable.icon_yule_more,
 				"更多"));
-		itemViews[11].setData(new PostItemModel(false, R.drawable.img_post2, "海报2名字"));
-		itemViews[12].setData(new PostItemModel(false, R.drawable.img_post3, "海报3名字"));
+		itemViews[11].setData(new PostItemModel(false, R.drawable.img_post2,
+				"海报2名字"));
+		itemViews[12].setData(new PostItemModel(false, R.drawable.img_post3,
+				"海报3名字"));
 		for (int i = 4; i < 10; i++) {
-			itemViews[i].setData(new PostItemModel(true,
-					R.drawable.img_post1+i%3, "应用名字"));
+			itemViews[i].setData(new PostItemModel(true, R.drawable.img_post1
+					+ i % 3, "应用名字"));
 		}
 	}
 
@@ -101,12 +89,6 @@ public class YouXiView extends BaseRelativeLayout implements
 		itemViews[12].setNextFocusUpId(id);
 	}
 
-	public void setFocuesItem(int position) {
-		if (itemViews != null && position >= 0 && position < itemViews.length
-				&& itemViews[position] != null) {
-			itemViews[position].requestFocus();
-		}
-	}
 
 	@Override
 	public void onClick(View v) {
@@ -120,6 +102,7 @@ public class YouXiView extends BaseRelativeLayout implements
 	public void onFocusChange(View v, boolean hasFocus) {
 		if (hasFocus) {
 			int viewId = v.getId();
+			currentFocuesId = v.getId();
 			if (viewId == R.id.jingping_item1 || viewId == R.id.jingping_item2
 					|| viewId == R.id.jingping_item3
 					|| viewId == R.id.jingping_item4) {

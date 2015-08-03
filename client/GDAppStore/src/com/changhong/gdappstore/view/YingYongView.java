@@ -13,29 +13,22 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
 import com.changhong.gdappstore.R;
+import com.changhong.gdappstore.base.BasePageView;
 import com.changhong.gdappstore.base.BaseRelativeLayout;
 import com.changhong.gdappstore.model.PostItemModel;
-
-public class YingYongView extends BaseRelativeLayout implements
+/**
+ * 应用view
+ * @author Administrator
+ *
+ */
+public class YingYongView extends BasePageView implements
 OnFocusChangeListener, OnClickListener {
-	/** 推荐位ID */
-	private int[] itemIds = { R.id.jingping_item1, R.id.jingping_item2,
-			R.id.jingping_item3, R.id.jingping_item4, R.id.jingping_item5,
-			R.id.jingping_item6, R.id.jingping_item7, R.id.jingping_item8,
-			R.id.jingping_item9, R.id.jingping_item10, R.id.jingping_item11,
-			R.id.jingping_item12, R.id.jingping_item13 };
-	/** 推荐位个数 */
-	private final int itemCount = 13;
-	/** 推荐位view */
-	private PostItemView[] itemViews = new PostItemView[itemCount];
 	/** 外部回调点击监听器 */
 	private OnClickListener onClickListener;
 	/** 外部回调焦点监听器 */
 	private OnFocusChangeListener onFocusChangeListener;
 	/** 焦点框view */
 	private ImageView ivFocues;
-
-	private Animation animationbig, animationsmall;
 	/**是否第一列或者最后一列获取焦点*/
 	public boolean isLeftFocues = false, isRightFocues = false;
 
@@ -67,9 +60,6 @@ OnFocusChangeListener, OnClickListener {
 			itemViews[i].setOnClickListener(this);
 		}
 		setNextFocuesUpId(R.id.bt_title_yingyong);
-		animationbig = AnimationUtils.loadAnimation(context, R.anim.scale_big);
-		animationsmall = AnimationUtils.loadAnimation(context,
-				R.anim.scale_small);
 	}
 
 	public void initData() {
@@ -101,12 +91,6 @@ OnFocusChangeListener, OnClickListener {
 		itemViews[12].setNextFocusUpId(id);
 	}
 	
-	public void setFocuesItem(int position) {
-		if (itemViews != null && position >= 0 && position < itemViews.length
-				&& itemViews[position] != null) {
-			itemViews[position].requestFocus();
-		}
-	}
 
 	@Override
 	public void onClick(View v) {
@@ -120,6 +104,7 @@ OnFocusChangeListener, OnClickListener {
 	public void onFocusChange(View v, boolean hasFocus) {
 		if (hasFocus) {
 			int viewId = v.getId();
+			currentFocuesId = v.getId();
 			if (viewId == R.id.jingping_item1 || viewId == R.id.jingping_item2
 					|| viewId == R.id.jingping_item3
 					|| viewId == R.id.jingping_item4) {
