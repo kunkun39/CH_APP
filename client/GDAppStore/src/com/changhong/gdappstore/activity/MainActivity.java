@@ -18,6 +18,7 @@ import android.view.animation.TranslateAnimation;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.adapter.MainViewPagerAdapter;
 import com.changhong.gdappstore.base.BaseActivity;
+import com.changhong.gdappstore.base.BasePageView;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.view.JingpinView;
 import com.changhong.gdappstore.view.TitleView;
@@ -39,7 +40,7 @@ public class MainActivity extends BaseActivity {
 	/** viewpager适配器 */
 	private MainViewPagerAdapter viewPagerAdapter;
 	/** 每页view */
-	private List<View> pageViews = new ArrayList<View>();
+	private List<BasePageView> pageViews = new ArrayList<BasePageView>();
 	/** 精品view */
 	private JingpinView view_jingpin;
 	/** 娱乐view */
@@ -50,10 +51,10 @@ public class MainActivity extends BaseActivity {
 	private YouXiView view_youxi;
 	/*** Animation is running? */
 	boolean b_AnimationIsRun = false;
-	/**viewpager 翻页动画*/
-	private Animation anim_rightin,anim_leftin;
-	/**viewpager 当前选中标签页*/
-	private int currIndex=0;
+	/** viewpager 翻页动画 */
+	private Animation anim_rightin, anim_leftin;
+	/** viewpager 当前选中标签页 */
+	private int currIndex = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +68,7 @@ public class MainActivity extends BaseActivity {
 		// init title view
 		titleView = findView(R.id.titleview);
 		titleView.setOnFocusChangeListener(titleFocusChangeListener);
-		
+
 		// init page views
 		view_jingpin = new JingpinView(context);
 		view_yingyong = new YingYongView(context);
@@ -85,7 +86,7 @@ public class MainActivity extends BaseActivity {
 		viewPager.setAnimationCacheEnabled(true);
 		viewPager.setOnPageChangeListener(pageChangeListener);
 		initPageChangeAnimtion();
-		
+
 		titleView.getBtn_jingpin().requestFocus();
 	}
 
@@ -151,52 +152,61 @@ public class MainActivity extends BaseActivity {
 	 * 初始化动画
 	 */
 	private void initPageChangeAnimtion() {
-		int halfscreen=screenWidth/2;
-		int duration=300;
-		anim_leftin=new TranslateAnimation(-halfscreen, 0, 0, 0);
-		anim_rightin=new TranslateAnimation(halfscreen, 0, 0, 0);
+		int halfscreen = screenWidth / 2;
+		int duration = 300;
+		anim_leftin = new TranslateAnimation(-halfscreen, 0, 0, 0);
+		anim_rightin = new TranslateAnimation(halfscreen, 0, 0, 0);
 		anim_leftin.setFillAfter(false);
 		anim_rightin.setFillAfter(false);
 		anim_leftin.setDuration(duration);
 		anim_rightin.setDuration(duration);
 	}
+
 	/**
 	 * 页卡切换监听
 	 */
 	OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
 
-		
 		@Override
 		public void onPageSelected(int arg0) {
+			if (arg0 < 0 || arg0 > pageViews.size()
+					|| pageViews.get(arg0) == null) {
+				return;
+			}
+			BasePageView curPageView = pageViews.get(arg0);
 			switch (arg0) {
-			case 0://选中精品标签
-				if (currIndex == 1) {
-					pageViews.get(arg0).startAnimation(anim_leftin);
-				}
+			case 0:// 选中精品标签
 				titleView.setSelectedItemById(R.id.bt_title_jingpin);
 				break;
-			case 1://选中娱乐标签
-				if (currIndex == 0) {
-					pageViews.get(arg0).startAnimation(anim_rightin);
-				} else if (currIndex == 2) {
-					pageViews.get(arg0).startAnimation(anim_leftin);
-				}
+			case 1:// 选中娱乐标签
 				titleView.setSelectedItemById(R.id.bt_title_yule);
 				break;
-			case 2://选中应用标签
-				if (currIndex == 1) {
-					pageViews.get(arg0).startAnimation(anim_rightin);
-				} else if (currIndex == 3) {
-					pageViews.get(arg0).startAnimation(anim_leftin);
-				}
+			case 2:// 选中应用标签
 				titleView.setSelectedItemById(R.id.bt_title_yingyong);
 				break;
-			case 3://选中游戏标签
-				if (currIndex == 2) {
-					pageViews.get(arg0).startAnimation(anim_rightin);
-				}
+			case 3:// 选中游戏标签
 				titleView.setSelectedItemById(R.id.bt_title_youxi);
 				break;
+			}
+			if (!titleView.hasChildFocesed()) {// 非标签上面切换情况下，处理默认交代呢
+				if (currIndex == arg0 - 1) {// 从左往右翻页
+					if (pageViews.get(currIndex).currentFocuesId == R.id.jingping_item10) {
+						curPageView.setFocuesItemByPosition(3);// 最底层一排翻页让第下一页最低层第一个获取焦点
+					} else {
+						curPageView.setFocuesItemByPosition(0);// 其它情况让第一个获取焦点
+					}
+				} else if (currIndex == arg0 + 1) {// 从右往左翻页
+					if (pageViews.get(currIndex).currentFocuesId == R.id.jingping_item4) {
+						curPageView.setFocuesItemByPosition(9);// 最底层一排翻页让第上一页最低层最后一个获取焦点
+					} else {
+						curPageView.setFocuesItemByPosition(12);// 其它情况让最后一列最上面一个获取焦点
+					}
+				}
+			}
+			if (currIndex == arg0 - 1) {
+				curPageView.startAnimation(anim_rightin);// 从左往右翻页动画
+			} else if (currIndex == arg0 + 1) {
+				curPageView.startAnimation(anim_leftin);// 从右往左翻页动画
 			}
 			currIndex = arg0;
 		}
