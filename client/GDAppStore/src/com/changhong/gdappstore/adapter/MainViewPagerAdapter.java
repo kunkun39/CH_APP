@@ -3,22 +3,24 @@ package com.changhong.gdappstore.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.changhong.gdappstore.base.BasePageView;
+
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
 public class MainViewPagerAdapter extends PagerAdapter {
 
-	private List<View> pageViews = new ArrayList<View>();
+	private List<BasePageView> pageViews = new ArrayList<BasePageView>();
 
 	public MainViewPagerAdapter() {
 	}
 
-	public MainViewPagerAdapter(List<View> pageViews) {
+	public MainViewPagerAdapter(List<BasePageView> pageViews) {
 		this.pageViews = pageViews;
 	}
 
-	public void updateList(List<View> pageViews) {
+	public void updateList(List<BasePageView> pageViews) {
 		this.pageViews = pageViews;
 		notifyDataSetChanged();
 	}
