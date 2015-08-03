@@ -78,6 +78,11 @@ public class JingpinView extends BaseRelativeLayout implements
 		animationbig = AnimationUtils.loadAnimation(context, R.anim.scale_big);
 		animationsmall = AnimationUtils.loadAnimation(context,
 				R.anim.scale_small);
+		//最左一排不能再按左。
+		itemViews[0].setNextFocusLeftId(R.id.jingping_item1);
+		itemViews[1].setNextFocusLeftId(R.id.jingping_item2);
+		itemViews[2].setNextFocusLeftId(R.id.jingping_item3);
+		itemViews[3].setNextFocusLeftId(R.id.jingping_item4);
 	}
 
 	public void initData() {
