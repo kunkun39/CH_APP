@@ -49,8 +49,6 @@ public class MainActivity extends BaseActivity {
 	private YingYongView view_yingyong;
 	/** 游戏view */
 	private YouXiView view_youxi;
-	/*** Animation is running? */
-	boolean b_AnimationIsRun = false;
 	/** viewpager 翻页动画 */
 	private Animation anim_rightin, anim_leftin;
 	/** viewpager 当前选中标签页 */
