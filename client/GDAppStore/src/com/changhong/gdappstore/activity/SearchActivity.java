@@ -1,5 +1,6 @@
 package com.changhong.gdappstore.activity;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,8 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
+import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -102,11 +104,10 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				L.d("search gridview onItemSelected " + position);
 				RelativeLayout rl_content = (RelativeLayout) view.findViewById(R.id.rl_appsearch_content);
 				rl_content.setBackgroundResource(R.drawable.focues_post);
 				rl_content.startAnimation(scallAnimation);
-				if (lastContentLayout != null) {
+				if (lastContentLayout != null && lastContentLayout != rl_content) {
 					lastContentLayout.setBackgroundColor(Color.TRANSPARENT);
 					lastContentLayout.clearAnimation();
 				}
@@ -115,24 +116,51 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 
 			@Override
 			public void onNothingSelected(AdapterView<?> parent) {
-				L.d("search gridview onNothingSelected");
 				if (lastContentLayout != null) {
 					lastContentLayout.setBackgroundColor(Color.TRANSPARENT);
 					lastContentLayout.clearAnimation();
 				}
 			}
 		});
-		if (gv_search != null && gv_search.getChildAt(0) != null) {
-			View view = gv_search.getChildAt(0);
-			RelativeLayout rl_content = (RelativeLayout) view.findViewById(R.id.rl_appsearch_content);
-			rl_content.setBackgroundColor(Color.TRANSPARENT);
-			rl_content.clearAnimation();
-			if (lastContentLayout != null) {
-				lastContentLayout.setBackgroundColor(Color.TRANSPARENT);
-				lastContentLayout.clearAnimation();
+		gv_search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (!hasFocus) {//反射方法在焦点离开gridview后清楚gridview焦点记录
+					try {
+						@SuppressWarnings("unchecked")
+						Class<GridView> c = (Class<GridView>) Class.forName("android.widget.GridView");
+						Method[] flds = c.getDeclaredMethods();
+						for (Method f : flds) {
+							if ("setSelectionInt".equals(f.getName())) {
+								f.setAccessible(true);
+								f.invoke(v, new Object[] { Integer.valueOf(-1) });
+							}
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
 			}
-			lastContentLayout = rl_content;
-		}
+		});
+		ViewTreeObserver observer = gv_search.getViewTreeObserver();
+		observer.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				gv_search.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+				gv_search.setSelection(-1);//解决进入页面要默认选择第一个。
+				if (gv_search != null && gv_search.getChildAt(0) != null) {
+					View view = gv_search.getChildAt(0);
+					RelativeLayout rl_content = (RelativeLayout) view.findViewById(R.id.rl_appsearch_content);
+					rl_content.setBackgroundColor(Color.TRANSPARENT);
+					rl_content.clearAnimation();
+					if (lastContentLayout != null) {
+						lastContentLayout.setBackgroundColor(Color.TRANSPARENT);
+						lastContentLayout.clearAnimation();
+					}
+					lastContentLayout = rl_content;
+				}
+			}
+		});
 		bt_chinese.requestFocus();
 	}
 
@@ -197,9 +225,9 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 			updateAppnumTextVisible();
 		}
 	};
+
 	/**
-	 * 跟新搜索列表上面文字和按钮显示
-	 * 如果输入框内容为空，显示换一批按钮。如果有信息，显示搜索结果个数。
+	 * 跟新搜索列表上面文字和按钮显示 如果输入框内容为空，显示换一批按钮。如果有信息，显示搜索结果个数。
 	 */
 	private void updateAppnumTextVisible() {
 		if (TextUtils.isEmpty(editText.getText().toString().trim())) {
