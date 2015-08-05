@@ -16,7 +16,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+/**
+ * 搜索结果grideviewadapter
+ * @author wangxiufeng
+ *
+ */
 public class SearchResultAdapter extends BaseAdapter {
 	private List<SearchAppModel> datas = new ArrayList<SearchAppModel>();
 	private Context context;

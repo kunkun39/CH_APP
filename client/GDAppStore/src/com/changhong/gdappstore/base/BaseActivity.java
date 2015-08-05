@@ -5,15 +5,21 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
-
+/**
+ * 基类activity
+ * @author wangxiufeng
+ *
+ */
 public class BaseActivity extends Activity {
 
 	protected Context context;
 	/** 频幕宽高 */
 	protected int screenWidth, screenHeight;
-
+	/** View.VISIBLE */
 	protected static final int VISIBLE = View.VISIBLE;
+	/** View.INVISIBLE */
 	protected static final int INVISIBLE = View.INVISIBLE;
+	/** View.GONE */
 	protected static final int GONE = View.GONE;
 
 	@Override

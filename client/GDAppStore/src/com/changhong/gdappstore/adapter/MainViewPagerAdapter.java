@@ -8,7 +8,11 @@ import com.changhong.gdappstore.base.BasePageView;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-
+/**
+ * 首页viewpageradapter
+ * @author wangxiufeng
+ *
+ */
 public class MainViewPagerAdapter extends PagerAdapter {
 
 	private List<BasePageView> pageViews = new ArrayList<BasePageView>();

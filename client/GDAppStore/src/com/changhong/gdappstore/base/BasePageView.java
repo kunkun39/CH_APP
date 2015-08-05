@@ -7,7 +7,11 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-
+/**
+ * 基类pageView
+ * @author wangxiufeng
+ *
+ */
 public class BasePageView extends BaseRelativeLayout {
 
 	/** 推荐位ID */

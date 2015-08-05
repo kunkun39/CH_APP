@@ -3,7 +3,11 @@ package com.changhong.gdappstore.base;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
-
+/**
+ * 基类RelativeLayout
+ * @author wangxiufeng
+ *
+ */
 public abstract class BaseRelativeLayout extends RelativeLayout {
 	protected static final String TAG="myview";
 	protected Context context;
