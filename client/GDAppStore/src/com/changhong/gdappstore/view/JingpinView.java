@@ -1,6 +1,7 @@
 package com.changhong.gdappstore.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
 import com.changhong.gdappstore.R;
+import com.changhong.gdappstore.activity.SearchActivity;
 import com.changhong.gdappstore.base.BasePageView;
 import com.changhong.gdappstore.base.BaseRelativeLayout;
 import com.changhong.gdappstore.model.PostItemModel;
@@ -108,6 +110,9 @@ public class JingpinView extends BasePageView implements
 
 		if (onClickListener != null) {
 			onClickListener.onClick(v);
+		}
+		if (v.getId()==R.id.jingping_item1) {
+			context.startActivity(new Intent(context,SearchActivity.class));
 		}
 	}
 
