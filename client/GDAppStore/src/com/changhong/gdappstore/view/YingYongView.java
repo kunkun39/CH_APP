@@ -17,8 +17,8 @@ import com.changhong.gdappstore.base.BasePageView;
 import com.changhong.gdappstore.base.BaseRelativeLayout;
 import com.changhong.gdappstore.model.PostItemModel;
 /**
- * 应用view
- * @author Administrator
+ * 应用页面view
+ * @author wangxiufeng
  *
  */
 public class YingYongView extends BasePageView implements

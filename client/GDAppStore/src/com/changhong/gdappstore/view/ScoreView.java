@@ -1,9 +1,5 @@
 package com.changhong.gdappstore.view;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.R.integer;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ImageView;
@@ -12,11 +8,13 @@ import android.widget.LinearLayout;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseRelativeLayout;
 import com.changhong.gdappstore.util.L;
-
+/**
+ * 频分星星显示view，可根据自己需要扩展。
+ * @author wangxiufeng
+ *
+ */
 public class ScoreView extends BaseRelativeLayout {
 	private LinearLayout ll_scrollview;
-	/** 总星星数 */
-	public int totalstars = 5;
 
 	public ScoreView(Context context) {
 		super(context);
@@ -36,13 +34,8 @@ public class ScoreView extends BaseRelativeLayout {
 	public void initView() {
 		ll_scrollview = new LinearLayout(context);
 		ll_scrollview.setOrientation(LinearLayout.HORIZONTAL);
-//		for (int i = 0; i < 5; i++) {
-//			ll_scrollview.addView(getImageView(0));
-//		}
 		addView(ll_scrollview);
 	}
-
-	List<ImageView> starViews = new ArrayList<ImageView>();
 
 	/**
 	 * 按照5颗星5分来计算，1分为半颗星

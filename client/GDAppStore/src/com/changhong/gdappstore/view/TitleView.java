@@ -10,7 +10,11 @@ import android.widget.Button;
 
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseRelativeLayout;
-
+/**
+ * 首页标签view，包含：精品、娱乐、应用、游戏标签
+ * @author wangxiufeng
+ *
+ */
 public class TitleView extends BaseRelativeLayout implements
 		OnFocusChangeListener, OnClickListener {
 	/**标签按钮 */

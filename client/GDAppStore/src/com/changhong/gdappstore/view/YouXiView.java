@@ -16,7 +16,11 @@ import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BasePageView;
 import com.changhong.gdappstore.base.BaseRelativeLayout;
 import com.changhong.gdappstore.model.PostItemModel;
-
+/**
+ * 游戏页面view
+ * @author wangxiufeng
+ *
+ */
 public class YouXiView extends BasePageView implements OnFocusChangeListener,
 		OnClickListener {
 	/** 外部回调点击监听器 */
