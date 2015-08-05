@@ -15,4 +15,11 @@
     <dimen name="item_big1_height">369dp</dimen>
     <dimen name="item_first_margintop">50dp</dimen>
     <dimen name="item_first_marginleft">50dp</dimen>
+    
+    <!-- 搜索页面 -->
+    <dimen name="bt_search_width">90dp</dimen>
+    <dimen name="bt_search_height">30dp</dimen>
+    <dimen name="bt_keybord_margin">5dp</dimen>
+    <dimen name="searchpage_marginleft_right">120dp</dimen>
+    
 </resources>

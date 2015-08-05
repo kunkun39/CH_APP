@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <RelativeLayout
+        android:id="@+id/rl_appsearch_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/focues_post" >
+
+        <ImageView
+            android:id="@+id/iv_appicon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/img_post1" />
+
+        <TextView
+            android:id="@+id/tv_appname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/iv_appicon"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/iv_appicon"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <com.changhong.gdappstore.view.ScoreView
+            android:id="@+id/scoreview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/iv_appicon"
+            android:layout_alignLeft="@id/tv_appname" />
+    </RelativeLayout>
+
+</RelativeLayout>
