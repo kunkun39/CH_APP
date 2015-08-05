@@ -4,7 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.changhong.gdappstore.base.BaseActivity;
-
+/**
+ * 应用进入动画页面
+ * @author wangxiufeng
+ *
+ */
 public class LoadingActivity extends BaseActivity {
 
 	@Override
