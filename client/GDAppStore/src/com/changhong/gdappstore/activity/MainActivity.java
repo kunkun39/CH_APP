@@ -27,7 +27,11 @@ import com.changhong.gdappstore.view.YouXiView;
 import com.changhong.gdappstore.view.YuLeView;
 
 /**
- * 主页面
+ * homepage
+ * 
+ * There are four tabs in this activity,so there are four item pages add to
+ * ViewPager in this activity. Change the tab focus the item will be changed by
+ * animation.
  * 
  * @author wangxiufeng
  * 
