@@ -4,12 +4,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.View;
 
 public class BaseActivity extends Activity {
 
 	protected Context context;
-	/**频幕宽高*/
+	/** 频幕宽高 */
 	protected int screenWidth, screenHeight;
+
+	protected static final int VISIBLE = View.VISIBLE;
+	protected static final int INVISIBLE = View.INVISIBLE;
+	protected static final int GONE = View.GONE;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
