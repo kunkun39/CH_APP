@@ -4,17 +4,27 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseRelativeLayout;
 import com.changhong.gdappstore.util.L;
+
 /**
  * 频分星星显示view，可根据自己需要扩展。
+ * 
  * @author wangxiufeng
- *
+ * 
  */
 public class ScoreView extends BaseRelativeLayout {
+	/** 存放星星布局 */
 	private LinearLayout ll_scrollview;
+	/** 星星总数 */
+	private int totalStarCount = 5;
+	/** 满颗星 */
+	public static final int SCORE_FULL = 2;
+	/** 半颗星 */
+	public static final int SCORE_HALF = 1;
+	/** 空星 */
+	public static final int SCORE_NONE = 0;
 
 	public ScoreView(Context context) {
 		super(context);
@@ -34,6 +44,10 @@ public class ScoreView extends BaseRelativeLayout {
 	public void initView() {
 		ll_scrollview = new LinearLayout(context);
 		ll_scrollview.setOrientation(LinearLayout.HORIZONTAL);
+		ll_scrollview.removeAllViews();
+		for (int i = 0; i < totalStarCount; i++) {
+			ll_scrollview.addView(getImageView(SCORE_NONE));
+		}
 		addView(ll_scrollview);
 	}
 
@@ -48,17 +62,19 @@ public class ScoreView extends BaseRelativeLayout {
 		}
 		int fullstar = (int) Math.floor(score);
 		float decimal = score - fullstar;
-		L.d("score---floor==" + Math.floor(score) + " " + decimal);
-		ll_scrollview.removeAllViews();
-		for (int i = 0; i < 5; i++) {
-			if ((i + 1) <= fullstar) {
-				ll_scrollview.addView(getImageView(2));
-			} else if (decimal > 0 && i == fullstar) {
-				ll_scrollview.addView(getImageView(1));
-			} else {
-				ll_scrollview.addView(getImageView(0));
+		
+		for (int i = 0; i < ll_scrollview.getChildCount(); i++) {
+			ImageView imageView = (ImageView) ll_scrollview.getChildAt(i);
+			if (imageView == null) {
+				continue;
 			}
-
+			if ((i + 1) <= fullstar) {
+				updateStarViewState(imageView, SCORE_FULL);
+			} else if (decimal > 0 && i == fullstar) {
+				updateStarViewState(imageView, SCORE_HALF);
+			} else {
+				updateStarViewState(imageView, SCORE_NONE);
+			}
 		}
 		ll_scrollview.invalidate();
 	}
@@ -72,14 +88,23 @@ public class ScoreView extends BaseRelativeLayout {
 	 */
 	private ImageView getImageView(int state) {
 		ImageView imageView = new ImageView(context);
-		if (state == 1) {
+		updateStarViewState(imageView, state);
+		return imageView;
+	}
+	/**
+	 * 更改imageview星星图片状态
+	 * @param imageView
+	 * @param state 状态
+	 */
+	private void updateStarViewState(ImageView imageView, int state) {
+		if (state == SCORE_HALF) {
 			imageView.setImageResource(R.drawable.star_half);
-		} else if (state == 2) {
+		} else if (state == SCORE_FULL) {
 			imageView.setImageResource(R.drawable.star_full);
 		} else {
 			imageView.setImageResource(R.drawable.star_empty);
 		}
-		return imageView;
+		imageView.invalidate();
 	}
 
 }

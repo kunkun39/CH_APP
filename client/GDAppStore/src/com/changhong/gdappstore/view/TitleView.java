@@ -46,7 +46,7 @@ public class TitleView extends BaseRelativeLayout implements
 				R.layout.view_title, null);
 		addView(rootView);
 		btn_jingpin = findView(R.id.bt_title_jingpin);
-		btn_yingyong = findView(R.id.bt_title_yingyong);
+		btn_yingyong = findView(R.id.bt_title_zhuanti);
 		btn_youxi = findView(R.id.bt_title_youxi);
 		btn_yule = findView(R.id.bt_title_yule);
 		btn_jingpin.setOnClickListener(this);
@@ -70,7 +70,7 @@ public class TitleView extends BaseRelativeLayout implements
 		if (btnid == R.id.bt_title_jingpin) {
 			btn_jingpin.setSelected(true);
 			lastSelectedView = btn_jingpin;
-		} else if (btnid == R.id.bt_title_yingyong) {
+		} else if (btnid == R.id.bt_title_zhuanti) {
 			btn_yingyong.setSelected(true);
 			lastSelectedView = btn_yingyong;
 		} else if (btnid == R.id.bt_title_youxi) {

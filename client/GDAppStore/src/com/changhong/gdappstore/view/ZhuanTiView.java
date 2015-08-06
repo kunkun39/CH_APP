@@ -21,7 +21,7 @@ import com.changhong.gdappstore.model.PostItemModel;
  * @author wangxiufeng
  *
  */
-public class YingYongView extends BasePageView implements
+public class ZhuanTiView extends BasePageView implements
 OnFocusChangeListener, OnClickListener {
 	/** 外部回调点击监听器 */
 	private OnClickListener onClickListener;
@@ -32,17 +32,17 @@ OnFocusChangeListener, OnClickListener {
 	/**是否第一列或者最后一列获取焦点*/
 	public boolean isLeftFocues = false, isRightFocues = false;
 
-	public YingYongView(Context context) {
+	public ZhuanTiView(Context context) {
 		super(context);
 		initView();
 	}
 
-	public YingYongView(Context context, AttributeSet attrs) {
+	public ZhuanTiView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		initView();
 	}
 
-	public YingYongView(Context context, AttributeSet attrs, int defStyle) {
+	public ZhuanTiView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		initView();
 	}
@@ -59,16 +59,16 @@ OnFocusChangeListener, OnClickListener {
 			itemViews[i].setOnFocusChangeListener(this);
 			itemViews[i].setOnClickListener(this);
 		}
-		setNextFocuesUpId(R.id.bt_title_yingyong);
+		setNextFocuesUpId(R.id.bt_title_zhuanti);
 	}
 
 	public void initData() {
 		itemViews[0].setData(new PostItemModel(true,
-				R.drawable.icon_yingyogn_tool, "工具"));
+				R.drawable.icon_zhuanti_tool, "工具"));
 		itemViews[1].setData(new PostItemModel(true,
-				R.drawable.icon_yingyong_education, "教育"));
+				R.drawable.icon_zhuanti_education, "教育"));
 		itemViews[2].setData(new PostItemModel(true,
-				R.drawable.icon_yingyong_parts, "配件"));
+				R.drawable.icon_zhuanti_parts, "配件"));
 		itemViews[3].setData(new PostItemModel(true,
 				R.drawable.icon_yule_more, "更多"));
 		itemViews[11].setData(new PostItemModel(false, R.drawable.img_post2, "海报2名字"));
