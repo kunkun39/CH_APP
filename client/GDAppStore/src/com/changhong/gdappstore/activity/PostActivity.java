@@ -11,11 +11,10 @@ import android.widget.Toast;
 
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseActivity;
-import com.changhong.gdappstore.model.PostModel;
-import com.changhong.gdappstore.post.Listener.IPosteDateListener;
-import com.changhong.gdappstore.post.PostItem;
+import com.changhong.gdappstore.post.PostModel;
 import com.changhong.gdappstore.post.PostSetting;
 import com.changhong.gdappstore.post.PosterLayoutView;
+import com.post.view.listener.IPosteDateListener;
 
 public class PostActivity extends BaseActivity {
 	private PosterLayoutView postView;

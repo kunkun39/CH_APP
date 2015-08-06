@@ -1,4 +1,4 @@
-package com.changhong.gdappstore.model;
+package com.changhong.gdappstore.post;
 
 public class PostModel {
 

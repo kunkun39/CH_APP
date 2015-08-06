@@ -15,7 +15,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BasePageView;
 import com.changhong.gdappstore.base.BaseRelativeLayout;
-import com.changhong.gdappstore.model.PostItemModel;
+import com.changhong.gdappstore.model.MainPostItemModel;
 /**
  * 游戏页面view
  * @author wangxiufeng
@@ -63,20 +63,20 @@ public class YouXiView extends BasePageView implements OnFocusChangeListener,
 	}
 
 	public void initData() {
-		itemViews[0].setData(new PostItemModel(true,
+		itemViews[0].setData(new MainPostItemModel(true,
 				R.drawable.icon_youxi_relax, "休闲"));
-		itemViews[1].setData(new PostItemModel(true,
+		itemViews[1].setData(new MainPostItemModel(true,
 				R.drawable.icon_youxi_card, "棋牌"));
-		itemViews[2].setData(new PostItemModel(true,
+		itemViews[2].setData(new MainPostItemModel(true,
 				R.drawable.icon_youxi_move, "动作"));
-		itemViews[3].setData(new PostItemModel(true, R.drawable.icon_yule_more,
+		itemViews[3].setData(new MainPostItemModel(true, R.drawable.icon_yule_more,
 				"更多"));
-		itemViews[11].setData(new PostItemModel(false, R.drawable.img_post2,
+		itemViews[11].setData(new MainPostItemModel(false, R.drawable.img_post2,
 				"海报2名字"));
-		itemViews[12].setData(new PostItemModel(false, R.drawable.img_post3,
+		itemViews[12].setData(new MainPostItemModel(false, R.drawable.img_post3,
 				"海报3名字"));
 		for (int i = 4; i < 10; i++) {
-			itemViews[i].setData(new PostItemModel(true, R.drawable.img_post1
+			itemViews[i].setData(new MainPostItemModel(true, R.drawable.img_post1
 					+ i % 3, "应用名字"));
 		}
 	}

@@ -1,16 +1,16 @@
 package com.changhong.gdappstore.model;
 
-public class PostItemModel {
+public class MainPostItemModel {
 	/** 应用图标true还是大海报false？ */
 	public boolean isapp = false;
 	public int imageId;
 	public String name;
 
-	public PostItemModel() {
+	public MainPostItemModel() {
 
 	}
 
-	public PostItemModel(boolean isapp, int imageId, String name) {
+	public MainPostItemModel(boolean isapp, int imageId, String name) {
 		super();
 		this.isapp = isapp;
 		this.imageId = imageId;

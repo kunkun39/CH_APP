@@ -15,7 +15,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BasePageView;
 import com.changhong.gdappstore.base.BaseRelativeLayout;
-import com.changhong.gdappstore.model.PostItemModel;
+import com.changhong.gdappstore.model.MainPostItemModel;
 /**
  * 应用页面view
  * @author wangxiufeng
@@ -63,18 +63,18 @@ OnFocusChangeListener, OnClickListener {
 	}
 
 	public void initData() {
-		itemViews[0].setData(new PostItemModel(true,
+		itemViews[0].setData(new MainPostItemModel(true,
 				R.drawable.icon_zhuanti_tool, "工具"));
-		itemViews[1].setData(new PostItemModel(true,
+		itemViews[1].setData(new MainPostItemModel(true,
 				R.drawable.icon_zhuanti_education, "教育"));
-		itemViews[2].setData(new PostItemModel(true,
+		itemViews[2].setData(new MainPostItemModel(true,
 				R.drawable.icon_zhuanti_parts, "配件"));
-		itemViews[3].setData(new PostItemModel(true,
+		itemViews[3].setData(new MainPostItemModel(true,
 				R.drawable.icon_yule_more, "更多"));
-		itemViews[11].setData(new PostItemModel(false, R.drawable.img_post2, "海报2名字"));
-		itemViews[12].setData(new PostItemModel(false, R.drawable.img_post3, "海报3名字"));
+		itemViews[11].setData(new MainPostItemModel(false, R.drawable.img_post2, "海报2名字"));
+		itemViews[12].setData(new MainPostItemModel(false, R.drawable.img_post3, "海报3名字"));
 		for (int i = 4; i < 10; i++) {
-			itemViews[i].setData(new PostItemModel(true,
+			itemViews[i].setData(new MainPostItemModel(true,
 					R.drawable.img_post1+i%3, "应用名字"));
 		}
 	}

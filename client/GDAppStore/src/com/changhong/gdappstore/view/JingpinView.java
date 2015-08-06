@@ -20,7 +20,7 @@ import com.changhong.gdappstore.activity.SearchActivity;
 import com.changhong.gdappstore.activity.SortListActivity;
 import com.changhong.gdappstore.base.BasePageView;
 import com.changhong.gdappstore.base.BaseRelativeLayout;
-import com.changhong.gdappstore.model.PostItemModel;
+import com.changhong.gdappstore.model.MainPostItemModel;
 import com.changhong.gdappstore.util.L;
 
 /**
@@ -78,18 +78,18 @@ public class JingpinView extends BasePageView implements
 	}
 
 	public void initData() {
-		itemViews[0].setData(new PostItemModel(true,
+		itemViews[0].setData(new MainPostItemModel(true,
 				R.drawable.icon_jingpin_search, "搜索"));
-		itemViews[1].setData(new PostItemModel(true,
+		itemViews[1].setData(new MainPostItemModel(true,
 				R.drawable.icon_jingpin_ranklist, "排行榜"));
-		itemViews[2].setData(new PostItemModel(true,
+		itemViews[2].setData(new MainPostItemModel(true,
 				R.drawable.icon_jingpin_subject, "热门专题"));
-		itemViews[3].setData(new PostItemModel(true,
+		itemViews[3].setData(new MainPostItemModel(true,
 				R.drawable.icon_jingpin_necessary, "装机必备"));
-		itemViews[11].setData(new PostItemModel(false, R.drawable.img_post2, "海报2名字"));
-		itemViews[12].setData(new PostItemModel(false, R.drawable.img_post3, "海报3名字"));
+		itemViews[11].setData(new MainPostItemModel(false, R.drawable.img_post2, "海报2名字"));
+		itemViews[12].setData(new MainPostItemModel(false, R.drawable.img_post3, "海报3名字"));
 		for (int i = 4; i < 10; i++) {
-			itemViews[i].setData(new PostItemModel(true,
+			itemViews[i].setData(new MainPostItemModel(true,
 					R.drawable.img_post1+i%3, "应用名字"));
 		}
 	}

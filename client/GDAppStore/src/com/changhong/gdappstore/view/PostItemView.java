@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseRelativeLayout;
-import com.changhong.gdappstore.model.PostItemModel;
+import com.changhong.gdappstore.model.MainPostItemModel;
 
 /**
  * 推荐位海报
@@ -50,7 +50,7 @@ public class PostItemView extends BaseRelativeLayout {
 		tv_appname = findView(R.id.tv_appname);
 	}
 
-	public void setData(PostItemModel model) {
+	public void setData(MainPostItemModel model) {
 		if (model==null) {
 			return;
 		}
