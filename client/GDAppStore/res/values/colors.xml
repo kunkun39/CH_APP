@@ -15,5 +15,5 @@
     <color name="white_half50">#7FFFFFFF</color>
 	<!-- 局部使用颜色 -->
 	<color name="postbg">#616b72</color>
-	
+	<drawable name="draw_transparent">#00000000</drawable>
 </resources>

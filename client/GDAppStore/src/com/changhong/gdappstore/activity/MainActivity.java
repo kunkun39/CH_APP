@@ -22,7 +22,7 @@ import com.changhong.gdappstore.base.BasePageView;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.view.JingpinView;
 import com.changhong.gdappstore.view.TitleView;
-import com.changhong.gdappstore.view.YingYongView;
+import com.changhong.gdappstore.view.ZhuanTiView;
 import com.changhong.gdappstore.view.YouXiView;
 import com.changhong.gdappstore.view.YuLeView;
 
@@ -50,7 +50,7 @@ public class MainActivity extends BaseActivity {
 	/** 娱乐view */
 	private YuLeView view_yule;
 	/** 应用view */
-	private YingYongView view_yingyong;
+	private ZhuanTiView view_yingyong;
 	/** 游戏view */
 	private YouXiView view_youxi;
 	/** viewpager 翻页动画 */
@@ -73,7 +73,7 @@ public class MainActivity extends BaseActivity {
 
 		// init page views
 		view_jingpin = new JingpinView(context);
-		view_yingyong = new YingYongView(context);
+		view_yingyong = new ZhuanTiView(context);
 		view_youxi = new YouXiView(context);
 		view_yule = new YuLeView(context);
 		pageViews.add(view_jingpin);
@@ -141,7 +141,7 @@ public class MainActivity extends BaseActivity {
 					viewPager.setCurrentItem(0);
 				} else if (v.getId() == R.id.bt_title_yule) {
 					viewPager.setCurrentItem(1);
-				} else if (v.getId() == R.id.bt_title_yingyong) {
+				} else if (v.getId() == R.id.bt_title_zhuanti) {
 					viewPager.setCurrentItem(2);
 				} else if (v.getId() == R.id.bt_title_youxi) {
 					viewPager.setCurrentItem(3);
@@ -184,7 +184,7 @@ public class MainActivity extends BaseActivity {
 				titleView.setSelectedItemById(R.id.bt_title_yule);
 				break;
 			case 2:// 选中应用标签
-				titleView.setSelectedItemById(R.id.bt_title_yingyong);
+				titleView.setSelectedItemById(R.id.bt_title_zhuanti);
 				break;
 			case 3:// 选中游戏标签
 				titleView.setSelectedItemById(R.id.bt_title_youxi);

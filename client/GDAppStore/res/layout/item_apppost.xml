@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <RelativeLayout
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:background="@color/black_half50" >
+
+        <ImageView
+            android:id="@+id/iv_appicon"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/img_post1" />
+
+        <TextView
+            android:id="@+id/tv_appname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/iv_appicon"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@id/iv_appicon"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <com.changhong.gdappstore.view.ScoreView
+            android:id="@+id/scoreview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_appname"
+            android:layout_below="@+id/tv_appname"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/tv_apptext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/iv_appicon"
+            android:layout_below="@+id/iv_appicon"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@id/iv_appicon"
+            android:singleLine="true"
+            android:text="daslfsaljfsa;jflsajfsaljfsaljfsaljflsajflsas;kdalfjsaljfsalkjflas;"
+            android:textColor="@color/white_half50"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -3,7 +3,10 @@ package com.changhong.gdappstore.activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseActivity;
+import com.changhong.gdappstore.util.DialogUtil;
+import com.changhong.gdappstore.util.L;
 /**
  * 应用进入动画页面
  * @author wangxiufeng
@@ -19,7 +22,10 @@ public class LoadingActivity extends BaseActivity {
 	}
 	
 	private void initView() {
-		
+		L.d("widthpx=="+context.getResources().getDisplayMetrics().density);
+		L.d("widthpx=="+screenWidth+" "+screenHeight);
+		L.d("widthpx1=="+DialogUtil.dipTopx(context, 292));
+		L.d("widthpx2=="+DialogUtil.dipTopx(context, 369));
 	}
 	
 	private void jumpToMain() {
