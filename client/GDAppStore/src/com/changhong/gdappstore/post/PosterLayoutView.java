@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -88,7 +89,7 @@ public class PosterLayoutView extends BasePosterLayoutView {
 			container = new GalleryPostHor(context);
 		}
 //		Drawable localDrawable1 = getResources().getDrawable(R.drawable.draw_transparent);
-		container.setMainFocusDrawable(null);
+//		container.setMainFocusDrawable(null);
 		container.setFocusPadding(-1, -2, -1, -2);
 		container.setFocusViewScale(false, 1.0F, 1.0F);
 		container.setVisiblePadding(0, 0, 0, 0);

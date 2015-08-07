@@ -14,6 +14,9 @@ import com.post.view.base.BasePostItem;
 
 public class PostItem extends BasePostItem {
 	private PostSetting postSetting;
+	private ImageView iv_appicon;
+	private TextView tv_appname, tv_apptext;
+	private ScoreView scoreView;
 
 	public PostItem(Context context) {
 		super(context);
@@ -42,15 +45,13 @@ public class PostItem extends BasePostItem {
 		}
 		setFocusable(true);
 	}
-	private ImageView iv_appicon;
-	private TextView tv_appname,tv_apptext;
-	private ScoreView scoreView;
+
 	private void initNormalView() {
-		View view=LayoutInflater.from(context).inflate(R.layout.item_apppost, null);
+		View view = LayoutInflater.from(context).inflate(R.layout.item_apppost, null);
 		addView(view);
-		iv_appicon=(ImageView) view.findViewById(R.id.iv_appicon);
-		tv_appname=(TextView)view.findViewById(R.id.tv_appname);
-		scoreView=(ScoreView)view.findViewById(R.id.scoreview);
+		iv_appicon = (ImageView) view.findViewById(R.id.iv_appicon);
+		tv_appname = (TextView) view.findViewById(R.id.tv_appname);
+		scoreView = (ScoreView) view.findViewById(R.id.scoreview);
 	}
 
 	/**
@@ -66,14 +67,13 @@ public class PostItem extends BasePostItem {
 			doNormalData(object);
 			break;
 		default:
-			// tv_name.setText("电影名字     " + object + "");
 			break;
 		}
 
 	}
 
 	private void doNormalData(Object object) {
-		PostModel model=(PostModel) object;
+		PostModel model = (PostModel) object;
 		iv_appicon.setImageResource(model.getAppicon());
 		tv_appname.setText(model.getName());
 		scoreView.setStarsBy5Total(model.getAppscore());

@@ -4,7 +4,8 @@
     android:layout_height="wrap_content" >
 
     <RelativeLayout
-        android:layout_width="220dp"
+        android:layout_width="260dp"
+        android:padding="5dp"
         android:layout_height="wrap_content"
         android:background="@color/black_half50" >
 
@@ -12,8 +13,6 @@
             android:id="@+id/iv_appicon"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
             android:scaleType="fitXY"
             android:src="@drawable/img_post1" />
 
@@ -43,11 +42,9 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/iv_appicon"
             android:layout_below="@+id/iv_appicon"
-            android:layout_marginBottom="5dp"
-            android:layout_marginRight="10dp"
-            android:layout_toRightOf="@id/iv_appicon"
+            android:layout_marginTop="10dp"
             android:singleLine="true"
-            android:text="daslfsaljfsa;jflsajfsaljfsaljfsaljflsajflsas;kdalfjsaljfsalkjflas;"
+            android:text="应用介绍应用介绍应用应用介绍应用介绍"
             android:textColor="@color/white_half50"
             android:textSize="16sp" />
     </RelativeLayout>

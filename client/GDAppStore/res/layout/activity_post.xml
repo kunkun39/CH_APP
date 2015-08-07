@@ -4,12 +4,39 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_main" >
 
+    <RelativeLayout
+        android:id="@+id/rl_pageheader"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/pageheader_margintop" >
+
+        <TextView
+            android:id="@+id/tv_pagename"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/pagename_marginleft"
+            android:focusable="false"
+            android:text="@string/zhuanti"
+            android:textColor="@color/white"
+            android:textSize="@dimen/pagename_textsize" />
+    </RelativeLayout>
+
+    <com.changhong.gdappstore.view.PostTitleView
+        android:id="@+id/posttitleview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="130dp"
+        android:layout_marginTop="50dp"
+        android:layout_below="@id/rl_pageheader" />
+
     <com.changhong.gdappstore.post.PosterLayoutView
         android:id="@+id/postview"
-        android:layout_width="1000dp"
-        android:layout_height="600dp"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="0dp"
+        android:layout_marginLeft="150dp"
+        android:layout_marginBottom="-80dp"
+        android:layout_below="@id/posttitleview"
         android:visibility="visible" />
 
 </RelativeLayout>

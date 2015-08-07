@@ -4,6 +4,7 @@
     <!-- 标题 -->
     <dimen name="title_btn_width">115dp</dimen>
     <dimen name="title_btn_height">47dp</dimen>
+    <dimen name="title_paddingbottom">15dp</dimen>
     <dimen name="title_btn_marginleft">40dp</dimen>
     <dimen name="title_btn_textsize">28sp</dimen>
 
@@ -22,4 +23,8 @@
     <dimen name="bt_keybord_margin">5dp</dimen>
     <dimen name="searchpage_marginleft_right">120dp</dimen>
     
+    <!-- 海报墙页面 -->
+    <dimen name="pageheader_margintop">50dp</dimen>
+    <dimen name="pagename_textsize">24sp</dimen>
+    <dimen name="pagename_marginleft">130dp</dimen>
 </resources>
