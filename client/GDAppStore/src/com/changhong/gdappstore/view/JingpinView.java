@@ -16,6 +16,7 @@ import android.widget.RelativeLayout.LayoutParams;
 
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.activity.PostActivity;
+import com.changhong.gdappstore.activity.RankingListActivity;
 import com.changhong.gdappstore.activity.SearchActivity;
 import com.changhong.gdappstore.activity.SortListActivity;
 import com.changhong.gdappstore.base.BasePageView;
@@ -116,7 +117,7 @@ public class JingpinView extends BasePageView implements
 		if (v.getId()==R.id.jingping_item1) {
 			context.startActivity(new Intent(context,SearchActivity.class));
 		}else if (v.getId()==R.id.jingping_item2) {
-			context.startActivity(new Intent(context,SortListActivity.class));
+			context.startActivity(new Intent(context,RankingListActivity.class));
 		}else {
 			context.startActivity(new Intent(context,PostActivity.class));
 		}

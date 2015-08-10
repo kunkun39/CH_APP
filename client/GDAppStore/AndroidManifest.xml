@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.SortListActivity" />
+        <activity android:name=".activity.RankingListActivity" />
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.PostActivity" />
     </application>
