@@ -114,6 +114,13 @@ public class PostTitleView extends BaseRelativeLayout {
 		}
 		ll_content.invalidate();
 	}
+	
+	public void setFocusItem(int position) {
+		if (position < 0 || position >= list_textViews.size()) {
+			list_textViews.get(position).requestFocus();
+			currentSelectedView=list_textViews.get(position);
+		}
+	}
 
 	/**
 	 * 获取itemview

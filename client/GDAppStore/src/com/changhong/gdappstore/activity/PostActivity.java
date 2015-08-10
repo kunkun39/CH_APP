@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseActivity;
 import com.changhong.gdappstore.model.PostTitleModel;
+import com.changhong.gdappstore.post.PostItem;
 import com.changhong.gdappstore.post.PostModel;
 import com.changhong.gdappstore.post.PostSetting;
 import com.changhong.gdappstore.post.PosterLayoutView;
@@ -27,13 +28,13 @@ import com.post.view.listener.IPosteDateListener;
  * 
  */
 public class PostActivity extends BaseActivity {
-	/**海报墙view*/
+	/** 海报墙view */
 	private PosterLayoutView postView;
-	/**海报墙配置项*/
+	/** 海报墙配置项 */
 	private PostSetting postSetting;
-	/**标题view*/
+	/** 标题view */
 	private PostTitleView titleView;
-	/**标题名字*/
+	/** 标题名字 */
 	public List<PostTitleModel> titleModels;
 
 	@Override
@@ -57,12 +58,13 @@ public class PostActivity extends BaseActivity {
 		// 海报墙设置，监听器没有可以设为空，行列设为负数则使用默认值
 		postSetting = new PostSetting(3, 3, R.drawable.selector_bg_postitem, iPosteDateListener, null, null, null,
 				postOnKeyListener);
-		postSetting.setVerticalScroll(false);//纵向滚动
-		postSetting.setVisibleClumn(1.14f);//显示的页数
-		postSetting.setMargins(10, 10, 0, 0);//item的距离
+		postSetting.setVerticalScroll(false);// 纵向滚动
+		postSetting.setVisibleClumn(1.14f);// 显示的页数
+		postSetting.setMargins(10, 10, 0, 0);// item的距离
 		// postSetting.setPagePadding(0, 0, 0, 0);
-		postSetting.setFirstRowFocusUp(true);//第一排是否允许焦点再往上
-		postSetting.setFristItemFocus(true);
+		postSetting.setFirstRowFocusUp(true);// 第一排是否允许焦点再往上
+		postSetting.setFirstClumnFocusLeft(false);
+		postSetting.setFristItemFocus(false);
 		// 如果需要海报墙使用自己的设置，要先调用设置设置方法，在调用设置数据
 		postView.init(postSetting);
 
@@ -79,6 +81,7 @@ public class PostActivity extends BaseActivity {
 		titleModels.add(new PostTitleModel("设计"));
 		titleModels.add(new PostTitleModel("体感"));
 		titleView.initData(titleModels);
+		titleView.setFocusItem(0);
 
 		List<Object> loadItems = new ArrayList<Object>();
 		for (int i = 0; i < 50; i++) {
@@ -87,24 +90,25 @@ public class PostActivity extends BaseActivity {
 		postView.initData(loadItems, loadItems.size());
 
 	}
+
 	/**
 	 * 标签点击监听器
 	 */
-	private TitleItemOnClickListener titleItemOnClickListener=new TitleItemOnClickListener() {
-		
+	private TitleItemOnClickListener titleItemOnClickListener = new TitleItemOnClickListener() {
+
 		@Override
 		public void onItemClick(View view, int position) {
-			
+
 		}
 	};
 	/**
 	 * 标签焦点监听器
 	 */
-	private TitleItemOnFocuesChangedListener titleItemOnFocuesChangedListener=new TitleItemOnFocuesChangedListener() {
-		
+	private TitleItemOnFocuesChangedListener titleItemOnFocuesChangedListener = new TitleItemOnFocuesChangedListener() {
+
 		@Override
 		public void onItemFocuesChanged(View view, boolean hasFocues, int position) {
-			
+
 		}
 	};
 
@@ -112,7 +116,7 @@ public class PostActivity extends BaseActivity {
 
 		@Override
 		public void requestNextPageDate(int currentSize) {
-			//请求新数据回调
+			// 请求新数据回调
 			// List<Object> loadItems = new ArrayList<Object>();
 			// for (int i = currentSize; i < currentSize + 20; i++) {
 			// loadItems.add(new PostModel(i, ("标签 " + i), R.drawable.img_post_1
@@ -123,7 +127,7 @@ public class PostActivity extends BaseActivity {
 
 		@Override
 		public void changePage(Boolean isnext, int curpage, int totalpage) {
-			//翻页回调
+			// 翻页回调
 		}
 
 		@Override
@@ -141,7 +145,11 @@ public class PostActivity extends BaseActivity {
 
 		@Override
 		public boolean onKey(View v, int keyCode, KeyEvent event) {
-			// int pos = ((PostItem) v).getPosition();
+			int pos = ((PostItem) v).getPosition();
+			if (pos < postSetting.getPost_column() && keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+				// 处理每次海报墙按上键时候选中当前标签
+				titleView.getCurrentSelectedView().requestFocus();
+			}
 			return false;
 		}
 	};
