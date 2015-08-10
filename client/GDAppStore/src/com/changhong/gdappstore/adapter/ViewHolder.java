@@ -1,4 +1,4 @@
-package com.changhong.gdappstore.base;
+package com.changhong.gdappstore.adapter;
 
 import android.widget.ImageView;
 import android.widget.RelativeLayout;

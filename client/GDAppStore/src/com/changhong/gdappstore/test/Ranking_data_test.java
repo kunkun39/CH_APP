@@ -1,6 +1,8 @@
-package com.changhong.gdappstore.base;
+package com.changhong.gdappstore.test;
 
 import java.util.ArrayList;
+
+import com.changhong.gdappstore.model.Ranking_Item;
 
 public class Ranking_data_test {
 

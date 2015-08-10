@@ -1,4 +1,4 @@
-package com.changhong.gdappstore.base;
+package com.changhong.gdappstore.view;
 
 import android.view.View;
 

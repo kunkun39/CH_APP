@@ -1,8 +1,10 @@
-package com.changhong.gdappstore.base;
+package com.changhong.gdappstore.view;
 
 import java.util.ArrayList;
 
 import com.changhong.gdappstore.R;
+import com.changhong.gdappstore.adapter.ViewHolder;
+import com.changhong.gdappstore.model.Ranking_Item;
 
 import android.content.Context;
 import android.graphics.Bitmap;

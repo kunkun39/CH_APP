@@ -3,12 +3,12 @@ package com.changhong.gdappstore.activity;
 import java.util.ArrayList;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.adapter.RankingListViewAdapter;
-import com.changhong.gdappstore.base.FocusView;
-import com.changhong.gdappstore.base.ListViewChange;
-import com.changhong.gdappstore.base.ListViewPosition;
-import com.changhong.gdappstore.base.Ranking_Item;
-import com.changhong.gdappstore.base.Ranking_data_test;
+import com.changhong.gdappstore.model.Ranking_Item;
+import com.changhong.gdappstore.test.Ranking_data_test;
 import com.changhong.gdappstore.util.L;
+import com.changhong.gdappstore.view.FocusView;
+import com.changhong.gdappstore.view.ListViewChange;
+import com.changhong.gdappstore.view.ListViewPosition;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
