@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="200dp"
+    android:gravity="center">
+    <RelativeLayout 
+	    android:id="@+id/ranking_item"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:gravity="center"
+        android:background="#3F000000">
+	    <TextView 
+	        android:id="@+id/top_num"
+	        android:layout_width="30dp"
+	        android:layout_height="30dp"
+	        android:layout_marginLeft="15dp"
+	        android:layout_marginTop="55dp"
+	        android:gravity="center"
+	        android:textSize="20sp"
+	        android:textColor="#FFFFFF"
+	        android:text="1"/>
+	    <ImageView 
+	        android:id="@+id/item_app_icon"
+	        android:layout_width="100dp"
+	        android:layout_height="100dp"
+	        android:layout_marginLeft="60dp"
+	        android:layout_marginTop="15dp"
+	        android:layout_marginBottom="15dp"
+	        android:background="@drawable/test" />
+	
+		<TextView
+		    android:id="@+id/item_app_name"
+		    android:layout_width="170dp"
+		    android:layout_height="wrap_content"
+		    android:layout_marginLeft="175dp"
+		    android:layout_marginTop="20dp"
+		    android:gravity="left|center"
+		    android:textSize="30sp"
+		    android:textColor="#FFFFFF"
+		    android:text="酷狗音乐酷狗音乐"
+		    android:maxLines="1"
+		    android:ellipsize="end" />
+		<TextView
+		    android:id="@+id/item_app_download_num"
+		    android:layout_width="170dp"
+		    android:layout_height="wrap_content"
+		    android:layout_marginLeft="175dp"
+		    android:layout_marginTop="63dp"
+		    android:gravity="left|center"
+		    android:textSize="20sp"
+		    android:textColor="#FFFFFF"
+		    android:text="下载量" />
+		<TextView
+		    android:id="@+id/item_app_size"
+		    android:layout_width="170dp"
+		    android:layout_height="wrap_content"
+		    android:layout_marginLeft="175dp"
+		    android:layout_marginTop="90dp"
+		    android:gravity="left|center"
+		    android:textSize="20sp"
+		    android:textColor="#FFFFFF"
+		    android:text="大小" />
+	</RelativeLayout>
+
+</RelativeLayout>
