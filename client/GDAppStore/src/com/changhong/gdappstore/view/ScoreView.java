@@ -56,7 +56,7 @@ public class ScoreView extends BaseRelativeLayout {
 	 * 
 	 * @param score
 	 */
-	public void setStarsBy5Total(float score) {
+	public void setScoreBy5Total(float score) {
 		if (score < 0) {
 			return;
 		}

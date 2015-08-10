@@ -3,25 +3,19 @@ package com.changhong.gdappstore.view;
 import android.content.Context;
 import android.content.Intent;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.activity.DetailActivity;
 import com.changhong.gdappstore.activity.PostActivity;
 import com.changhong.gdappstore.activity.RankingListActivity;
 import com.changhong.gdappstore.activity.SearchActivity;
-import com.changhong.gdappstore.activity.SortListActivity;
 import com.changhong.gdappstore.base.BasePageView;
-import com.changhong.gdappstore.base.BaseRelativeLayout;
 import com.changhong.gdappstore.model.MainPostItemModel;
 import com.changhong.gdappstore.util.L;
 
@@ -128,6 +122,9 @@ public class JingpinView extends BasePageView implements
 
 	@Override
 	public void onFocusChange(View v, boolean hasFocus) {
+		if (onFocusChangeListener != null) {
+			onFocusChangeListener.onFocusChange(v, hasFocus);
+		}
 		if (hasFocus) {
 			L.d(TAG+"jingpinview onfocueschange "+v.getId());
 			int viewId = v.getId();
@@ -182,9 +179,6 @@ public class JingpinView extends BasePageView implements
 			v.clearAnimation();
 			ivFocues.clearAnimation();
 			ivFocues.setVisibility(View.INVISIBLE);
-		}
-		if (onFocusChangeListener != null) {
-			onFocusChangeListener.onFocusChange(v, hasFocus);
 		}
 	}
 

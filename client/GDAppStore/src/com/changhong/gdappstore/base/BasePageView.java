@@ -21,7 +21,7 @@ public class BasePageView extends BaseRelativeLayout {
 			R.id.jingping_item9, R.id.jingping_item10, R.id.jingping_item11,
 			R.id.jingping_item12, R.id.jingping_item13 };
 	/** 推荐位个数 */
-	protected final int itemCount = 13;
+	protected  int itemCount = 13;
 	/** 推荐位view */
 	protected PostItemView[] itemViews = new PostItemView[itemCount];
 	/** 焦点缩放动画 */

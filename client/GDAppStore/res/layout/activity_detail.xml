@@ -38,12 +38,12 @@
 
         <Button
             android:id="@+id/bt_download"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
             android:layout_alignLeft="@id/tv_appname"
             android:layout_below="@id/scoreview"
             android:layout_marginTop="10dp"
-            android:background="@drawable/selector_btn_title"
+            android:background="@drawable/selector_search_full_keyboard"
             android:text="下载"
             android:textColor="@color/white"
             android:textSize="20sp" />
@@ -199,5 +199,24 @@
         android:layout_toRightOf="@id/rl_detailappcontent"
         android:scaleType="fitXY"
         android:src="@drawable/img_post1" />
+
+    <TextView
+        android:id="@+id/tv_usermaylike"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/rl_detailappcontent"
+        android:layout_below="@id/rl_detailappcontent"
+        android:layout_marginTop="@dimen/detail_content_rowmargintop"
+        android:maxLines="2"
+        android:text="用户还喜欢"
+        android:textColor="@color/detail_content_title_textcolor"
+        android:textSize="@dimen/detail_contenttextsize" />
+
+    <com.changhong.gdappstore.view.UserMayLikeView
+        android:id="@+id/view_usermaylike"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_below="@id/tv_usermaylike" />
 
 </RelativeLayout>

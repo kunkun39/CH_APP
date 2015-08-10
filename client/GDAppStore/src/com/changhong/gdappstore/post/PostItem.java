@@ -76,7 +76,7 @@ public class PostItem extends BasePostItem {
 		PostModel model = (PostModel) object;
 		iv_appicon.setImageResource(model.getAppicon());
 		tv_appname.setText(model.getName());
-		scoreView.setStarsBy5Total(model.getAppscore());
+		scoreView.setScoreBy5Total(model.getAppscore());
 	}
 
 	/**

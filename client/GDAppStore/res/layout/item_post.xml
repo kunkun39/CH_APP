@@ -38,11 +38,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:padding="10dp"
         android:visibility="invisible" >
         <ImageView
             android:id="@+id/iv_appicon"
-            android:layout_width="70dp"
-            android:layout_height="80dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:focusable="false"
             android:scaleType="fitXY"
             android:layout_centerHorizontal="true"
@@ -59,7 +60,7 @@
             android:gravity="center_horizontal"
             android:text="应用名字"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
     </RelativeLayout>
 
 </RelativeLayout>

@@ -77,7 +77,7 @@ public class SearchResultAdapter extends BaseAdapter {
 		rl_content.setBackgroundColor(Color.TRANSPARENT);
 		
 		SearchAppModel model=(SearchAppModel) getItem(position);
-		viewHolder.scoreView.setStarsBy5Total(model.getAppscore());
+		viewHolder.scoreView.setScoreBy5Total(model.getAppscore());
 		viewHolder.tv_appname.setText(model.getAppname());
 		viewHolder.iv_appicon.setImageResource(model.getAppicon());
 		return convertView;
