@@ -3,6 +3,7 @@ package com.changhong.gdappstore.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -19,7 +20,9 @@ import com.changhong.gdappstore.post.PosterLayoutView;
 import com.changhong.gdappstore.view.PostTitleView;
 import com.changhong.gdappstore.view.PostTitleView.TitleItemOnClickListener;
 import com.changhong.gdappstore.view.PostTitleView.TitleItemOnFocuesChangedListener;
+import com.post.view.base.BasePosterLayoutView;
 import com.post.view.listener.IPosteDateListener;
+import com.post.view.listener.Listener.IItemOnClickListener;
 
 /**
  * 海报墙页面
@@ -56,7 +59,7 @@ public class PostActivity extends BaseActivity {
 	private void initPostView() {
 
 		// 海报墙设置，监听器没有可以设为空，行列设为负数则使用默认值
-		postSetting = new PostSetting(3, 3, R.drawable.selector_bg_postitem, iPosteDateListener, null, null, null,
+		postSetting = new PostSetting(3, 3, R.drawable.selector_bg_postitem, iPosteDateListener, null, postItemOnclickListener, null,
 				postOnKeyListener);
 		postSetting.setVerticalScroll(false);// 纵向滚动
 		postSetting.setVisibleClumn(1.14f);// 显示的页数
@@ -109,6 +112,14 @@ public class PostActivity extends BaseActivity {
 		@Override
 		public void onItemFocuesChanged(View view, boolean hasFocues, int position) {
 
+		}
+	};
+	/**海报墙点击监听**/
+	private IItemOnClickListener postItemOnclickListener=new IItemOnClickListener() {
+		
+		@Override
+		public void itemOnClick(BasePosterLayoutView arg0, View arg1, int arg2) {
+			startActivity(new Intent(PostActivity.this,DetailActivity.class));
 		}
 	};
 
