@@ -1,6 +1,7 @@
 package com.changhong.gdappstore.activity;
 
 import java.util.ArrayList;
+
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.adapter.RankingListViewAdapter;
 import com.changhong.gdappstore.model.Ranking_Item;
@@ -11,16 +12,13 @@ import com.changhong.gdappstore.view.ListViewChange;
 import com.changhong.gdappstore.view.ListViewPosition;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 public class RankingListActivity extends Activity {
 	private ListView listView_new;
@@ -51,6 +49,7 @@ public class RankingListActivity extends Activity {
 	FocusSelect currFocusSelect = FocusSelect.NEW_LISTVIEW;
 	
 	private RelativeLayout lastContentLayout;
+	Ranking_data_test data_test;
 
 	public RankingListActivity() {
 		// TODO Auto-generated constructor stub
@@ -193,6 +192,7 @@ public class RankingListActivity extends Activity {
 	
 	private void initView() {
 		listViewChange = new ListViewChange();
+		data_test = new Ranking_data_test(this);
 		listView_new = (ListView)findViewById(R.id.listView_new);
 		listView_hot = (ListView)findViewById(R.id.listView_hot);
 		listView_surge = (ListView)findViewById(R.id.listView_surge);
@@ -201,7 +201,7 @@ public class RankingListActivity extends Activity {
 		
 		focusView = new FocusView(RankingListActivity.this, focusItem, 350, 118);
 		
-		newArrayList = Ranking_data_test.getNewArrayList();
+		newArrayList = data_test.getNewArrayList();
 		
 		newListViewPosition = new ListViewPosition(newArrayList.size(), 450, 118);
 		
@@ -212,7 +212,7 @@ public class RankingListActivity extends Activity {
 		listView_new.setVerticalScrollBarEnabled(false);
 		listView_new.setOnItemSelectedListener(newOnItemSelectedListener);
 		
-		hotArrayList = Ranking_data_test.getNewArrayList();
+		hotArrayList = data_test.getHotArrayList();
 		hotListViewPosition = new ListViewPosition(hotArrayList.size(), 450, 118);
 		hotArrayListAdapter = new RankingListViewAdapter(this, hotArrayList);
 		
@@ -220,7 +220,7 @@ public class RankingListActivity extends Activity {
 		listView_hot.setVerticalScrollBarEnabled(false);
 		listView_hot.setOnItemSelectedListener(hotOnItemSelectedListener);
 		
-		surgeArrayList = Ranking_data_test.getNewArrayList();
+		surgeArrayList = data_test.getSurgeHotArrayList();
 		surgeListViewPosition = new ListViewPosition(surgeArrayList.size(), 450, 118);
 		surgeArrayListAdapter = new RankingListViewAdapter(this, surgeArrayList);
 		
@@ -276,6 +276,7 @@ public class RankingListActivity extends Activity {
 					listView_hot.setSelectionFromTop(position,offset);
 					focusView.setArrayList(hotArrayList);
 					focusView.focusViewChange(position, 465, offset + 180);
+					
 				}
 				
 				//focusViewChange(listView_hot,position,465,180);

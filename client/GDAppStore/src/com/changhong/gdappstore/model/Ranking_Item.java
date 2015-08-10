@@ -9,7 +9,7 @@ public class Ranking_Item implements Comparable<Ranking_Item>{
 	private String appName;
 	private String download_num;
 	private String appSize;
-	private Bitmap appBitmap;
+	public Bitmap appBitmap;
 
 	public Ranking_Item(int topNum, String imgPath, String appName,
 			String download_num, String appSize) {
