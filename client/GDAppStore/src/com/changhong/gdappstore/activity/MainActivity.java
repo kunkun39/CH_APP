@@ -50,7 +50,7 @@ public class MainActivity extends BaseActivity {
 	/** 娱乐view */
 	private YuLeView view_yule;
 	/** 应用view */
-	private ZhuanTiView view_yingyong;
+	private ZhuanTiView view_zhuanti;
 	/** 游戏view */
 	private YouXiView view_youxi;
 	/** viewpager 翻页动画 */
@@ -73,12 +73,12 @@ public class MainActivity extends BaseActivity {
 
 		// init page views
 		view_jingpin = new JingpinView(context);
-		view_yingyong = new ZhuanTiView(context);
+		view_zhuanti = new ZhuanTiView(context);
 		view_youxi = new YouXiView(context);
 		view_yule = new YuLeView(context);
 		pageViews.add(view_jingpin);
 		pageViews.add(view_yule);
-		pageViews.add(view_yingyong);
+		pageViews.add(view_zhuanti);
 		pageViews.add(view_youxi);
 		// init view pager
 		viewPager = findView(R.id.viewpager);
@@ -98,7 +98,7 @@ public class MainActivity extends BaseActivity {
 	private void initData() {
 		// 目前是初始化默认数据
 		view_jingpin.initData();
-		view_yingyong.initData();
+		view_zhuanti.initData();
 		view_youxi.initData();
 		view_yule.initData();
 	}

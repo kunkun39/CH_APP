@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseActivity;
+import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.L;
 /**
@@ -18,6 +19,7 @@ public class LoadingActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		initView();
+		loadData();
 		jumpToMain();
 	}
 	
@@ -26,6 +28,11 @@ public class LoadingActivity extends BaseActivity {
 		L.d("widthpx=="+screenWidth+" "+screenHeight);
 		L.d("widthpx1=="+DialogUtil.dipTopx(context, 292));
 		L.d("widthpx2=="+DialogUtil.dipTopx(context, 369));
+	}
+	
+	private void loadData() {
+		DataCenter dataCenter=DataCenter.getInstance();
+		dataCenter.loadAllData();
 	}
 	
 	private void jumpToMain() {

@@ -12,7 +12,7 @@ import android.util.Log;
 public class L {
 
 	private static final boolean isLog = true;
-	private static final String tag = "chappstorelog";
+	private static final String tag = "com.changhong.gdappstore";
 
 	public static void d(String msg) {
 		if (isLog) {
