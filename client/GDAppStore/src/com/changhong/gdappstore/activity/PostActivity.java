@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnKeyListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.changhong.gdappstore.Config;
@@ -42,6 +43,10 @@ public class PostActivity extends BaseActivity {
 	private PostTitleView titleView;
 	/** 数据处理中心 */
 	private DataCenter dataCenter;
+	/** 父栏目，根据首页传过来的id确定 */
+	private Category parentCategory = null;
+	/**栏目名字*/
+	private TextView tv_name;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +59,7 @@ public class PostActivity extends BaseActivity {
 	private void initView() {
 		postView = findView(R.id.postview);
 		titleView = findView(R.id.posttitleview);
+		tv_name=findView(R.id.tv_pagename);
 		titleView.setTitleItemOnClickListener(titleItemOnClickListener);
 		titleView.setTitleItemOnFocuesChangedListener(titleItemOnFocuesChangedListener);
 		initPostView();
@@ -76,19 +82,18 @@ public class PostActivity extends BaseActivity {
 
 	}
 
-	private Category parentCategory = null;
-
 	private void initData() {
 		dataCenter = DataCenter.getInstance();
 		Intent intent = getIntent();
 		int parentCategoryId = intent.getIntExtra(Config.KEY_PARENT_CATEGORYID, 1);
 		int currentCategoryId = intent.getIntExtra(Config.KEY_CURRENT_CATEGORYID, parentCategoryId);
-		parentCategory = dataCenter.getCategoryById(parentCategoryId);//获取父栏目
+		parentCategory = dataCenter.getCategoryById(parentCategoryId);// 获取父栏目
 		if (parentCategory != null && parentCategory.getCategoyChildren() != null) {
-			titleView.initData(parentCategory,parentCategory.getCategoyChildren());
+			tv_name.setText(parentCategory.getName());
+			titleView.initData(parentCategory, parentCategory.getCategoyChildren());
 			for (int i = 0; i < parentCategory.getCategoyChildren().size(); i++) {
 				if (parentCategory.getCategoyChildren().get(i).getId() == currentCategoryId) {
-					titleView.setFocusItem(i+1);//选中当前item
+					titleView.setFocusItem(i + 1);// 选中当前item
 				}
 			}
 		}
