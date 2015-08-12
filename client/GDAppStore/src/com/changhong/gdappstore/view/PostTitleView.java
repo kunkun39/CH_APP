@@ -199,7 +199,7 @@ public class PostTitleView extends BaseRelativeLayout {
 					}
 					currentSelectedView = v;
 				} else {
-					textView.setSelected(hasChildFocesed());
+					textView.setSelected(!hasChildFocesed());
 				}
 			}
 		});
