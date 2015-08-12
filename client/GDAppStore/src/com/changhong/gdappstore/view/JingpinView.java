@@ -127,7 +127,7 @@ public class JingpinView extends BasePageView implements OnFocusChangeListener, 
 		itemViews[0].setNextFocusUpId(id);
 		itemViews[1].setNextFocusUpId(id);
 		itemViews[2].setNextFocusUpId(id);
-		itemViews[10].setNextFocusUpId(id);
+		itemViews[9].setNextFocusUpId(id);
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package com.changhong.gdappstore.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.View.OnFocusChangeListener;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 
+import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.adapter.MainViewPagerAdapter;
 import com.changhong.gdappstore.base.BaseActivity;
@@ -110,11 +112,11 @@ public class MainActivity extends BaseActivity {
 		view_jingpin.initData(categories.get(0));
 		view_jingpin.setNextFocuesUpId(titleView.getItemTextViewAt(0).getId());
 		view_yule.initData(categories.get(1));
-		view_jingpin.setNextFocuesUpId(titleView.getItemTextViewAt(1).getId());
+		view_yule.setNextFocuesUpId(titleView.getItemTextViewAt(1).getId());
 		view_youxi.initData(categories.get(2));
-		view_jingpin.setNextFocuesUpId(titleView.getItemTextViewAt(2).getId());
+		view_youxi.setNextFocuesUpId(titleView.getItemTextViewAt(2).getId());
 		view_zhuanti.initData(categories.get(3));
-		view_jingpin.setNextFocuesUpId(titleView.getItemTextViewAt(3).getId());
+		view_zhuanti.setNextFocuesUpId(titleView.getItemTextViewAt(3).getId());
 		
 		titleView.setFocusItem(0);
 	}
@@ -175,7 +177,10 @@ public class MainActivity extends BaseActivity {
 
 		@Override
 		public void onItemClick(View view, int position) {
-
+			Intent intent = new Intent(context, PostActivity.class);
+			intent.putExtra(Config.KEY_PARENT_CATEGORYID, categories.get(position).getId());
+			intent.putExtra(Config.KEY_CURRENT_CATEGORYID, categories.get(position).getId());
+			context.startActivity(intent);
 		}
 	};
 	/**

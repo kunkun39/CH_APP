@@ -85,7 +85,23 @@ public class PostTitleView extends BaseRelativeLayout {
 		removeAllViews();
 		addView(ll_content);
 	}
+	
+	public void initData(Category parentCategory,List<Category> items) {
+		if (parentCategory==null) {
+			initData(items);
+			return;
+		}
+		List<Category> totalCategories=new ArrayList<Category>();
+		parentCategory.setName("全部");
+		totalCategories.add(parentCategory);
+		totalCategories.addAll(items);
+		initData(totalCategories);
+	}
 
+	/**
+	 * 初始化标签数据
+	 * @param items 栏目
+	 */
 	public void initData(List<Category> items) {
 		if (items == null || items.size() <= 0) {
 			return;

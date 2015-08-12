@@ -79,17 +79,16 @@ public class PostActivity extends BaseActivity {
 	private Category parentCategory = null;
 
 	private void initData() {
-
 		dataCenter = DataCenter.getInstance();
 		Intent intent = getIntent();
 		int parentCategoryId = intent.getIntExtra(Config.KEY_PARENT_CATEGORYID, 1);
 		int currentCategoryId = intent.getIntExtra(Config.KEY_CURRENT_CATEGORYID, parentCategoryId);
 		parentCategory = dataCenter.getCategoryById(parentCategoryId);//获取父栏目
 		if (parentCategory != null && parentCategory.getCategoyChildren() != null) {
-			titleView.initData(parentCategory.getCategoyChildren());
+			titleView.initData(parentCategory,parentCategory.getCategoyChildren());
 			for (int i = 0; i < parentCategory.getCategoyChildren().size(); i++) {
 				if (parentCategory.getCategoyChildren().get(i).getId() == currentCategoryId) {
-					titleView.setFocusItem(i);//选中当前item
+					titleView.setFocusItem(i+1);//选中当前item
 				}
 			}
 		}

@@ -122,7 +122,7 @@ public class YouXiView extends BasePageView implements OnFocusChangeListener, On
 		itemViews[0].setNextFocusUpId(id);
 		itemViews[1].setNextFocusUpId(id);
 		itemViews[2].setNextFocusUpId(id);
-		itemViews[10].setNextFocusUpId(id);
+		itemViews[9].setNextFocusUpId(id);
 	}
 
 	@Override
