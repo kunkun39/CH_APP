@@ -77,6 +77,7 @@ public class PostTitleView extends BaseRelativeLayout {
 	private void init() {
 		ll_content = new LinearLayout(context);
 		ll_content.setOrientation(LinearLayout.HORIZONTAL);
+		ll_content.setFocusable(false);
 		layoutParams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 		layoutParams.leftMargin = 0;
 		layoutParams.rightMargin = 0;
@@ -122,9 +123,10 @@ public class PostTitleView extends BaseRelativeLayout {
 	 * @param position
 	 */
 	public void setFocusItem(int position) {
-		if (position > 0 && list_textViews != null && position <= list_textViews.size()
+		if (position >= 0 && list_textViews != null && position < list_textViews.size()
 				&& list_textViews.get(position) != null) {
 			list_textViews.get(position).requestFocus();
+			L.d("setFocusItem--pos=="+position+" "+hasChildFocesed());
 			if (currentSelectedView != null && currentSelectedView != list_textViews.get(position)) {
 				currentSelectedView.setSelected(false);
 			}
@@ -189,6 +191,7 @@ public class PostTitleView extends BaseRelativeLayout {
 				if (titleItemOnFocuesChangedListener != null) {
 					titleItemOnFocuesChangedListener.onItemFocuesChanged(v, hasFocus, position);
 				}
+				L.d("setFocusItem--"+hasFocus);
 				if (hasFocus) {
 					textView.setSelected(true);
 					if (currentSelectedView != null && currentSelectedView != v) {

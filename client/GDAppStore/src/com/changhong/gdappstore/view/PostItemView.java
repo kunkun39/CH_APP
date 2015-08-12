@@ -141,7 +141,7 @@ public class PostItemView extends BaseRelativeLayout {
 			rl_app.setVisibility(INVISIBLE);
 			rl_post.setVisibility(VISIBLE);
 
-			tv_appname.setText(TextUtils.isEmpty(pageApp.getAppname()) ? "" : pageApp.getAppname());
+			tv_postname.setText(TextUtils.isEmpty(pageApp.getAppname()) ? "" : pageApp.getAppname());
 		}
 	}
 }
