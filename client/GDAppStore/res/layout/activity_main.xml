@@ -14,7 +14,7 @@
         android:textColor="@android:color/white"
         android:textSize="30sp" />
 
-    <com.changhong.gdappstore.view.TitleView
+    <com.changhong.gdappstore.view.PostTitleView
         android:id="@+id/titleview"
         android:layout_marginLeft="120dp"
         android:layout_width="wrap_content"

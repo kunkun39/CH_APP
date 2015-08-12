@@ -19,8 +19,13 @@ import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.adapter.MainViewPagerAdapter;
 import com.changhong.gdappstore.base.BaseActivity;
 import com.changhong.gdappstore.base.BasePageView;
+import com.changhong.gdappstore.datacenter.DataCenter;
+import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.view.JingpinView;
+import com.changhong.gdappstore.view.PostTitleView;
+import com.changhong.gdappstore.view.PostTitleView.TitleItemOnClickListener;
+import com.changhong.gdappstore.view.PostTitleView.TitleItemOnFocuesChangedListener;
 import com.changhong.gdappstore.view.TitleView;
 import com.changhong.gdappstore.view.ZhuanTiView;
 import com.changhong.gdappstore.view.YouXiView;
@@ -38,7 +43,7 @@ import com.changhong.gdappstore.view.YuLeView;
  */
 public class MainActivity extends BaseActivity {
 	/** 标签按钮view **/
-	private TitleView titleView;
+	private PostTitleView titleView;
 	/***/
 	private ViewPager viewPager;
 	/** viewpager适配器 */
@@ -58,6 +63,8 @@ public class MainActivity extends BaseActivity {
 	/** viewpager 当前选中标签页 */
 	private int currIndex = 0;
 
+	private List<Category> categories = null;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -69,17 +76,18 @@ public class MainActivity extends BaseActivity {
 	private void initView() {
 		// init title view
 		titleView = findView(R.id.titleview);
-		titleView.setOnFocusChangeListener(titleFocusChangeListener);
-
+		titleView.setTitleItemOnClickListener(titleItemOnClickListener);
+		titleView.setTitleItemOnFocuesChangedListener(titleItemOnFocuesChangedListener);
 		// init page views
 		view_jingpin = new JingpinView(context);
 		view_zhuanti = new ZhuanTiView(context);
 		view_youxi = new YouXiView(context);
 		view_yule = new YuLeView(context);
+		//这里的添加顺序会决定页面的显示顺序
 		pageViews.add(view_jingpin);
 		pageViews.add(view_yule);
-		pageViews.add(view_zhuanti);
 		pageViews.add(view_youxi);
+		pageViews.add(view_zhuanti);
 		// init view pager
 		viewPager = findView(R.id.viewpager);
 		viewPagerAdapter = new MainViewPagerAdapter(pageViews);
@@ -89,18 +97,26 @@ public class MainActivity extends BaseActivity {
 		viewPager.setOnPageChangeListener(pageChangeListener);
 		initPageChangeAnimtion();
 
-		titleView.getBtn_jingpin().requestFocus();
 	}
 
 	/**
 	 * 初始化数据
 	 */
 	private void initData() {
+		categories = DataCenter.getInstance().getCategories();
+		titleView.initData(categories);
+		
 		// 目前是初始化默认数据
-		view_jingpin.initData();
-		view_zhuanti.initData();
-		view_youxi.initData();
-		view_yule.initData();
+		view_jingpin.initData(categories.get(0));
+		view_jingpin.setNextFocuesUpId(titleView.getItemTextViewAt(0).getId());
+		view_yule.initData(categories.get(1));
+		view_jingpin.setNextFocuesUpId(titleView.getItemTextViewAt(1).getId());
+		view_youxi.initData(categories.get(2));
+		view_jingpin.setNextFocuesUpId(titleView.getItemTextViewAt(2).getId());
+		view_zhuanti.initData(categories.get(3));
+		view_jingpin.setNextFocuesUpId(titleView.getItemTextViewAt(3).getId());
+		
+		titleView.setFocusItem(0);
 	}
 
 	@Override
@@ -132,23 +148,6 @@ public class MainActivity extends BaseActivity {
 		super.onDestroy();
 	}
 
-	private OnFocusChangeListener titleFocusChangeListener = new OnFocusChangeListener() {
-
-		@Override
-		public void onFocusChange(View v, boolean hasFocus) {
-			if (hasFocus) {
-				if (v.getId() == R.id.bt_title_jingpin) {
-					viewPager.setCurrentItem(0);
-				} else if (v.getId() == R.id.bt_title_yule) {
-					viewPager.setCurrentItem(1);
-				} else if (v.getId() == R.id.bt_title_zhuanti) {
-					viewPager.setCurrentItem(2);
-				} else if (v.getId() == R.id.bt_title_youxi) {
-					viewPager.setCurrentItem(3);
-				}
-			}
-		}
-	};
 
 	/**
 	 * 初始化动画
@@ -164,6 +163,21 @@ public class MainActivity extends BaseActivity {
 		anim_rightin.setDuration(duration);
 	}
 
+	private TitleItemOnFocuesChangedListener titleItemOnFocuesChangedListener = new TitleItemOnFocuesChangedListener() {
+
+		@Override
+		public void onItemFocuesChanged(View view, boolean hasFocues, int position) {
+			viewPager.setCurrentItem(position);
+		}
+	};
+
+	private TitleItemOnClickListener titleItemOnClickListener = new TitleItemOnClickListener() {
+
+		@Override
+		public void onItemClick(View view, int position) {
+
+		}
+	};
 	/**
 	 * 页卡切换监听
 	 */
@@ -171,37 +185,23 @@ public class MainActivity extends BaseActivity {
 
 		@Override
 		public void onPageSelected(int arg0) {
-			if (arg0 < 0 || arg0 > pageViews.size()
-					|| pageViews.get(arg0) == null) {
+			if (arg0 < 0 || arg0 > pageViews.size() || pageViews.get(arg0) == null) {
 				return;
 			}
 			BasePageView curPageView = pageViews.get(arg0);
-			switch (arg0) {
-			case 0:// 选中精品标签
-				titleView.setSelectedItemById(R.id.bt_title_jingpin);
-				break;
-			case 1:// 选中娱乐标签
-				titleView.setSelectedItemById(R.id.bt_title_yule);
-				break;
-			case 2:// 选中应用标签
-				titleView.setSelectedItemById(R.id.bt_title_zhuanti);
-				break;
-			case 3:// 选中游戏标签
-				titleView.setSelectedItemById(R.id.bt_title_youxi);
-				break;
-			}
+			titleView.setSelectedItem(arg0);
 			if (!titleView.hasChildFocesed()) {// 非标签上面切换情况下，处理默认交代呢
 				if (currIndex == arg0 - 1) {// 从左往右翻页
-					if (pageViews.get(currIndex).currentFocuesId == R.id.jingping_item10) {
-						curPageView.setFocuesItemByPosition(3);// 最底层一排翻页让第下一页最低层第一个获取焦点
+					if (pageViews.get(currIndex).currentFocuesId == R.id.jingping_item9) {
+						curPageView.setFocuesItemByPosition(12);// 最底层一排翻页让第下一页最低层第一个获取焦点
 					} else {
-						curPageView.setFocuesItemByPosition(0);// 其它情况让第一个获取焦点
+						curPageView.setFocuesItemByPosition(9);// 其它情况让第一个获取焦点
 					}
 				} else if (currIndex == arg0 + 1) {// 从右往左翻页
-					if (pageViews.get(currIndex).currentFocuesId == R.id.jingping_item4) {
-						curPageView.setFocuesItemByPosition(9);// 最底层一排翻页让第上一页最低层最后一个获取焦点
+					if (pageViews.get(currIndex).currentFocuesId == R.id.jingping_itema4) {
+						curPageView.setFocuesItemByPosition(8);// 最底层一排翻页让第上一页最低层最后一个获取焦点
 					} else {
-						curPageView.setFocuesItemByPosition(12);// 其它情况让最后一列最上面一个获取焦点
+						curPageView.setFocuesItemByPosition(2);// 其它情况让最后一列最上面一个获取焦点
 					}
 				}
 			}

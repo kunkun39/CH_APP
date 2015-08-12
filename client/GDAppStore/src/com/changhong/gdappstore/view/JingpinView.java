@@ -16,7 +16,9 @@ import com.changhong.gdappstore.activity.PostActivity;
 import com.changhong.gdappstore.activity.RankingListActivity;
 import com.changhong.gdappstore.activity.SearchActivity;
 import com.changhong.gdappstore.base.BasePageView;
+import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.model.MainPostItemModel;
+import com.changhong.gdappstore.model.PageApp;
 import com.changhong.gdappstore.util.L;
 
 /**
@@ -25,9 +27,8 @@ import com.changhong.gdappstore.util.L;
  * @author wangxiufeng
  * 
  */
-public class JingpinView extends BasePageView implements
-		OnFocusChangeListener, OnClickListener {
-	
+public class JingpinView extends BasePageView implements OnFocusChangeListener, OnClickListener {
+
 	/** 外部回调点击监听器 */
 	private OnClickListener onClickListener;
 	/** 外部回调焦点监听器 */
@@ -53,8 +54,7 @@ public class JingpinView extends BasePageView implements
 	}
 
 	protected void initView() {
-		View rootView = LayoutInflater.from(context).inflate(
-				R.layout.view_jingpin, this);
+		View rootView = LayoutInflater.from(context).inflate(R.layout.view_jingpin, this);
 		ivFocues = findView(R.id.iv_jingpin_focues);
 		ivFocues.setVisibility(INVISIBLE);
 		for (int i = 0; i < itemCount; i++) {
@@ -64,29 +64,42 @@ public class JingpinView extends BasePageView implements
 			itemViews[i].setOnFocusChangeListener(this);
 			itemViews[i].setOnClickListener(this);
 		}
-		setNextFocuesUpId(R.id.bt_title_jingpin);
-		
-		//最左一排不能再按左。
-		itemViews[0].setNextFocusLeftId(R.id.jingping_item1);
-		itemViews[1].setNextFocusLeftId(R.id.jingping_item2);
-		itemViews[2].setNextFocusLeftId(R.id.jingping_item3);
-		itemViews[3].setNextFocusLeftId(R.id.jingping_item4);
+
+		// 最左一排不能再按左。
+		itemViews[9].setNextFocusLeftId(R.id.jingping_itema1);
+		itemViews[10].setNextFocusLeftId(R.id.jingping_itema2);
+		itemViews[11].setNextFocusLeftId(R.id.jingping_itema3);
+		itemViews[12].setNextFocusLeftId(R.id.jingping_itema4);
 	}
 
-	public void initData() {
-		itemViews[0].setData(new MainPostItemModel(true,
-				R.drawable.icon_jingpin_search, "搜索"));
-		itemViews[1].setData(new MainPostItemModel(true,
-				R.drawable.icon_jingpin_ranklist, "排行榜"));
-		itemViews[2].setData(new MainPostItemModel(true,
-				R.drawable.icon_jingpin_subject, "热门专题"));
-		itemViews[3].setData(new MainPostItemModel(true,
-				R.drawable.icon_jingpin_necessary, "装机必备"));
+	public void initData(Category category) {
+		// 首页的4个标签写死
+		itemViews[9].setCategoryData(new Category(0, 0, "搜索"));
+		itemViews[10].setCategoryData(new Category(0, 0, "排行榜"));
+		itemViews[11].setCategoryData(new Category(0, 0, "本地应用"));
+		itemViews[12].setCategoryData(new Category(0, 0, "装机必备"));
+		if (category.getCategoryPageApps() == null) {
+			return;
+		}
+		for (int i = 0; i < category.getCategoryPageApps().size(); i++) {
+			PageApp pageApp = category.getCategoryPageApps().get(i);
+			int position = pageApp.getPosition();
+			if (position <= 9) {
+				itemViews[(position - 1)].setAppData(pageApp);
+			}
+		}
+	}
+
+	// 测试数据类
+	private void initData() {
+		itemViews[0].setData(new MainPostItemModel(true, R.drawable.icon_jingpin_search, "搜索"));
+		itemViews[1].setData(new MainPostItemModel(true, R.drawable.icon_jingpin_ranklist, "排行榜"));
+		itemViews[2].setData(new MainPostItemModel(true, R.drawable.icon_jingpin_subject, "热门专题"));
+		itemViews[3].setData(new MainPostItemModel(true, R.drawable.icon_jingpin_necessary, "装机必备"));
 		itemViews[11].setData(new MainPostItemModel(false, R.drawable.img_post2, "海报2名字"));
 		itemViews[12].setData(new MainPostItemModel(false, R.drawable.img_post3, "海报3名字"));
 		for (int i = 4; i < 10; i++) {
-			itemViews[i].setData(new MainPostItemModel(true,
-					R.drawable.img_post1+i%3, "应用名字"));
+			itemViews[i].setData(new MainPostItemModel(true, R.drawable.img_post1 + i % 3, "应用名字"));
 		}
 	}
 
@@ -97,11 +110,10 @@ public class JingpinView extends BasePageView implements
 	 */
 	public void setNextFocuesUpId(int id) {
 		itemViews[0].setNextFocusUpId(id);
+		itemViews[1].setNextFocusUpId(id);
+		itemViews[2].setNextFocusUpId(id);
 		itemViews[10].setNextFocusUpId(id);
-		itemViews[11].setNextFocusUpId(id);
-		itemViews[12].setNextFocusUpId(id);
 	}
-
 
 	@Override
 	public void onClick(View v) {
@@ -109,14 +121,10 @@ public class JingpinView extends BasePageView implements
 		if (onClickListener != null) {
 			onClickListener.onClick(v);
 		}
-		if (v.getId()==R.id.jingping_item1) {
-			context.startActivity(new Intent(context,SearchActivity.class));
-		}else if (v.getId()==R.id.jingping_item2) {
-			context.startActivity(new Intent(context,RankingListActivity.class));
-		}else if(v.getId()==R.id.jingping_item11||v.getId()==R.id.jingping_item12||v.getId()==R.id.jingping_item13){
-			context.startActivity(new Intent(context,PostActivity.class));
-		}else {
-			context.startActivity(new Intent(context,DetailActivity.class));
+		if (v.getId() == R.id.jingping_itema1) {
+			context.startActivity(new Intent(context, SearchActivity.class));
+		} else if (v.getId() == R.id.jingping_itema2) {
+			context.startActivity(new Intent(context, RankingListActivity.class));
 		}
 	}
 
@@ -126,43 +134,33 @@ public class JingpinView extends BasePageView implements
 			onFocusChangeListener.onFocusChange(v, hasFocus);
 		}
 		if (hasFocus) {
-			L.d(TAG+"jingpinview onfocueschange "+v.getId());
 			int viewId = v.getId();
 			currentFocuesId = v.getId();
-			if (viewId == R.id.jingping_item13
-					|| viewId == R.id.jingping_item10) {
+			if (viewId == R.id.jingping_item1 || viewId == R.id.jingping_item9) {
 				isRightItemFocused = true;
 			} else {
 				isRightItemFocused = false;
 			}
-			RelativeLayout.LayoutParams mlayout = new RelativeLayout.LayoutParams(
-					100, 100);
+			RelativeLayout.LayoutParams mlayout = new RelativeLayout.LayoutParams(100, 100);
 			// RelativeLayout.LayoutParams tmplayout = (LayoutParams) v
 			// .getLayoutParams();
-			RelativeLayout.LayoutParams tmplayout = new RelativeLayout.LayoutParams(
-					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			RelativeLayout.LayoutParams tmplayout = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+					LayoutParams.WRAP_CONTENT);
 			tmplayout.leftMargin = v.getLeft();
 			tmplayout.topMargin = v.getTop();
 			tmplayout.width = v.getWidth();
 			tmplayout.height = v.getHeight();
-			if (viewId == R.id.jingping_item11
-					|| viewId == R.id.jingping_item12
-					|| viewId == R.id.jingping_item13) {
+			if (viewId == R.id.jingping_item1 || viewId == R.id.jingping_item2 || viewId == R.id.jingping_item3) {
 				// 大海报
-				mlayout.leftMargin = tmplayout.leftMargin - 9 - tmplayout.width
-						/ 20;
-				mlayout.topMargin = tmplayout.topMargin - 7 - tmplayout.height
-						/ 20;
+				mlayout.leftMargin = tmplayout.leftMargin - 9 - tmplayout.width / 20;
+				mlayout.topMargin = tmplayout.topMargin - 7 - tmplayout.height / 20;
 				mlayout.width = tmplayout.width + 14 + (tmplayout.width / 10);
 				mlayout.height = tmplayout.height + 8 + (tmplayout.height / 10);
 			} else {
-				mlayout.leftMargin = tmplayout.leftMargin - 18
-						- tmplayout.width / 20;
-				mlayout.topMargin = tmplayout.topMargin - 18 - tmplayout.height
-						/ 20;
+				mlayout.leftMargin = tmplayout.leftMargin - 18 - tmplayout.width / 20;
+				mlayout.topMargin = tmplayout.topMargin - 18 - tmplayout.height / 20;
 				mlayout.width = tmplayout.width + 30 + (tmplayout.width / 10);
-				mlayout.height = tmplayout.height + 30
-						+ (tmplayout.height / 10);
+				mlayout.height = tmplayout.height + 30 + (tmplayout.height / 10);
 			}
 			ivFocues.setBackgroundResource(R.drawable.focues_post);
 			ivFocues.setLayoutParams(mlayout);

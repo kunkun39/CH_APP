@@ -15,7 +15,9 @@ import android.widget.RelativeLayout.LayoutParams;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BasePageView;
 import com.changhong.gdappstore.base.BaseRelativeLayout;
+import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.model.MainPostItemModel;
+import com.changhong.gdappstore.model.PageApp;
 /**
  * 应用页面view
  * @author wangxiufeng
@@ -59,10 +61,28 @@ OnFocusChangeListener, OnClickListener {
 			itemViews[i].setOnFocusChangeListener(this);
 			itemViews[i].setOnClickListener(this);
 		}
-		setNextFocuesUpId(R.id.bt_title_zhuanti);
 	}
-
-	public void initData() {
+	public void initData(Category category) {
+		if (category.getCategoyChildren() != null) {
+			//初始化左边4个子栏目数据，最多4个
+			int size = category.getCategoyChildren().size();
+			for (int i = 0; i < (size <= 4 ? size : 4); i++) {
+				itemViews[9+i].setCategoryData(category.getCategoyChildren().get(i));
+			}
+		}
+		if (category.getCategoryPageApps() == null) {
+			return;
+		}
+		for (int i = 0; i < category.getCategoryPageApps().size(); i++) {
+			PageApp pageApp = category.getCategoryPageApps().get(i);
+			int position = pageApp.getPosition();
+			if (position <= 9) {
+				itemViews[(position - 1)].setAppData(pageApp);
+			}
+		}
+	}
+	//测试数据类
+	private void initData() {
 		itemViews[0].setData(new MainPostItemModel(true,
 				R.drawable.icon_zhuanti_tool, "工具"));
 		itemViews[1].setData(new MainPostItemModel(true,
@@ -86,9 +106,9 @@ OnFocusChangeListener, OnClickListener {
 	 */
 	public void setNextFocuesUpId(int id) {
 		itemViews[0].setNextFocusUpId(id);
+		itemViews[1].setNextFocusUpId(id);
+		itemViews[2].setNextFocusUpId(id);
 		itemViews[10].setNextFocusUpId(id);
-		itemViews[11].setNextFocusUpId(id);
-		itemViews[12].setNextFocusUpId(id);
 	}
 	
 
@@ -112,8 +132,8 @@ OnFocusChangeListener, OnClickListener {
 			} else {
 				isLeftFocues = false;
 			}
-			if (viewId == R.id.jingping_item10
-					|| viewId == R.id.jingping_item13) {
+			if (viewId == R.id.jingping_item9
+					|| viewId == R.id.jingping_item3) {
 				isRightFocues = true;
 			} else {
 				isRightFocues = false;
@@ -128,9 +148,9 @@ OnFocusChangeListener, OnClickListener {
 			tmplayout.topMargin = v.getTop();
 			tmplayout.width = v.getWidth();
 			tmplayout.height = v.getHeight();
-			if (viewId == R.id.jingping_item11
-					|| viewId == R.id.jingping_item12
-					|| viewId == R.id.jingping_item13) {
+			if (viewId == R.id.jingping_item1
+					|| viewId == R.id.jingping_item2
+					|| viewId == R.id.jingping_item3) {
 				// 大海报
 				mlayout.leftMargin = tmplayout.leftMargin - 9 - tmplayout.width
 						/ 20;

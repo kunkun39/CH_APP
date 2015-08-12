@@ -59,7 +59,11 @@ public class Parse {
 					category.setParentId(parentid);
 				}
 				if (parentid == -1) {// 添加为父栏目
-					categories.add(category);
+					if (category.getName().equals("首页")) {
+						categories.add(0,category);//TODO 将首页添加为第一个
+					}else {
+						categories.add(category);
+					}
 				} else {
 					category.setCategoryPageApps(null);// 子栏目没有推荐位应用
 					category.setCategoyChildren(null);// 子栏目没有子栏目
@@ -75,7 +79,6 @@ public class Parse {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-
 		return categories;
 	}
 	/**

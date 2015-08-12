@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseRelativeLayout;
+import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.model.PostTitleModel;
 import com.changhong.gdappstore.util.L;
 
@@ -54,9 +55,9 @@ public class PostTitleView extends BaseRelativeLayout {
 	/** 当前选中的view */
 	private View currentSelectedView = null;
 	/** 标签焦点监听器 */
-	private TitleItemOnFocuesChangedListener itemOnFocuesChangedListener;
+	private TitleItemOnFocuesChangedListener titleItemOnFocuesChangedListener;
 	/** 标签点击监听器 */
-	private TitleItemOnClickListener itemOnClickListener;
+	private TitleItemOnClickListener titleItemOnClickListener;
 
 	public PostTitleView(Context context) {
 		super(context);
@@ -84,14 +85,14 @@ public class PostTitleView extends BaseRelativeLayout {
 		addView(ll_content);
 	}
 
-	public void initData(List<PostTitleModel> items) {
+	public void initData(List<Category> items) {
 		if (items == null || items.size() <= 0) {
 			return;
 		}
 		ll_content.removeAllViews();
 		list_textViews.clear();
 		for (int i = 0; i < items.size(); i++) {
-			View itemView = getItemView(items.get(i),i);
+			View itemView = getItemView(items.get(i), i);
 			ll_content.addView(itemView);
 		}
 		int count = list_textViews.size();
@@ -114,12 +115,50 @@ public class PostTitleView extends BaseRelativeLayout {
 		}
 		ll_content.invalidate();
 	}
-	
+
+	/**
+	 * 设置焦点选中item
+	 * 
+	 * @param position
+	 */
 	public void setFocusItem(int position) {
-		if (position < 0 || position >= list_textViews.size()) {
+		if (position > 0 && list_textViews != null && position <= list_textViews.size()
+				&& list_textViews.get(position) != null) {
 			list_textViews.get(position).requestFocus();
-			currentSelectedView=list_textViews.get(position);
+			if (currentSelectedView != null && currentSelectedView != list_textViews.get(position)) {
+				currentSelectedView.setSelected(false);
+			}
+			currentSelectedView = list_textViews.get(position);
 		}
+	}
+
+	/**
+	 * 设置选中item,不会获取到焦点
+	 * 
+	 * @param position
+	 */
+	public void setSelectedItem(int position) {
+		if (position > 0 && list_textViews != null && position <= list_textViews.size()
+				&& list_textViews.get(position) != null) {
+			list_textViews.get(position).setSelected(true);
+			if (currentSelectedView != null && currentSelectedView != list_textViews.get(position)) {
+				currentSelectedView.setSelected(false);
+			}
+			currentSelectedView = list_textViews.get(position);
+		}
+	}
+
+	/**
+	 * 获取可选中的itemTextView
+	 * 
+	 * @param position
+	 * @return
+	 */
+	public TextView getItemTextViewAt(int position) {
+		if (position < 0 || position >= list_textViews.size()) {
+			return null;
+		}
+		return list_textViews.get(position);
 	}
 
 	/**
@@ -128,18 +167,18 @@ public class PostTitleView extends BaseRelativeLayout {
 	 * @param model
 	 * @return
 	 */
-	private View getItemView(PostTitleModel model,final int position) {
+	private View getItemView(Category model, final int position) {
 		final View view = LayoutInflater.from(context).inflate(R.layout.item_titleview, null);
 		final TextView textView = (TextView) view.findViewById(R.id.tv_title);
 		textView.setText(model.getName());
 		textView.setId(4522342 + position);
 		list_textViews.add(textView);
 		textView.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				if (itemOnClickListener!=null) {
-					itemOnClickListener.onItemClick(textView, position);
+				if (titleItemOnClickListener != null) {
+					titleItemOnClickListener.onItemClick(textView, position);
 				}
 			}
 		});
@@ -147,8 +186,8 @@ public class PostTitleView extends BaseRelativeLayout {
 
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
-				if (itemOnFocuesChangedListener!=null) {
-					itemOnFocuesChangedListener.onItemFocuesChanged(v, hasFocus, position);
+				if (titleItemOnFocuesChangedListener != null) {
+					titleItemOnFocuesChangedListener.onItemFocuesChanged(v, hasFocus, position);
 				}
 				if (hasFocus) {
 					textView.setSelected(true);
@@ -171,27 +210,27 @@ public class PostTitleView extends BaseRelativeLayout {
 	 */
 	public boolean hasChildFocesed() {
 		for (int i = 0; i < list_textViews.size(); i++) {
-			if (list_textViews.get(i).isFocusable()) {
+			if (list_textViews.get(i).isFocused()) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public TitleItemOnFocuesChangedListener getItemOnFocuesChangedListener() {
-		return itemOnFocuesChangedListener;
+	public TitleItemOnFocuesChangedListener getTitleItemOnFocuesChangedListener() {
+		return titleItemOnFocuesChangedListener;
 	}
 
-	public void setItemOnFocuesChangedListener(TitleItemOnFocuesChangedListener itemOnFocuesChangedListener) {
-		this.itemOnFocuesChangedListener = itemOnFocuesChangedListener;
+	public void setTitleItemOnFocuesChangedListener(TitleItemOnFocuesChangedListener titleItemOnFocuesChangedListener) {
+		this.titleItemOnFocuesChangedListener = titleItemOnFocuesChangedListener;
 	}
 
-	public TitleItemOnClickListener getItemOnClickListener() {
-		return itemOnClickListener;
+	public TitleItemOnClickListener getTitleItemOnClickListener() {
+		return titleItemOnClickListener;
 	}
 
-	public void setItemOnClickListener(TitleItemOnClickListener itemOnClickListener) {
-		this.itemOnClickListener = itemOnClickListener;
+	public void setTitleItemOnClickListener(TitleItemOnClickListener titleItemOnClickListener) {
+		this.titleItemOnClickListener = titleItemOnClickListener;
 	}
 
 	public List<TextView> getList_textViews() {

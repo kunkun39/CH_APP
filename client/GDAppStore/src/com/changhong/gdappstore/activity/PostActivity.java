@@ -51,8 +51,8 @@ public class PostActivity extends BaseActivity {
 	private void initView() {
 		postView = findView(R.id.postview);
 		titleView = findView(R.id.posttitleview);
-		titleView.setItemOnClickListener(titleItemOnClickListener);
-		titleView.setItemOnFocuesChangedListener(titleItemOnFocuesChangedListener);
+		titleView.setTitleItemOnClickListener(titleItemOnClickListener);
+		titleView.setTitleItemOnFocuesChangedListener(titleItemOnFocuesChangedListener);
 		initPostView();
 	}
 
@@ -83,7 +83,7 @@ public class PostActivity extends BaseActivity {
 		titleModels.add(new PostTitleModel("角色"));
 		titleModels.add(new PostTitleModel("设计"));
 		titleModels.add(new PostTitleModel("体感"));
-		titleView.initData(titleModels);
+//		titleView.initData(titleModels);
 		titleView.setFocusItem(0);
 
 		List<Object> loadItems = new ArrayList<Object>();
