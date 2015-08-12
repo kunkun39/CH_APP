@@ -33,7 +33,7 @@ public class DataCenter {
 	/**栏目分类下的应用**/
 	public List<Object> categoryApps=new ArrayList<Object>();
 
-	public void loadAllData(LoadCompleteListener completeListener) {
+	public void loadCategoryAndPageData(LoadCompleteListener completeListener) {
 		loadCategories(null);
 		loadPageApps(null);
 		if (completeListener!=null) {
