@@ -10,8 +10,10 @@ import android.view.View.OnFocusChangeListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.activity.DetailActivity;
+import com.changhong.gdappstore.activity.NativeAppActivity;
 import com.changhong.gdappstore.activity.PostActivity;
 import com.changhong.gdappstore.activity.RankingListActivity;
 import com.changhong.gdappstore.activity.SearchActivity;
@@ -62,7 +64,6 @@ public class JingpinView extends BasePageView implements OnFocusChangeListener, 
 			itemViews[i].setFocusable(true);
 			itemViews[i].setClickable(true);
 			itemViews[i].setOnFocusChangeListener(this);
-			itemViews[i].setOnClickListener(this);
 		}
 
 		// 最左一排不能再按左。
@@ -78,14 +79,28 @@ public class JingpinView extends BasePageView implements OnFocusChangeListener, 
 		itemViews[10].setCategoryData(new Category(0, 0, "排行榜"));
 		itemViews[11].setCategoryData(new Category(0, 0, "本地应用"));
 		itemViews[12].setCategoryData(new Category(0, 0, "装机必备"));
+		itemViews[9].setOnClickListener(this);
+		itemViews[10].setOnClickListener(this);
+		itemViews[11].setOnClickListener(this);
+		itemViews[12].setOnClickListener(this);
 		if (category.getCategoryPageApps() == null) {
 			return;
 		}
 		for (int i = 0; i < category.getCategoryPageApps().size(); i++) {
-			PageApp pageApp = category.getCategoryPageApps().get(i);
+			final PageApp pageApp = category.getCategoryPageApps().get(i);
 			int position = pageApp.getPosition();
 			if (position <= 9) {
 				itemViews[(position - 1)].setAppData(pageApp);
+				itemViews[(position - 1)].setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						if (onClickListener != null) {
+							onClickListener.onClick(v);
+						}
+						jumpToDetailActivity(pageApp.getAppid());
+					}
+				});
 			}
 		}
 	}
@@ -125,6 +140,10 @@ public class JingpinView extends BasePageView implements OnFocusChangeListener, 
 			context.startActivity(new Intent(context, SearchActivity.class));
 		} else if (v.getId() == R.id.jingping_itema2) {
 			context.startActivity(new Intent(context, RankingListActivity.class));
+		} else if (v.getId() == R.id.jingping_itema3) {
+			context.startActivity(new Intent(context, NativeAppActivity.class));
+		} else if (v.getId() == R.id.jingping_itema4) {
+			context.startActivity(new Intent(context, NativeAppActivity.class));
 		}
 	}
 

@@ -6,25 +6,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BasePageView;
-import com.changhong.gdappstore.base.BaseRelativeLayout;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.model.MainPostItemModel;
 import com.changhong.gdappstore.model.PageApp;
+
 /**
  * 游戏页面view
+ * 
  * @author wangxiufeng
- *
+ * 
  */
-public class YouXiView extends BasePageView implements OnFocusChangeListener,
-		OnClickListener {
+public class YouXiView extends BasePageView implements OnFocusChangeListener, OnClickListener {
 	/** 外部回调点击监听器 */
 	private OnClickListener onClickListener;
 	/** 外部回调焦点监听器 */
@@ -50,8 +47,7 @@ public class YouXiView extends BasePageView implements OnFocusChangeListener,
 	}
 
 	protected void initView() {
-		View rootView = LayoutInflater.from(context).inflate(
-				R.layout.view_jingpin, this);
+		View rootView = LayoutInflater.from(context).inflate(R.layout.view_jingpin, this);
 		ivFocues = findView(R.id.iv_jingpin_focues);
 		ivFocues.setVisibility(INVISIBLE);
 		for (int i = 0; i < itemCount; i++) {
@@ -62,42 +58,58 @@ public class YouXiView extends BasePageView implements OnFocusChangeListener,
 			itemViews[i].setOnClickListener(this);
 		}
 	}
-	public void initData(Category category) {
+
+	public void initData(final Category category) {
 		if (category.getCategoyChildren() != null) {
-			//初始化左边4个子栏目数据，最多4个
+			// 初始化左边4个子栏目数据，最多4个
 			int size = category.getCategoyChildren().size();
 			for (int i = 0; i < (size <= 4 ? size : 4); i++) {
-				itemViews[9+i].setCategoryData(category.getCategoyChildren().get(i));
+				final Category childCategory = category.getCategoyChildren().get(i);
+				itemViews[9 + i].setCategoryData(childCategory);
+				itemViews[9 + i].setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						if (onClickListener != null) {
+							onClickListener.onClick(v);
+						}
+						jumpToPostActivity(category.getId(), childCategory.getId());
+					}
+				});
 			}
 		}
 		if (category.getCategoryPageApps() == null) {
 			return;
 		}
 		for (int i = 0; i < category.getCategoryPageApps().size(); i++) {
-			PageApp pageApp = category.getCategoryPageApps().get(i);
+			final PageApp pageApp = category.getCategoryPageApps().get(i);
 			int position = pageApp.getPosition();
 			if (position <= 9) {
 				itemViews[(position - 1)].setAppData(pageApp);
+				itemViews[(position - 1)].setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						if (onClickListener != null) {
+							onClickListener.onClick(v);
+						}
+						jumpToDetailActivity(pageApp.getAppid());
+					}
+				});
 			}
 		}
 	}
-	//测试数据类
+
+	// 测试数据类
 	private void initData() {
-		itemViews[0].setData(new MainPostItemModel(true,
-				R.drawable.icon_youxi_relax, "休闲"));
-		itemViews[1].setData(new MainPostItemModel(true,
-				R.drawable.icon_youxi_card, "棋牌"));
-		itemViews[2].setData(new MainPostItemModel(true,
-				R.drawable.icon_youxi_move, "动作"));
-		itemViews[3].setData(new MainPostItemModel(true, R.drawable.icon_yule_more,
-				"更多"));
-		itemViews[11].setData(new MainPostItemModel(false, R.drawable.img_post2,
-				"海报2名字"));
-		itemViews[12].setData(new MainPostItemModel(false, R.drawable.img_post3,
-				"海报3名字"));
+		itemViews[0].setData(new MainPostItemModel(true, R.drawable.icon_youxi_relax, "休闲"));
+		itemViews[1].setData(new MainPostItemModel(true, R.drawable.icon_youxi_card, "棋牌"));
+		itemViews[2].setData(new MainPostItemModel(true, R.drawable.icon_youxi_move, "动作"));
+		itemViews[3].setData(new MainPostItemModel(true, R.drawable.icon_yule_more, "更多"));
+		itemViews[11].setData(new MainPostItemModel(false, R.drawable.img_post2, "海报2名字"));
+		itemViews[12].setData(new MainPostItemModel(false, R.drawable.img_post3, "海报3名字"));
 		for (int i = 4; i < 10; i++) {
-			itemViews[i].setData(new MainPostItemModel(true, R.drawable.img_post1
-					+ i % 3, "应用名字"));
+			itemViews[i].setData(new MainPostItemModel(true, R.drawable.img_post1 + i % 3, "应用名字"));
 		}
 	}
 
@@ -113,7 +125,6 @@ public class YouXiView extends BasePageView implements OnFocusChangeListener,
 		itemViews[10].setNextFocusUpId(id);
 	}
 
-
 	@Override
 	public void onClick(View v) {
 
@@ -127,41 +138,32 @@ public class YouXiView extends BasePageView implements OnFocusChangeListener,
 		if (hasFocus) {
 			int viewId = v.getId();
 			currentFocuesId = v.getId();
-			if (viewId == R.id.jingping_item1 || viewId == R.id.jingping_item2
-					|| viewId == R.id.jingping_item3
+			if (viewId == R.id.jingping_item1 || viewId == R.id.jingping_item2 || viewId == R.id.jingping_item3
 					|| viewId == R.id.jingping_item4) {
 				isLeftFocues = true;
 			} else {
 				isLeftFocues = false;
 			}
-			RelativeLayout.LayoutParams mlayout = new RelativeLayout.LayoutParams(
-					100, 100);
+			RelativeLayout.LayoutParams mlayout = new RelativeLayout.LayoutParams(100, 100);
 			// RelativeLayout.LayoutParams tmplayout = (LayoutParams) v
 			// .getLayoutParams();
-			RelativeLayout.LayoutParams tmplayout = new RelativeLayout.LayoutParams(
-					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			RelativeLayout.LayoutParams tmplayout = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+					LayoutParams.WRAP_CONTENT);
 			tmplayout.leftMargin = v.getLeft();
 			tmplayout.topMargin = v.getTop();
 			tmplayout.width = v.getWidth();
 			tmplayout.height = v.getHeight();
-			if (viewId == R.id.jingping_item1
-					|| viewId == R.id.jingping_item2
-					|| viewId == R.id.jingping_item3) {
+			if (viewId == R.id.jingping_item1 || viewId == R.id.jingping_item2 || viewId == R.id.jingping_item3) {
 				// 大海报
-				mlayout.leftMargin = tmplayout.leftMargin - 9 - tmplayout.width
-						/ 20;
-				mlayout.topMargin = tmplayout.topMargin - 7 - tmplayout.height
-						/ 20;
+				mlayout.leftMargin = tmplayout.leftMargin - 9 - tmplayout.width / 20;
+				mlayout.topMargin = tmplayout.topMargin - 7 - tmplayout.height / 20;
 				mlayout.width = tmplayout.width + 14 + (tmplayout.width / 10);
 				mlayout.height = tmplayout.height + 8 + (tmplayout.height / 10);
 			} else {
-				mlayout.leftMargin = tmplayout.leftMargin - 18
-						- tmplayout.width / 20;
-				mlayout.topMargin = tmplayout.topMargin - 18 - tmplayout.height
-						/ 20;
+				mlayout.leftMargin = tmplayout.leftMargin - 18 - tmplayout.width / 20;
+				mlayout.topMargin = tmplayout.topMargin - 18 - tmplayout.height / 20;
 				mlayout.width = tmplayout.width + 30 + (tmplayout.width / 10);
-				mlayout.height = tmplayout.height + 30
-						+ (tmplayout.height / 10);
+				mlayout.height = tmplayout.height + 30 + (tmplayout.height / 10);
 			}
 			ivFocues.setBackgroundResource(R.drawable.focues_post);
 			ivFocues.setLayoutParams(mlayout);

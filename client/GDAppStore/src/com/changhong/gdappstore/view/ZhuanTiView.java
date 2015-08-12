@@ -62,22 +62,43 @@ OnFocusChangeListener, OnClickListener {
 			itemViews[i].setOnClickListener(this);
 		}
 	}
-	public void initData(Category category) {
+	public void initData(final Category category) {
 		if (category.getCategoyChildren() != null) {
-			//初始化左边4个子栏目数据，最多4个
+			// 初始化左边4个子栏目数据，最多4个
 			int size = category.getCategoyChildren().size();
 			for (int i = 0; i < (size <= 4 ? size : 4); i++) {
-				itemViews[9+i].setCategoryData(category.getCategoyChildren().get(i));
+				final Category childCategory = category.getCategoyChildren().get(i);
+				itemViews[9 + i].setCategoryData(childCategory);
+				itemViews[9 + i].setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						if (onClickListener != null) {
+							onClickListener.onClick(v);
+						}
+						jumpToPostActivity(category.getId(), childCategory.getId());
+					}
+				});
 			}
 		}
 		if (category.getCategoryPageApps() == null) {
 			return;
 		}
 		for (int i = 0; i < category.getCategoryPageApps().size(); i++) {
-			PageApp pageApp = category.getCategoryPageApps().get(i);
+			final PageApp pageApp = category.getCategoryPageApps().get(i);
 			int position = pageApp.getPosition();
 			if (position <= 9) {
 				itemViews[(position - 1)].setAppData(pageApp);
+				itemViews[(position - 1)].setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						if (onClickListener != null) {
+							onClickListener.onClick(v);
+						}
+						jumpToDetailActivity(pageApp.getAppid());
+					}
+				});
 			}
 		}
 	}
