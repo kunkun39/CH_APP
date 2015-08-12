@@ -7,6 +7,8 @@ package com.changhong.gdappstore;
  * 
  */
 public class Config {
+	
+	public static String ServerBaseUrl="http://localhost:8081/";
 
 	/** key_appid 应用id **/
 	public static final String KEY_APPID = "appid";

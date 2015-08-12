@@ -37,17 +37,17 @@ import com.post.view.listener.Listener.IItemOnClickListener;
  */
 public class PostActivity extends BaseActivity {
 	/** 海报墙view */
-	private PosterLayoutView postView;
+	protected PosterLayoutView postView;
 	/** 海报墙配置项 */
-	private PostSetting postSetting;
+	protected PostSetting postSetting;
 	/** 标题view */
-	private PostTitleView titleView;
+	protected PostTitleView titleView;
 	/** 数据处理中心 */
-	private DataCenter dataCenter;
+	protected DataCenter dataCenter;
 	/** 父栏目，根据首页传过来的id确定 */
-	private Category parentCategory = null;
+	protected Category parentCategory = null;
 	/** 栏目名字 */
-	private TextView tv_name;
+	protected TextView tv_name;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +86,11 @@ public class PostActivity extends BaseActivity {
 	private void initData() {
 		dataCenter = DataCenter.getInstance();
 		Intent intent = getIntent();
-		int parentCategoryId = intent.getIntExtra(Config.KEY_PARENT_CATEGORYID, 1);
+		int parentCategoryId = intent.getIntExtra(Config.KEY_PARENT_CATEGORYID, -2);
 		int currentCategoryId = intent.getIntExtra(Config.KEY_CURRENT_CATEGORYID, parentCategoryId);
+		if (parentCategoryId < -1) {
+			return;
+		}
 		parentCategory = dataCenter.getCategoryById(parentCategoryId);// 获取父栏目
 		if (parentCategory != null && parentCategory.getCategoyChildren() != null) {
 			tv_name.setText(parentCategory.getName());
@@ -119,7 +122,7 @@ public class PostActivity extends BaseActivity {
 
 		@Override
 		public void onItemClick(View view, int position) {
-			Category category=(Category) view.getTag();
+			Category category = (Category) view.getTag();
 			dataCenter.loadAppsByCategoryId(category.getId(), loadCompleteListener);
 		}
 	};
@@ -176,7 +179,7 @@ public class PostActivity extends BaseActivity {
 		@Override
 		public boolean onKey(View v, int keyCode, KeyEvent event) {
 			int pos = ((PostItem) v).getPosition();
-			if (pos < postSetting.getPost_column() && keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+			if (pos < postSetting.getPost_column() && keyCode == KeyEvent.KEYCODE_DPAD_UP&&titleView.getCurrentSelectedView()!=null) {
 				// 处理每次海报墙按上键时候选中当前标签
 				titleView.getCurrentSelectedView().requestFocus();
 			}

@@ -28,15 +28,29 @@ public class DataCenter {
 		}
 		return dataCenter;
 	}
-	/**栏目分类列表**/
-	private List<Category> categories = new ArrayList<Category>();
-	/**栏目分类下的应用**/
-	public List<Object> categoryApps=new ArrayList<Object>();
 
+	/************************** 缓存数据定义区域begin *************************/
+
+	/** 栏目分类列表 **/
+	private List<Category> categories = new ArrayList<Category>();
+	/** 栏目分类下的应用 **/
+	public List<Object> categoryApps = new ArrayList<Object>();
+
+	/************************** 缓存数据定义区域end *************************/
+	//
+	//
+	//
+	//
+	/************************** 请求方法定义区域begin *************************/
+	/**
+	 * 请求解析栏目分类和每页应用数据
+	 * 
+	 * @param completeListener
+	 */
 	public void loadCategoryAndPageData(LoadCompleteListener completeListener) {
 		loadCategories(null);
 		loadPageApps(null);
-		if (completeListener!=null) {
+		if (completeListener != null) {
 			completeListener.onComplete();
 		}
 	}
@@ -45,9 +59,9 @@ public class DataCenter {
 	 * 加载栏目分类数据
 	 */
 	public void loadCategories(LoadCompleteListener completeListener) {
-		//TODO 请求代码
+		// TODO 请求代码
 		categories = Parse.parseCategory(Parse.json_categories);
-		if (completeListener!=null) {
+		if (completeListener != null) {
 			completeListener.onComplete();
 		}
 	}
@@ -56,29 +70,37 @@ public class DataCenter {
 	 * 加载栏目应用海报数据
 	 */
 	public void loadPageApps(LoadCompleteListener completeListener) {
-		//TODO 请求代码
+		// TODO 请求代码
 		Parse.parsePageApps(Parse.json_pageapps);
-		if (completeListener!=null) {
-			completeListener.onComplete();
-		}
-	}
-	/**
-	 * 请求某分类下面的应用
-	 * @param categoryId 分类id
-	 */
-	public void loadAppsByCategoryId(int categoryId,LoadCompleteListener completeListener) {
-		
-		if (!Parse.json_categoryapps.containsKey(categoryId)) {
-			//TODO 请求代码
-		}
-		String json=Parse.testjson_categoryapps;
-		Parse.json_categoryapps.put(categoryId, json);
-		categoryApps=Parse.parseCategoryApp(json);
-		if (completeListener!=null) {
+		if (completeListener != null) {
 			completeListener.onComplete();
 		}
 	}
 
+	/**
+	 * 请求某分类下面的应用
+	 * 
+	 * @param categoryId
+	 *            分类id
+	 */
+	public void loadAppsByCategoryId(int categoryId, LoadCompleteListener completeListener) {
+
+		if (!Parse.json_categoryapps.containsKey(categoryId)) {
+			// TODO 请求代码
+		}
+		String json = Parse.testjson_categoryapps;
+		Parse.json_categoryapps.put(categoryId, json);
+		categoryApps = Parse.parseCategoryApp(json);
+		if (completeListener != null) {
+			completeListener.onComplete();
+		}
+	}
+
+	/************************** 请求方法定义区域end *************************/
+	//
+	//
+	//
+	/************************** 其它方法定义区域 *************************/
 	/**
 	 * 获取栏目数据
 	 * 
@@ -90,7 +112,9 @@ public class DataCenter {
 
 	/**
 	 * 根据栏目id获取栏目
-	 * @param categoryId 栏目id
+	 * 
+	 * @param categoryId
+	 *            栏目id
 	 * @return
 	 */
 	public Category getCategoryById(int categoryId) {
@@ -102,7 +126,7 @@ public class DataCenter {
 			if (category.getId() == categoryId) {
 				return category;
 			} else {
-				//查询子栏目
+				// 查询子栏目
 				if (category.getCategoyChildren() != null && category.getCategoyChildren().size() > 0) {
 					for (int j = 0; j < category.getCategoyChildren().size(); j++) {
 						if (category.getCategoyChildren().get(j).getId() == categoryId) {

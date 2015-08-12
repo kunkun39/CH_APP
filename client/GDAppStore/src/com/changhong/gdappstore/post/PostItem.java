@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.model.App;
+import com.changhong.gdappstore.model.NativeApp;
 import com.changhong.gdappstore.view.ScoreView;
 import com.post.view.base.BasePostItem;
 
@@ -38,6 +39,7 @@ public class PostItem extends BasePostItem {
 		this.postSetting = postSetting;
 		switch (postSetting.getPosttype()) {
 		case PostSetting.TYPE_NORMAL:
+		case PostSetting.TYPE_NATIVEAPP:
 			initNormalView();
 			break;
 		default:
@@ -66,6 +68,8 @@ public class PostItem extends BasePostItem {
 		switch (postSetting.getPosttype()) {
 		case PostSetting.TYPE_NORMAL:
 			doNormalData(object);
+		case PostSetting.TYPE_NATIVEAPP:
+			doNativeAppData(object);
 			break;
 		default:
 			break;
@@ -79,6 +83,15 @@ public class PostItem extends BasePostItem {
 			return;
 		}
 		iv_appicon.setImageResource(R.drawable.icon_test_dianshiqq);
+		tv_appname.setText(app.getAppname());
+		scoreView.setVisibility(GONE);
+	}
+	private void doNativeAppData(Object object) {
+		NativeApp app = (NativeApp) object;
+		if (app==null) {
+			return;
+		}
+		iv_appicon.setImageDrawable(app.getAppIcon());
 		tv_appname.setText(app.getAppname());
 		scoreView.setVisibility(GONE);
 	}

@@ -75,10 +75,10 @@ public class JingpinView extends BasePageView implements OnFocusChangeListener, 
 
 	public void initData(Category category) {
 		// 首页的4个标签写死
-		itemViews[9].setCategoryData(new Category(0, 0, "搜索"));
-		itemViews[10].setCategoryData(new Category(0, 0, "排行榜"));
-		itemViews[11].setCategoryData(new Category(0, 0, "本地应用"));
-		itemViews[12].setCategoryData(new Category(0, 0, "装机必备"));
+		itemViews[9].setCategoryData(new Category(-10, -10, "搜索"));
+		itemViews[10].setCategoryData(new Category(-10, -10, "排行榜"));
+		itemViews[11].setCategoryData(new Category(-10, -10, "本地应用"));
+		itemViews[12].setCategoryData(new Category(-10, -10, "装机必备"));
 		itemViews[9].setOnClickListener(this);
 		itemViews[10].setOnClickListener(this);
 		itemViews[11].setOnClickListener(this);

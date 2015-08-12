@@ -67,6 +67,7 @@ public class PostSetting {
 	// 项目私用 //TODO 适用于不同的海报墙根据此参数来判断选择使用不同的item布局方式
 	private int posttype = 0;
 	public static final int TYPE_NORMAL = 0;
+	public static final int TYPE_NATIVEAPP = 1;
 
 	public PostSetting() {
 
