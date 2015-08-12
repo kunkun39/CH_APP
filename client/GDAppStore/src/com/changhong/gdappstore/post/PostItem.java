@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.changhong.gdappstore.R;
+import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.view.ScoreView;
 import com.post.view.base.BasePostItem;
 
@@ -73,10 +74,13 @@ public class PostItem extends BasePostItem {
 	}
 
 	private void doNormalData(Object object) {
-		PostModel model = (PostModel) object;
-		iv_appicon.setImageResource(model.getAppicon());
-		tv_appname.setText(model.getName());
-		scoreView.setScoreBy5Total(model.getAppscore());
+		App app = (App) object;
+		if (app==null) {
+			return;
+		}
+		iv_appicon.setImageResource(R.drawable.icon_test_dianshiqq);
+		tv_appname.setText(app.getAppname());
+		scoreView.setVisibility(GONE);
 	}
 
 	/**

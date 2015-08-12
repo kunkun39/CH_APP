@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseActivity;
 import com.changhong.gdappstore.datacenter.DataCenter;
+import com.changhong.gdappstore.net.LoadCompleteListener;
 import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.L;
 /**
@@ -20,7 +21,6 @@ public class LoadingActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		initView();
 		loadData();
-		jumpToMain();
 	}
 	
 	private void initView() {
@@ -32,7 +32,13 @@ public class LoadingActivity extends BaseActivity {
 	
 	private void loadData() {
 		DataCenter dataCenter=DataCenter.getInstance();
-		dataCenter.loadAllData();
+		dataCenter.loadAllData(new LoadCompleteListener() {
+			
+			@Override
+			public void onComplete() {
+				jumpToMain();
+			}
+		});
 	}
 	
 	private void jumpToMain() {

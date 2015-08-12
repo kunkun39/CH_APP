@@ -17,6 +17,7 @@ import com.changhong.gdappstore.base.BaseActivity;
 import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.model.PostTitleModel;
+import com.changhong.gdappstore.net.LoadCompleteListener;
 import com.changhong.gdappstore.post.PostItem;
 import com.changhong.gdappstore.post.PostModel;
 import com.changhong.gdappstore.post.PostSetting;
@@ -45,7 +46,7 @@ public class PostActivity extends BaseActivity {
 	private DataCenter dataCenter;
 	/** 父栏目，根据首页传过来的id确定 */
 	private Category parentCategory = null;
-	/**栏目名字*/
+	/** 栏目名字 */
 	private TextView tv_name;
 
 	@Override
@@ -59,7 +60,7 @@ public class PostActivity extends BaseActivity {
 	private void initView() {
 		postView = findView(R.id.postview);
 		titleView = findView(R.id.posttitleview);
-		tv_name=findView(R.id.tv_pagename);
+		tv_name = findView(R.id.tv_pagename);
 		titleView.setTitleItemOnClickListener(titleItemOnClickListener);
 		titleView.setTitleItemOnFocuesChangedListener(titleItemOnFocuesChangedListener);
 		initPostView();
@@ -97,14 +98,19 @@ public class PostActivity extends BaseActivity {
 				}
 			}
 		}
-
-		List<Object> loadItems = new ArrayList<Object>();
-		for (int i = 0; i < 50; i++) {
-			loadItems.add(new PostModel(i, R.drawable.img_post1, "应用名字应用名字应用名字" + i, 4.5f, "这是第" + i + "个应用"));
-		}
-		postView.initData(loadItems, loadItems.size());
-
+		dataCenter.loadAppsByCategoryId(currentCategoryId, loadCompleteListener);
 	}
+
+	/**
+	 * 请求加载完成监听器
+	 */
+	private LoadCompleteListener loadCompleteListener = new LoadCompleteListener() {
+
+		@Override
+		public void onComplete() {
+			postView.refreshAllData(dataCenter.categoryApps, postSetting, dataCenter.categoryApps.size());
+		}
+	};
 
 	/**
 	 * 标签点击监听器
@@ -113,7 +119,8 @@ public class PostActivity extends BaseActivity {
 
 		@Override
 		public void onItemClick(View view, int position) {
-
+			Category category=(Category) view.getTag();
+			dataCenter.loadAppsByCategoryId(category.getId(), loadCompleteListener);
 		}
 	};
 	/**

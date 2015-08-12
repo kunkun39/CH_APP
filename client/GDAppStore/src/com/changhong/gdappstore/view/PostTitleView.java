@@ -190,6 +190,7 @@ public class PostTitleView extends BaseRelativeLayout {
 		final TextView textView = (TextView) view.findViewById(R.id.tv_title);
 		textView.setText(model.getName());
 		textView.setId(4522342 + position);
+		textView.setTag(model);
 		list_textViews.add(textView);
 		textView.setOnClickListener(new OnClickListener() {
 

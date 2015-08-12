@@ -6,7 +6,7 @@ package com.changhong.gdappstore.model;
  * @author wangxiufeng
  * 
  */
-public class App {
+public class App{
 	// 应用id
 	protected int appid;
 	// 应用key
