@@ -18,7 +18,8 @@ public class DataCenter {
 	private DataCenter() {
 
 	}
-	//单例模式
+
+	// 单例模式
 	public static DataCenter getInstance() {
 		if (dataCenter == null) {
 			dataCenter = new DataCenter();
@@ -32,23 +33,54 @@ public class DataCenter {
 		loadCategories();
 		loadPageApps();
 	}
+
 	/**
 	 * 加载栏目数据
 	 */
 	public void loadCategories() {
 		categories = Parse.parseCategory(Parse.categoryJosn);
 	}
+
 	/**
 	 * 加载栏目应用海报数据
 	 */
 	public void loadPageApps() {
-		 Parse.parsePageApps(Parse.pagebox);
+		Parse.parsePageApps(Parse.pagebox);
 	}
+
 	/**
 	 * 获取栏目数据
+	 * 
 	 * @return
 	 */
 	public synchronized List<Category> getCategories() {
 		return categories;
+	}
+
+	/**
+	 * 根据栏目id获取栏目
+	 * @param categoryId 栏目id
+	 * @return
+	 */
+	public Category getCategoryById(int categoryId) {
+		if (categories == null || categories.size() == 0) {
+			return null;
+		}
+		for (int i = 0; i < categories.size(); i++) {
+			Category category = categories.get(i);
+			if (category.getId() == categoryId) {
+				return category;
+			} else {
+				//查询子栏目
+				if (category.getCategoyChildren() != null && category.getCategoyChildren().size() > 0) {
+					for (int j = 0; j < category.getCategoyChildren().size(); j++) {
+						if (category.getCategoyChildren().get(j).getId() == categoryId) {
+							return category.getCategoyChildren().get(j);
+						}
+					}
+				}
+			}
+		}
+		return null;
 	}
 }

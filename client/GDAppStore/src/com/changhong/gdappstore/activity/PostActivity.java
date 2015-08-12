@@ -10,8 +10,11 @@ import android.view.View;
 import android.view.View.OnKeyListener;
 import android.widget.Toast;
 
+import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseActivity;
+import com.changhong.gdappstore.datacenter.DataCenter;
+import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.model.PostTitleModel;
 import com.changhong.gdappstore.post.PostItem;
 import com.changhong.gdappstore.post.PostModel;
@@ -37,8 +40,8 @@ public class PostActivity extends BaseActivity {
 	private PostSetting postSetting;
 	/** 标题view */
 	private PostTitleView titleView;
-	/** 标题名字 */
-	public List<PostTitleModel> titleModels;
+	/** 数据处理中心 */
+	private DataCenter dataCenter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +62,8 @@ public class PostActivity extends BaseActivity {
 	private void initPostView() {
 
 		// 海报墙设置，监听器没有可以设为空，行列设为负数则使用默认值
-		postSetting = new PostSetting(3, 3, R.drawable.selector_bg_postitem, iPosteDateListener, null, postItemOnclickListener, null,
-				postOnKeyListener);
+		postSetting = new PostSetting(3, 3, R.drawable.selector_bg_postitem, iPosteDateListener, null,
+				postItemOnclickListener, null, postOnKeyListener);
 		postSetting.setVerticalScroll(false);// 纵向滚动
 		postSetting.setVisibleClumn(1.14f);// 显示的页数
 		postSetting.setMargins(10, 10, 0, 0);// item的距离
@@ -73,18 +76,23 @@ public class PostActivity extends BaseActivity {
 
 	}
 
+	private Category parentCategory = null;
+
 	private void initData() {
-		titleModels = new ArrayList<PostTitleModel>();
-		titleModels.add(new PostTitleModel("全部"));
-		titleModels.add(new PostTitleModel("棋牌"));
-		titleModels.add(new PostTitleModel("休闲"));
-		titleModels.add(new PostTitleModel("动作"));
-		titleModels.add(new PostTitleModel("体育"));
-		titleModels.add(new PostTitleModel("角色"));
-		titleModels.add(new PostTitleModel("设计"));
-		titleModels.add(new PostTitleModel("体感"));
-//		titleView.initData(titleModels);
-		titleView.setFocusItem(0);
+
+		dataCenter = DataCenter.getInstance();
+		Intent intent = getIntent();
+		int parentCategoryId = intent.getIntExtra(Config.KEY_PARENT_CATEGORYID, 1);
+		int currentCategoryId = intent.getIntExtra(Config.KEY_CURRENT_CATEGORYID, parentCategoryId);
+		parentCategory = dataCenter.getCategoryById(parentCategoryId);//获取父栏目
+		if (parentCategory != null && parentCategory.getCategoyChildren() != null) {
+			titleView.initData(parentCategory.getCategoyChildren());
+			for (int i = 0; i < parentCategory.getCategoyChildren().size(); i++) {
+				if (parentCategory.getCategoyChildren().get(i).getId() == currentCategoryId) {
+					titleView.setFocusItem(i);//选中当前item
+				}
+			}
+		}
 
 		List<Object> loadItems = new ArrayList<Object>();
 		for (int i = 0; i < 50; i++) {
@@ -114,12 +122,12 @@ public class PostActivity extends BaseActivity {
 
 		}
 	};
-	/**海报墙点击监听**/
-	private IItemOnClickListener postItemOnclickListener=new IItemOnClickListener() {
-		
+	/** 海报墙点击监听 **/
+	private IItemOnClickListener postItemOnclickListener = new IItemOnClickListener() {
+
 		@Override
 		public void itemOnClick(BasePosterLayoutView arg0, View arg1, int arg2) {
-			startActivity(new Intent(PostActivity.this,DetailActivity.class));
+			startActivity(new Intent(PostActivity.this, DetailActivity.class));
 		}
 	};
 
