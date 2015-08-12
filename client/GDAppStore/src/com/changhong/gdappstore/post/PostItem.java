@@ -106,10 +106,11 @@ public class PostItem extends BasePostItem {
 
 		switch (postSetting.getPosttype()) {
 		case PostSetting.TYPE_NORMAL:
+		case PostSetting.TYPE_NATIVEAPP:
 			doScalse(hasfocues);
 			break;
 		default:
-			// doScalse(hasfocues);
+			 doScalse(hasfocues);
 			break;
 		}
 	}
@@ -124,6 +125,7 @@ public class PostItem extends BasePostItem {
 	public void setFocuesType(int type) {
 		switch (postSetting.getPosttype()) {
 		case PostSetting.TYPE_NORMAL:
+		case PostSetting.TYPE_NATIVEAPP:
 			if (type == TYPE_FOCUES) {
 				setSelected(false);
 			} else if (type == TYPE_SELECTED) {
