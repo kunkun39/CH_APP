@@ -41,9 +41,9 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	/** 评分 */
 	private ScoreView scoreView;
 	/** 应用文本介绍信息 */
-	private TextView tv_appname, tv_downloadcount, tv_size, tv_version, tv_updatetime, tv_controltool, tv_tv_introduce;
+	private TextView tv_appname, tv_downloadcount, tv_size, tv_version, tv_updatetime, tv_controltool, tv_introduce;
 
-	private ImageView iv_post;
+	private ImageView iv_post, iv_icon;
 
 	private AppDetail appDetail;
 
@@ -61,6 +61,14 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		bt_dowload.setOnFocusChangeListener(this);
 		scoreView = findView(R.id.scoreview);
 		iv_post = findView(R.id.iv_detailpost);
+		iv_icon = findView(R.id.iv_detailicon);
+		tv_appname = findView(R.id.tv_appname);
+		tv_downloadcount = findView(R.id.tv_downloadcount);
+		tv_size = findView(R.id.tv_appsize);
+		tv_version = findView(R.id.tv_version);
+		tv_updatetime = findView(R.id.tv_updatetime);
+		tv_controltool = findView(R.id.tv_controltool);
+		tv_introduce = findView(R.id.tv_introduce);
 	}
 
 	private void initData() {
@@ -74,8 +82,16 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 
 			@Override
 			public void onComplete(Object object) {
-				// TODO Auto-generated method stub
-
+				appDetail = (AppDetail) object;
+				if (appDetail != null) {
+					tv_appname.setText(appDetail.getAppname());
+					tv_downloadcount.setText(appDetail.getDownload());
+					tv_size.setText(appDetail.getApkSize());
+					tv_version.setText(appDetail.getVersion());
+					tv_introduce.setText(appDetail.getDescription());
+					ImageLoadUtil.displayImgByNoCache(appDetail.getIconFilePath(), iv_icon);
+					ImageLoadUtil.displayImgByNoCache(appDetail.getPosterFilePath(), iv_post);
+				}
 			}
 		});
 	}
