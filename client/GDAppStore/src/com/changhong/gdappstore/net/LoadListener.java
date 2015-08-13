@@ -22,12 +22,21 @@ public class LoadListener {
 	}
 
 	/**
-	 * 加载app列表完成监听器
+	 * 加载列表完成监听器
 	 * 
 	 * @author wangxiufeng
 	 * 
 	 */
 	public interface LoadListListener {
 		public void onComplete(List<Object> items);
+	}
+	/**
+	 * 加载完成监听器
+	 * 
+	 * @author wangxiufeng
+	 * 
+	 */
+	public interface LoadObjectListener {
+		public void onComplete(Object object);
 	}
 }

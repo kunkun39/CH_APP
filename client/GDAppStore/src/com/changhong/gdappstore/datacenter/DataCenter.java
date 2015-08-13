@@ -11,6 +11,7 @@ import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.net.HttpRequestUtil;
 import com.changhong.gdappstore.net.LoadListener.LoadCompleteListener;
 import com.changhong.gdappstore.net.LoadListener.LoadListListener;
+import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
 
 /**
  * 数据中心类
@@ -68,7 +69,7 @@ public class DataCenter {
 
 			@Override
 			public void run() {
-				String json = HttpRequestUtil.doGetRequest(Config.getCategoryUrl);
+				String json = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(Config.getCategoryUrl));
 				if (Config.ISTEST && TextUtils.isEmpty(json)) {
 					json = Parse.json_categories;// TODO 临时使用测试数据
 				}
@@ -92,7 +93,7 @@ public class DataCenter {
 
 			@Override
 			public void run() {
-				String json = HttpRequestUtil.doGetRequest(Config.getPagesUrl);
+				String json = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(Config.getPagesUrl));
 				if (Config.ISTEST && TextUtils.isEmpty(json)) {
 					json = Parse.json_pageapps;// TODO 临时使用测试数据
 				}
@@ -122,7 +123,7 @@ public class DataCenter {
 				if (!Parse.json_categoryapps.containsKey(categoryId)) {
 					// 缓存中没有就去服务器请求
 					String url = Config.getCategoryAppsUrl + "?categoryId=" + categoryId;
-					jsonString = HttpRequestUtil.doGetRequest(url);
+					jsonString = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(url));
 				} else {
 					jsonString = Parse.json_categoryapps.get(categoryId);
 				}
@@ -148,21 +149,21 @@ public class DataCenter {
 	 *            应用id
 	 * @param completeListener
 	 */
-	public void loadAppDetail(final int appId, final LoadCompleteListener completeListener) {
+	public void loadAppDetail(final int appId, final LoadObjectListener loadObjectListener) {
 		new Thread(new Runnable() {
 
 			@Override
 			public void run() {
 				// 缓存中没有就去服务器请求
 				String url = Config.getCategoryAppsUrl + "?categoryId=" + appId;
-				String jsonString = HttpRequestUtil.doGetRequest(url);
+				String jsonString = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(url));
 				if (Config.ISTEST && TextUtils.isEmpty(jsonString)) {
 					// TODO 临时使用测试数据
 					jsonString = Parse.json_appdetail;
 				}
 				AppDetail appDetail = Parse.parseAppDetail(jsonString);
-				if (completeListener != null) {
-					completeListener.onComplete();
+				if (loadObjectListener != null) {
+					loadObjectListener.onComplete(appDetail);
 				}
 			}
 		}).start();

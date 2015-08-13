@@ -12,6 +12,7 @@ import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.ParseException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -31,6 +32,25 @@ import com.changhong.gdappstore.util.L;
  * 
  */
 public class HttpRequestUtil {
+
+	/**
+	 * 获取String
+	 * @param httpEntity
+	 * @return
+	 */
+	public static String getEntityString(HttpEntity httpEntity) {
+		String jsonString = "";
+		try {
+			long contentLenght = httpEntity.getContentLength();
+			jsonString = EntityUtils.toString(httpEntity, "UTF-8");
+			L.d("getEntityString-httpentity content lenght is " + contentLenght + " jsonString " + jsonString);
+		} catch (Exception e) {
+			L.d("getEntityString error " + e);
+			e.printStackTrace();
+		}
+		return jsonString;
+	}
+
 	/**
 	 * get请求方式
 	 * 
@@ -38,10 +58,9 @@ public class HttpRequestUtil {
 	 *            地址
 	 * @return
 	 */
-	public static String doGetRequest(String url) {
-		String jsonString = "";
+	public static HttpEntity doGetRequest(String url) {
 		if (TextUtils.isEmpty(url)) {
-			return jsonString;
+			return null;
 		}
 		L.d("doGetRequest--url is " + url);
 		try {
@@ -57,16 +76,13 @@ public class HttpRequestUtil {
 			}
 			if (200 == httpResponse.getStatusLine().getStatusCode()) {
 				HttpEntity httpEntity = httpResponse.getEntity();
-				long contentLenght = httpEntity.getContentLength();
-				jsonString = EntityUtils.toString(httpEntity, "UTF-8");
-				L.d("doGetRequest-httpentity content lenght is " + contentLenght + " jsonString " + jsonString);
-				return jsonString;
+				return httpEntity;
 			}
 		} catch (Exception e) {
 			L.e("doGetRequest- connect error");
 			e.printStackTrace();
 		}
-		return jsonString;
+		return null;
 	}
 
 	/**
@@ -78,10 +94,9 @@ public class HttpRequestUtil {
 	 *            参数
 	 * @return
 	 */
-	public static String doPostRequest(String url, final List<NameValuePair> paramList) {
-		String jsonString = "";
+	public static HttpEntity doPostRequest(String url, final List<NameValuePair> paramList) {
 		if (TextUtils.isEmpty(url)) {
-			return jsonString;
+			return null;
 		}
 		L.d("doPostRequest--url is " + url);
 		HttpPost httpPost = null;
@@ -100,16 +115,17 @@ public class HttpRequestUtil {
 			}
 			if (200 == httpResponse.getStatusLine().getStatusCode()) {
 				HttpEntity httpEntity = httpResponse.getEntity();
-				long contentLenght = httpEntity.getContentLength();
-				jsonString = EntityUtils.toString(httpEntity, "UTF-8");
-				L.d("doGetRequest-httpentity content lenght is " + contentLenght + " jsonString " + jsonString);
-				return jsonString;
+				// long contentLenght = httpEntity.getContentLength();
+				// jsonString = EntityUtils.toString(httpEntity, "UTF-8");
+				// L.d("doGetRequest-httpentity content lenght is " +
+				// contentLenght + " jsonString " + jsonString);
+				return httpEntity;
 			}
 		} catch (Exception e) {
 			L.e("doPostRequest--connect error ");
 			e.printStackTrace();
 		}
-		return jsonString;
+		return null;
 	}
 
 	public static void writetofile(byte[] bytes, File file) {
