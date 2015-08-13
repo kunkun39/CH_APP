@@ -217,4 +217,43 @@ public class Parse {
 		}
 		return appDetail;
 	}
+	/**
+	 * 解析搜索json数据
+	 * @param searchAppsJson
+	 * @return
+	 */
+	public static List<Object> parseSearchApps(String searchAppsJson) {
+		List<Object> apps = new ArrayList<Object>();
+
+		if (TextUtils.isEmpty(searchAppsJson)) {
+			L.w("returned by categoryAppJson is empty when parseCategoryApp");
+			return apps;
+		}
+		try {
+			JSONObject object = new JSONObject(searchAppsJson);
+			String host = object.getString("host");
+			JSONArray array = object.getJSONArray("values");
+			for (int i = 0; i < array.length(); i++) {
+				App app = new App();
+				JSONObject appobject = array.getJSONObject(i);
+				if (appobject.has("appId")) {
+					app.setAppid(appobject.getInt("appId"));
+				}
+				if (appobject.has("appKey")) {
+					app.setAppkey(appobject.getString("appKey"));
+				}
+				if (appobject.has("appName")) {
+					app.setAppname(appobject.getString("appName"));
+				}
+				if (appobject.has("posterFilePath")) {
+					app.setPosterFilePath(host + app.getAppkey() + "/" + appobject.getString("posterFilePath"));
+				}
+				apps.add(app);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		return apps;
+	}
 }

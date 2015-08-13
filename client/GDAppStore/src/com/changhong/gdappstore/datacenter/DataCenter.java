@@ -177,7 +177,7 @@ public class DataCenter {
 			@Override
 			protected Object doInBackground(Object... params) {
 				// 缓存中没有就去服务器请求
-				String url = Config.getCategoryAppsUrl + "?categoryId=" + appId;
+				String url = Config.getAppDetailUrl + "?categoryId=" + appId;
 				String jsonString = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(url));
 				if (Config.ISTEST && TextUtils.isEmpty(jsonString)) {
 					// TODO 临时使用测试数据
@@ -195,6 +195,37 @@ public class DataCenter {
 				super.onPostExecute(result);
 			}
 
+		}.execute("");
+	}
+
+	/**
+	 * 加载搜索列表
+	 * 
+	 * @param keywords
+	 * @param loadListListener
+	 */
+	public static void loadAppSearch(final String keywords, final LoadListListener loadListListener) {
+		new AsyncTask<Object, Object, Object>() {
+
+			@Override
+			protected Object doInBackground(Object... params) {
+				String url = Config.getAppSearchUrl + "?keywords=" + keywords;
+				String jsonString = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(url));
+				if (Config.ISTEST && TextUtils.isEmpty(jsonString)) {
+					jsonString = Parse.json_appsearch;// TODO 临时使用测试数据
+				}
+				Parse.json_appsearch=jsonString;
+				List<Object> categoryApps = Parse.parseSearchApps(jsonString);
+				return categoryApps;
+			}
+
+			@Override
+			protected void onPostExecute(Object result) {
+				if (loadListListener != null) {
+					loadListListener.onComplete((List<Object>) result);
+				}
+				super.onPostExecute(result);
+			}
 		}.execute("");
 	}
 

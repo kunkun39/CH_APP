@@ -28,7 +28,10 @@ import android.widget.TextView;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.adapter.SearchResultAdapter;
 import com.changhong.gdappstore.base.BaseActivity;
+import com.changhong.gdappstore.datacenter.DataCenter;
+import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.SearchAppModel;
+import com.changhong.gdappstore.net.LoadListener.LoadListListener;
 import com.changhong.gdappstore.util.L;
 
 /**
@@ -64,7 +67,7 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 	/** 搜索结果列表适配器 */
 	private SearchResultAdapter adapter;
 	/** 搜索结果 */
-	private List<SearchAppModel> dataList = new ArrayList<SearchAppModel>();
+	private List<Object> dataList = new ArrayList<Object>();
 	/** 上次选中的grideview */
 	private RelativeLayout lastContentLayout;
 	/** 选中放大动画 */
@@ -165,10 +168,6 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void initData() {
-		for (int i = 0; i < 20; i++) {
-			dataList.add(new SearchAppModel("应用名字" + i, R.drawable.img_post1, 4.5f));
-		}
-		adapter.updateData(dataList);
 	}
 
 	@Override
@@ -222,7 +221,17 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 		@Override
 		public void afterTextChanged(Editable s) {
 			L.d("textWatcher afterTextChanged--" + s.toString());
-			updateAppnumTextVisible();
+			DataCenter.getInstance().loadAppSearch(s.toString(), new LoadListListener() {
+				
+				@Override
+				public void onComplete(List<Object> items) {
+					dataList.clear();
+					dataList.addAll(items);
+					adapter.updateData(dataList);
+					updateAppnumTextVisible();
+				}
+			});
+			
 		}
 	};
 

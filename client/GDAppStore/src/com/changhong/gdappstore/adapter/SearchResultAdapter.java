@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.changhong.gdappstore.R;
+import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.SearchAppModel;
+import com.changhong.gdappstore.util.ImageLoadUtil;
 import com.changhong.gdappstore.view.ScoreView;
 
 import android.content.Context;
@@ -22,14 +24,14 @@ import android.widget.TextView;
  *
  */
 public class SearchResultAdapter extends BaseAdapter {
-	private List<SearchAppModel> datas = new ArrayList<SearchAppModel>();
+	private List<Object> datas = new ArrayList<Object>();
 	private Context context;
 
 	public SearchResultAdapter(Context context) {
 		this.context = context;
 	}
 
-	public SearchResultAdapter(Context context, List<SearchAppModel> datas) {
+	public SearchResultAdapter(Context context, List<Object> datas) {
 		super();
 		this.datas = datas;
 		this.context = context;
@@ -40,7 +42,7 @@ public class SearchResultAdapter extends BaseAdapter {
 	 * 
 	 * @param datas
 	 */
-	public void updateData(List<SearchAppModel> datas) {
+	public void updateData(List<Object> datas) {
 		this.datas = datas;
 		notifyDataSetChanged();
 	}
@@ -76,10 +78,10 @@ public class SearchResultAdapter extends BaseAdapter {
 		RelativeLayout rl_content = (RelativeLayout) convertView.findViewById(R.id.rl_appsearch_content);
 		rl_content.setBackgroundColor(Color.TRANSPARENT);
 		
-		SearchAppModel model=(SearchAppModel) getItem(position);
-		viewHolder.scoreView.setScoreBy5Total(model.getAppscore());
+		App model=(App) getItem(position);
+		viewHolder.scoreView.setScoreBy5Total(5);
 		viewHolder.tv_appname.setText(model.getAppname());
-		viewHolder.iv_appicon.setImageResource(model.getAppicon());
+		ImageLoadUtil.displayImgByNoCache(model.getPosterFilePath(), viewHolder.iv_appicon);
 		return convertView;
 	}
 
