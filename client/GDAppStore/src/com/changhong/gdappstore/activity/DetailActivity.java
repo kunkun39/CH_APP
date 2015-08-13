@@ -38,8 +38,6 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	private Button bt_dowload;
 	/** 用户喜欢 */
 	private UserMayLikeView view_usermaylike;
-	/** 评分 */
-	private ScoreView scoreView;
 	/** 应用文本介绍信息 */
 	private TextView tv_appname, tv_downloadcount, tv_size, tv_version, tv_updatetime, tv_controltool, tv_introduce;
 
@@ -59,7 +57,6 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		view_usermaylike = findView(R.id.view_usermaylike);
 		bt_dowload = findView(R.id.bt_download);
 		bt_dowload.setOnFocusChangeListener(this);
-		scoreView = findView(R.id.scoreview);
 		iv_post = findView(R.id.iv_detailpost);
 		iv_icon = findView(R.id.iv_detailicon);
 		tv_appname = findView(R.id.tv_appname);
@@ -73,7 +70,6 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 
 	private void initData() {
 		view_usermaylike.initData();
-		scoreView.setScoreBy5Total(5);
 		int appId = -1;
 		if (getIntent() != null) {
 			appId = getIntent().getIntExtra(Config.KEY_APPID, -1);

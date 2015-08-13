@@ -28,20 +28,13 @@
             android:textColor="@color/white"
             android:textSize="22sp" />
 
-        <com.changhong.gdappstore.view.ScoreView
-            android:id="@+id/scoreview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/tv_appname"
-            android:layout_below="@id/tv_appname"
-            android:layout_marginTop="10dp" />
 
         <Button
             android:id="@+id/bt_download"
             android:layout_width="100dp"
             android:layout_height="40dp"
             android:layout_alignLeft="@id/tv_appname"
-            android:layout_below="@id/scoreview"
+            android:layout_below="@id/tv_appname"
             android:layout_marginTop="10dp"
             android:background="@drawable/selector_search_full_keyboard"
             android:text="下载"
@@ -151,7 +144,7 @@
                 android:textSize="@dimen/detail_contenttextsize" />
 
             <TextView
-                android:id="@+id/controltool"
+                android:id="@+id/tv_controltool"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0.0M"
@@ -184,8 +177,8 @@
             android:layout_below="@id/tv_introduce_title"
             android:layout_marginTop="@dimen/detail_content_rowmargintop"
             android:maxLines="2"
-            android:text="应用介绍应用介绍应用介绍应用介绍应用介绍应用介绍应用介绍应用介绍应用介绍应用介绍应用介绍应用介绍"
-            android:textColor="@color/detail_content_title_textcolor"
+            android:text=""
+            android:textColor="@color/white"
             android:textSize="@dimen/detail_contenttextsize" />
     </RelativeLayout>
 
