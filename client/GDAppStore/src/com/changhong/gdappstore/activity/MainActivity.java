@@ -85,11 +85,6 @@ public class MainActivity extends BaseActivity {
 		view_zhuanti = new ZhuanTiView(context);
 		view_youxi = new YouXiView(context);
 		view_yule = new YuLeView(context);
-		//这里的添加顺序会决定页面的显示顺序
-		pageViews.add(view_jingpin);
-		pageViews.add(view_yule);
-		pageViews.add(view_youxi);
-		pageViews.add(view_zhuanti);
 		// init view pager
 		viewPager = findView(R.id.viewpager);
 		viewPagerAdapter = new MainViewPagerAdapter(pageViews);
@@ -109,15 +104,26 @@ public class MainActivity extends BaseActivity {
 		titleView.initData(categories);
 		
 		// 目前是初始化默认数据
-		view_jingpin.initData(categories.get(0));
-		view_jingpin.setNextFocuesUpId(titleView.getItemTextViewAt(0).getId());
-		view_yule.initData(categories.get(1));
-		view_yule.setNextFocuesUpId(titleView.getItemTextViewAt(1).getId());
-		view_youxi.initData(categories.get(2));
-		view_youxi.setNextFocuesUpId(titleView.getItemTextViewAt(2).getId());
-		view_zhuanti.initData(categories.get(3));
-		view_zhuanti.setNextFocuesUpId(titleView.getItemTextViewAt(3).getId());
-		
+		for (int i = 0; i < categories.size(); i++) {
+			if (i==0) {
+				view_jingpin.initData(categories.get(0));
+				view_jingpin.setNextFocuesUpId(titleView.getItemTextViewAt(0).getId());
+				pageViews.add(view_jingpin);
+			}else if (i==1) {
+				view_yule.initData(categories.get(1));
+				view_yule.setNextFocuesUpId(titleView.getItemTextViewAt(1).getId());
+				pageViews.add(view_yule);
+			}else if (i==2) {
+				view_youxi.initData(categories.get(2));
+				view_youxi.setNextFocuesUpId(titleView.getItemTextViewAt(2).getId());
+				pageViews.add(view_youxi);
+			}else if (i==3) {
+				view_zhuanti.initData(categories.get(3));
+				view_zhuanti.setNextFocuesUpId(titleView.getItemTextViewAt(3).getId());
+				pageViews.add(view_zhuanti);
+			}
+		}
+		viewPagerAdapter.updateList(pageViews);
 		titleView.setFocusItem(0);
 	}
 

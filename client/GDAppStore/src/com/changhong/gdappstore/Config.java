@@ -7,6 +7,7 @@ package com.changhong.gdappstore;
  * 
  */
 public class Config {
+	public static final boolean ISTEST=true;
 	/***************************** 网络请求配置项 ******************************************/
 	/** 请求链接超时 */
 	public static int CONNECTION_TIMEOUT = 6000;
