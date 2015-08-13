@@ -1,9 +1,12 @@
 package com.changhong.gdappstore.activity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnKeyListener;
@@ -19,6 +22,7 @@ import com.changhong.gdappstore.net.LoadListener.LoadListListener;
 import com.changhong.gdappstore.post.PostItem;
 import com.changhong.gdappstore.post.PostSetting;
 import com.changhong.gdappstore.post.PosterLayoutView;
+import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.view.PostTitleView;
 import com.changhong.gdappstore.view.PostTitleView.TitleItemOnClickListener;
 import com.changhong.gdappstore.view.PostTitleView.TitleItemOnFocuesChangedListener;
@@ -45,6 +49,8 @@ public class PostActivity extends BaseActivity {
 	protected Category parentCategory = null;
 	/** 栏目名字 */
 	protected TextView tv_name;
+	/**当前应用列表*/
+	private List<Object> currentApps=new ArrayList<Object>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +81,7 @@ public class PostActivity extends BaseActivity {
 		postSetting.setFirstRowFocusUp(true);// 第一排是否允许焦点再往上
 		postSetting.setFirstClumnFocusLeft(false);
 		postSetting.setFristItemFocus(false);
+		postSetting.setPosttype(PostSetting.TYPE_NORMAL);
 		// 如果需要海报墙使用自己的设置，要先调用设置设置方法，在调用设置数据
 		postView.init(postSetting);
 
@@ -104,7 +111,8 @@ public class PostActivity extends BaseActivity {
 		
 		@Override
 		public void onComplete(List<Object> items) {
-			postView.refreshAllData(items, postSetting, items.size());
+			currentApps=items;
+			postView.refreshAllData(currentApps, postSetting, currentApps.size());
 		}
 	};
 

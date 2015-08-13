@@ -13,8 +13,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.RelativeLayout.LayoutParams;
 
+import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseActivity;
+import com.changhong.gdappstore.datacenter.DataCenter;
+import com.changhong.gdappstore.model.AppDetail;
+import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
 import com.changhong.gdappstore.util.ImageLoadUtil;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.view.PostItemView;
@@ -41,6 +45,8 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 
 	private ImageView iv_post;
 
+	private AppDetail appDetail;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,8 +66,18 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	private void initData() {
 		view_usermaylike.initData();
 		scoreView.setScoreBy5Total(5);
-		//测试数据
-		ImageLoadUtil.displayImgByNoCache("http://c.hiphotos.baidu.com/image/pic/item/8694a4c27d1ed21b949a2ed3a96eddc451da3fb0.jpg", iv_post);
+		int appId = -1;
+		if (getIntent() != null) {
+			appId = getIntent().getIntExtra(Config.KEY_APPID, -1);
+		}
+		DataCenter.getInstance().loadAppDetail(appId, new LoadObjectListener() {
+
+			@Override
+			public void onComplete(Object object) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 	}
 
 	@Override

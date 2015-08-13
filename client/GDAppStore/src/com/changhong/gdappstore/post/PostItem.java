@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.NativeApp;
+import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.view.ScoreView;
 import com.post.view.base.BasePostItem;
 
@@ -68,6 +69,7 @@ public class PostItem extends BasePostItem {
 		switch (postSetting.getPosttype()) {
 		case PostSetting.TYPE_NORMAL:
 			doNormalData(object);
+			break;
 		case PostSetting.TYPE_NATIVEAPP:
 			doNativeAppData(object);
 			break;

@@ -3,6 +3,7 @@ package com.changhong.gdappstore.datacenter;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import com.changhong.gdappstore.Config;
@@ -65,10 +66,10 @@ public class DataCenter {
 	 * 加载栏目分类数据
 	 */
 	public void loadCategories(final LoadCompleteListener completeListener) {
-		new Thread(new Runnable() {
+		new AsyncTask<Object, Object, Object>() {
 
 			@Override
-			public void run() {
+			protected Object doInBackground(Object... params) {
 				String json = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(Config.getCategoryUrl));
 				if (Config.ISTEST && TextUtils.isEmpty(json)) {
 					json = Parse.json_categories;// TODO 临时使用测试数据
@@ -77,22 +78,28 @@ public class DataCenter {
 					Parse.json_categories = json;
 					categories = Parse.parseCategory(json);
 				}
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(Object result) {
 				if (completeListener != null) {
 					completeListener.onComplete();// 请求操作完毕
 				}
+				super.onPostExecute(result);
 			}
-		}).start();
 
+		}.execute("");
 	}
 
 	/**
 	 * 加载页面海报app数据（在category数据加载完后调用。）
 	 */
 	public void loadPageApps(final LoadCompleteListener completeListener) {
-		new Thread(new Runnable() {
+		new AsyncTask<Object, Object, Object>() {
 
 			@Override
-			public void run() {
+			protected Object doInBackground(Object... params) {
 				String json = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(Config.getPagesUrl));
 				if (Config.ISTEST && TextUtils.isEmpty(json)) {
 					json = Parse.json_pageapps;// TODO 临时使用测试数据
@@ -101,11 +108,18 @@ public class DataCenter {
 					Parse.json_pageapps = json;
 					Parse.parsePageApps(json);
 				}
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(Object result) {
 				if (completeListener != null) {
 					completeListener.onComplete();// 请求操作完毕
 				}
+				super.onPostExecute(result);
 			}
-		}).start();
+
+		}.execute("");
 	}
 
 	/**
@@ -115,10 +129,10 @@ public class DataCenter {
 	 *            分类id
 	 */
 	public void loadAppsByCategoryId(final int categoryId, final LoadListListener loadAppListListener) {
-		new Thread(new Runnable() {
+		new AsyncTask<Object, Object, Object>() {
 
 			@Override
-			public void run() {
+			protected Object doInBackground(Object... params) {
 				String jsonString = "";
 				if (!Parse.json_categoryapps.containsKey(categoryId)) {
 					// 缓存中没有就去服务器请求
@@ -135,11 +149,19 @@ public class DataCenter {
 					Parse.json_categoryapps.put(categoryId, jsonString);// 添加进缓存
 				}
 				List<Object> categoryApps = Parse.parseCategoryApp(jsonString);
-				if (loadAppListListener != null) {
-					loadAppListListener.onComplete(categoryApps);
-				}
+
+				return categoryApps;
 			}
-		}).start();
+
+			@Override
+			protected void onPostExecute(Object result) {
+				if (loadAppListListener != null) {
+					loadAppListListener.onComplete((List<Object>) result);
+				}
+				super.onPostExecute(result);
+			}
+
+		}.execute("");
 	}
 
 	/**
@@ -150,10 +172,10 @@ public class DataCenter {
 	 * @param completeListener
 	 */
 	public void loadAppDetail(final int appId, final LoadObjectListener loadObjectListener) {
-		new Thread(new Runnable() {
+		new AsyncTask<Object, Object, Object>() {
 
 			@Override
-			public void run() {
+			protected Object doInBackground(Object... params) {
 				// 缓存中没有就去服务器请求
 				String url = Config.getCategoryAppsUrl + "?categoryId=" + appId;
 				String jsonString = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(url));
@@ -162,11 +184,18 @@ public class DataCenter {
 					jsonString = Parse.json_appdetail;
 				}
 				AppDetail appDetail = Parse.parseAppDetail(jsonString);
-				if (loadObjectListener != null) {
-					loadObjectListener.onComplete(appDetail);
-				}
+				return appDetail;
 			}
-		}).start();
+
+			@Override
+			protected void onPostExecute(Object result) {
+				if (loadObjectListener != null) {
+					loadObjectListener.onComplete(result);
+				}
+				super.onPostExecute(result);
+			}
+
+		}.execute("");
 	}
 
 	/************************** 请求方法定义区域end *************************/
