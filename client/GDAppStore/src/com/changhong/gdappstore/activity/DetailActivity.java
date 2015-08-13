@@ -54,35 +54,14 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		bt_dowload = findView(R.id.bt_download);
 		bt_dowload.setOnFocusChangeListener(this);
 		scoreView = findView(R.id.scoreview);
-		iv_post = findView(R.id.iv_post);
+		iv_post = findView(R.id.iv_detailpost);
 	}
 
 	private void initData() {
 		view_usermaylike.initData();
 		scoreView.setScoreBy5Total(5);
-//		ImageLoadUtil.loadImgByNoCache("http://img4.imgtn.bdimg.com/it/u=695405215,1736088129&fm=21&gp=0.jpg", iv_post,
-//				new ImageLoadingListener() {
-//
-//					@Override
-//					public void onLoadingStarted(String paramString, View paramView) {
-//						L.d("onLoadingStarted");
-//					}
-//
-//					@Override
-//					public void onLoadingFailed(String paramString, View paramView, FailReason paramFailReason) {
-//						L.d("onLoadingFailed "+paramFailReason);
-//					}
-//
-//					@Override
-//					public void onLoadingComplete(String paramString, View paramView, Bitmap paramBitmap) {
-//						L.d("onLoadingComplete");
-//					}
-//
-//					@Override
-//					public void onLoadingCancelled(String paramString, View paramView) {
-//						L.d("onLoadingCancelled");
-//					}
-//				});
+		//测试数据
+		ImageLoadUtil.displayImgByNoCache("http://c.hiphotos.baidu.com/image/pic/item/8694a4c27d1ed21b949a2ed3a96eddc451da3fb0.jpg", iv_post);
 	}
 
 	@Override

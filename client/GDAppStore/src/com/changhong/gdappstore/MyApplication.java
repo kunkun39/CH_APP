@@ -6,6 +6,7 @@ import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 
+import com.changhong.gdappstore.util.FileNameGeneratorHelper;
 import com.nostra13.universalimageloader.cache.disc.DiscCacheAware;
 import com.nostra13.universalimageloader.cache.disc.impl.FileCountLimitedDiscCache;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
@@ -58,9 +59,10 @@ public class MyApplication extends Application {
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context).discCacheSize(discCacheSize)
 				.tasksProcessingOrder(QueueProcessingType.FIFO).denyCacheImageMultipleSizesInMemory()
 				.memoryCache(new LruMemoryCache(lruMemCachSize)).threadPoolSize(threadPoolSize)
-				.threadPriority(Thread.NORM_PRIORITY).discCache(discCacheAware).build();
+				.discCacheFileNameGenerator(FileNameGeneratorHelper.getInstance()).threadPriority(Thread.NORM_PRIORITY)
+				.discCache(discCacheAware).build();
 		ImageLoader.getInstance().init(config);
-		imageLoader=ImageLoader.getInstance();
+		imageLoader = ImageLoader.getInstance();
 
 		option_memory_disc = new DisplayImageOptions.Builder().displayer(new SimpleBitmapDisplayer())
 				.bitmapConfig(bmConfig).imageScaleType(ImageScaleType.IN_SAMPLE_INT).cacheInMemory(true)
@@ -80,9 +82,10 @@ public class MyApplication extends Application {
 	 * 初始化图片缓存目录
 	 */
 	private void initImageLoaderCacheDir() {
-//		String imgCacheDirStr = context.getCacheDir() + File.separator + "picCache" + File.separator;
-//		File cacheDir = new File(imgCacheDirStr);// 图片缓存目录文件
-		File cacheDir =StorageUtils.getCacheDirectory(this);// 图片缓存目录文件
+		// String imgCacheDirStr = context.getCacheDir() + File.separator +
+		// "picCache" + File.separator;
+		// File cacheDir = new File(imgCacheDirStr);// 图片缓存目录文件
+		File cacheDir = StorageUtils.getCacheDirectory(this);// 图片缓存目录文件
 		if (!cacheDir.exists()) {
 			cacheDir.mkdirs();
 		}
