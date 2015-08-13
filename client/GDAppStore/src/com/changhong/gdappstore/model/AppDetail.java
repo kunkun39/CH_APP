@@ -24,7 +24,7 @@ public class AppDetail extends App {
 		super();
 	}
 
-	public AppDetail(int appid, String appkey, String appname, String posterFilePath, float version,
+	public AppDetail(int appid, String appkey, String appname, String posterFilePath, String version,
 			String iconFilePath, String apkFilePath, String apkSize, String description, String download, String host) {
 		super();
 		this.appid = appid;

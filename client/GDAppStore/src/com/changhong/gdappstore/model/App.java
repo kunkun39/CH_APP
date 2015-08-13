@@ -16,7 +16,7 @@ public class App{
 	// 应用海报地址
 	protected String posterFilePath;
 	// 应用版本号
-	protected float version;
+	protected String version;
 
 	public App() {
 		super();
@@ -30,7 +30,7 @@ public class App{
 		this.posterFilePath = posterFilePath;
 	}
 
-	public App(int appid, String appkey, String appname, String posterFilePath, float version) {
+	public App(int appid, String appkey, String appname, String posterFilePath, String version) {
 		super();
 		this.appid = appid;
 		this.appkey = appkey;
@@ -71,11 +71,11 @@ public class App{
 		this.posterFilePath = posterFilePath;
 	}
 
-	public float getVersion() {
+	public String getVersion() {
 		return version;
 	}
 
-	public void setVersion(float version) {
+	public void setVersion(String version) {
 		this.version = version;
 	}
 

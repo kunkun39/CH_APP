@@ -3,10 +3,9 @@ package com.changhong.gdappstore.activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseActivity;
 import com.changhong.gdappstore.datacenter.DataCenter;
-import com.changhong.gdappstore.net.LoadCompleteListener;
+import com.changhong.gdappstore.net.LoadListener.LoadCompleteListener;
 import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.L;
 /**

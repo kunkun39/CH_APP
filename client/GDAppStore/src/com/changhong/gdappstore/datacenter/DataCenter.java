@@ -3,15 +3,14 @@ package com.changhong.gdappstore.datacenter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpRequest;
-
 import android.text.TextUtils;
 
 import com.changhong.gdappstore.Config;
-import com.changhong.gdappstore.model.App;
+import com.changhong.gdappstore.model.AppDetail;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.net.HttpRequestUtil;
-import com.changhong.gdappstore.net.LoadCompleteListener;
+import com.changhong.gdappstore.net.LoadListener.LoadCompleteListener;
+import com.changhong.gdappstore.net.LoadListener.LoadListListener;
 
 /**
  * 数据中心类
@@ -39,8 +38,6 @@ public class DataCenter {
 
 	/** 栏目分类列表 **/
 	private List<Category> categories = new ArrayList<Category>();
-	/** 栏目分类下的应用 **/
-	public List<Object> categoryApps = new ArrayList<Object>();
 
 	/************************** 缓存数据定义区域end *************************/
 	//
@@ -116,7 +113,7 @@ public class DataCenter {
 	 * @param categoryId
 	 *            分类id
 	 */
-	public void loadAppsByCategoryId(final int categoryId, final LoadCompleteListener completeListener) {
+	public void loadAppsByCategoryId(final int categoryId, final LoadListListener loadAppListListener) {
 		new Thread(new Runnable() {
 
 			@Override
@@ -136,7 +133,34 @@ public class DataCenter {
 				if (!TextUtils.isEmpty(jsonString) && !Parse.json_categoryapps.containsKey(categoryId)) {
 					Parse.json_categoryapps.put(categoryId, jsonString);// 添加进缓存
 				}
-				categoryApps = Parse.parseCategoryApp(jsonString);
+				List<Object> categoryApps = Parse.parseCategoryApp(jsonString);
+				if (loadAppListListener != null) {
+					loadAppListListener.onComplete(categoryApps);
+				}
+			}
+		}).start();
+	}
+
+	/**
+	 * 请求应用详情
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param completeListener
+	 */
+	public void loadAppDetail(final int appId, final LoadCompleteListener completeListener) {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				// 缓存中没有就去服务器请求
+				String url = Config.getCategoryAppsUrl + "?categoryId=" + appId;
+				String jsonString = HttpRequestUtil.doGetRequest(url);
+				if (Config.ISTEST && TextUtils.isEmpty(jsonString)) {
+					// TODO 临时使用测试数据
+					jsonString = Parse.json_appdetail;
+				}
+				AppDetail appDetail = Parse.parseAppDetail(jsonString);
 				if (completeListener != null) {
 					completeListener.onComplete();
 				}

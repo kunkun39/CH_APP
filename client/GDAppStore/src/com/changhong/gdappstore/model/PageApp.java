@@ -24,7 +24,7 @@ public class PageApp extends App {
 		this.position = position;
 	}
 
-	public PageApp(int appid, String appkey, String appname, String posterFilePath, float version, int pageid,
+	public PageApp(int appid, String appkey, String appname, String posterFilePath, String version, int pageid,
 			int position) {
 		super();
 		this.appid = appid;

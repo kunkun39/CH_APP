@@ -1,6 +1,5 @@
 package com.changhong.gdappstore.activity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
@@ -16,10 +15,8 @@ import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseActivity;
 import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.model.Category;
-import com.changhong.gdappstore.model.PostTitleModel;
-import com.changhong.gdappstore.net.LoadCompleteListener;
+import com.changhong.gdappstore.net.LoadListener.LoadListListener;
 import com.changhong.gdappstore.post.PostItem;
-import com.changhong.gdappstore.post.PostModel;
 import com.changhong.gdappstore.post.PostSetting;
 import com.changhong.gdappstore.post.PosterLayoutView;
 import com.changhong.gdappstore.view.PostTitleView;
@@ -101,17 +98,13 @@ public class PostActivity extends BaseActivity {
 				}
 			}
 		}
-		dataCenter.loadAppsByCategoryId(currentCategoryId, loadCompleteListener);
+		dataCenter.loadAppsByCategoryId(currentCategoryId, loadAppListListener);
 	}
-
-	/**
-	 * 请求加载完成监听器
-	 */
-	private LoadCompleteListener loadCompleteListener = new LoadCompleteListener() {
-
+	private LoadListListener loadAppListListener=new LoadListListener() {
+		
 		@Override
-		public void onComplete() {
-			postView.refreshAllData(dataCenter.categoryApps, postSetting, dataCenter.categoryApps.size());
+		public void onComplete(List<Object> items) {
+			postView.refreshAllData(items, postSetting, items.size());
 		}
 	};
 
@@ -123,7 +116,7 @@ public class PostActivity extends BaseActivity {
 		@Override
 		public void onItemClick(View view, int position) {
 			Category category = (Category) view.getTag();
-			dataCenter.loadAppsByCategoryId(category.getId(), loadCompleteListener);
+			dataCenter.loadAppsByCategoryId(category.getId(), loadAppListListener);
 		}
 	};
 	/**
