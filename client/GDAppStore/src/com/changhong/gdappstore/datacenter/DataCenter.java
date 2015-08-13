@@ -3,8 +3,14 @@ package com.changhong.gdappstore.datacenter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.HttpRequest;
+
+import android.text.TextUtils;
+
+import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.Category;
+import com.changhong.gdappstore.net.HttpRequestUtil;
 import com.changhong.gdappstore.net.LoadCompleteListener;
 
 /**
@@ -47,34 +53,55 @@ public class DataCenter {
 	 * 
 	 * @param completeListener
 	 */
-	public void loadCategoryAndPageData(LoadCompleteListener completeListener) {
-		loadCategories(null);
-		loadPageApps(null);
-		if (completeListener != null) {
-			completeListener.onComplete();
-		}
+	public void loadCategoryAndPageData(final LoadCompleteListener completeListener) {
+		loadCategories(new LoadCompleteListener() {
+
+			@Override
+			public void onComplete() {
+				loadPageApps(completeListener);
+			}
+		});
 	}
 
 	/**
 	 * 加载栏目分类数据
 	 */
-	public void loadCategories(LoadCompleteListener completeListener) {
-		// TODO 请求代码
-		categories = Parse.parseCategory(Parse.json_categories);
-		if (completeListener != null) {
-			completeListener.onComplete();
-		}
+	public void loadCategories(final LoadCompleteListener completeListener) {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				String json = HttpRequestUtil.doGetRequest(Config.getCategoryUrl);
+				if (!TextUtils.isEmpty(json)) {
+					Parse.json_categories = json;
+					categories = Parse.parseCategory(json);
+				}
+				if (completeListener != null) {
+					completeListener.onComplete();// 请求操作完毕
+				}
+			}
+		}).start();
+
 	}
 
 	/**
-	 * 加载栏目应用海报数据
+	 * 加载页面海报app数据（在category数据加载完后调用。）
 	 */
-	public void loadPageApps(LoadCompleteListener completeListener) {
-		// TODO 请求代码
-		Parse.parsePageApps(Parse.json_pageapps);
-		if (completeListener != null) {
-			completeListener.onComplete();
-		}
+	public void loadPageApps(final LoadCompleteListener completeListener) {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				String json = HttpRequestUtil.doGetRequest(Config.getPagesUrl);
+				if (!TextUtils.isEmpty(json)) {
+					Parse.json_pageapps = json;
+					Parse.parsePageApps(json);
+				}
+				if (completeListener != null) {
+					completeListener.onComplete();// 请求操作完毕
+				}
+			}
+		}).start();
 	}
 
 	/**
@@ -83,17 +110,29 @@ public class DataCenter {
 	 * @param categoryId
 	 *            分类id
 	 */
-	public void loadAppsByCategoryId(int categoryId, LoadCompleteListener completeListener) {
+	public void loadAppsByCategoryId(final int categoryId, final LoadCompleteListener completeListener) {
+		new Thread(new Runnable() {
 
-		if (!Parse.json_categoryapps.containsKey(categoryId)) {
-			// TODO 请求代码
-		}
-		String json = "{\"host\":\"http://localhost:8081/appmarket/upload/\",\"values\":[{\"appId\":140,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"posterFilePath\":\"j9gd3z32ru.jpg\"},{\"appId\":132,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":126,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":120,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":114,\"appKey\":\"1234567890\",\"appName\":\"Intel Me\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":108,\"appKey\":\"1234567890\",\"appName\":\"Intel Me\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":102,\"appKey\":\"1234567890\",\"appName\":\"Intel Me\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":1,\"appKey\":\"nefbaxki\",\"appName\":\"大话宿友\",\"posterFilePath\":\"kk73gncxbr.png\"},{\"appId\":122,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":123,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":124,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":128,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":127,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":131,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":135,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":134,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":121,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"}]}";
-		Parse.json_categoryapps.put(categoryId, json);
-		categoryApps = Parse.parseCategoryApp(json);
-		if (completeListener != null) {
-			completeListener.onComplete();
-		}
+			@Override
+			public void run() {
+				String jsonString="";
+				if (!Parse.json_categoryapps.containsKey(categoryId)) {
+					// 缓存中没有就去服务器请求
+					String url = Config.getCategoryAppsUrl + "?categoryId=" + categoryId;
+					jsonString=HttpRequestUtil.doGetRequest(url);
+				}else {
+					jsonString=Parse.json_categoryapps.get(categoryId);
+				}
+				if (!TextUtils.isEmpty(jsonString) && !Parse.json_categoryapps.containsKey(categoryId)) {
+					Parse.json_categoryapps.put(categoryId, jsonString);//添加进缓存
+				}
+//				String json = "{\"host\":\"http://localhost:8081/appmarket/upload/\",\"values\":[{\"appId\":140,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"posterFilePath\":\"j9gd3z32ru.jpg\"},{\"appId\":132,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":126,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":120,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":114,\"appKey\":\"1234567890\",\"appName\":\"Intel Me\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":108,\"appKey\":\"1234567890\",\"appName\":\"Intel Me\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":102,\"appKey\":\"1234567890\",\"appName\":\"Intel Me\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":1,\"appKey\":\"nefbaxki\",\"appName\":\"大话宿友\",\"posterFilePath\":\"kk73gncxbr.png\"},{\"appId\":122,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":123,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":124,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":128,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":127,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":131,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":135,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":134,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":121,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"}]}";
+				categoryApps = Parse.parseCategoryApp(jsonString);
+				if (completeListener != null) {
+					completeListener.onComplete();
+				}
+			}
+		}).start();
 	}
 
 	/************************** 请求方法定义区域end *************************/
