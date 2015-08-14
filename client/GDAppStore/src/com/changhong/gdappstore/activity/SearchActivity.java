@@ -29,8 +29,6 @@ import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.adapter.SearchResultAdapter;
 import com.changhong.gdappstore.base.BaseActivity;
 import com.changhong.gdappstore.datacenter.DataCenter;
-import com.changhong.gdappstore.model.App;
-import com.changhong.gdappstore.model.SearchAppModel;
 import com.changhong.gdappstore.net.LoadListener.LoadListListener;
 import com.changhong.gdappstore.util.L;
 

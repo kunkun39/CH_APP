@@ -3,12 +3,6 @@ package com.changhong.gdappstore.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.changhong.gdappstore.R;
-import com.changhong.gdappstore.model.App;
-import com.changhong.gdappstore.model.SearchAppModel;
-import com.changhong.gdappstore.util.ImageLoadUtil;
-import com.changhong.gdappstore.view.ScoreView;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -18,6 +12,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.changhong.gdappstore.R;
+import com.changhong.gdappstore.model.App;
+import com.changhong.gdappstore.util.ImageLoadUtil;
+import com.changhong.gdappstore.view.ScoreView;
 /**
  * 搜索结果grideviewadapter
  * @author wangxiufeng
