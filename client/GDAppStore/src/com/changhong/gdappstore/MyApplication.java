@@ -5,8 +5,10 @@ import java.io.File;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.widget.Toast;
 
 import com.changhong.gdappstore.util.FileNameGeneratorHelper;
+import com.changhong.gdappstore.util.L;
 import com.nostra13.universalimageloader.cache.disc.DiscCacheAware;
 import com.nostra13.universalimageloader.cache.disc.impl.FileCountLimitedDiscCache;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
@@ -17,6 +19,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.nostra13.universalimageloader.utils.StorageUtils;
+import com.ots.deviceinfoprovide.DeviceInfo;
 
 /**
  * 应用Application
@@ -25,6 +28,9 @@ import com.nostra13.universalimageloader.utils.StorageUtils;
  * 
  */
 public class MyApplication extends Application {
+
+	/** 设备MAC地址 */
+	public static String deviceMac = "";
 
 	public static ImageLoader imageLoader;// 图片加载器
 
@@ -45,8 +51,9 @@ public class MyApplication extends Application {
 		super.onCreate();
 		initImageLoaderCacheDir();
 		initImageLoader(this);
-		
-		
+		DeviceInfo.CollectInfo();
+		deviceMac = DeviceInfo.DeviceMac;
+		L.d("device--" + deviceMac);
 	}
 
 	/**

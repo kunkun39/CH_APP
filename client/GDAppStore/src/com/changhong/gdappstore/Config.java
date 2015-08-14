@@ -7,7 +7,7 @@ package com.changhong.gdappstore;
  * 
  */
 public class Config {
-	public static final boolean ISTEST=true;
+	public static final boolean ISTEST = true;
 	/***************************** 网络请求配置项 ******************************************/
 	/** 请求链接超时 */
 	public static int CONNECTION_TIMEOUT = 6000;
@@ -27,6 +27,9 @@ public class Config {
 	public static String getAppSearchUrl = BASEURL + "client/appsearch.html";
 	/** 获取app升级信息地址 **/
 	public static String getAppVersionsUrl = BASEURL + "client/appversions.html";
+	/** app下载成功后提交统计 **/
+	public static String putAppDownloadOK = BASEURL + "/client/appdownload.html";
+
 	/**
 	 * 
 	 * 
