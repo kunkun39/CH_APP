@@ -47,7 +47,6 @@ public class MyApplication extends Application {
 		initImageLoader(this);
 		
 		
-		
 	}
 
 	/**
