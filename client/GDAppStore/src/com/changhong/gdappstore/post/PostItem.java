@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.NativeApp;
+import com.changhong.gdappstore.util.ImageLoadUtil;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.view.ScoreView;
 import com.post.view.base.BasePostItem;
@@ -84,7 +85,7 @@ public class PostItem extends BasePostItem {
 		if (app==null) {
 			return;
 		}
-		iv_appicon.setImageResource(R.drawable.icon_test_dianshiqq);
+		ImageLoadUtil.displayImgByonlyDiscCache(app.getPosterFilePath(), iv_appicon);
 		tv_appname.setText(app.getAppname());
 		scoreView.setVisibility(GONE);
 	}
