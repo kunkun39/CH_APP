@@ -223,7 +223,7 @@ public class PosterLayoutView extends BasePosterLayoutView {
 				wallView1.initData(items.subList(nextFirst, items.size()), -1);
 				wallView1.setFirstPosInDataList(nextFirst);
 			}else {
-				wallView1.initData(null, 0);
+				wallView1.initData(null, -1);
 			}
 		}
 		{// 初始化上一页
