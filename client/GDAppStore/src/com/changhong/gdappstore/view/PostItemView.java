@@ -4,7 +4,6 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -12,8 +11,8 @@ import android.widget.TextView;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseRelativeLayout;
 import com.changhong.gdappstore.model.Category;
-import com.changhong.gdappstore.model.MainPostItemModel;
 import com.changhong.gdappstore.model.PageApp;
+import com.changhong.gdappstore.util.ImageLoadUtil;
 
 /**
  * 推荐位海报
@@ -52,28 +51,6 @@ public class PostItemView extends BaseRelativeLayout {
 		tv_appname = findView(R.id.tv_appname);
 	}
 
-	public void setData(MainPostItemModel model) {
-		if (model == null) {
-			return;
-		}
-		if (model.isapp) {
-			rl_app.setVisibility(VISIBLE);
-			rl_post.setVisibility(INVISIBLE);
-			if (model.imageId > 0) {
-				iv_appicon.setImageResource(model.imageId);
-			}
-			tv_appname.setText(TextUtils.isEmpty(model.name) ? "" : model.name);
-		} else {
-			rl_app.setVisibility(VISIBLE);
-			rl_post.setVisibility(VISIBLE);
-			if (model.imageId > 0) {
-				iv_post.setImageResource(model.imageId);
-			}
-			tv_postname.setText(TextUtils.isEmpty(model.name) ? "" : model.name);
-		}
-
-	}
-
 	/**
 	 * 栏目推荐位
 	 * 
@@ -82,11 +59,11 @@ public class PostItemView extends BaseRelativeLayout {
 	 *            图片临时采用写死
 	 */
 	public void setCategoryData(Category category) {
+		rl_app.setVisibility(VISIBLE);
+		rl_post.setVisibility(INVISIBLE);
 		if (category == null) {
 			return;
 		}
-		rl_app.setVisibility(VISIBLE);
-		rl_post.setVisibility(INVISIBLE);
 		if (TextUtils.isEmpty(category.getIconFilePath())) {
 			// 没有配置图片时候写死配置
 			if (category.getName().equals("搜索")) {
@@ -133,15 +110,21 @@ public class PostItemView extends BaseRelativeLayout {
 			return;
 		}
 		if (pageApp.getPosition() > 3) {
+			// 小海报图标
 			rl_app.setVisibility(VISIBLE);
 			rl_post.setVisibility(INVISIBLE);
-
-			tv_appname.setText(TextUtils.isEmpty(pageApp.getAppname()) ? "" : pageApp.getAppname());
+			if (pageApp != null) {
+				ImageLoadUtil.displayImgByMemoryDiscCache(pageApp.getPosterFilePath(), iv_appicon);
+				tv_appname.setText(TextUtils.isEmpty(pageApp.getAppname()) ? "" : pageApp.getAppname());
+			}
 		} else {
+			// 大海报图片
 			rl_app.setVisibility(INVISIBLE);
 			rl_post.setVisibility(VISIBLE);
-
-			tv_postname.setText(TextUtils.isEmpty(pageApp.getAppname()) ? "" : pageApp.getAppname());
+			if (pageApp != null) {
+				ImageLoadUtil.displayImgByMemoryDiscCache(pageApp.getPosterFilePath(), iv_post);
+				tv_postname.setText(TextUtils.isEmpty(pageApp.getAppname()) ? "" : pageApp.getAppname());
+			}
 		}
 	}
 }

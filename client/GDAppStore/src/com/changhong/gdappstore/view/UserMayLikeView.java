@@ -8,9 +8,9 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BasePageView;
-import com.changhong.gdappstore.model.MainPostItemModel;
 import com.changhong.gdappstore.util.L;
 
 public class UserMayLikeView extends BasePageView implements OnFocusChangeListener, OnClickListener {
@@ -62,8 +62,7 @@ public class UserMayLikeView extends BasePageView implements OnFocusChangeListen
 
 	public void initData() {
 		for (int i = 0; i < itemCount; i++) {
-			itemViews[i].setData(new MainPostItemModel(true,
-					R.drawable.img_post1+i%3, "应用名字"));
+			itemViews[i].setAppData(null);
 		}
 	}
 

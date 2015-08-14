@@ -6,16 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BasePageView;
-import com.changhong.gdappstore.base.BaseRelativeLayout;
 import com.changhong.gdappstore.model.Category;
-import com.changhong.gdappstore.model.MainPostItemModel;
 import com.changhong.gdappstore.model.PageApp;
 import com.changhong.gdappstore.util.L;
 
@@ -100,19 +96,6 @@ public class YuLeView extends BasePageView implements OnFocusChangeListener, OnC
 					}
 				});
 			}
-		}
-	}
-
-	// 测试数据类
-	private void initData() {
-		itemViews[0].setData(new MainPostItemModel(true, R.drawable.icon_yule_life, "生活"));
-		itemViews[1].setData(new MainPostItemModel(true, R.drawable.icon_yule_child, "亲子"));
-		itemViews[2].setData(new MainPostItemModel(true, R.drawable.icon_yule_health, "健康"));
-		itemViews[3].setData(new MainPostItemModel(true, R.drawable.icon_yule_more, "更多"));
-		itemViews[11].setData(new MainPostItemModel(false, R.drawable.img_post2, "海报2名字"));
-		itemViews[12].setData(new MainPostItemModel(false, R.drawable.img_post3, "海报3名字"));
-		for (int i = 4; i < 10; i++) {
-			itemViews[i].setData(new MainPostItemModel(true, R.drawable.img_post1 + i % 3, "应用名字"));
 		}
 	}
 
