@@ -35,6 +35,7 @@ public class Parse {
 	public static String json_appdetail = "{\"apkFilePath\":\"2tx4dsmnx8.apk\",\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"appSize\":\"10.65\",\"appVersion\":\"2.004\",\"description\":\"西米隐隐西米隐隐\",\"download\":0,\"host\":\"http://localhost:8081/appmarket/upload/\",\"iconFilePath\":\"wrr3i3wy62.png\",\"posterFilePath\":\"sssth0c89d.png\"}";
 	public static String json_appranklist = "{\"FASTEST\":[{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"posterFilePath\":\"sssth0c89d.png\"}],\"HOTEST\":[{\"appId\":126,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":132,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":120,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":128,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":122,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":127,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":131,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":135,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":134,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":121,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"}],\"NEWEST\":[{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":140,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"posterFilePath\":\"j9gd3z32ru.jpg\"},{\"appId\":139,\"appKey\":\"vo92sv6v\",\"appName\":\"游戏互动\",\"posterFilePath\":\"xy9sfxgope.png\"},{\"appId\":138,\"appKey\":\"z8d6gvqd\",\"appName\":\"百度音乐\",\"posterFilePath\":\"2muqe5g4wr.png\"},{\"appId\":137,\"appKey\":\"j4pyq3zv\",\"appName\":\"酷狗音乐\",\"posterFilePath\":\"2b0ckiz81r.apk\"},{\"appId\":2,\"appKey\":\"17c0cu1y\",\"appName\":\"网页新闻\",\"posterFilePath\":\"6ec33tpang.apk\"},{\"appId\":1,\"appKey\":\"nefbaxki\",\"appName\":\"大话宿友\",\"posterFilePath\":\"kk73gncxbr.png\"},{\"appId\":122,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":123,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":124,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"}]}";
 	public static String json_appsearch = "{\"host\":\"http://localhost:8081/appmarket/upload/\",\"values\":[{\"appId\":132,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":126,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":120,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":114,\"appKey\":\"1234567890\",\"appName\":\"Intel Me\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":108,\"appKey\":\"1234567890\",\"appName\":\"Intel Me\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":102,\"appKey\":\"1234567890\",\"appName\":\"Intel Me\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":122,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":123,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":124,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":128,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"}]}";
+	public static String json_appversions = "{\"host\":\"http://localhost:8081/appmarket/upload/\",\"values\":[{\"package\":com.xxxx,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"appVersion\":\"1.93\"},{\"package\":com.xxxx,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"appVersion\":\"2.004\"}]}";
 
 	/**
 	 * 解析栏目数据
@@ -170,18 +171,7 @@ public class Parse {
 			for (int i = 0; i < array.length(); i++) {
 				App app = new App();
 				JSONObject appobject = array.getJSONObject(i);
-				if (appobject.has("appId")) {
-					app.setAppid(appobject.getInt("appId"));
-				}
-				if (appobject.has("appKey")) {
-					app.setAppkey(appobject.getString("appKey"));
-				}
-				if (appobject.has("appName")) {
-					app.setAppname(appobject.getString("appName"));
-				}
-				if (appobject.has("posterFilePath")) {
-					app.setPosterFilePath(host + app.getAppkey() + "/" + appobject.getString("posterFilePath"));
-				}
+				parseApp(appobject, app, host);
 				apps.add(app);
 			}
 		} catch (JSONException e) {
@@ -217,8 +207,10 @@ public class Parse {
 		}
 		return appDetail;
 	}
+
 	/**
 	 * 解析搜索json数据
+	 * 
 	 * @param searchAppsJson
 	 * @return
 	 */
@@ -236,18 +228,7 @@ public class Parse {
 			for (int i = 0; i < array.length(); i++) {
 				App app = new App();
 				JSONObject appobject = array.getJSONObject(i);
-				if (appobject.has("appId")) {
-					app.setAppid(appobject.getInt("appId"));
-				}
-				if (appobject.has("appKey")) {
-					app.setAppkey(appobject.getString("appKey"));
-				}
-				if (appobject.has("appName")) {
-					app.setAppname(appobject.getString("appName"));
-				}
-				if (appobject.has("posterFilePath")) {
-					app.setPosterFilePath(host + app.getAppkey() + "/" + appobject.getString("posterFilePath"));
-				}
+				parseApp(appobject, app, host);
 				apps.add(app);
 			}
 		} catch (JSONException e) {
@@ -255,5 +236,60 @@ public class Parse {
 		}
 
 		return apps;
+	}
+
+	/**
+	 * 解析需要升级的json数据
+	 * 
+	 * @param appUpdateJson
+	 * @return
+	 */
+	public static List<Object> parseAppVersions(String appVersionsJson) {
+		List<Object> apps = new ArrayList<Object>();
+
+		if (TextUtils.isEmpty(appVersionsJson)) {
+			L.w("returned by categoryAppJson is empty when parseCategoryApp");
+			return apps;
+		}
+		try {
+			JSONObject object = new JSONObject(appVersionsJson);
+			String host = object.getString("host");
+			JSONArray array = object.getJSONArray("values");
+			for (int i = 0; i < array.length(); i++) {
+				App app = new App();
+				JSONObject appobject = array.getJSONObject(i);
+				parseApp(appobject, app, host);
+				apps.add(app);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		return apps;
+	}
+
+	private static void parseApp(JSONObject appobject, App app, String host) {
+		try {
+			if (appobject.has("appId")) {
+				app.setAppid(appobject.getInt("appId"));
+			}
+			if (appobject.has("package")) {
+				app.setPackageName(appobject.getString("package"));
+			}
+			if (appobject.has("appKey")) {
+				app.setAppkey(appobject.getString("appKey"));
+			}
+			if (appobject.has("appName")) {
+				app.setAppname(appobject.getString("appName"));
+			}
+			if (appobject.has("appVersion")) {
+				app.setVersion(appobject.getString("appVersion"));
+			}
+			if (appobject.has("posterFilePath")) {
+				app.setPosterFilePath(host + app.getAppkey() + "/" + appobject.getString("posterFilePath"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

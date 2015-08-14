@@ -182,8 +182,8 @@ public class PosterLayoutView extends BasePosterLayoutView {
 		isNext = true;
 		curFoucsPos = 0;
 		curpage = 1;
-		// L.debug(TAG+"curfirst=1="+curFirstPos+" postnum="+postnum+"  "+(curFirstPos
-		// / postnum)+"  "+((curFirstPos / postnum) * postnum));
+		 L.d(TAG+"curfirst=1="+curFirstPos+" postnum="+postnum+"  "+(curFirstPos
+		 / postnum)+"  "+((curFirstPos / postnum) * postnum));
 		{// 矫正初始位置
 			curFirstPos = curFirstPos < 0 ? 0 : curFirstPos;// 处理小于0
 			curFirstPos = curFirstPos >= items.size() ? items.size() - 1 : curFirstPos;// 处理大于长度
@@ -222,6 +222,8 @@ public class PosterLayoutView extends BasePosterLayoutView {
 			} else if (items.size() > nextFirst) {
 				wallView1.initData(items.subList(nextFirst, items.size()), -1);
 				wallView1.setFirstPosInDataList(nextFirst);
+			}else {
+				wallView1.initData(null, 0);
 			}
 		}
 		{// 初始化上一页

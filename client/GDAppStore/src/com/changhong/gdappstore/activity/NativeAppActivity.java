@@ -28,6 +28,7 @@ public class NativeAppActivity extends PostActivity {
 		postSetting.setOnItemClickListener(nativeappPostItemOnclickListener);
 		postSetting.setOnItemLongClickListener(null);
 		if (apps != null) {
+//			postView.initData(apps, apps.size());
 			postView.refreshAllData(apps, postSetting, apps.size());
 		}
 	}
@@ -45,24 +46,25 @@ public class NativeAppActivity extends PostActivity {
 			PackageInfo packageInfo = packages.get(i);
 			if ((packageInfo.applicationInfo.flags & packageInfo.applicationInfo.FLAG_SYSTEM) <= 0) {
 				// 非系统预装的应用程序
+
+				NativeApp tmpInfo = new NativeApp();
+				tmpInfo.appname = packageInfo.applicationInfo.loadLabel(getPackageManager()).toString();
+				tmpInfo.appPackage = packageInfo.packageName;
+				tmpInfo.versionName = packageInfo.versionName;
+				tmpInfo.versionCode = packageInfo.versionCode;
+				tmpInfo.appIcon = packageInfo.applicationInfo.loadIcon(getPackageManager());
+				nativeApps.add(tmpInfo);
 			}
-			NativeApp tmpInfo = new NativeApp();
-			tmpInfo.appname = packageInfo.applicationInfo.loadLabel(getPackageManager()).toString();
-			tmpInfo.appPackage = packageInfo.packageName;
-			tmpInfo.versionName = packageInfo.versionName;
-			tmpInfo.versionCode = packageInfo.versionCode;
-			tmpInfo.appIcon = packageInfo.applicationInfo.loadIcon(getPackageManager());
-			nativeApps.add(tmpInfo);
 		}
 		return nativeApps;
 	}
-	
+
 	/** 海报墙点击监听 **/
 	private IItemOnClickListener nativeappPostItemOnclickListener = new IItemOnClickListener() {
 
 		@Override
 		public void itemOnClick(BasePosterLayoutView arg0, View arg1, int arg2) {
-			NativeApp tmpInfo =(NativeApp) arg1.getTag();
+			NativeApp tmpInfo = (NativeApp) arg1.getTag();
 		}
 	};
 }
