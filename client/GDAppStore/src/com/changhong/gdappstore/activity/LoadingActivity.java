@@ -31,7 +31,7 @@ public class LoadingActivity extends BaseActivity {
 	
 	private void loadData() {
 		DataCenter dataCenter=DataCenter.getInstance();
-		dataCenter.loadCategoryAndPageData(new LoadCompleteListener() {
+		dataCenter.loadCategoryAndPageData(context,new LoadCompleteListener() {
 			
 			@Override
 			public void onComplete() {

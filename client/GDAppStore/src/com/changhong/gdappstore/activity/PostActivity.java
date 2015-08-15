@@ -105,7 +105,7 @@ public class PostActivity extends BaseActivity {
 				}
 			}
 		}
-		dataCenter.loadAppsByCategoryId(currentCategoryId, loadAppListListener);
+		dataCenter.loadAppsByCategoryId(context,currentCategoryId, loadAppListListener);
 	}
 	private LoadListListener loadAppListListener=new LoadListListener() {
 		
@@ -124,7 +124,7 @@ public class PostActivity extends BaseActivity {
 		@Override
 		public void onItemClick(View view, int position) {
 			Category category = (Category) view.getTag();
-			dataCenter.loadAppsByCategoryId(category.getId(), loadAppListListener);
+			dataCenter.loadAppsByCategoryId(context,category.getId(), loadAppListListener);
 		}
 	};
 	/**
