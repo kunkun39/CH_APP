@@ -49,7 +49,7 @@ public class UpdateService {
 	public static boolean THREAD_TWO_FINISHED = true;
 	public static boolean THREAD_DOWNLOAD_EXCEPTION = false;
 
-	public static final String baseUpdatePath = "/data/data/com.changhong.tvhelper/";
+	public static final String baseUpdatePath = "/data/data/com.changhong.gdappstore/";
 	public static File updateFile;
 	public static AppDetail appDetail;
 
@@ -66,6 +66,9 @@ public class UpdateService {
 		if (downloading) {
 			Toast.makeText(context, "当前正在下载更新，请耐心等待", Toast.LENGTH_SHORT).show();
 			return;
+		}
+		if (handler==null) {
+			handler=new Handler();
 		}
 
 		/**
@@ -142,11 +145,13 @@ public class UpdateService {
 
 	private void downloadApp() {
 
-		Dialog dialog = DialogUtil.showAlertDialog(context, "提示：", "软件下载中...", new DialogBtnOnClickListener() {
+		Dialog dialog = DialogUtil.showAlertDialog(context, "提示：", "确定要下载？...", new DialogBtnOnClickListener() {
 
 			@Override
 			public void onSubmit(DialogMessage dialogMessage) {
-				m_pDialog.show();
+				if (m_pDialog!=null) {
+					m_pDialog.show();
+				}
 
 				new Thread(new Runnable() {
 					@Override
@@ -169,7 +174,9 @@ public class UpdateService {
 								if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
 									connection.connect();
 									fileTotalSize = connection.getContentLength();
+									if (m_pDialog!=null) {
 									m_pDialog.setMax(fileTotalSize);
+									}
 								}
 							} catch (Exception e) {
 								downloading = false;
@@ -230,7 +237,9 @@ public class UpdateService {
 								 * 计算现在更新的进度
 								 */
 								int alreadyRead = (int) preferenceService.getTotalDownlaodDataSize();
+								if (m_pDialog!=null) {
 								m_pDialog.setProgress(alreadyRead);
+								}
 							}
 
 							// 下载完成，重置下载的进度
@@ -245,7 +254,9 @@ public class UpdateService {
 							Message message = new Message();
 							message.arg1 = MESSAGE_DOWNLOADOVER;
 							handler.sendMessage(message);
+							if (m_pDialog!=null) {
 							m_pDialog.setProgress(0);
+							}
 
 						} catch (Exception e) {
 							// 异常捕获
