@@ -13,6 +13,7 @@ import com.changhong.gdappstore.base.BaseRelativeLayout;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.model.PageApp;
 import com.changhong.gdappstore.util.ImageLoadUtil;
+import com.changhong.gdappstore.util.L;
 
 /**
  * 推荐位海报
@@ -65,6 +66,7 @@ public class PostItemView extends BaseRelativeLayout {
 			return;
 		}
 		if (TextUtils.isEmpty(category.getIconFilePath())) {
+			L.d("111 "+""+"  "+category);
 			// 没有配置图片时候写死配置
 			if (category.getName().equals("搜索")) {
 				iv_appicon.setImageResource(R.drawable.icon_jingpin_search);

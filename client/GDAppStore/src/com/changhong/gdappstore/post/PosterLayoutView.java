@@ -146,14 +146,14 @@ public class PosterLayoutView extends BasePosterLayoutView {
 		}
 		int numapage = postSetting.getPost_num_apage();
 		totalpage = totalNum % numapage == 0 ? totalNum / numapage : totalNum / numapage + 1;
-		if (loadItems != null && loadItems.size() > 0) {
+//		if (loadItems != null && loadItems.size() > 0) {
 			items.addAll(loadItems);
 			if (isfirst) {
 				initFirstData();
 			} else {
 				dodataChange(lastPagePos);
 			}
-		}
+//		}
 	}
 
 	/**

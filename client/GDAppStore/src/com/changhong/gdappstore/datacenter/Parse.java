@@ -66,11 +66,7 @@ public class Parse {
 					category.setParentId(parentid);
 				}
 				if (parentid == -1) {// 添加为父栏目
-					if (category.getName().equals("首页")) {
-						categories.add(0, category);// TODO 将首页添加为第一个
-					} else {
-						categories.add(category);
-					}
+					categories.add(category);
 				} else {
 					category.setCategoryPageApps(null);// 子栏目没有推荐位应用
 					category.setCategoyChildren(null);// 子栏目没有子栏目
@@ -83,6 +79,8 @@ public class Parse {
 					}
 				}
 			}
+			// TODO 将首页手动添加为第一个
+			categories.add(0, new Category(0, -1, "首页", "", new ArrayList<Category>(), new ArrayList<PageApp>()));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -132,7 +130,7 @@ public class Parse {
 
 				// TODO 临时写死的匹配
 				for (int j = 0; j < dataCenter.getCategories().size(); j++) {
-					if (dataCenter.getCategories().get(j).getId() == 16 && app.getPageid() == 1) {
+					if (dataCenter.getCategories().get(j).getId() == 0 && app.getPageid() == 1) {
 						dataCenter.getCategories().get(j).getCategoryPageApps().add(app);
 					} else if (dataCenter.getCategories().get(j).getId() == 1 && app.getPageid() == 2) {
 						dataCenter.getCategories().get(j).getCategoryPageApps().add(app);
@@ -144,7 +142,7 @@ public class Parse {
 				}
 			}
 			for (int i = 0; i < dataCenter.getCategories().size(); i++) {
-				L.d("parse category--" + dataCenter.getCategories().get(i));
+				L.d("parse pageapps--" + dataCenter.getCategories().get(i));
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();

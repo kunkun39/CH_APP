@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
 /**
  * 基类pageView
@@ -64,24 +65,38 @@ public class BasePageView extends BaseRelativeLayout {
 			itemViews[position].requestFocus();
 		}
 	}
+
 	/**
 	 * 跳转到海报墙页面
-	 * @param parentCategoryId 父栏目id
-	 * @param currentCategoryId 子栏目id
+	 * 
+	 * @param parentCategoryId
+	 *            父栏目id
+	 * @param currentCategoryId
+	 *            子栏目id
 	 */
 	protected void jumpToPostActivity(int parentCategoryId, int currentCategoryId) {
+		if (currentCategoryId < 0) {
+			Toast.makeText(context, "当前分类未配置", Toast.LENGTH_SHORT).show();
+			return;
+		}
 		Intent intent = new Intent(context, PostActivity.class);
 		intent.putExtra(Config.KEY_PARENT_CATEGORYID, parentCategoryId);
 		intent.putExtra(Config.KEY_CURRENT_CATEGORYID, currentCategoryId);
 		context.startActivity(intent);
 	}
+
 	/**
 	 * 跳转到应用详情页面
+	 * 
 	 * @param appid
 	 */
 	protected void jumpToDetailActivity(int appid) {
-		Intent intent=new Intent(context,DetailActivity.class);
-		intent.putExtra(Config.KEY_APPID,appid);
+		if (appid < 0) {
+			Toast.makeText(context, "当前应用未配置", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		Intent intent = new Intent(context, DetailActivity.class);
+		intent.putExtra(Config.KEY_APPID, appid);
 		context.startActivity(intent);
 	}
 

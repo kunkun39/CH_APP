@@ -7,14 +7,14 @@ package com.changhong.gdappstore;
  * 
  */
 public class Config {
-	public static final boolean ISTEST = true;
+	public static final boolean ISTEST = false;
 	
 	public static final int REQUEST_RESTTIEM=10*60*60;
 	/***************************** 网络请求配置项 ******************************************/
 	/** 请求链接超时 */
 	public static int CONNECTION_TIMEOUT = 6000;
 	/** 服务器基础地址 **/
-	public static String BASEURL = "http://localhost:8081/";
+	public static String BASEURL = "http://192.168.0.103:8081/appmarket/";
 	/** 获取分类地址 **/
 	public static String getCategoryUrl = BASEURL + "client/appcategories.html";
 	/** 获取页面数据地址 **/

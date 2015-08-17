@@ -112,6 +112,7 @@ public class PostActivity extends BaseActivity {
 		@Override
 		public void onComplete(List<Object> items) {
 			currentApps=items;
+			L.d("loadapp complete "+((items==null)?"items is null":items.size()));
 			postView.refreshAllData(currentApps, postSetting, currentApps.size());
 		}
 	};

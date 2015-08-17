@@ -228,7 +228,7 @@ public class DataCenter {
 			@Override
 			protected Object doInBackground(Object... params) {
 				// 缓存中没有就去服务器请求
-				String url = Config.getAppDetailUrl + "?categoryId=" + appId;
+				String url = Config.getAppDetailUrl + "?appId=" + appId;
 				String jsonString = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(url));
 				if (Config.ISTEST && TextUtils.isEmpty(jsonString)) {
 					// TODO 临时使用测试数据

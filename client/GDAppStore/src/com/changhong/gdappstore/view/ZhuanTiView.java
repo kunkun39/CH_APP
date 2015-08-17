@@ -13,6 +13,7 @@ import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BasePageView;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.model.PageApp;
+import com.changhong.gdappstore.util.L;
 /**
  * 应用页面view
  * @author wangxiufeng
