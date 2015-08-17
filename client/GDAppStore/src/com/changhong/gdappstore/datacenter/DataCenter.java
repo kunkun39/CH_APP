@@ -51,6 +51,10 @@ public class DataCenter {
 
 	/** 栏目分类列表 **/
 	private List<Category> categories = new ArrayList<Category>();
+	/** 上次请求分类数据的时间 */
+	private static long lastRequestCategoriesTime = 0;
+	/** 上次请求分类数据的时间 */
+	private static long lastRequestPageAppsTime = 0;
 
 	/************************** 缓存数据定义区域end *************************/
 	//
@@ -72,11 +76,6 @@ public class DataCenter {
 			}
 		});
 	}
-
-	/** 上次请求分类数据的时间 */
-	private static long lastRequestCategoriesTime = 0;
-	/** 上次请求分类数据的时间 */
-	private static long lastRequestPageAppsTime = 0;
 
 	/**
 	 * 加载栏目分类数据
@@ -164,7 +163,8 @@ public class DataCenter {
 
 		}.execute("");
 	}
-	/**上次请求分类下app列表时间**/
+
+	/** 上次请求分类下app列表时间 **/
 	private static Map<Integer, Long> lastRequestAppsByCategoryId = new HashMap<Integer, Long>();
 
 	/**
