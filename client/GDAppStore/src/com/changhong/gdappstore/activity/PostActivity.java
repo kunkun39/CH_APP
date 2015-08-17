@@ -17,6 +17,7 @@ import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseActivity;
 import com.changhong.gdappstore.datacenter.DataCenter;
+import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.net.LoadListener.LoadListListener;
 import com.changhong.gdappstore.post.PostItem;
@@ -64,8 +65,21 @@ public class PostActivity extends BaseActivity {
 		postView = findView(R.id.postview);
 		titleView = findView(R.id.posttitleview);
 		tv_name = findView(R.id.tv_pagename);
-		titleView.setTitleItemOnClickListener(titleItemOnClickListener);
-		titleView.setTitleItemOnFocuesChangedListener(titleItemOnFocuesChangedListener);
+		titleView.setTitleItemOnClickListener(new TitleItemOnClickListener() {
+			
+			@Override
+			public void onItemClick(View view, int position) {
+				Category category = (Category) view.getTag();
+				dataCenter.loadAppsByCategoryId(context,category.getId(), loadAppListListener);
+			}
+		});
+		titleView.setTitleItemOnFocuesChangedListener(new TitleItemOnFocuesChangedListener() {
+			
+			@Override
+			public void onItemFocuesChanged(View view, boolean hasFocues, int position) {
+				
+			}
+		});
 		initPostView();
 	}
 
@@ -107,6 +121,7 @@ public class PostActivity extends BaseActivity {
 		}
 		dataCenter.loadAppsByCategoryId(context,currentCategoryId, loadAppListListener);
 	}
+	
 	private LoadListListener loadAppListListener=new LoadListListener() {
 		
 		@Override
@@ -117,33 +132,18 @@ public class PostActivity extends BaseActivity {
 		}
 	};
 
-	/**
-	 * 标签点击监听器
-	 */
-	private TitleItemOnClickListener titleItemOnClickListener = new TitleItemOnClickListener() {
-
-		@Override
-		public void onItemClick(View view, int position) {
-			Category category = (Category) view.getTag();
-			dataCenter.loadAppsByCategoryId(context,category.getId(), loadAppListListener);
-		}
-	};
-	/**
-	 * 标签焦点监听器
-	 */
-	private TitleItemOnFocuesChangedListener titleItemOnFocuesChangedListener = new TitleItemOnFocuesChangedListener() {
-
-		@Override
-		public void onItemFocuesChanged(View view, boolean hasFocues, int position) {
-
-		}
-	};
 	/** 海报墙点击监听 **/
 	private IItemOnClickListener postItemOnclickListener = new IItemOnClickListener() {
 
 		@Override
 		public void itemOnClick(BasePosterLayoutView arg0, View arg1, int arg2) {
-			startActivity(new Intent(PostActivity.this, DetailActivity.class));
+			if (arg1==null || arg1.getTag()==null) {
+				return;
+			}
+			App app=(App) arg1.getTag();
+			Intent intent=new Intent(PostActivity.this, DetailActivity.class);
+			intent.putExtra(Config.KEY_APPID, app.getAppid());
+			startActivity(intent);
 		}
 	};
 
@@ -152,12 +152,6 @@ public class PostActivity extends BaseActivity {
 		@Override
 		public void requestNextPageDate(int currentSize) {
 			// 请求新数据回调
-			// List<Object> loadItems = new ArrayList<Object>();
-			// for (int i = currentSize; i < currentSize + 20; i++) {
-			// loadItems.add(new PostModel(i, ("标签 " + i), R.drawable.img_post_1
-			// + i % 5));
-			// }
-			// view_post.initData(loadItems, totalnum);
 		}
 
 		@Override
@@ -167,12 +161,12 @@ public class PostActivity extends BaseActivity {
 
 		@Override
 		public void lastPageOnKeyDpadDown() {
-			Toast.makeText(PostActivity.this, "已经是最后一页了！", Toast.LENGTH_SHORT).show();
+//			Toast.makeText(PostActivity.this, "已经是最后一页了！", Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
 		public void firstPageOnKeyDpadup() {
-			Toast.makeText(PostActivity.this, "已经是第一页了！", Toast.LENGTH_SHORT).show();
+//			Toast.makeText(PostActivity.this, "已经是第一页了！", Toast.LENGTH_SHORT).show();
 		}
 	};
 

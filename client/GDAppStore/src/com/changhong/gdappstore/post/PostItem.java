@@ -67,6 +67,7 @@ public class PostItem extends BasePostItem {
 	public void setData(Object object, int dataPosition, int selectedPosition) {
 		this.dataPosition = dataPosition;
 		this.selectedPos = selectedPosition;
+		setTag(object);
 		switch (postSetting.getPosttype()) {
 		case PostSetting.TYPE_NORMAL:
 			doNormalData(object);

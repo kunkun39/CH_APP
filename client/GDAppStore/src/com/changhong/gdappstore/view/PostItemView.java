@@ -65,8 +65,7 @@ public class PostItemView extends BaseRelativeLayout {
 		if (category == null) {
 			return;
 		}
-		if (TextUtils.isEmpty(category.getIconFilePath())) {
-			L.d("111 "+""+"  "+category);
+		if (TextUtils.isEmpty(category.getIconFilePath())&&!TextUtils.isEmpty(category.getName())) {
 			// 没有配置图片时候写死配置
 			if (category.getName().equals("搜索")) {
 				iv_appicon.setImageResource(R.drawable.icon_jingpin_search);
@@ -82,7 +81,7 @@ public class PostItemView extends BaseRelativeLayout {
 				iv_appicon.setImageResource(R.drawable.icon_yule_child);
 			} else if (category.getName().equals("健康")) {
 				iv_appicon.setImageResource(R.drawable.icon_yule_health);
-			} else if (category.getName().equals("其他")) {
+			} else if (category.getName().equals("其他")||category.getName().equals("其它")) {
 				iv_appicon.setImageResource(R.drawable.icon_yule_more);
 			} else if (category.getName().equals("休闲")) {
 				iv_appicon.setImageResource(R.drawable.icon_youxi_relax);
