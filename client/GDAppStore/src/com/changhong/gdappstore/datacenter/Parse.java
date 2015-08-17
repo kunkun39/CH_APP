@@ -16,6 +16,8 @@ import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.AppDetail;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.model.PageApp;
+import com.changhong.gdappstore.model.RankingData;
+import com.changhong.gdappstore.model.Ranking_Item;
 import com.changhong.gdappstore.util.L;
 
 /**
@@ -33,7 +35,7 @@ public class Parse {
 //	public static Map<Integer, String> json_categoryapps = new HashMap<Integer, String>();
 //
 //	public static String json_appdetail = "{\"apkFilePath\":\"2tx4dsmnx8.apk\",\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"appSize\":\"10.65\",\"appVersion\":\"2.004\",\"description\":\"西米隐隐西米隐隐\",\"download\":0,\"host\":\"http://localhost:8081/appmarket/upload/\",\"iconFilePath\":\"wrr3i3wy62.png\",\"posterFilePath\":\"sssth0c89d.png\"}";
-//	public static String json_appranklist = "{\"FASTEST\":[{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"posterFilePath\":\"sssth0c89d.png\"}],\"HOTEST\":[{\"appId\":126,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":132,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":120,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":128,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":122,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":127,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":131,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":135,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":134,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":121,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"}],\"NEWEST\":[{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":140,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"posterFilePath\":\"j9gd3z32ru.jpg\"},{\"appId\":139,\"appKey\":\"vo92sv6v\",\"appName\":\"游戏互动\",\"posterFilePath\":\"xy9sfxgope.png\"},{\"appId\":138,\"appKey\":\"z8d6gvqd\",\"appName\":\"百度音乐\",\"posterFilePath\":\"2muqe5g4wr.png\"},{\"appId\":137,\"appKey\":\"j4pyq3zv\",\"appName\":\"酷狗音乐\",\"posterFilePath\":\"2b0ckiz81r.apk\"},{\"appId\":2,\"appKey\":\"17c0cu1y\",\"appName\":\"网页新闻\",\"posterFilePath\":\"6ec33tpang.apk\"},{\"appId\":1,\"appKey\":\"nefbaxki\",\"appName\":\"大话宿友\",\"posterFilePath\":\"kk73gncxbr.png\"},{\"appId\":122,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":123,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":124,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"}]}";
+	public static String json_appranklist = "{\"host\":\"http://localhost:8081/appmarket/upload/\",\"FASTEST\":[{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"posterFilePath\":\"sssth0c89d.png\"}],\"HOTEST\":[{\"appId\":126,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":132,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":120,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":128,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":122,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":127,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":131,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":135,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":134,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":121,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"}],\"NEWEST\":[{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":140,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"posterFilePath\":\"j9gd3z32ru.jpg\"},{\"appId\":139,\"appKey\":\"vo92sv6v\",\"appName\":\"游戏互动\",\"posterFilePath\":\"xy9sfxgope.png\"},{\"appId\":138,\"appKey\":\"z8d6gvqd\",\"appName\":\"百度音乐\",\"posterFilePath\":\"2muqe5g4wr.png\"},{\"appId\":137,\"appKey\":\"j4pyq3zv\",\"appName\":\"酷狗音乐\",\"posterFilePath\":\"2b0ckiz81r.apk\"},{\"appId\":2,\"appKey\":\"17c0cu1y\",\"appName\":\"网页新闻\",\"posterFilePath\":\"6ec33tpang.apk\"},{\"appId\":1,\"appKey\":\"nefbaxki\",\"appName\":\"大话宿友\",\"posterFilePath\":\"kk73gncxbr.png\"},{\"appId\":122,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":123,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":124,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"}]}";
 //	public static String json_appsearch = "{\"host\":\"http://localhost:8081/appmarket/upload/\",\"values\":[{\"appId\":132,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":126,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":120,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":114,\"appKey\":\"1234567890\",\"appName\":\"Intel Me\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":108,\"appKey\":\"1234567890\",\"appName\":\"Intel Me\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":102,\"appKey\":\"1234567890\",\"appName\":\"Intel Me\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":122,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":123,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":124,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":128,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"}]}";
 //	public static String json_appversions = "{\"host\":\"http://localhost:8081/appmarket/upload/\",\"values\":[{\"package\":com.xxxx,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"appVersion\":\"1.93\"},{\"package\":com.xxxx,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"appVersion\":\"2.004\"}]}";
 
@@ -289,5 +291,83 @@ public class Parse {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static boolean parseRankingList(String rankingListJson) {
+		if (TextUtils.isEmpty(rankingListJson)) {
+			L.w("rankingListJson is null!");
+			return false;
+		}
+		RankingData rankingData = RankingData.getInstance();
+		
+		try {
+			JSONObject object = new JSONObject(rankingListJson);
+			
+			String host = object.getString("host");
+			JSONArray surgeListJsonArray = object.getJSONArray("FASTEST");
+			JSONArray hotListJsonArray = object.getJSONArray("HOTEST");
+			JSONArray newListJsonArray = object.getJSONArray("NEWEST");
+			
+			ArrayList<Ranking_Item> newArrayList = parseRankingApp(newListJsonArray);
+			ArrayList<Ranking_Item> hotArrayList = parseRankingApp(hotListJsonArray);
+			ArrayList<Ranking_Item> surgeArrayList = parseRankingApp(surgeListJsonArray);
+			
+			rankingData.setHost(host);
+			
+			if(newArrayList != null && !newArrayList.isEmpty()) {
+				rankingData.setNewRankingData(newArrayList);
+			}
+			if(hotArrayList != null && !hotArrayList.isEmpty()) {
+				rankingData.setHotRankingData(hotArrayList);
+			}
+			if(surgeArrayList != null && !surgeArrayList.isEmpty()) {
+				rankingData.setSurgeRankingData(surgeArrayList);
+			}
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return true;
+	}
+	
+	private static ArrayList<Ranking_Item> parseRankingApp(JSONArray jsonArray) {
+		ArrayList<Ranking_Item> rankingList = null;
+		
+		if(jsonArray == null) {
+			return rankingList;
+		}
+		rankingList = new ArrayList<Ranking_Item>();
+		try {
+			for (int i = 0; i < jsonArray.length(); i++) {
+				Ranking_Item ranking_Item = new Ranking_Item();
+				JSONObject object = jsonArray.getJSONObject(i);
+				if (object.has("appId")) {
+					ranking_Item.setAppId(object.getInt("appId"));
+				}
+				if (object.has("appKey")) {
+					ranking_Item.setAppKey(object.getString("appKey"));
+				}
+				if (object.has("appName")) {
+					ranking_Item.setAppName(object.getString("appName"));
+				}
+				if (object.has("posterFilePath")) {
+					ranking_Item.setImgPath(object.getString("posterFilePath"));
+				}
+				ranking_Item.setTopNum(i + 1);
+				
+				rankingList.add(ranking_Item);
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			L.w("Ranking_Item parse error!");
+			if(rankingList != null) {
+				rankingList.clear();
+			}
+			rankingList = null;
+		}
+		return rankingList;
 	}
 }

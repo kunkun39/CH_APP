@@ -24,7 +24,7 @@ public class Config {
 	/** 获取app详情地址 **/
 	public static String getAppDetailUrl = BASEURL + "client/appdetails.html";
 	/** 获取app排行榜地址 **/
-	public static String getAppRankLisUrl = BASEURL + "client/appranklist.html";
+	public static String getAppRankListUrl = BASEURL + "client/appranklist.html";
 	/** 搜索app地址 **/
 	public static String getAppSearchUrl = BASEURL + "client/appsearch.html";
 	/** 获取app升级信息地址 **/

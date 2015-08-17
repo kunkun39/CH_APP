@@ -55,6 +55,9 @@ public class DataCenter {
 	private static long lastRequestCategoriesTime = 0;
 	/** 上次请求分类数据的时间 */
 	private static long lastRequestPageAppsTime = 0;
+	
+	/** 上一次请求的排行榜数据的时间 **/
+	private static long lastRequestRankListTime = 0;
 
 	/************************** 缓存数据定义区域end *************************/
 	//
@@ -375,5 +378,45 @@ public class DataCenter {
 			}
 		}
 		return null;
+	}
+	
+	public void loadRankingList(final Context context, final LoadObjectListener objectListener) {
+		boolean result;
+		if (System.currentTimeMillis() - lastRequestRankListTime < Config.REQUEST_RESTTIEM
+				&& lastRequestRankListTime != 0) {
+			String json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_RANKLIST);
+			result = Parse.parseRankingList(json);
+			if (result == true) {
+				objectListener.onComplete(result);
+				return;// 在一定的时间段内使用缓存数据不用重复请求服务器。
+			}
+		}
+		
+		new AsyncTask<Void, Void, Boolean>() {
+			boolean result;
+			@Override
+			protected Boolean doInBackground(Void... params) {
+				// TODO Auto-generated method stub
+				String json = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(Config.getAppRankListUrl));
+				if (Config.ISTEST && TextUtils.isEmpty(json)) {
+					json = Parse.json_appranklist;
+				}
+				if (!TextUtils.isEmpty(json)) {
+					lastRequestRankListTime = System.currentTimeMillis();// 更改上次请求时间
+					CacheManager.putJsonFileCache(context, CacheManager.KEYJSON_RANKLIST, json);// 缓存json数据
+				} else {
+					L.d("datacenter-loadRankingList--server json is null,getting cache data");
+					// 没有请求到服务器数据使用缓存文件
+					json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_CATEGORIES);
+				}
+				result = Parse.parseRankingList(json);
+				return result;
+			}
+			@Override
+			protected void onPostExecute(Boolean result) {
+				objectListener.onComplete(result);
+			}
+			
+		}.execute((Void[]) null);
 	}
 }
