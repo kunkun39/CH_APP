@@ -199,6 +199,7 @@ public class Parse {
 			appDetail.setVersion(object.getString("appVersion"));
 			appDetail.setDescription(object.getString("description"));
 			appDetail.setDownload(object.getString("download"));
+			appDetail.setPackageName(object.getString("appPackage"));
 			appDetail.setIconFilePath(host + appKey + "/" + object.getString("iconFilePath"));
 			appDetail.setPosterFilePath(host + appKey + "/" + object.getString("posterFilePath"));
 

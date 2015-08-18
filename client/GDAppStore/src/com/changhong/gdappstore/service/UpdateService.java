@@ -49,7 +49,7 @@ public class UpdateService {
 	public static boolean THREAD_TWO_FINISHED = true;
 	public static boolean THREAD_DOWNLOAD_EXCEPTION = false;
 
-	public static final String baseUpdatePath = "/data/data/com.changhong.gdappstore/";
+	public static final String baseUpdatePath = "/data/data/com.changhong.gdappstore/loadapp";
 	public static File updateFile;
 	public static AppDetail appDetail;
 
@@ -80,6 +80,10 @@ public class UpdateService {
 		this.appDetail = appDetail;
 		String apkname = appDetail.getApkFilePath().substring(appDetail.getApkFilePath().lastIndexOf("/"),
 				appDetail.getApkFilePath().length());
+		File baseFile=new File(baseUpdatePath);
+		if (baseFile==null ||!baseFile.exists()||!baseFile.isDirectory()) {
+			baseFile.mkdirs();
+		}
 		updateFile = new File(baseUpdatePath + apkname);
 		/**
 		 * 根据下载的文件和上次的异常来判断走升级那个流程
@@ -112,10 +116,16 @@ public class UpdateService {
 						// 先比较本地程序和服务器的版本
 						if (filePMInfo != null) {
 							// int installVersionCode = filePMInfo.versionCode;
-							float installVersionName = Float.parseFloat(filePMInfo.versionName);
-							float newVersionName = Float.parseFloat(newVersion);
-							if (newVersionName > installVersionName) {
-								// 有更新 弹框提示下载更新
+							try {
+								float installVersionName = Float.parseFloat(filePMInfo.versionName);
+								float newVersionName = Float.parseFloat(newVersion);
+								if (newVersionName > installVersionName) {
+									// 有更新 弹框提示下载更新
+									updateFile.delete();
+									fileNotExistFlow();
+									return;
+								}
+							} catch (Exception e) {
 								updateFile.delete();
 								fileNotExistFlow();
 								return;
@@ -127,7 +137,6 @@ public class UpdateService {
 							return;
 						}
 					}
-
 					// 弹框提示安装
 					installApp();
 				} catch (Exception e) {
@@ -140,8 +149,13 @@ public class UpdateService {
 
 	private void fileNotExistFlow() {
 		// 本地版本小于等于服务器版本,有更新 弹框提示下载更新
-		downloadApp();
+		handler2.sendEmptyMessage(100);
 	}
+	Handler handler2=new Handler(){
+		public void handleMessage(Message msg) {
+			downloadApp();
+		};
+	};
 
 	private void downloadApp() {
 
@@ -290,6 +304,7 @@ public class UpdateService {
 		}
 
 		try {
+			Runtime.getRuntime().exec("chmod 0777  " + baseUpdatePath);
 			Runtime.getRuntime().exec("chmod 0777  " + updateFile.getAbsolutePath().toString());
 		} catch (IOException e) {
 			e.printStackTrace();

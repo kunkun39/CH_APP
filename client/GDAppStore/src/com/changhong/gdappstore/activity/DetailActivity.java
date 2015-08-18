@@ -1,5 +1,6 @@
 package com.changhong.gdappstore.activity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,6 +39,8 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	private ImageView iv_post, iv_icon;
 
 	private AppDetail appDetail;
+	
+	private ProgressDialog progressDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +73,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		tv_updatetime = findView(R.id.tv_updatetime);
 		tv_controltool = findView(R.id.tv_controltool);
 		tv_introduce = findView(R.id.tv_introduce);
+		progressDialog=new ProgressDialog(context);
 	}
 
 	private void initData() {
@@ -105,6 +109,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 						} catch (Exception e) {
 							L.e("checkversion--error appdetail is " + appDetail.getVersion() + " nativeapp is "
 									+ nativeApp.getVersionName());
+							bt_update.setVisibility(GONE);//TODO 如果版本号转换异常就不能更新
 							e.printStackTrace();
 						}
 					} else {
@@ -124,11 +129,9 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 			Util.openAppByPackageName(context, appDetail.getPackageName());
 			break;
 		case R.id.bt_download:
-			UpdateService updateService=new UpdateService(context, null, null);
-			updateService.update(appDetail);
-			break;
 		case R.id.bt_update:
-
+			UpdateService updateService=new UpdateService(context, null, progressDialog);
+			updateService.update(appDetail);
 			break;
 
 		default:

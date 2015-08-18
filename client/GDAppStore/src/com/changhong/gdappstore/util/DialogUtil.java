@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
