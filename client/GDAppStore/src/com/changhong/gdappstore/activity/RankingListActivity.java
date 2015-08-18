@@ -364,6 +364,7 @@ public class RankingListActivity extends Activity {
 						newArrayListAdapter.notifyDataSetChanged();
 						
 						if(currFocusSelect == FocusSelect.NEW_LISTVIEW) {
+							focusView.setArrayList(newArrayList);
 							focusView.refreshView();
 						}
 					}
@@ -377,6 +378,7 @@ public class RankingListActivity extends Activity {
 						hotArrayListAdapter.notifyDataSetChanged();
 						
 						if(currFocusSelect == FocusSelect.HOT_LISTVIEW) {
+							focusView.setArrayList(hotArrayList);
 							focusView.refreshView();
 						}
 					}
@@ -390,6 +392,7 @@ public class RankingListActivity extends Activity {
 						surgeArrayListAdapter.notifyDataSetChanged();
 						
 						if(currFocusSelect == FocusSelect.SURGE_LISTVIEW) {
+							focusView.setArrayList(surgeArrayList);
 							focusView.refreshView();
 						}
 					}

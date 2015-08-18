@@ -11,6 +11,7 @@ import com.changhong.gdappstore.util.L;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -60,6 +61,7 @@ public class FocusView {
 		L.i("focusViewChange position : " + position);
 		if(haschanged == false) {
 			haschanged = true;
+			focusItem.setVisibility(View.VISIBLE);
 		}
 		if(mArrayList == null || mArrayList.isEmpty()) {
 			L.w("focusViewChange mArrayList error!");
