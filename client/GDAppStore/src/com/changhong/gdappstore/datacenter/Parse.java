@@ -219,7 +219,7 @@ public class Parse {
 		List<Object> apps = new ArrayList<Object>();
 
 		if (TextUtils.isEmpty(searchAppsJson)) {
-			L.w("returned by categoryAppJson is empty when parseCategoryApp");
+			L.w("returned by searchAppsJson is empty when parseSearchApps");
 			return apps;
 		}
 		try {

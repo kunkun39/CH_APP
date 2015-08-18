@@ -5,13 +5,10 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnKeyListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.R;

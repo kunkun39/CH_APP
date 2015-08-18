@@ -258,7 +258,7 @@ public class DataCenter {
 	 * @param keywords
 	 * @param loadListListener
 	 */
-	public static void loadAppSearch(final String keywords, final LoadListListener loadListListener) {
+	public  void loadAppSearch(final String keywords, final LoadListListener loadListListener) {
 		new AsyncTask<Object, Object, Object>() {
 
 			@Override
@@ -289,7 +289,7 @@ public class DataCenter {
 	 *            需要检测应用的包名
 	 * @param loadListListener
 	 */
-	public static void loadAppsUpdateData(final List<String> packages, final LoadListListener loadListListener) {
+	public  void loadAppsUpdateData(final List<String> packages, final LoadListListener loadListListener) {
 		new AsyncTask<Object, Object, Object>() {
 
 			@Override
@@ -300,12 +300,9 @@ public class DataCenter {
 				}
 				List<NameValuePair> paramList = new ArrayList<NameValuePair>();
 				for (int i = 0; i < packages.size(); i++) {
-					paramList.add(new BasicNameValuePair("", packages.get(i)));
+					paramList.add(new BasicNameValuePair("appPackages", packages.get(i)));
 				}
 				String jsonString = HttpRequestUtil.getEntityString(HttpRequestUtil.doPostRequest(url, paramList));
-				if (Config.ISTEST && TextUtils.isEmpty(jsonString)) {
-					jsonString = "{\"host\":\"http://localhost:8081/appmarket/upload/\",\"values\":[{\"package\":com.xxxx,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"appVersion\":\"1.93\"},{\"package\":com.xxxx,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"appVersion\":\"2.004\"}]}";
-				}
 				List<Object> apps = Parse.parseSearchApps(jsonString);
 				return apps;
 			}
