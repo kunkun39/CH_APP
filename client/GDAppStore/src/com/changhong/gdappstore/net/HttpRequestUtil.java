@@ -40,6 +40,9 @@ public class HttpRequestUtil {
 	 */
 	public static String getEntityString(HttpEntity httpEntity) {
 		String jsonString = "";
+		if(httpEntity == null) {
+			return null;
+		}
 		try {
 			long contentLenght = httpEntity.getContentLength();
 			jsonString = EntityUtils.toString(httpEntity, "UTF-8");

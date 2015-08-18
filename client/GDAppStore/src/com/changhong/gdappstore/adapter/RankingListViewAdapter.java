@@ -2,7 +2,9 @@ package com.changhong.gdappstore.adapter;
 
 import java.util.ArrayList;
 import com.changhong.gdappstore.R;
+import com.changhong.gdappstore.model.RankingData;
 import com.changhong.gdappstore.model.Ranking_Item;
+import com.changhong.gdappstore.util.ImageLoadUtil;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -19,12 +21,14 @@ public class RankingListViewAdapter extends BaseAdapter {
 	private Context mContext = null;
 	private ArrayList<Ranking_Item> mArrayList = null;
 	private LayoutInflater flater = null;
+	private RankingData rankingData;
 
 	public RankingListViewAdapter(Context context,ArrayList<Ranking_Item> array) {
 		// TODO Auto-generated constructor stub
 		mContext = context;
 		mArrayList = array;
 		flater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		rankingData = RankingData.getInstance();
 	}
 
 	@Override
@@ -56,7 +60,7 @@ public class RankingListViewAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		//Debug.i("�ػ棺" + position);
+		//Debug.i("位置：" + position);
 		
 		ViewHolder holder;
 		
@@ -84,6 +88,9 @@ public class RankingListViewAdapter extends BaseAdapter {
 		Bitmap bitmap = ranking_Item.getAppBitmap();
 		if (null != bitmap) {
 			holder.app_icon.setImageBitmap(bitmap);
+		}
+		else {
+			ImageLoadUtil.displayImgByMemoryDiscCache(rankingData.getHost() + ranking_Item.getAppKey() + "/" + ranking_Item.getAppIconPath(), holder.app_icon);
 		}
 		
 		holder.app_name.setText(ranking_Item.getAppName());

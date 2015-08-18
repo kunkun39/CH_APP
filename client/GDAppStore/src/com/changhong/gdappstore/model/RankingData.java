@@ -15,7 +15,7 @@ public class RankingData {
 	}
 
 	public static RankingData getInstance() {
-		if(rankingData != null) {
+		if(rankingData == null) {
 			rankingData = new RankingData();
 		}
 		return rankingData;

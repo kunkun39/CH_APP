@@ -354,7 +354,10 @@ public class Parse {
 					ranking_Item.setAppName(object.getString("appName"));
 				}
 				if (object.has("posterFilePath")) {
-					ranking_Item.setImgPath(object.getString("posterFilePath"));
+					ranking_Item.setAppIconPath(object.getString("posterFilePath"));
+				}
+				if (object.has("download")) {
+					ranking_Item.setDownload_num(object.getString("download"));
 				}
 				ranking_Item.setTopNum(i + 1);
 				

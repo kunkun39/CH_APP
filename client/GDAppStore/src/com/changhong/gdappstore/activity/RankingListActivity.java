@@ -4,7 +4,10 @@ import java.util.ArrayList;
 
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.adapter.RankingListViewAdapter;
+import com.changhong.gdappstore.datacenter.DataCenter;
+import com.changhong.gdappstore.model.RankingData;
 import com.changhong.gdappstore.model.Ranking_Item;
+import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
 import com.changhong.gdappstore.test.Ranking_data_test;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.view.FocusView;
@@ -13,6 +16,7 @@ import com.changhong.gdappstore.view.ListViewPosition;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,6 +25,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 public class RankingListActivity extends Activity {
+	public static final int LOAD_RANKING_OK = 0x1001;
+	public static final int LOAD_RANKING_FAIL = 0x1002;
 	private ListView listView_new;
 	private ListView listView_hot;
 	private ListView listView_surge;
@@ -46,10 +52,10 @@ public class RankingListActivity extends Activity {
 		SURGE_LISTVIEW
 	}
 	//记录listview焦点
-	FocusSelect currFocusSelect = FocusSelect.NEW_LISTVIEW;
+	private FocusSelect currFocusSelect = FocusSelect.NEW_LISTVIEW;
 	
-	private RelativeLayout lastContentLayout;
-	Ranking_data_test data_test;
+	private Ranking_data_test data_test;
+	private DataCenter dataCenter;
 
 	public RankingListActivity() {
 		// TODO Auto-generated constructor stub
@@ -60,7 +66,7 @@ public class RankingListActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ranking_list);
-		
+		initData();
 		initView();
 	}
 	
@@ -232,6 +238,23 @@ public class RankingListActivity extends Activity {
 		listView_hot.setFocusable(false);
 		listView_surge.setFocusable(false);
 	}
+	
+	private void initData() {
+		dataCenter = DataCenter.getInstance();
+		dataCenter.loadRankingList(this, new LoadObjectListener() {
+			
+			@Override
+			public void onComplete(Object object) {
+				// TODO Auto-generated method stub
+				if((Boolean)object == true) {
+					handler.sendEmptyMessage(LOAD_RANKING_OK);
+				}
+				else {
+					handler.sendEmptyMessage(LOAD_RANKING_FAIL);
+				}
+			}
+		});
+	}
 
 	private OnItemSelectedListener newOnItemSelectedListener = new OnItemSelectedListener() {
 
@@ -243,7 +266,7 @@ public class RankingListActivity extends Activity {
 				L.i("当前listView_hot选择为：" + position + "FirstVisiblePosition:" + listView_hot.getFirstVisiblePosition());
 				
 				int offset = newListViewPosition.caculateOffset(position,true);
-				if(-1 != offset) {
+				if(-1 != offset || !focusView.hasChanged()) {
 					listViewChange.hideView((RelativeLayout) view.findViewById(R.id.ranking_item));
 					
 					listView_new.setSelectionFromTop(position,offset);
@@ -318,5 +341,54 @@ public class RankingListActivity extends Activity {
 			
 		}
 		
+	};
+	
+	private Handler handler = new Handler(){
+		public void handleMessage(android.os.Message msg) {
+			if (msg != null) {
+				L.i("Handler msg : " + msg.what);
+				switch(msg.what) {
+				case LOAD_RANKING_OK:
+					RankingData rankingData = RankingData.getInstance();
+					ArrayList<Ranking_Item> newList = rankingData.getNewRankingData();
+					ArrayList<Ranking_Item> hotList = rankingData.getHotRankingData();
+					ArrayList<Ranking_Item> surgeList = rankingData.getSurgeRankingData();
+					
+					if(newList != null) {
+						L.i(newList.toString());
+						newArrayList = newList;
+						newArrayListAdapter = new RankingListViewAdapter(RankingListActivity.this, newArrayList);
+
+						newListViewPosition = new ListViewPosition(newArrayList.size(), 450, 118);
+						listView_new.setAdapter(newArrayListAdapter);
+						newArrayListAdapter.notifyDataSetChanged();
+						
+					}
+					if(hotList != null) {
+						L.i(hotList.toString());
+						hotArrayList = hotList;
+						hotArrayListAdapter = new RankingListViewAdapter(RankingListActivity.this, hotArrayList);
+
+						hotListViewPosition = new ListViewPosition(hotArrayList.size(), 450, 118);
+						listView_hot.setAdapter(hotArrayListAdapter);
+						hotArrayListAdapter.notifyDataSetChanged();
+					}
+					if(surgeList != null) {
+						L.i(surgeList.toString());
+						surgeArrayList = surgeList;
+						surgeArrayListAdapter = new RankingListViewAdapter(RankingListActivity.this, surgeArrayList);
+
+						surgeListViewPosition = new ListViewPosition(surgeArrayList.size(), 450, 118);
+						listView_surge.setAdapter(surgeArrayListAdapter);
+						surgeArrayListAdapter.notifyDataSetChanged();
+					}
+					break;
+				case LOAD_RANKING_FAIL:
+					break;
+				default:
+					break;
+				}
+			}
+		};
 	};
 }

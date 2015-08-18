@@ -19,10 +19,17 @@ public class ListViewPosition {
 		this.itemHeight = itemHeight;
 		
 		fullShowNum = layoutHeight / itemHeight;
+		
+		
+		if(fullShowNum >= countNum) {
+			fullShowNum = countNum;
+			remainderHeight = 0;
+		}
+		else {
+			remainderHeight = layoutHeight % itemHeight;
+		}
 		startNumPosition = 0;
 		endNumPosition = fullShowNum - 1;
-		remainderHeight = layoutHeight % itemHeight;
-		
 		currentPosition = 0;
 		lastOffset = 0;
 		
@@ -37,7 +44,10 @@ public class ListViewPosition {
 	
 	public int caculateOffset(int toPosition,boolean keyUpDown) {
 		int offset = 0;
-		
+		L.i("startNumPosition : " + startNumPosition);
+		L.i("endNumPosition : " + endNumPosition);
+		L.i("currentPosition : " + currentPosition);
+		L.i("keyUpDown : " + keyUpDown);
 		if(toPosition < 0) {
 			startNumPosition = 0;
 			endNumPosition = fullShowNum - 1;
@@ -116,7 +126,12 @@ public class ListViewPosition {
 		else {
 			//位置不变
 			if(0 == toPosition) {
-				offset = 0;
+				if(keyUpDown) {
+					offset = -1;
+				}
+				else {
+					offset = 0;
+				}
 			}
 			else {
 				if(keyUpDown) {
@@ -128,7 +143,7 @@ public class ListViewPosition {
 			}
 		}
 		
-		if(-1 != offset) {
+		if(-1 != offset && toPosition != startNumPosition) {
 			lastOffset = offset;
 			offset += (offset % itemHeight) > 0 ? (offset / itemHeight) * 2 : ((offset / itemHeight) + 1) * 2;
 		}
@@ -143,6 +158,26 @@ public class ListViewPosition {
 	}
 	
 	public int caculateAbsolutePosition(int relativePosition) {
+		if(startNumPosition + relativePosition >= countNum) {
+			return countNum - 1;
+		}
 		return startNumPosition + relativePosition;
+	}
+	
+	public void resetParameter(int countNum) {
+		this.countNum = countNum;
+		
+		startNumPosition = 0;
+		currentPosition = 0;
+		lastOffset = 0;
+		
+		L.i("resetParameter :");
+		L.i("countNum :" + this.countNum);
+		L.i("layoutHeight :" + this.layoutHeight);
+		L.i("itemHeight :" + this.itemHeight);
+		L.i("fullShowNum :" + this.fullShowNum);
+		L.i("startNumPosition :" + this.startNumPosition);
+		L.i("endNumPosition :" + this.endNumPosition);
+		L.i("remainderHeight :" + this.remainderHeight);
 	}
 }

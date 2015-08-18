@@ -4,7 +4,10 @@ import java.util.ArrayList;
 
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.adapter.ViewHolder;
+import com.changhong.gdappstore.model.RankingData;
 import com.changhong.gdappstore.model.Ranking_Item;
+import com.changhong.gdappstore.util.ImageLoadUtil;
+import com.changhong.gdappstore.util.L;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -16,14 +19,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class FocusView {
-	ViewHolder holder;
-	ListView listview;
-	ArrayList<Ranking_Item> mArrayList;
-	Context mContext;
-	RelativeLayout focusItem;
-	RelativeLayout.LayoutParams mlayout;
-	int width;
-	int height;
+	private ViewHolder holder;
+	private ListView listview;
+	private ArrayList<Ranking_Item> mArrayList;
+	private Context mContext;
+	private RelativeLayout focusItem;
+	private RelativeLayout.LayoutParams mlayout;
+	private int width;
+	private int height;
+	private RankingData rankingData;
+	private boolean haschanged;
 	public FocusView(Context context,RelativeLayout focusItem,int width,int height) {
 		// TODO Auto-generated constructor stub
 		this.focusItem = focusItem;
@@ -41,6 +46,10 @@ public class FocusView {
 		holder.ranking_item = (RelativeLayout) focusItem.findViewById(R.id.ranking_item);
 		
 		mlayout = new RelativeLayout.LayoutParams(width + 50, height + 50);
+		
+		rankingData = RankingData.getInstance();
+		
+		haschanged = false;
 	}
 	
 	public void setArrayList(ArrayList<Ranking_Item> arrayList) {
@@ -48,12 +57,19 @@ public class FocusView {
 	}
 	
 	public void focusViewChange(int position,int leftMargin,int topMargin) {
+		L.i("focusViewChange position : " + position);
+		if(haschanged == false) {
+			haschanged = true;
+		}
 		Ranking_Item ranking_Item = mArrayList.get(position);
 		holder.top_num.setText(ranking_Item.getTopNum() + "");
 		
 		Bitmap bitmap = ranking_Item.getAppBitmap();
 		if (null != bitmap) {
 			holder.app_icon.setImageBitmap(bitmap);
+		}
+		else {
+			ImageLoadUtil.displayImgByMemoryDiscCache(rankingData.getHost() + ranking_Item.getAppKey() + "/" + ranking_Item.getAppIconPath(), holder.app_icon);
 		}
 		holder.app_name.setText(ranking_Item.getAppName());
 		holder.download_num.setText(mContext.getString(R.string.str_download) + ranking_Item.getDownload_num());
@@ -69,6 +85,10 @@ public class FocusView {
 		Animation scallBigAnimation = AnimationUtils.loadAnimation(mContext, R.anim.scale_big);
 		focusItem.startAnimation(scallBigAnimation);
 		focusItem.bringToFront();
+	}
+	
+	public boolean hasChanged() {
+		return haschanged;
 	}
 
 }

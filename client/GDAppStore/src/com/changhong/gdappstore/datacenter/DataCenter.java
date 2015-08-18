@@ -407,7 +407,7 @@ public class DataCenter {
 				} else {
 					L.d("datacenter-loadRankingList--server json is null,getting cache data");
 					// 没有请求到服务器数据使用缓存文件
-					json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_CATEGORIES);
+					json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_RANKLIST);
 				}
 				result = Parse.parseRankingList(json);
 				return result;
