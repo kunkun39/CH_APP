@@ -323,7 +323,7 @@ public class DataCenter {
 	 * @param appId
 	 *            appid信息
 	 */
-	public static void submitAppDownloadOK(final String appId) {
+	public  void submitAppDownloadOK(final String appId) {
 		new Thread(new Runnable() {
 
 			@Override

@@ -42,6 +42,8 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	private AppDetail appDetail;
 	
 	private ProgressDialog progressDialog;
+	
+	private UpdateService updateService;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +105,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		if (getIntent() != null) {
 			appId = getIntent().getIntExtra(Config.KEY_APPID, -1);
 		}
+		updateService=new UpdateService(context, null, progressDialog);
 		DataCenter.getInstance().loadAppDetail(appId, new LoadObjectListener() {
 
 			@Override
@@ -156,9 +159,12 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 			Util.openAppByPackageName(context, appDetail.getPackageName());
 			break;
 		case R.id.bt_download:
+			progressDialog.setProgress(0);
+			updateService.update(appDetail,true);
+			break;
 		case R.id.bt_update:
-			UpdateService updateService=new UpdateService(context, null, progressDialog);
-			updateService.update(appDetail);
+			progressDialog.setProgress(0);
+			updateService.update(appDetail,false);
 			break;
 
 		default:

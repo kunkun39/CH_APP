@@ -1,9 +1,12 @@
 package com.changhong.gdappstore.service;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import com.changhong.gdappstore.util.L;
 
 import android.content.Context;
 import android.util.Log;
@@ -29,12 +32,18 @@ public class UpdateFileDownloadThread extends Thread {
      * 线程下载的结束位置
      */
     private long downloadEndByte;
+    /**下载地址*/
+    private String downLoadUrl;
+    /**存放文件夹路径*/
+    private File saveFile;
 
-    public UpdateFileDownloadThread(Context context, int threadNumber, long start, long end) {
+    public UpdateFileDownloadThread(Context context, int threadNumber, long start, long end,String downLoadUrl,File saveFile) {
         this.context = context;
         this.threadNumber = threadNumber;
         this.downloadStartByte = start;
         this.downloadEndByte = end;
+        this.downLoadUrl=downLoadUrl;
+        this.saveFile=saveFile;
     }
 
     @Override
@@ -55,7 +64,7 @@ public class UpdateFileDownloadThread extends Thread {
         InputStream instream = null;
         RandomAccessFile rasf = null;
         try {
-            URL url = new URL(UpdateService.appDetail.getApkFilePath());
+            URL url = new URL(downLoadUrl);
             downloadConnection = (HttpURLConnection) url.openConnection();
             downloadConnection.setConnectTimeout(20000);
             downloadConnection.setRequestMethod("GET");
@@ -69,12 +78,13 @@ public class UpdateFileDownloadThread extends Thread {
             if (downloadConnection.getResponseCode() == HttpURLConnection.HTTP_OK || downloadConnection.getResponseCode() == HttpURLConnection.HTTP_PARTIAL) {
                 downloadConnection.connect();
                 instream = downloadConnection.getInputStream();
-                rasf = new RandomAccessFile(UpdateService.updateFile, "rwd");
+                rasf = new RandomAccessFile(saveFile, "rwd");
                 rasf.seek(downloadStartByte);
 
                 byte[] b = new byte[1024 * 24];
-                int length = -1;
-                while ((length = instream.read(b)) != -1) {
+                int length = instream.read(b);
+                while (length != -1) {
+                	L.d("download while--1-------------------"+length);
                     rasf.write(b, 0, length);
                     alreadyDownloadSize = alreadyDownloadSize + length;
 
@@ -83,8 +93,10 @@ public class UpdateFileDownloadThread extends Thread {
                      */
                     Log.d("file write size", ">>>>>" + alreadyDownloadSize);
                     preferenceService.saveThreadDownloadDataSize(threadNumber, alreadyDownloadSize);
+                    length=instream.read(b);
+                    L.d("download while--2---"+length);
                 }
-
+                L.d("download over--");
                 //下载完成，重置当前线程下载的状态
                 preferenceService.saveDownloadException(false);
 

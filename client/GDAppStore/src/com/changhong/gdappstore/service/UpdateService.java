@@ -6,6 +6,7 @@ import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.model.AppDetail;
 import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.L;
@@ -37,29 +38,39 @@ public class UpdateService {
 	private Handler handler;
 
 	/** handler需要处理的MESSAGE的编号 */
-	private int MESSAGE_SERVER_FILEERROR = 11;
-	private int MESSAGE_DOWNLOADOVER = 12;
-	private int MESSAGE_DOWNEXCEPTION = 13;
+	private final int MESSAGE_SERVER_FILEERROR = 11;
+	private final int MESSAGE_DOWNLOADOVER = 12;
+	private final int MESSAGE_DOWNEXCEPTION = 13;
 
 	/** ACITIVY传过来更新进度条 */
-	private ProgressDialog m_pDialog;
+	private ProgressDialog progressDialog;
 
 	public static boolean downloading = false;
 	public static boolean THREAD_ONE_FINISHED = true;
 	public static boolean THREAD_TWO_FINISHED = true;
 	public static boolean THREAD_DOWNLOAD_EXCEPTION = false;
-
+	/** 存放下载apk文件目录 */
 	public static final String baseUpdatePath = "/data/data/com.changhong.gdappstore/loadapp";
-	public static File updateFile;
-	public static AppDetail appDetail;
+	/** 下载apk存放文件夹 */
+	public File updateFile;
+	public AppDetail appDetail;
+	/** 是否是下载应用，true下载，false更新 */
+	private boolean isdownload = false;
 
-	public UpdateService(Context context, Handler handler, ProgressDialog m_pDialog) {
+	public UpdateService(Context context, Handler handler, ProgressDialog progressDialog) {
 		this.context = context;
 		this.handler = handler;
-		this.m_pDialog = m_pDialog;
+		this.progressDialog = progressDialog;
 	}
 
-	public void update(AppDetail appDetail) {
+	/**
+	 * 更新或下载应用
+	 * 
+	 * @param appDetail
+	 * @param isdownload
+	 *            true表示下载应用，用于下载统计
+	 */
+	public void update(AppDetail appDetail, boolean isdownload) {
 		if (appDetail == null || TextUtils.isEmpty(appDetail.getApkFilePath())) {
 			return;
 		}
@@ -67,8 +78,31 @@ public class UpdateService {
 			Toast.makeText(context, "当前正在下载更新，请耐心等待", Toast.LENGTH_SHORT).show();
 			return;
 		}
-		if (handler==null) {
-			handler=new Handler();
+		if (handler == null) {
+			handler = new Handler(){
+				@Override
+				public void handleMessage(Message msg) {
+					super.handleMessage(msg);
+					switch (msg.what) {
+					case MESSAGE_SERVER_FILEERROR:
+						Toast.makeText(context, "服务端文件解析异常", Toast.LENGTH_SHORT).show();
+						break;
+					case MESSAGE_DOWNLOADOVER:
+						Toast.makeText(context, "下载完成", Toast.LENGTH_SHORT).show();
+						break;
+					case MESSAGE_DOWNEXCEPTION:
+						Toast.makeText(context, "下载发生异常", Toast.LENGTH_LONG).show();
+						break;
+
+					default:
+						break;
+					}
+					if (progressDialog!=null && progressDialog.isShowing()) {
+						progressDialog.dismiss();
+					}
+					downloading=false;
+				}
+			};
 		}
 
 		/**
@@ -80,8 +114,8 @@ public class UpdateService {
 		this.appDetail = appDetail;
 		String apkname = appDetail.getApkFilePath().substring(appDetail.getApkFilePath().lastIndexOf("/"),
 				appDetail.getApkFilePath().length());
-		File baseFile=new File(baseUpdatePath);
-		if (baseFile==null ||!baseFile.exists()||!baseFile.isDirectory()) {
+		File baseFile = new File(baseUpdatePath);
+		if (baseFile == null || !baseFile.exists() || !baseFile.isDirectory()) {
 			baseFile.mkdirs();
 		}
 		updateFile = new File(baseUpdatePath + apkname);
@@ -119,7 +153,7 @@ public class UpdateService {
 							try {
 								float installVersionName = Float.parseFloat(filePMInfo.versionName);
 								float newVersionName = Float.parseFloat(newVersion);
-								L.d("fileExistFlow--fileversion="+filePMInfo.versionName+" "+newVersionName);
+								L.d("fileExistFlow--fileversion=" + filePMInfo.versionName + " " + newVersionName);
 								if (newVersionName > installVersionName) {
 									// 有更新 弹框提示下载更新
 									updateFile.delete();
@@ -154,7 +188,8 @@ public class UpdateService {
 		// 本地版本小于等于服务器版本,有更新 弹框提示下载更新
 		handler2.sendEmptyMessage(100);
 	}
-	Handler handler2=new Handler(){
+
+	Handler handler2 = new Handler() {
 		public void handleMessage(Message msg) {
 			downloadApp();
 		};
@@ -162,141 +197,142 @@ public class UpdateService {
 
 	private void downloadApp() {
 
-		Dialog dialog = DialogUtil.showAlertDialog(context, "提示：", "确定要下载？...", new DialogBtnOnClickListener() {
+		// Dialog dialog = DialogUtil.showAlertDialog(context, "提示：",
+		// "确定要下载？...", new DialogBtnOnClickListener() {
+		// @Override
+		// public void onSubmit(DialogMessage dialogMessage) {
+		if (progressDialog != null) {
+			progressDialog.show();
+		}
 
+		new Thread(new Runnable() {
 			@Override
-			public void onSubmit(DialogMessage dialogMessage) {
-				if (m_pDialog!=null) {
-					m_pDialog.show();
+			public void run() {
+				if (!NetworkUtils.isConnectInternet(context)) {
+					return;
 				}
+				try {
+					downloading = true;
 
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						if (!NetworkUtils.isConnectInternet(context)) {
-							return;
+					// 先获得文件的大小
+					int fileTotalSize = 0;
+					HttpURLConnection connection = null;
+					try {
+						URL url = new URL(appDetail.getApkFilePath());
+						connection = (HttpURLConnection) url.openConnection();
+						connection.setUseCaches(false);
+						connection.setConnectTimeout(20000);
+						connection.setRequestMethod("GET");
+						if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+							connection.connect();
+							fileTotalSize = connection.getContentLength();
+							if (progressDialog != null&&progressDialog.isShowing()) {
+								progressDialog.setMax(fileTotalSize);
+							}
 						}
+					} catch (Exception e) {
+						downloading = false;
+						e.printStackTrace();
+					} finally {
 						try {
-							downloading = true;
-
-							// 先获得文件的大小
-							int fileTotalSize = 0;
-							HttpURLConnection connection = null;
-							try {
-								URL url = new URL(appDetail.getApkFilePath());
-								connection = (HttpURLConnection) url.openConnection();
-								connection.setUseCaches(false);
-								connection.setConnectTimeout(20000);
-								connection.setRequestMethod("GET");
-								if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-									connection.connect();
-									fileTotalSize = connection.getContentLength();
-									if (m_pDialog!=null) {
-									m_pDialog.setMax(fileTotalSize);
-									}
-								}
-							} catch (Exception e) {
-								downloading = false;
-								e.printStackTrace();
-							} finally {
-								try {
-									if (connection != null) {
-										connection.disconnect();
-									}
-								} catch (Exception e) {
-									e.printStackTrace();
-								}
+							if (connection != null) {
+								connection.disconnect();
 							}
-
-							// 获得文件的大小为0，直接返回, 并通知用户
-							if (fileTotalSize <= 0) {
-								Message message = new Message();
-								message.arg1 = MESSAGE_SERVER_FILEERROR;
-								handler.sendMessage(message);
-								downloading = false;
-								return;
-							}
-
-							// 计算两个线程分别要下载的文件大小
-							long firstThreadStart = 0;
-							long firstThreadEnd = fileTotalSize / 2;
-							long secondThreadStart = fileTotalSize / 2 + 1;
-							long secondThreadEnd = fileTotalSize;
-
-							// 第一个线程下载
-							THREAD_ONE_FINISHED = false;
-							int DOWNLOAD_THREAD_ONE = 1;
-							UpdateFileDownloadThread firstThread = new UpdateFileDownloadThread(context,
-									DOWNLOAD_THREAD_ONE, firstThreadStart, firstThreadEnd);
-							firstThread.start();
-
-							// 第二个线程下载
-							THREAD_TWO_FINISHED = false;
-							int DOWNLOAD_THREAD_TWO = 2;
-							UpdateFileDownloadThread secondThread = new UpdateFileDownloadThread(context,
-									DOWNLOAD_THREAD_TWO, secondThreadStart, secondThreadEnd);
-							secondThread.start();
-
-							// 不停的更新下载的状态
-							UpdateLogService preferenceService = new UpdateLogService(context);
-							while (!THREAD_ONE_FINISHED || !THREAD_TWO_FINISHED) {
-								Thread.sleep(100);
-
-								/**
-								 * 检查是否有异常，如果有异常，向外抛出异常， 用handler通知用户
-								 */
-								if (THREAD_DOWNLOAD_EXCEPTION) {
-									THREAD_DOWNLOAD_EXCEPTION = false;
-									throw new RuntimeException("thread download fail");
-								}
-
-								/**
-								 * 计算现在更新的进度
-								 */
-								int alreadyRead = (int) preferenceService.getTotalDownlaodDataSize();
-								if (m_pDialog!=null) {
-								m_pDialog.setProgress(alreadyRead);
-								}
-							}
-
-							// 下载完成，重置下载的进度
-							preferenceService.saveThreadDownloadDataSize(DOWNLOAD_THREAD_ONE, 0);
-							preferenceService.saveThreadDownloadDataSize(DOWNLOAD_THREAD_TWO, 0);
-
-							// 下载完成 安装
-							installApp();
-
-							// 现在完成，设置DONWLOADING标志
-							downloading = false;
-							Message message = new Message();
-							message.arg1 = MESSAGE_DOWNLOADOVER;
-							handler.sendMessage(message);
-							if (m_pDialog!=null) {
-							m_pDialog.setProgress(0);
-							}
-
 						} catch (Exception e) {
-							// 异常捕获
 							e.printStackTrace();
-							downloading = false;
-							Message message = new Message();
-							message.arg1 = MESSAGE_DOWNEXCEPTION;
-							handler.sendMessage(message);
 						}
 					}
-				}).start();
-				if (dialogMessage.dialogInterface != null) {
-					dialogMessage.dialogInterface.cancel();
-				}
-			}
 
-			@Override
-			public void onCancel(DialogMessage dialogMessage) {
-				if (dialogMessage.dialogInterface != null) {
-					dialogMessage.dialogInterface.cancel();
+					// 获得文件的大小为0，直接返回, 并通知用户
+					if (fileTotalSize <= 0) {
+						Message message = new Message();
+						message.arg1 = MESSAGE_SERVER_FILEERROR;
+						handler.sendMessage(message);
+						downloading = false;
+						return;
+					}
+
+					// 计算两个线程分别要下载的文件大小
+					long firstThreadStart = 0;
+					long firstThreadEnd = fileTotalSize / 2;
+					long secondThreadStart = fileTotalSize / 2 + 1;
+					long secondThreadEnd = fileTotalSize;
+
+					// 第一个线程下载
+					THREAD_ONE_FINISHED = false;
+					int DOWNLOAD_THREAD_ONE = 1;
+					UpdateFileDownloadThread firstThread = new UpdateFileDownloadThread(context, DOWNLOAD_THREAD_ONE,
+							firstThreadStart, firstThreadEnd, appDetail.getApkFilePath(), updateFile);
+					firstThread.start();
+
+					// 第二个线程下载
+					THREAD_TWO_FINISHED = false;
+					int DOWNLOAD_THREAD_TWO = 2;
+					UpdateFileDownloadThread secondThread = new UpdateFileDownloadThread(context, DOWNLOAD_THREAD_TWO,
+							secondThreadStart, secondThreadEnd, appDetail.getApkFilePath(), updateFile);
+					secondThread.start();
+
+					// 不停的更新下载的状态
+					UpdateLogService preferenceService = new UpdateLogService(context);
+					while (!THREAD_ONE_FINISHED || !THREAD_TWO_FINISHED) {
+						Thread.sleep(100);
+
+						/**
+						 * 检查是否有异常，如果有异常，向外抛出异常， 用handler通知用户
+						 */
+						if (THREAD_DOWNLOAD_EXCEPTION) {
+							THREAD_DOWNLOAD_EXCEPTION = false;
+							throw new RuntimeException("thread download fail");
+						}
+
+						/**
+						 * 计算现在更新的进度
+						 */
+						int alreadyRead = (int) preferenceService.getTotalDownlaodDataSize();
+						if (progressDialog != null&&progressDialog.isShowing()) {
+							progressDialog.setProgress(alreadyRead);
+						}
+					}
+
+					// 下载完成，重置下载的进度
+					preferenceService.saveThreadDownloadDataSize(DOWNLOAD_THREAD_ONE, 0);
+					preferenceService.saveThreadDownloadDataSize(DOWNLOAD_THREAD_TWO, 0);
+					// 提交下载统计
+					DataCenter.getInstance().submitAppDownloadOK(appDetail.getAppid() + "");
+					// 下载完成 安装
+					installApp();
+
+					// 现在完成，设置DONWLOADING标志
+					downloading = false;
+					Message message = new Message();
+					message.arg1 = MESSAGE_DOWNLOADOVER;
+					handler.sendMessage(message);
+					if (progressDialog != null&&progressDialog.isShowing()) {
+						progressDialog.setProgress(0);
+					}
+
+				} catch (Exception e) {
+					// 异常捕获
+					e.printStackTrace();
+					downloading = false;
+					Message message = new Message();
+					message.arg1 = MESSAGE_DOWNEXCEPTION;
+					handler.sendMessage(message);
 				}
 			}
-		});
+		}).start();
+		// if (dialogMessage.dialogInterface != null) {
+		// dialogMessage.dialogInterface.cancel();
+		// }
+		// }
+		//
+		// @Override
+		// public void onCancel(DialogMessage dialogMessage) {
+		// if (dialogMessage.dialogInterface != null) {
+		// dialogMessage.dialogInterface.cancel();
+		// }
+		// }
+		// });
 	}
 
 	private void installApp() {
