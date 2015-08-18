@@ -1,10 +1,8 @@
 package com.changhong.gdappstore.util;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.changhong.gdappstore.model.AppDetail;
-import com.changhong.gdappstore.model.NativeApp;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +11,40 @@ import android.content.pm.PackageManager;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.changhong.gdappstore.model.NativeApp;
+
 public class Util {
+	/**
+	 * 递归删除文件及其只文件
+	 * 
+	 * @param path
+	 */
+	public static void deleteFile(String path) {
+		if (TextUtils.isEmpty(path)) {
+			return;
+		}
+		File file = new File(path);
+		if (file.isDirectory() && file.listFiles().length > 0) {
+			for (int i = 0; i < file.listFiles().length; i++) {
+				File childFile = file.listFiles()[i];
+				if (childFile.isDirectory() && childFile.listFiles().length > 0) {
+					deleteFile(childFile.getAbsolutePath());
+				} else {
+					childFile.delete();
+				}
+			}
+		} else {
+			file.delete();
+		}
+	}
+
+	/**
+	 * 通过包名启动应用
+	 * 
+	 * @param context
+	 * @param packageName
+	 * @return
+	 */
 	public static boolean openAppByPackageName(Context context, String packageName) {
 		boolean isOk = false;
 		try {
@@ -37,6 +68,14 @@ public class Util {
 		return isOk;
 	}
 
+	/**
+	 * 获取本地安装某应用，未安装返回空
+	 * 
+	 * @param context
+	 * @param packageName
+	 *            应用包名
+	 * @return
+	 */
 	public static NativeApp getNativeApp(Context context, String packageName) {
 		List<Object> objects = getApp(context);
 		if (objects == null || objects.size() == 0 || TextUtils.isEmpty(packageName)) {
@@ -51,6 +90,12 @@ public class Util {
 		return null;
 	}
 
+	/**
+	 * 获取本地安装应用列表
+	 * 
+	 * @param context
+	 * @return
+	 */
 	public static List<Object> getApp(Context context) {
 		Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
 		mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
