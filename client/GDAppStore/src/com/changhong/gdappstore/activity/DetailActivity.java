@@ -1,6 +1,7 @@
 package com.changhong.gdappstore.activity;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -74,6 +75,26 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		tv_controltool = findView(R.id.tv_controltool);
 		tv_introduce = findView(R.id.tv_introduce);
 		progressDialog=new ProgressDialog(context);
+		progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		progressDialog.setTitle("当前下载进度...");
+		progressDialog.setCancelable(false);
+		progressDialog.setButton("后台下载", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				if (dialog!=null) {
+					dialog.dismiss();
+				}
+			}
+		});
+	}
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (progressDialog!=null) {
+			progressDialog.dismiss();
+		}
+		updateBtnState();
 	}
 
 	private void initData() {
@@ -95,31 +116,37 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 					tv_introduce.setText(appDetail.getDescription());
 					ImageLoadUtil.displayImgByNoCache(appDetail.getIconFilePath(), iv_icon);
 					ImageLoadUtil.displayImgByNoCache(appDetail.getPosterFilePath(), iv_post);
-					NativeApp nativeApp = Util.getNativeApp(context, appDetail.getPackageName());
-					if (nativeApp != null) {
-						// 存在该应用
-						bt_open.setVisibility(VISIBLE);
-						bt_dowload.setVisibility(GONE);
-						try {// 因为不能保证所有应用的versionname都能强制转行为float类型
-							float appdetailVersion = Float.parseFloat(appDetail.getVersion());
-							float nativeVersion = Float.parseFloat(nativeApp.getVersionName());
-							L.d("checkversion--appdetail is " + appDetail.getVersion() + " nativeapp is "
-									+ nativeApp.getVersionName());
-							bt_update.setVisibility((appdetailVersion > nativeVersion) ? VISIBLE : GONE);
-						} catch (Exception e) {
-							L.e("checkversion--error appdetail is " + appDetail.getVersion() + " nativeapp is "
-									+ nativeApp.getVersionName());
-							bt_update.setVisibility(GONE);//TODO 如果版本号转换异常就不能更新
-							e.printStackTrace();
-						}
-					} else {
-						bt_open.setVisibility(GONE);
-						bt_update.setVisibility(GONE);
-						bt_dowload.setVisibility(VISIBLE);
-					}
+					updateBtnState();
 				}
 			}
 		});
+	}
+	private void updateBtnState() {
+		if (appDetail==null) {
+			return;
+		}
+		NativeApp nativeApp = Util.getNativeApp(context, appDetail.getPackageName());
+		if (nativeApp != null) {
+			// 存在该应用
+			bt_open.setVisibility(VISIBLE);
+			bt_dowload.setVisibility(GONE);
+			try {// 因为不能保证所有应用的versionname都能强制转行为float类型
+				float appdetailVersion = Float.parseFloat(appDetail.getVersion());
+				float nativeVersion = Float.parseFloat(nativeApp.getVersionName());
+				L.d("checkversion--appdetail is " + appDetail.getVersion() + " nativeapp is "
+						+ nativeApp.getVersionName());
+				bt_update.setVisibility((appdetailVersion > nativeVersion) ? VISIBLE : GONE);
+			} catch (Exception e) {
+				L.e("checkversion--error appdetail is " + appDetail.getVersion() + " nativeapp is "
+						+ nativeApp.getVersionName());
+				bt_update.setVisibility(GONE);//TODO 如果版本号转换异常就不能更新
+				e.printStackTrace();
+			}
+		} else {
+			bt_open.setVisibility(GONE);
+			bt_update.setVisibility(GONE);
+			bt_dowload.setVisibility(VISIBLE);
+		}
 	}
 
 	@Override

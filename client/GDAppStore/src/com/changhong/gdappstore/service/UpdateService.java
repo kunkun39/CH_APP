@@ -119,6 +119,7 @@ public class UpdateService {
 							try {
 								float installVersionName = Float.parseFloat(filePMInfo.versionName);
 								float newVersionName = Float.parseFloat(newVersion);
+								L.d("fileExistFlow--fileversion="+filePMInfo.versionName+" "+newVersionName);
 								if (newVersionName > installVersionName) {
 									// 有更新 弹框提示下载更新
 									updateFile.delete();
@@ -128,9 +129,11 @@ public class UpdateService {
 							} catch (Exception e) {
 								updateFile.delete();
 								fileNotExistFlow();
+								e.printStackTrace();
 								return;
 							}
 						} else {
+							L.d("fileExistFlow--filePMInfo is null");
 							// 文件包存在，但是又得不到信息，证明下载的文件又问题，重新下载
 							updateFile.delete();
 							fileNotExistFlow();
