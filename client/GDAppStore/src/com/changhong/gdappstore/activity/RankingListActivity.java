@@ -359,28 +359,39 @@ public class RankingListActivity extends Activity {
 						newArrayList = newList;
 						newArrayListAdapter = new RankingListViewAdapter(RankingListActivity.this, newArrayList);
 
-						newListViewPosition = new ListViewPosition(newArrayList.size(), 450, 118);
+						newListViewPosition.resetParameter(newArrayList.size());
 						listView_new.setAdapter(newArrayListAdapter);
 						newArrayListAdapter.notifyDataSetChanged();
 						
+						if(currFocusSelect == FocusSelect.NEW_LISTVIEW) {
+							focusView.refreshView();
+						}
 					}
 					if(hotList != null) {
 						L.i(hotList.toString());
 						hotArrayList = hotList;
 						hotArrayListAdapter = new RankingListViewAdapter(RankingListActivity.this, hotArrayList);
 
-						hotListViewPosition = new ListViewPosition(hotArrayList.size(), 450, 118);
+						hotListViewPosition.resetParameter(hotArrayList.size());
 						listView_hot.setAdapter(hotArrayListAdapter);
 						hotArrayListAdapter.notifyDataSetChanged();
+						
+						if(currFocusSelect == FocusSelect.HOT_LISTVIEW) {
+							focusView.refreshView();
+						}
 					}
 					if(surgeList != null) {
 						L.i(surgeList.toString());
 						surgeArrayList = surgeList;
 						surgeArrayListAdapter = new RankingListViewAdapter(RankingListActivity.this, surgeArrayList);
 
-						surgeListViewPosition = new ListViewPosition(surgeArrayList.size(), 450, 118);
+						surgeListViewPosition.resetParameter(surgeArrayList.size());
 						listView_surge.setAdapter(surgeArrayListAdapter);
 						surgeArrayListAdapter.notifyDataSetChanged();
+						
+						if(currFocusSelect == FocusSelect.SURGE_LISTVIEW) {
+							focusView.refreshView();
+						}
 					}
 					break;
 				case LOAD_RANKING_FAIL:

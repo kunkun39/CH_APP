@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 public class FocusView {
 	private ViewHolder holder;
-	private ListView listview;
 	private ArrayList<Ranking_Item> mArrayList;
 	private Context mContext;
 	private RelativeLayout focusItem;
@@ -29,6 +28,7 @@ public class FocusView {
 	private int height;
 	private RankingData rankingData;
 	private boolean haschanged;
+	private int position;
 	public FocusView(Context context,RelativeLayout focusItem,int width,int height) {
 		// TODO Auto-generated constructor stub
 		this.focusItem = focusItem;
@@ -61,6 +61,15 @@ public class FocusView {
 		if(haschanged == false) {
 			haschanged = true;
 		}
+		if(mArrayList == null || mArrayList.isEmpty()) {
+			L.w("focusViewChange mArrayList error!");
+			return ;
+		}
+		if(position > mArrayList.size()) {
+			L.w("focusViewChange parameter error!");
+			return ;
+		}
+		
 		Ranking_Item ranking_Item = mArrayList.get(position);
 		holder.top_num.setText(ranking_Item.getTopNum() + "");
 		
@@ -85,6 +94,34 @@ public class FocusView {
 		Animation scallBigAnimation = AnimationUtils.loadAnimation(mContext, R.anim.scale_big);
 		focusItem.startAnimation(scallBigAnimation);
 		focusItem.bringToFront();
+		
+		this.position = position;
+	}
+	
+	public void refreshView() {
+		if(mArrayList == null || mArrayList.isEmpty()) {
+			L.w("refreshView mArrayList error!");
+			return ;
+		}
+		if(position > mArrayList.size()) {
+			L.w("refreshView position error!");
+			return ;
+		}
+		
+		Ranking_Item ranking_Item = mArrayList.get(position);
+		
+		holder.top_num.setText(ranking_Item.getTopNum() + "");
+		
+		Bitmap bitmap = ranking_Item.getAppBitmap();
+		if (null != bitmap) {
+			holder.app_icon.setImageBitmap(bitmap);
+		}
+		else {
+			ImageLoadUtil.displayImgByMemoryDiscCache(rankingData.getHost() + ranking_Item.getAppKey() + "/" + ranking_Item.getAppIconPath(), holder.app_icon);
+		}
+		holder.app_name.setText(ranking_Item.getAppName());
+		holder.download_num.setText(mContext.getString(R.string.str_download) + ranking_Item.getDownload_num());
+		holder.app_size.setText(ranking_Item.getAppSize());
 	}
 	
 	public boolean hasChanged() {

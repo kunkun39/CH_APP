@@ -20,7 +20,6 @@ public class ListViewPosition {
 		
 		fullShowNum = layoutHeight / itemHeight;
 		
-		
 		if(fullShowNum >= countNum) {
 			fullShowNum = countNum;
 			remainderHeight = 0;
@@ -167,7 +166,15 @@ public class ListViewPosition {
 	public void resetParameter(int countNum) {
 		this.countNum = countNum;
 		
+		if(fullShowNum >= countNum) {
+			fullShowNum = countNum;
+			remainderHeight = 0;
+		}
+		else {
+			remainderHeight = layoutHeight % itemHeight;
+		}
 		startNumPosition = 0;
+		endNumPosition = fullShowNum - 1;
 		currentPosition = 0;
 		lastOffset = 0;
 		
