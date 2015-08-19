@@ -99,7 +99,7 @@ public class DBManager {
 			L.d("insertOrUpdateVersions insert id=="+id);
 		}else {
 			int num=updateAppVersions(app);
-			L.d("insertOrUpdateVersions insert num=="+num);
+			L.d("insertOrUpdateVersions update num=="+num);
 		}
 	}
 
