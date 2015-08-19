@@ -2,6 +2,7 @@ package com.changhong.gdappstore.activity;
 
 import java.util.ArrayList;
 
+import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.adapter.RankingListViewAdapter;
 import com.changhong.gdappstore.datacenter.DataCenter;
@@ -15,6 +16,7 @@ import com.changhong.gdappstore.view.ListViewChange;
 import com.changhong.gdappstore.view.ListViewPosition;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
@@ -208,15 +210,13 @@ public class RankingListActivity extends Activity {
 		focusView = new FocusView(RankingListActivity.this, focusItem, 350, 118);
 		
 		newArrayList = data_test.getNewArrayList();
-		
 		newListViewPosition = new ListViewPosition(newArrayList.size(), 450, 118);
-		
 		newArrayListAdapter = new RankingListViewAdapter(this, newArrayList);
 		
 		listView_new.setAdapter(newArrayListAdapter);
-		
 		listView_new.setVerticalScrollBarEnabled(false);
 		listView_new.setOnItemSelectedListener(newOnItemSelectedListener);
+		listView_new.setOnItemClickListener(newOnItemClickListener);
 		
 		hotArrayList = data_test.getHotArrayList();
 		hotListViewPosition = new ListViewPosition(hotArrayList.size(), 450, 118);
@@ -225,6 +225,7 @@ public class RankingListActivity extends Activity {
 		listView_hot.setAdapter(hotArrayListAdapter);
 		listView_hot.setVerticalScrollBarEnabled(false);
 		listView_hot.setOnItemSelectedListener(hotOnItemSelectedListener);
+		listView_hot.setOnItemClickListener(hotOnItemClickListener);
 		
 		surgeArrayList = data_test.getSurgeHotArrayList();
 		surgeListViewPosition = new ListViewPosition(surgeArrayList.size(), 450, 118);
@@ -233,6 +234,7 @@ public class RankingListActivity extends Activity {
 		listView_surge.setAdapter(surgeArrayListAdapter);
 		listView_surge.setVerticalScrollBarEnabled(false);
 		listView_surge.setOnItemSelectedListener(surgeOnItemSelectedListener);
+		listView_surge.setOnItemClickListener(surgenItemClickListener);
 		
 		listView_new.requestFocus();
 		listView_hot.setFocusable(false);
@@ -254,6 +256,21 @@ public class RankingListActivity extends Activity {
 				}
 			}
 		});
+	}
+	
+	private void jumpToDetailActivity(ArrayList<Ranking_Item> arrayList, int position) {
+		if(arrayList == null || arrayList.isEmpty()) {
+			L.w("jumpToDetailActivity : arrayList error!");
+			return ;
+		}
+		if(position >= arrayList.size()) {
+			L.w("jumpToDetailActivity : position error!");
+			return ;
+		}
+		
+		Intent intent = new Intent(this, DetailActivity.class);
+		intent.putExtra(Config.KEY_APPID, arrayList.get(position).getAppId());
+		startActivity(intent);
 	}
 
 	private OnItemSelectedListener newOnItemSelectedListener = new OnItemSelectedListener() {
@@ -404,5 +421,32 @@ public class RankingListActivity extends Activity {
 				}
 			}
 		};
+	};
+	private AdapterView.OnItemClickListener newOnItemClickListener = new AdapterView.OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			// TODO Auto-generated method stub
+			jumpToDetailActivity(newArrayList, position);
+		}
+	};
+	private AdapterView.OnItemClickListener hotOnItemClickListener = new AdapterView.OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			// TODO Auto-generated method stub
+			jumpToDetailActivity(hotArrayList, position);
+		}
+	};
+	private AdapterView.OnItemClickListener surgenItemClickListener = new AdapterView.OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			// TODO Auto-generated method stub
+			jumpToDetailActivity(surgeArrayList, position);
+		}
 	};
 }

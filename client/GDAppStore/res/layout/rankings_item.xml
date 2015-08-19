@@ -29,15 +29,15 @@
 	
 		<TextView
 		    android:id="@+id/item_app_name"
-		    android:layout_width="170dp"
+		    android:layout_width="160dp"
 		    android:layout_height="wrap_content"
 		    android:layout_marginLeft="175dp"
 		    android:layout_marginTop="20dp"
 		    android:gravity="left|center"
 		    android:textSize="30sp"
 		    android:textColor="#FFFFFF"
-		    android:text="酷狗音乐酷狗音乐"
-		    android:maxLines="1"
+		    android:text="酷狗音乐酷"
+		    android:singleLine="true"
 		    android:ellipsize="end" />
 		<TextView
 		    android:id="@+id/item_app_download_num"
