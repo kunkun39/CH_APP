@@ -6,6 +6,7 @@ import java.util.List;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Toast;
 
 import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.model.App;
@@ -28,6 +29,10 @@ public class NativeAppActivity extends PostActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		String aString="1.1.1";
+		String bString="1.10";
+		int equal=aString.compareTo(bString);
+		Toast.makeText(context, equal+"", Toast.LENGTH_SHORT).show();
 		initData();
 	}
 

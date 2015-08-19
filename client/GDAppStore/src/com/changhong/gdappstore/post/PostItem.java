@@ -18,7 +18,7 @@ import com.post.view.base.BasePostItem;
 
 public class PostItem extends BasePostItem {
 	private PostSetting postSetting;
-	private ImageView iv_appicon;
+	private ImageView iv_appicon,iv_update;
 	private TextView tv_appname, tv_apptext;
 	private ScoreView scoreView;
 
@@ -41,8 +41,10 @@ public class PostItem extends BasePostItem {
 		this.postSetting = postSetting;
 		switch (postSetting.getPosttype()) {
 		case PostSetting.TYPE_NORMAL:
-		case PostSetting.TYPE_NATIVEAPP:
 			initNormalView();
+			break;
+		case PostSetting.TYPE_NATIVEAPP:
+			initNativeAppView();
 			break;
 		default:
 			initNormalView();
@@ -57,6 +59,14 @@ public class PostItem extends BasePostItem {
 		iv_appicon = (ImageView) view.findViewById(R.id.iv_appicon);
 		tv_appname = (TextView) view.findViewById(R.id.tv_appname);
 		scoreView = (ScoreView) view.findViewById(R.id.scoreview);
+	}
+	
+	private void initNativeAppView() {
+		View view = LayoutInflater.from(context).inflate(R.layout.item_nativeapppost, null);
+		addView(view);
+		iv_appicon = (ImageView) view.findViewById(R.id.iv_appicon);
+		tv_appname = (TextView) view.findViewById(R.id.tv_appname);
+		iv_update=(ImageView)view.findViewById(R.id.iv_update);
 	}
 
 	/**
@@ -97,7 +107,6 @@ public class PostItem extends BasePostItem {
 		}
 		iv_appicon.setImageDrawable(app.getAppIcon());
 		tv_appname.setText(app.getAppname());
-		scoreView.setVisibility(GONE);
 	}
 
 	/**

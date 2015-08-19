@@ -61,6 +61,8 @@
             android:focusable="false"
             android:gravity="center_horizontal"
             android:text="应用名字"
+            android:singleLine="true"
+            android:ellipsize="marquee"
             android:textColor="@color/white"
             android:textSize="18sp" />
     </RelativeLayout>

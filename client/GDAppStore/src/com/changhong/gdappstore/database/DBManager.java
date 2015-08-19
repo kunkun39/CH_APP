@@ -84,6 +84,24 @@ public class DBManager {
 		return db.update(helper.APPVERSION_TABLE, contentValues, helper.CLUM_APPID + " = ?",
 				new String[] { app.getAppid() + "" });
 	}
+	/**
+	 * 插入或者更新数据，如果有数据就更新，没有就插入
+	 * @param app
+	 */
+	public void  insertOrUpdateVersions(App app) {
+		if (app==null ||app.getAppid()<0) {
+			L.d("insertOrUpdateVersions returned by app=null or appid<0");
+			return;
+		}
+		App navApp=queryAppVersionById(app.getAppid());
+		if (navApp==null) {
+			long id=insertAppVersions(app);
+			L.d("insertOrUpdateVersions insert id=="+id);
+		}else {
+			int num=updateAppVersions(app);
+			L.d("insertOrUpdateVersions insert num=="+num);
+		}
+	}
 
 	/**
 	 * 删除app版本信息
@@ -100,24 +118,56 @@ public class DBManager {
 	 * @param appid
 	 * @return
 	 */
-	public List<App> queryAppVersionById(int appid) {
-		List<App> apps = new ArrayList<App>();
+	public App queryAppVersionById(int appid) {
+		App app = null;
 		Cursor c = db.rawQuery("SELECT * FROM " + helper.APPVERSION_TABLE + " where " + helper.CLUM_APPID + " =?",
 				new String[] { appid + "" });
 		if (c == null || c.getCount() == 0) {
-			return apps;
+			return app;
 		}
 		while (c.moveToNext()) {
-			App app = new App();
-			app.setAppid(c.getInt(c.getColumnIndex(helper.CLUM_APPID)));
-			app.setAppname(c.getString(c.getColumnIndex(helper.CLUM_PCKNAME)));
-			app.setVersion(c.getString(c.getColumnIndex(helper.CLUM_VERSIONNAME)));
-			app.setVersion(c.getString(c.getColumnIndex(helper.CLUM_VERSIONNAME)));// TODO
-																					// 暂时没有versioncode
-			apps.add(app);
+			if (app == null) {
+				app = new App();
+				app.setAppid(c.getInt(c.getColumnIndex(helper.CLUM_APPID)));
+				app.setPackageName(c.getString(c.getColumnIndex(helper.CLUM_PCKNAME)));
+				app.setVersion(c.getString(c.getColumnIndex(helper.CLUM_VERSIONNAME)));
+				app.setVersion(c.getString(c.getColumnIndex(helper.CLUM_VERSIONNAME)));// TODO
+			} else {
+				// 删除多余列
+				deleteAppVersions(c.getInt(c.getColumnIndex(helper.CLUM_APPID)));
+			}
 		}
 		c.close();
-		return apps;
+		return app;
+	}
+
+	/**
+	 * 查询某个app信息
+	 * 
+	 * @param appid
+	 * @return
+	 */
+	public App queryAppVersionByPackagename(String packagename) {
+		App app = null;
+		Cursor c = db.rawQuery("SELECT * FROM " + helper.APPVERSION_TABLE + " where " + helper.CLUM_PCKNAME + " =?",
+				new String[] { packagename });
+		if (c == null || c.getCount() == 0) {
+			return app;
+		}
+		while (c.moveToNext()) {
+			if (app == null) {
+				app = new App();
+				app.setAppid(c.getInt(c.getColumnIndex(helper.CLUM_APPID)));
+				app.setPackageName(c.getString(c.getColumnIndex(helper.CLUM_PCKNAME)));
+				app.setVersion(c.getString(c.getColumnIndex(helper.CLUM_VERSIONNAME)));
+				app.setVersion(c.getString(c.getColumnIndex(helper.CLUM_VERSIONNAME)));// TODO
+			} else {
+				// 删除多余列
+				deleteAppVersions(c.getInt(c.getColumnIndex(helper.CLUM_APPID)));
+			}
+		}
+		c.close();
+		return app;
 	}
 
 	/**
@@ -134,7 +184,7 @@ public class DBManager {
 		while (c.moveToNext()) {
 			App app = new App();
 			app.setAppid(c.getInt(c.getColumnIndex(helper.CLUM_APPID)));
-			app.setAppname(c.getString(c.getColumnIndex(helper.CLUM_PCKNAME)));
+			app.setPackageName(c.getString(c.getColumnIndex(helper.CLUM_PCKNAME)));
 			app.setVersion(c.getString(c.getColumnIndex(helper.CLUM_VERSIONNAME)));
 			app.setVersion(c.getString(c.getColumnIndex(helper.CLUM_VERSIONNAME)));// TODO
 																					// 暂时没有versioncode

@@ -13,7 +13,9 @@ import android.widget.TextView;
 import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseActivity;
+import com.changhong.gdappstore.database.DBManager;
 import com.changhong.gdappstore.datacenter.DataCenter;
+import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.AppDetail;
 import com.changhong.gdappstore.model.NativeApp;
 import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
@@ -128,20 +130,20 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		if (appDetail==null) {
 			return;
 		}
-		NativeApp nativeApp = Util.getNativeApp(context, appDetail.getPackageName());
+		App nativeApp = DBManager.getInstance(context).queryAppVersionById(appDetail.getAppid());
 		if (nativeApp != null) {
 			// 存在该应用
 			bt_open.setVisibility(VISIBLE);
 			bt_dowload.setVisibility(GONE);
 			try {// 因为不能保证所有应用的versionname都能强制转行为float类型
 				float appdetailVersion = Float.parseFloat(appDetail.getVersion());
-				float nativeVersion = Float.parseFloat(nativeApp.getVersionName());
+				float nativeVersion = Float.parseFloat(nativeApp.getVersion());
 				L.d("checkversion--appdetail is " + appDetail.getVersion() + " nativeapp is "
-						+ nativeApp.getVersionName());
+						+ nativeApp.getVersion());
 				bt_update.setVisibility((appdetailVersion > nativeVersion) ? VISIBLE : GONE);
 			} catch (Exception e) {
 				L.e("checkversion--error appdetail is " + appDetail.getVersion() + " nativeapp is "
-						+ nativeApp.getVersionName());
+						+ nativeApp.getVersion());
 				bt_update.setVisibility(GONE);//TODO 如果版本号转换异常就不能更新
 				e.printStackTrace();
 			}

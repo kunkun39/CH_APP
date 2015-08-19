@@ -52,8 +52,8 @@ public class UpdateService {
 	/** 存放下载apk文件目录 */
 	public static final String baseUpdatePath = "/data/data/com.changhong.gdappstore/loadapp";
 	/** 下载apk存放文件夹 */
-	public File updateFile;
-	public AppDetail appDetail;
+	private File updateFile;
+	private AppDetail appDetail;
 	/** 是否是下载应用，true下载，false更新 */
 	private boolean isdownload = false;
 
@@ -78,6 +78,7 @@ public class UpdateService {
 			Toast.makeText(context, "当前正在下载更新，请耐心等待", Toast.LENGTH_SHORT).show();
 			return;
 		}
+		AppBroadcastReceiver.curAppDetail=appDetail;
 		if (handler == null) {
 			handler = new Handler(){
 				@Override
@@ -125,8 +126,10 @@ public class UpdateService {
 		if (updateFile.exists()) {
 			/**
 			 * 本地APK已存在流程
+			 * 该方法不适合此环境，因为版本是采用该服务器手动配置本地数据库保存方式，无法知道该apk版本，
 			 */
-			fileExistFlow();
+//			fileExistFlow();
+			installApp();//可以直接安装是因为 版本不同apk名字不同，在这里apk名字是服务器的名字，所以是最新的apk，所以可以直接安装
 		} else {
 			/**
 			 * 本地文件不存在，从服务器获得更新流程
