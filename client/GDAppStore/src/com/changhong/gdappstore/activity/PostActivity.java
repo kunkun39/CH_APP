@@ -47,8 +47,8 @@ public class PostActivity extends BaseActivity {
 	protected Category parentCategory = null;
 	/** 栏目名字 */
 	protected TextView tv_name;
-	/**当前应用列表*/
-	private List<Object> currentApps=new ArrayList<Object>();
+	/** 当前应用列表 */
+	private List<Object> currentApps = new ArrayList<Object>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,18 +63,18 @@ public class PostActivity extends BaseActivity {
 		titleView = findView(R.id.posttitleview);
 		tv_name = findView(R.id.tv_pagename);
 		titleView.setTitleItemOnClickListener(new TitleItemOnClickListener() {
-			
+
 			@Override
 			public void onItemClick(View view, int position) {
 				Category category = (Category) view.getTag();
-				dataCenter.loadAppsByCategoryId(context,category.getId(), loadAppListListener);
+				dataCenter.loadAppsByCategoryId(context, category.getId(), loadAppListListener);
 			}
 		});
 		titleView.setTitleItemOnFocuesChangedListener(new TitleItemOnFocuesChangedListener() {
-			
+
 			@Override
 			public void onItemFocuesChanged(View view, boolean hasFocues, int position) {
-				
+
 			}
 		});
 		initPostView();
@@ -116,16 +116,16 @@ public class PostActivity extends BaseActivity {
 				}
 			}
 		}
-		dataCenter.loadAppsByCategoryId(context,currentCategoryId, loadAppListListener);
+		dataCenter.loadAppsByCategoryId(context, currentCategoryId, loadAppListListener);
 	}
-	
-	private LoadListListener loadAppListListener=new LoadListListener() {
-		
+
+	private LoadListListener loadAppListListener = new LoadListListener() {
+
 		@Override
 		public void onComplete(List<Object> items) {
-			currentApps=items;
-			L.d("loadapp complete "+((items==null)?"items is null":items.size()));
-			postView.refreshAllData(currentApps, postSetting, currentApps.size());
+			currentApps = items;
+			L.d("loadapp complete " + ((items == null) ? "items is null" : items.size()));
+			postView.refreshAllData(currentApps, postSetting, currentApps == null ? 0 : currentApps.size());
 		}
 	};
 
@@ -134,11 +134,11 @@ public class PostActivity extends BaseActivity {
 
 		@Override
 		public void itemOnClick(BasePosterLayoutView arg0, View arg1, int arg2) {
-			if (arg1==null || arg1.getTag()==null) {
+			if (arg1 == null || arg1.getTag() == null) {
 				return;
 			}
-			App app=(App) arg1.getTag();
-			Intent intent=new Intent(PostActivity.this, DetailActivity.class);
+			App app = (App) arg1.getTag();
+			Intent intent = new Intent(PostActivity.this, DetailActivity.class);
 			intent.putExtra(Config.KEY_APPID, app.getAppid());
 			startActivity(intent);
 		}
@@ -158,12 +158,14 @@ public class PostActivity extends BaseActivity {
 
 		@Override
 		public void lastPageOnKeyDpadDown() {
-//			Toast.makeText(PostActivity.this, "已经是最后一页了！", Toast.LENGTH_SHORT).show();
+			// Toast.makeText(PostActivity.this, "已经是最后一页了！",
+			// Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
 		public void firstPageOnKeyDpadup() {
-//			Toast.makeText(PostActivity.this, "已经是第一页了！", Toast.LENGTH_SHORT).show();
+			// Toast.makeText(PostActivity.this, "已经是第一页了！",
+			// Toast.LENGTH_SHORT).show();
 		}
 	};
 
@@ -172,7 +174,8 @@ public class PostActivity extends BaseActivity {
 		@Override
 		public boolean onKey(View v, int keyCode, KeyEvent event) {
 			int pos = ((PostItem) v).getPosition();
-			if (pos < postSetting.getPost_column() && keyCode == KeyEvent.KEYCODE_DPAD_UP&&titleView.getCurrentSelectedView()!=null) {
+			if (pos < postSetting.getPost_column() && keyCode == KeyEvent.KEYCODE_DPAD_UP
+					&& titleView.getCurrentSelectedView() != null) {
 				// 处理每次海报墙按上键时候选中当前标签
 				titleView.getCurrentSelectedView().requestFocus();
 			}

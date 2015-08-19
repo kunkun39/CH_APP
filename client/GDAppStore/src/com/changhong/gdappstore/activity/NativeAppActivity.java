@@ -34,6 +34,7 @@ public class NativeAppActivity extends PostActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		tv_name.setText("本地应用");
 		initData();
 	}
 
