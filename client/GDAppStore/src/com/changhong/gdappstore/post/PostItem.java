@@ -18,7 +18,7 @@ import com.post.view.base.BasePostItem;
 
 public class PostItem extends BasePostItem {
 	private PostSetting postSetting;
-	private ImageView iv_appicon,iv_update;
+	private ImageView iv_appicon, iv_update;
 	private TextView tv_appname, tv_apptext;
 	private ScoreView scoreView;
 
@@ -60,13 +60,14 @@ public class PostItem extends BasePostItem {
 		tv_appname = (TextView) view.findViewById(R.id.tv_appname);
 		scoreView = (ScoreView) view.findViewById(R.id.scoreview);
 	}
-	
+
 	private void initNativeAppView() {
 		View view = LayoutInflater.from(context).inflate(R.layout.item_nativeapppost, null);
 		addView(view);
 		iv_appicon = (ImageView) view.findViewById(R.id.iv_appicon);
 		tv_appname = (TextView) view.findViewById(R.id.tv_appname);
-		iv_update=(ImageView)view.findViewById(R.id.iv_update);
+		iv_update = (ImageView) view.findViewById(R.id.iv_update);
+		iv_update.setVisibility(INVISIBLE);
 	}
 
 	/**
@@ -93,20 +94,31 @@ public class PostItem extends BasePostItem {
 
 	private void doNormalData(Object object) {
 		App app = (App) object;
-		if (app==null) {
+		if (app == null) {
 			return;
 		}
 		ImageLoadUtil.displayImgByonlyDiscCache(app.getPosterFilePath(), iv_appicon);
 		tv_appname.setText(app.getAppname());
 		scoreView.setVisibility(GONE);
 	}
+
 	private void doNativeAppData(Object object) {
 		NativeApp app = (NativeApp) object;
-		if (app==null) {
+		if (app == null) {
 			return;
 		}
 		iv_appicon.setImageDrawable(app.getAppIcon());
 		tv_appname.setText(app.getAppname());
+		try {
+			if (Float.parseFloat(app.ServerVersion) > Float.parseFloat(app.nativeVersion)) {
+				iv_update.setVisibility(VISIBLE);
+			} else {
+				iv_update.setVisibility(INVISIBLE);
+			}
+		} catch (Exception e) {
+			iv_update.setVisibility(INVISIBLE);
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -123,7 +135,7 @@ public class PostItem extends BasePostItem {
 			doScalse(hasfocues);
 			break;
 		default:
-			 doScalse(hasfocues);
+			doScalse(hasfocues);
 			break;
 		}
 	}

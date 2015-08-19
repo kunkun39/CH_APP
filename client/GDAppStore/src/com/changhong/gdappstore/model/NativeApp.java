@@ -3,28 +3,30 @@ package com.changhong.gdappstore.model;
 import android.graphics.drawable.Drawable;
 
 public class NativeApp {
-	// 应用id
-	public int appid;
-	// 应用名称
+	/*** 应用id，小于等于0表示服务端没该应用 */
+	public int appid = -1;
+	/** 应用名称 */
 	public String appname;
-	// 应用版本号
-	public String versionName;
-	// 应用版本code
-	public int versionCode;
-	// 应用图标
+	/** 服务端配置版本（不一定是apk里面版本号） */
+	public String ServerVersion="0";
+	/** 本地数据库保存版本（不一定是apk里面版本号） */
+	public String nativeVersion="0";
+	/** 应用图标 */
 	public Drawable appIcon;
-	// 应用包名
+	/** 应用包名 */
 	public String appPackage;
 
 	public NativeApp() {
 	}
 
-	public NativeApp(int appid, String appname, String versionName, int versionCode, Drawable appIcon, String appPackage) {
+
+	public NativeApp(int appid, String appname, String serverVersion, String nativeVersion, Drawable appIcon,
+			String appPackage) {
 		super();
 		this.appid = appid;
 		this.appname = appname;
-		this.versionName = versionName;
-		this.versionCode = versionCode;
+		ServerVersion = serverVersion;
+		this.nativeVersion = nativeVersion;
 		this.appIcon = appIcon;
 		this.appPackage = appPackage;
 	}
@@ -45,21 +47,26 @@ public class NativeApp {
 		this.appname = appname;
 	}
 
-	public String getVersionName() {
-		return versionName;
+
+	public String getServerVersion() {
+		return ServerVersion;
 	}
 
-	public void setVersionName(String versionName) {
-		this.versionName = versionName;
+
+	public void setServerVersion(String serverVersion) {
+		ServerVersion = serverVersion;
 	}
 
-	public int getVersionCode() {
-		return versionCode;
+
+	public String getNativeVersion() {
+		return nativeVersion;
 	}
 
-	public void setVersionCode(int versionCode) {
-		this.versionCode = versionCode;
+
+	public void setNativeVersion(String nativeVersion) {
+		this.nativeVersion = nativeVersion;
 	}
+
 
 	public Drawable getAppIcon() {
 		return appIcon;
@@ -76,5 +83,13 @@ public class NativeApp {
 	public void setAppPackage(String appPackage) {
 		this.appPackage = appPackage;
 	}
+
+
+	@Override
+	public String toString() {
+		return "NativeApp [appid=" + appid + ", appname=" + appname + ", ServerVersion=" + ServerVersion
+				+ ", nativeVersion=" + nativeVersion + ", appIcon=" + appIcon + ", appPackage=" + appPackage + "]";
+	}
+
 
 }

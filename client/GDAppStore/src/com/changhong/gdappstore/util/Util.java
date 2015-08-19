@@ -47,6 +47,10 @@ public class Util {
 	 */
 	public static boolean openAppByPackageName(Context context, String packageName) {
 		boolean isOk = false;
+		if (packageName!=null && packageName.equals("com.changhong.gdappstore")) {
+			Toast.makeText(context, "该应用已打开", Toast.LENGTH_LONG).show();
+			return false;
+		}
 		try {
 			System.out.println("packagename--------->" + packageName);
 			// 通过包名启动
@@ -113,10 +117,11 @@ public class Util {
 				NativeApp tmpInfo = new NativeApp();
 				tmpInfo.appname = packageInfo.applicationInfo.loadLabel(context.getPackageManager()).toString();
 				tmpInfo.appPackage = packageInfo.packageName;
-				tmpInfo.versionName = packageInfo.versionName;
-				tmpInfo.versionCode = packageInfo.versionCode;
 				tmpInfo.appIcon = packageInfo.applicationInfo.loadIcon(context.getPackageManager());
 				nativeApps.add(tmpInfo);
+				tmpInfo.appid=-1;
+				tmpInfo.nativeVersion="0";
+				tmpInfo.ServerVersion="0";
 			}
 		}
 		return nativeApps;
