@@ -67,7 +67,7 @@ public class FocusView {
 			L.w("focusViewChange mArrayList error!");
 			return ;
 		}
-		if(position > mArrayList.size()) {
+		if(position >= mArrayList.size()) {
 			L.w("focusViewChange parameter error!");
 			return ;
 		}
@@ -105,7 +105,7 @@ public class FocusView {
 			L.w("refreshView mArrayList error!");
 			return ;
 		}
-		if(position > mArrayList.size()) {
+		if(position >= mArrayList.size()) {
 			L.w("refreshView position error!");
 			return ;
 		}
@@ -128,6 +128,10 @@ public class FocusView {
 	
 	public boolean hasChanged() {
 		return haschanged;
+	}
+	
+	public void reset() {
+		haschanged = false;
 	}
 
 }
