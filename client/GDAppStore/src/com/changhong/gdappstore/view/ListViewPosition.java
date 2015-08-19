@@ -124,19 +124,28 @@ public class ListViewPosition {
 		}
 		else {
 			//位置不变
-			if(0 == toPosition) {
-				if(keyUpDown) {
-					offset = -1;
-				}
-				else {
-					offset = 0;
-				}
+			if(keyUpDown) {
+				//表明是上下键触发的，此触发无效
+				offset = -1;
 			}
 			else {
-				if(keyUpDown) {
-					offset = -1;
+				if(startNumPosition == toPosition) {
+					//移动到当前页的第一个位置
+					if(startNumPosition == 0) {
+						//当前页为第一页，offset为0
+						offset = 0;
+					}
+					else if(endNumPosition == countNum - 1) {
+						//当前页为最后一页，offset为两个半屏
+						offset = remainderHeight;
+					}
+					else {
+						//一个半屏
+						offset = remainderHeight / 2;
+					}
 				}
 				else {
+					//不会改变offset
 					offset = lastOffset;
 				}
 			}
