@@ -101,6 +101,7 @@ public class MainActivity extends BaseActivity {
 	 */
 	private void initData() {
 		categories = DataCenter.getInstance().getCategories();
+		titleView.setMargin(0, 50);
 		titleView.initData(categories);
 		
 		// 目前是初始化默认数据
@@ -183,6 +184,9 @@ public class MainActivity extends BaseActivity {
 
 		@Override
 		public void onItemClick(View view, int position) {
+			if (categories.get(position).getName().equals("首页")) {
+				return;
+			}
 			Intent intent = new Intent(context, PostActivity.class);
 			intent.putExtra(Config.KEY_PARENT_CATEGORYID, categories.get(position).getId());
 			intent.putExtra(Config.KEY_CURRENT_CATEGORYID, categories.get(position).getId());

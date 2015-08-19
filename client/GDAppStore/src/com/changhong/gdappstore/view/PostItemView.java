@@ -128,4 +128,13 @@ public class PostItemView extends BaseRelativeLayout {
 			}
 		}
 	}
+	
+	public void setSelected(boolean selected) {
+		if (tv_appname.getVisibility()==VISIBLE) {
+			tv_appname.setSelected(selected);
+		}
+		if (tv_postname.getVisibility()==VISIBLE) {
+			tv_postname.setSelected(selected);
+		}
+	}
 }

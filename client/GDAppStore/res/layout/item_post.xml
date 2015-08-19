@@ -28,6 +28,9 @@
             android:background="@color/black_half50"
             android:focusable="false"
             android:gravity="center"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:singleLine="true"
             android:text="海报测试文本"
             android:textColor="@color/white"
@@ -53,16 +56,20 @@
 
         <TextView
             android:id="@+id/tv_appname"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/iv_appicon"
             android:layout_centerHorizontal="true"
             android:background="@color/transparent"
+            android:ellipsize="marquee"
             android:focusable="false"
             android:gravity="center_horizontal"
-            android:text="应用名字"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginTop="8dp"
             android:singleLine="true"
-            android:ellipsize="marquee"
+            android:text="应用名字"
             android:textColor="@color/white"
             android:textSize="18sp" />
     </RelativeLayout>

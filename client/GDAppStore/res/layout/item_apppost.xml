@@ -4,15 +4,16 @@
     android:layout_height="wrap_content" >
 
     <RelativeLayout
-        android:layout_width="260dp"
-        android:padding="5dp"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:background="@color/black_half50" >
+        android:background="@color/black_half20"
+        android:padding="5dp" >
 
         <ImageView
             android:id="@+id/iv_appicon"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
             android:scaleType="fitXY"
             android:src="@drawable/img_post1" />
 
@@ -20,35 +21,18 @@
             android:id="@+id/tv_appname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/iv_appicon"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_toRightOf="@id/iv_appicon"
+            android:layout_below="@id/iv_appicon"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
             android:singleLine="true"
             android:textColor="@color/white"
             android:textSize="18sp" />
-
-        <com.changhong.gdappstore.view.ScoreView
-            android:id="@+id/scoreview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/tv_appname"
-            android:layout_below="@+id/tv_appname"
-            android:visibility="invisible"
-            android:layout_marginTop="10dp" />
-
-        <TextView
-            android:id="@+id/tv_apptext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/iv_appicon"
-            android:layout_below="@+id/iv_appicon"
-            android:layout_marginTop="10dp"
-            android:singleLine="true"
-            android:visibility="invisible"
-            android:text="应用介绍应用介绍应用应用介绍应用介绍"
-            android:textColor="@color/white_half50"
-            android:textSize="16sp" />
     </RelativeLayout>
 
 </RelativeLayout>

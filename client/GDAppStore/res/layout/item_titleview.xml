@@ -6,12 +6,15 @@
 
     <TextView
         android:id="@+id/tv_title"
-        android:layout_width="100dp"
+        android:layout_width="95dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:paddingBottom="15dp"
         android:background="@drawable/selector_btn_title"
         android:focusable="true"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
         android:gravity="center_horizontal"
         android:textColor="@drawable/selector_btn_title_textcolor"
         android:textSize="22sp" />

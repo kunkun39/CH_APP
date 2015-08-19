@@ -94,6 +94,11 @@ public class PostTitleView extends BaseRelativeLayout {
 		totalCategories.addAll(items);
 		initData(totalCategories);
 	}
+	
+	public void setMargin(int leftMargin,int rightMargin) {
+		layoutParams.leftMargin = leftMargin;
+		layoutParams.rightMargin = rightMargin;
+	}
 
 	/**
 	 * 初始化标签数据
@@ -107,6 +112,7 @@ public class PostTitleView extends BaseRelativeLayout {
 		list_textViews.clear();
 		for (int i = 0; i < items.size(); i++) {
 			View itemView = getItemView(items.get(i), i);
+			itemView.setLayoutParams(layoutParams);
 			ll_content.addView(itemView);
 		}
 		int count = list_textViews.size();

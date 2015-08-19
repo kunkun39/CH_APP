@@ -171,13 +171,14 @@ public class JingpinView extends BasePageView implements OnFocusChangeListener, 
 			ivFocues.startAnimation(animationbig);
 			v.bringToFront();
 			ivFocues.bringToFront();
-
+			((PostItemView)v).setSelected(true);
 		} else {
 			v.startAnimation(animationsmall);
 			ivFocues.startAnimation(animationsmall);
 			v.clearAnimation();
 			ivFocues.clearAnimation();
 			ivFocues.setVisibility(View.INVISIBLE);
+			((PostItemView)v).setSelected(false);
 		}
 	}
 

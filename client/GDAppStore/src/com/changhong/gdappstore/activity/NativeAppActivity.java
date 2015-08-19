@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Toast;
 
 import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.database.DBManager;
@@ -16,7 +15,6 @@ import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.NativeApp;
 import com.changhong.gdappstore.net.LoadListener.LoadListListener;
 import com.changhong.gdappstore.post.PostSetting;
-import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.Util;
 import com.post.view.base.BasePosterLayoutView;
 import com.post.view.listener.Listener.IItemOnClickListener;
@@ -43,6 +41,9 @@ public class NativeAppActivity extends PostActivity {
 		postSetting.setPosttype(PostSetting.TYPE_NATIVEAPP);
 		postSetting.setOnItemClickListener(nativeappPostItemOnclickListener);
 		postSetting.setOnItemLongClickListener(null);
+		postSetting.setFristItemFocus(true);
+		postSetting.setPost_column(5);
+		postSetting.setPost_row(3);
 		if (nativeApps != null) {
 			postView.refreshAllData(nativeApps, postSetting, nativeApps.size());
 			//获取包名，用于请求版本号
