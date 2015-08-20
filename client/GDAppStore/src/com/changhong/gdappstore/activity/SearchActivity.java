@@ -149,17 +149,6 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 			public void onGlobalLayout() {
 				gv_search.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 				gv_search.setSelection(-1);//解决进入页面要默认选择第一个。
-//				if (gv_search != null && gv_search.getChildAt(0) != null) {
-//					View view = gv_search.getChildAt(0);
-//					RelativeLayout rl_content = (RelativeLayout) view.findViewById(R.id.rl_appsearch_content);
-//					rl_content.setBackgroundColor(Color.TRANSPARENT);
-//					rl_content.clearAnimation();
-//					if (lastContentLayout != null) {
-//						lastContentLayout.setBackgroundColor(Color.TRANSPARENT);
-//						lastContentLayout.clearAnimation();
-//					}
-//					lastContentLayout = rl_content;
-//				}
 			}
 		});
 		bt_chinese.requestFocus();

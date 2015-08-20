@@ -84,7 +84,7 @@ public class YouXiView extends BasePageView implements OnFocusChangeListener, On
 			final PageApp pageApp = category.getCategoryPageApps().get(i);
 			int position = pageApp.getPosition();
 			if (position <= 9) {
-				itemViews[(position - 1)].setAppData(pageApp);
+				itemViews[(position - 1)].setPageAppData(pageApp);
 				itemViews[(position - 1)].setOnClickListener(new OnClickListener() {
 
 					@Override

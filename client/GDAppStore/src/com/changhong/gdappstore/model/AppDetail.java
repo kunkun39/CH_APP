@@ -19,13 +19,16 @@ public class AppDetail extends App {
 	protected String download;
 	// 应用路径
 	protected String host;
+	// 分类id
+	protected int categoryId;
 
 	public AppDetail() {
 		super();
 	}
 
 	public AppDetail(int appid, String appkey, String appname, String posterFilePath, String version,
-			String iconFilePath, String apkFilePath, String apkSize, String description, String download, String host) {
+			String iconFilePath, String apkFilePath, String apkSize, String description, String download, String host,
+			int categoryId) {
 		super();
 		this.appid = appid;
 		this.appkey = appkey;
@@ -38,6 +41,7 @@ public class AppDetail extends App {
 		this.description = description;
 		this.download = download;
 		this.host = host;
+		this.categoryId = categoryId;
 	}
 
 	public String getIconFilePath() {
@@ -87,14 +91,20 @@ public class AppDetail extends App {
 	public void setHost(String host) {
 		this.host = host;
 	}
+	
+	public int getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
+	}
 
 	@Override
 	public String toString() {
-		;
 		return "AppDetail ["+super.toString()+"iconFilePath=" + iconFilePath + ", apkFilePath=" + apkFilePath + ", apkSize=" + apkSize
-				+ ", description=" + description + ", download=" + download + ", host=" + host + "]";
+				+ ", description=" + description + ", download=" + download + ", host=" + host + ", categoryId="
+				+ categoryId + "]";
 	}
-	
-	
 
 }

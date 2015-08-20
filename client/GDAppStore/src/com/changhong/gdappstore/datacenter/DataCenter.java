@@ -55,9 +55,13 @@ public class DataCenter {
 	private static long lastRequestCategoriesTime = 0;
 	/** 上次请求分类数据的时间 */
 	private static long lastRequestPageAppsTime = 0;
-	
 	/** 上一次请求的排行榜数据的时间 **/
 	private static long lastRequestRankListTime = 0;
+	/** 上次请求分类下app列表时间 **/
+	private static Map<Integer, Long> lastRequestAppsByCategoryId = new HashMap<Integer, Long>();
+	/** 上次请求详情推荐列表时间 **/
+	private static Map<Integer, Long> lastRequestRecommendApps = new HashMap<Integer, Long>();
+
 
 	/************************** 缓存数据定义区域end *************************/
 	//
@@ -166,9 +170,6 @@ public class DataCenter {
 
 		}.execute("");
 	}
-
-	/** 上次请求分类下app列表时间 **/
-	private static Map<Integer, Long> lastRequestAppsByCategoryId = new HashMap<Integer, Long>();
 
 	/**
 	 * 请求某分类下面的应用
@@ -314,6 +315,48 @@ public class DataCenter {
 				}
 				super.onPostExecute(result);
 			}
+		}.execute("");
+	}
+	/**
+	 *获取详情页面推荐应用
+	 * 
+	 * @param packages
+	 *            需要检测应用的包名
+	 * @param loadListListener
+	 */
+	public  void loadRecommendData(final Context context,final int categoryId, final LoadListListener loadAppListListener) {
+		if (lastRequestRecommendApps.get(categoryId) != null
+				&& System.currentTimeMillis() - lastRequestRecommendApps.get(categoryId) < Config.REQUEST_RESTTIEM) {
+			String jsonString = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_RECOMMENDAPPS + categoryId);
+			if (!TextUtils.isEmpty(jsonString) && loadAppListListener != null) {
+				loadAppListListener.onComplete(Parse.parseCategoryApp(jsonString));
+				return;
+			}
+		}
+		new AsyncTask<Object, Object, Object>() {
+
+			@Override
+			protected Object doInBackground(Object... params) {
+				// 缓存中没有就去服务器请求
+				String url = Config.getDetailRecommendUrl + "?categoryId=" + categoryId;
+				String jsonString = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(url));
+				if (!TextUtils.isEmpty(jsonString)) {
+					lastRequestRecommendApps.put(categoryId, System.currentTimeMillis());
+					CacheManager.putJsonFileCache(context, CacheManager.KEYJSON_RECOMMENDAPPS + categoryId, jsonString);
+				} else {
+					jsonString = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_RECOMMENDAPPS + categoryId);
+				}
+				return Parse.parseRecommendApp(jsonString);
+			}
+
+			@Override
+			protected void onPostExecute(Object result) {
+				if (loadAppListListener != null) {
+					loadAppListListener.onComplete((List<Object>) result);
+				}
+				super.onPostExecute(result);
+			}
+
 		}.execute("");
 	}
 

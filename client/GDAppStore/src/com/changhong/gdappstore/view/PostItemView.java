@@ -10,10 +10,10 @@ import android.widget.TextView;
 
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseRelativeLayout;
+import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.model.PageApp;
 import com.changhong.gdappstore.util.ImageLoadUtil;
-import com.changhong.gdappstore.util.L;
 
 /**
  * 推荐位海报
@@ -65,7 +65,7 @@ public class PostItemView extends BaseRelativeLayout {
 		if (category == null) {
 			return;
 		}
-		if (TextUtils.isEmpty(category.getIconFilePath())&&!TextUtils.isEmpty(category.getName())) {
+		if (TextUtils.isEmpty(category.getIconFilePath()) && !TextUtils.isEmpty(category.getName())) {
 			// 没有配置图片时候写死配置
 			if (category.getName().equals("搜索")) {
 				iv_appicon.setImageResource(R.drawable.icon_jingpin_search);
@@ -81,7 +81,7 @@ public class PostItemView extends BaseRelativeLayout {
 				iv_appicon.setImageResource(R.drawable.icon_yule_child);
 			} else if (category.getName().equals("健康")) {
 				iv_appicon.setImageResource(R.drawable.icon_yule_health);
-			} else if (category.getName().equals("其他")||category.getName().equals("其它")) {
+			} else if (category.getName().equals("其他") || category.getName().equals("其它")) {
 				iv_appicon.setImageResource(R.drawable.icon_yule_more);
 			} else if (category.getName().equals("休闲")) {
 				iv_appicon.setImageResource(R.drawable.icon_youxi_relax);
@@ -102,11 +102,11 @@ public class PostItemView extends BaseRelativeLayout {
 	}
 
 	/**
-	 * 栏目推荐为
+	 * 页面推荐位
 	 * 
 	 * @param category
 	 */
-	public void setAppData(PageApp pageApp) {
+	public void setPageAppData(PageApp pageApp) {
 		if (pageApp == null) {
 			return;
 		}
@@ -128,12 +128,30 @@ public class PostItemView extends BaseRelativeLayout {
 			}
 		}
 	}
-	
+
+	/**
+	 * 页面推荐位
+	 * 
+	 * @param category
+	 */
+	public void setAppData(App pageApp) {
+		if (pageApp == null) {
+			return;
+		}
+		// 小海报图标
+		rl_app.setVisibility(VISIBLE);
+		rl_post.setVisibility(INVISIBLE);
+		if (pageApp != null) {
+			ImageLoadUtil.displayImgByMemoryDiscCache(pageApp.getPosterFilePath(), iv_appicon);
+			tv_appname.setText(TextUtils.isEmpty(pageApp.getAppname()) ? "" : pageApp.getAppname());
+		}
+	}
+
 	public void setSelected(boolean selected) {
-		if (tv_appname.getVisibility()==VISIBLE) {
+		if (tv_appname.getVisibility() == VISIBLE) {
 			tv_appname.setSelected(selected);
 		}
-		if (tv_postname.getVisibility()==VISIBLE) {
+		if (tv_postname.getVisibility() == VISIBLE) {
 			tv_postname.setSelected(selected);
 		}
 	}

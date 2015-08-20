@@ -31,6 +31,8 @@ public class Config {
 	public static String getAppVersionsUrl = BASEURL + "client/appversions.html";
 	/** app下载成功后提交统计 **/
 	public static String putAppDownloadOK = BASEURL + "/client/appdownload.html";
+	/**获取详情推荐位推荐数据*/
+	public static String getDetailRecommendUrl = BASEURL + "client/appdetailsrecommend.html";
 
 	/**
 	 * 

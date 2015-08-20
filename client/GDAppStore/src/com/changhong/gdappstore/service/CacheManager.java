@@ -9,6 +9,7 @@ public class CacheManager {
 	public static final String KEYJSON_PAGEAPPS="keyjsonpageapps";
 	public static final String KEYJSON_CATEGORYAPPS="keyappbycategoryid";
 	public static final String KEYJSON_RANKLIST="keyjsonranklist";
+	public static final String KEYJSON_RECOMMENDAPPS="keyrecommendapps";
 	
 	/**
 	 * 存放json文件缓存

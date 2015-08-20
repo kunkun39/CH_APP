@@ -1,5 +1,7 @@
 package com.changhong.gdappstore.view;
 
+import java.util.List;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.widget.RelativeLayout;
 
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BasePageView;
+import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.util.L;
 
 public class UserMayLikeView extends BasePageView implements OnFocusChangeListener, OnClickListener {
@@ -57,12 +60,22 @@ public class UserMayLikeView extends BasePageView implements OnFocusChangeListen
 			itemViews[i].setClickable(true);
 			itemViews[i].setOnFocusChangeListener(this);
 			itemViews[i].setOnClickListener(this);
+			itemViews[i].setVisibility(INVISIBLE);
 		}
 	}
 
-	public void initData() {
+	public void initData(List<App> apps) {
+		if (apps == null || apps.size() <= 0) {
+			return;
+		}
+		int appsSize=apps.size();
 		for (int i = 0; i < itemCount; i++) {
-			itemViews[i].setAppData(null);
+			if (i<appsSize) {
+				itemViews[i].setAppData(apps.get(i));
+				itemViews[i].setVisibility(VISIBLE);
+			}else {
+				itemViews[i].setVisibility(INVISIBLE);
+			}
 		}
 	}
 

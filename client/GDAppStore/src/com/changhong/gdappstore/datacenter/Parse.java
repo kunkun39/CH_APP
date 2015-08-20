@@ -27,17 +27,24 @@ import com.changhong.gdappstore.util.L;
  * 
  */
 public class Parse {
-//	/** 栏目（分类）的json数据 */
-//	public static String json_categories = "[{\"id\":\"1\",\"name\":\"娱乐\",\"parentId\":\"-1\"},{\"id\":\"2\",\"name\":\"生活\",\"parentId\":\"1\"},{\"id\":\"3\",\"name\":\"音乐\",\"parentId\":\"1\"},{\"id\":\"4\",\"name\":\"健康\",\"parentId\":\"1\"},{\"id\":\"5\",\"name\":\"其他\",\"parentId\":\"1\"},{\"id\":\"6\",\"name\":\"游戏\",\"parentId\":\"-1\"},{\"id\":\"7\",\"name\":\"休闲\",\"parentId\":\"6\"},{\"id\":\"8\",\"name\":\"棋牌\",\"parentId\":\"6\"},{\"id\":\"9\",\"name\":\"动作\",\"parentId\":\"6\"},{\"id\":\"10\",\"name\":\"其他\",\"parentId\":\"6\"},{\"id\":\"11\",\"name\":\"专题\",\"parentId\":\"-1\"},{\"id\":\"12\",\"name\":\"工具\",\"parentId\":\"11\"},{\"id\":\"13\",\"name\":\"教育\",\"parentId\":\"11\"},{\"id\":\"14\",\"name\":\"咨询\",\"parentId\":\"11\"},{\"id\":\"15\",\"name\":\"其他\",\"parentId\":\"11\"},{\"id\":\"16\",\"name\":\"首页\",\"parentId\":\"-1\"}]";
-//	/** 一级页面每个页面app获取json数据 */
-//	public static String json_pageapps = "{\"host\":\"http://localhost:8081/appmarket/upload/\",\"pages\":[{\"appId\":140,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"page\":\"1\",\"position\":1,\"posterFilePath\":\"j9gd3z32ru.jpg\"},{\"appId\":1,\"appKey\":\"nefbaxki\",\"appName\":\"大话宿友\",\"page\":\"1\",\"position\":2,\"posterFilePath\":\"kk73gncxbr.png\"},{\"appId\":1,\"appKey\":\"nefbaxki\",\"appName\":\"大话宿友\",\"page\":\"1\",\"position\":3,\"posterFilePath\":\"kk73gncxbr.png\"},{\"appId\":140,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"page\":\"1\",\"position\":4,\"posterFilePath\":\"j9gd3z32ru.jpg\"},{\"appId\":1,\"appKey\":\"nefbaxki\",\"appName\":\"大话宿友\",\"page\":\"1\",\"position\":5,\"posterFilePath\":\"kk73gncxbr.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"1\",\"position\":6,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"1\",\"position\":7,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"1\",\"position\":8,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"1\",\"position\":9,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":138,\"appKey\":\"z8d6gvqd\",\"appName\":\"百度音乐\",\"page\":\"2\",\"position\":1,\"posterFilePath\":\"2muqe5g4wr.png\"},{\"appId\":140,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"page\":\"2\",\"position\":2,\"posterFilePath\":\"j9gd3z32ru.jpg\"},{\"appId\":140,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"page\":\"2\",\"position\":3,\"posterFilePath\":\"j9gd3z32ru.jpg\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"2\",\"position\":4,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"2\",\"position\":5,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"2\",\"position\":6,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"2\",\"position\":7,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"2\",\"position\":8,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"2\",\"position\":9,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":139,\"appKey\":\"vo92sv6v\",\"appName\":\"游戏互动\",\"page\":\"3\",\"position\":1,\"posterFilePath\":\"xy9sfxgope.png\"},{\"appId\":139,\"appKey\":\"vo92sv6v\",\"appName\":\"游戏互动\",\"page\":\"3\",\"position\":2,\"posterFilePath\":\"xy9sfxgope.png\"},{\"appId\":139,\"appKey\":\"vo92sv6v\",\"appName\":\"游戏互动\",\"page\":\"3\",\"position\":3,\"posterFilePath\":\"xy9sfxgope.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"3\",\"position\":4,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"3\",\"position\":5,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"3\",\"position\":6,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"3\",\"position\":7,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"3\",\"position\":8,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"3\",\"position\":9,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":138,\"appKey\":\"z8d6gvqd\",\"appName\":\"百度音乐\",\"page\":\"4\",\"position\":1,\"posterFilePath\":\"2muqe5g4wr.png\"},{\"appId\":138,\"appKey\":\"z8d6gvqd\",\"appName\":\"百度音乐\",\"page\":\"4\",\"position\":2,\"posterFilePath\":\"2muqe5g4wr.png\"},{\"appId\":138,\"appKey\":\"z8d6gvqd\",\"appName\":\"百度音乐\",\"page\":\"4\",\"position\":3,\"posterFilePath\":\"2muqe5g4wr.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"4\",\"position\":4,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":138,\"appKey\":\"z8d6gvqd\",\"appName\":\"百度音乐\",\"page\":\"4\",\"position\":5,\"posterFilePath\":\"2muqe5g4wr.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"4\",\"position\":6,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"4\",\"position\":7,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"4\",\"position\":8,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":140,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"page\":\"4\",\"position\":9,\"posterFilePath\":\"j9gd3z32ru.jpg\"}]}";
-//	/** 分类下appjson数据缓存对象 */
-//	public static Map<Integer, String> json_categoryapps = new HashMap<Integer, String>();
-//
-//	public static String json_appdetail = "{\"apkFilePath\":\"2tx4dsmnx8.apk\",\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"appSize\":\"10.65\",\"appVersion\":\"2.004\",\"description\":\"西米隐隐西米隐隐\",\"download\":0,\"host\":\"http://localhost:8081/appmarket/upload/\",\"iconFilePath\":\"wrr3i3wy62.png\",\"posterFilePath\":\"sssth0c89d.png\"}";
+	// /** 栏目（分类）的json数据 */
+	// public static String json_categories =
+	// "[{\"id\":\"1\",\"name\":\"娱乐\",\"parentId\":\"-1\"},{\"id\":\"2\",\"name\":\"生活\",\"parentId\":\"1\"},{\"id\":\"3\",\"name\":\"音乐\",\"parentId\":\"1\"},{\"id\":\"4\",\"name\":\"健康\",\"parentId\":\"1\"},{\"id\":\"5\",\"name\":\"其他\",\"parentId\":\"1\"},{\"id\":\"6\",\"name\":\"游戏\",\"parentId\":\"-1\"},{\"id\":\"7\",\"name\":\"休闲\",\"parentId\":\"6\"},{\"id\":\"8\",\"name\":\"棋牌\",\"parentId\":\"6\"},{\"id\":\"9\",\"name\":\"动作\",\"parentId\":\"6\"},{\"id\":\"10\",\"name\":\"其他\",\"parentId\":\"6\"},{\"id\":\"11\",\"name\":\"专题\",\"parentId\":\"-1\"},{\"id\":\"12\",\"name\":\"工具\",\"parentId\":\"11\"},{\"id\":\"13\",\"name\":\"教育\",\"parentId\":\"11\"},{\"id\":\"14\",\"name\":\"咨询\",\"parentId\":\"11\"},{\"id\":\"15\",\"name\":\"其他\",\"parentId\":\"11\"},{\"id\":\"16\",\"name\":\"首页\",\"parentId\":\"-1\"}]";
+	// /** 一级页面每个页面app获取json数据 */
+	// public static String json_pageapps =
+	// "{\"host\":\"http://localhost:8081/appmarket/upload/\",\"pages\":[{\"appId\":140,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"page\":\"1\",\"position\":1,\"posterFilePath\":\"j9gd3z32ru.jpg\"},{\"appId\":1,\"appKey\":\"nefbaxki\",\"appName\":\"大话宿友\",\"page\":\"1\",\"position\":2,\"posterFilePath\":\"kk73gncxbr.png\"},{\"appId\":1,\"appKey\":\"nefbaxki\",\"appName\":\"大话宿友\",\"page\":\"1\",\"position\":3,\"posterFilePath\":\"kk73gncxbr.png\"},{\"appId\":140,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"page\":\"1\",\"position\":4,\"posterFilePath\":\"j9gd3z32ru.jpg\"},{\"appId\":1,\"appKey\":\"nefbaxki\",\"appName\":\"大话宿友\",\"page\":\"1\",\"position\":5,\"posterFilePath\":\"kk73gncxbr.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"1\",\"position\":6,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"1\",\"position\":7,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"1\",\"position\":8,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"1\",\"position\":9,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":138,\"appKey\":\"z8d6gvqd\",\"appName\":\"百度音乐\",\"page\":\"2\",\"position\":1,\"posterFilePath\":\"2muqe5g4wr.png\"},{\"appId\":140,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"page\":\"2\",\"position\":2,\"posterFilePath\":\"j9gd3z32ru.jpg\"},{\"appId\":140,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"page\":\"2\",\"position\":3,\"posterFilePath\":\"j9gd3z32ru.jpg\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"2\",\"position\":4,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"2\",\"position\":5,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"2\",\"position\":6,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"2\",\"position\":7,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"2\",\"position\":8,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"2\",\"position\":9,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":139,\"appKey\":\"vo92sv6v\",\"appName\":\"游戏互动\",\"page\":\"3\",\"position\":1,\"posterFilePath\":\"xy9sfxgope.png\"},{\"appId\":139,\"appKey\":\"vo92sv6v\",\"appName\":\"游戏互动\",\"page\":\"3\",\"position\":2,\"posterFilePath\":\"xy9sfxgope.png\"},{\"appId\":139,\"appKey\":\"vo92sv6v\",\"appName\":\"游戏互动\",\"page\":\"3\",\"position\":3,\"posterFilePath\":\"xy9sfxgope.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"3\",\"position\":4,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"3\",\"position\":5,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"3\",\"position\":6,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"3\",\"position\":7,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"3\",\"position\":8,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"3\",\"position\":9,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":138,\"appKey\":\"z8d6gvqd\",\"appName\":\"百度音乐\",\"page\":\"4\",\"position\":1,\"posterFilePath\":\"2muqe5g4wr.png\"},{\"appId\":138,\"appKey\":\"z8d6gvqd\",\"appName\":\"百度音乐\",\"page\":\"4\",\"position\":2,\"posterFilePath\":\"2muqe5g4wr.png\"},{\"appId\":138,\"appKey\":\"z8d6gvqd\",\"appName\":\"百度音乐\",\"page\":\"4\",\"position\":3,\"posterFilePath\":\"2muqe5g4wr.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"4\",\"position\":4,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":138,\"appKey\":\"z8d6gvqd\",\"appName\":\"百度音乐\",\"page\":\"4\",\"position\":5,\"posterFilePath\":\"2muqe5g4wr.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"4\",\"position\":6,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"4\",\"position\":7,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"4\",\"position\":8,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":140,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"page\":\"4\",\"position\":9,\"posterFilePath\":\"j9gd3z32ru.jpg\"}]}";
+	// /** 分类下appjson数据缓存对象 */
+	// public static Map<Integer, String> json_categoryapps = new
+	// HashMap<Integer, String>();
+	//
+	// public static String json_appdetail =
+	// "{\"apkFilePath\":\"2tx4dsmnx8.apk\",\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"appSize\":\"10.65\",\"appVersion\":\"2.004\",\"description\":\"西米隐隐西米隐隐\",\"download\":0,\"host\":\"http://localhost:8081/appmarket/upload/\",\"iconFilePath\":\"wrr3i3wy62.png\",\"posterFilePath\":\"sssth0c89d.png\"}";
 	public static String json_appranklist = "{\"host\":\"http://localhost:8081/appmarket/upload/\",\"FASTEST\":[{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"posterFilePath\":\"sssth0c89d.png\"}],\"HOTEST\":[{\"appId\":126,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":132,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":120,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":128,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":122,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":127,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":131,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":135,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":134,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":121,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"}],\"NEWEST\":[{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":140,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"posterFilePath\":\"j9gd3z32ru.jpg\"},{\"appId\":139,\"appKey\":\"vo92sv6v\",\"appName\":\"游戏互动\",\"posterFilePath\":\"xy9sfxgope.png\"},{\"appId\":138,\"appKey\":\"z8d6gvqd\",\"appName\":\"百度音乐\",\"posterFilePath\":\"2muqe5g4wr.png\"},{\"appId\":137,\"appKey\":\"j4pyq3zv\",\"appName\":\"酷狗音乐\",\"posterFilePath\":\"2b0ckiz81r.apk\"},{\"appId\":2,\"appKey\":\"17c0cu1y\",\"appName\":\"网页新闻\",\"posterFilePath\":\"6ec33tpang.apk\"},{\"appId\":1,\"appKey\":\"nefbaxki\",\"appName\":\"大话宿友\",\"posterFilePath\":\"kk73gncxbr.png\"},{\"appId\":122,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":123,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":124,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"}]}";
-//	public static String json_appsearch = "{\"host\":\"http://localhost:8081/appmarket/upload/\",\"values\":[{\"appId\":132,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":126,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":120,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":114,\"appKey\":\"1234567890\",\"appName\":\"Intel Me\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":108,\"appKey\":\"1234567890\",\"appName\":\"Intel Me\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":102,\"appKey\":\"1234567890\",\"appName\":\"Intel Me\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":122,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":123,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":124,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":128,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"}]}";
-//	public static String json_appversions = "{\"host\":\"http://localhost:8081/appmarket/upload/\",\"values\":[{\"package\":com.xxxx,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"appVersion\":\"1.93\"},{\"package\":com.xxxx,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"appVersion\":\"2.004\"}]}";
+
+	// public static String json_appsearch =
+	// "{\"host\":\"http://localhost:8081/appmarket/upload/\",\"values\":[{\"appId\":132,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":126,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":120,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":114,\"appKey\":\"1234567890\",\"appName\":\"Intel Me\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":108,\"appKey\":\"1234567890\",\"appName\":\"Intel Me\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":102,\"appKey\":\"1234567890\",\"appName\":\"Intel Me\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":122,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":123,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":124,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":128,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"}]}";
+	// public static String json_appversions =
+	// "{\"host\":\"http://localhost:8081/appmarket/upload/\",\"values\":[{\"package\":com.xxxx,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"appVersion\":\"1.93\"},{\"package\":com.xxxx,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"appVersion\":\"2.004\"}]}";
 
 	/**
 	 * 解析栏目数据
@@ -181,6 +188,52 @@ public class Parse {
 		return apps;
 	}
 
+	/**
+	 * 解析详情页面推荐位app
+	 * 
+	 * @param categoryAppJson
+	 * @return
+	 */
+	public static List<Object> parseRecommendApp(String categoryAppJson) {
+		List<Object> apps = new ArrayList<Object>();
+
+		if (TextUtils.isEmpty(categoryAppJson)) {
+			L.w("returned by categoryAppJson is empty when parseCategoryApp");
+			return apps;
+		}
+		try {
+			JSONObject object = new JSONObject(categoryAppJson);
+			String host = object.getString("host");
+			JSONArray array = object.getJSONArray("values");
+			for (int i = 0; i < array.length(); i++) {
+				App app = new App();
+				JSONObject appobject = array.getJSONObject(i);
+				if (appobject.has("appId")) {
+					app.setAppid(appobject.getInt("appId"));
+				}
+//				if (appobject.has("package")) {
+//					app.setPackageName(appobject.getString("package"));
+//				}
+				if (appobject.has("appKey")) {
+					app.setAppkey(appobject.getString("appKey"));
+				}
+				if (appobject.has("appName")) {
+					app.setAppname(appobject.getString("appName"));
+				}
+				if (appobject.has("download")) {
+				}
+				if (appobject.has("iconFilePath")) {
+					app.setPosterFilePath(host + app.getAppkey() + "/" + appobject.getString("iconFilePath"));
+				}
+				apps.add(app);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		return apps;
+	}
+
 	public static AppDetail parseAppDetail(String appdetailJson) {
 		AppDetail appDetail = new AppDetail();
 		if (TextUtils.isEmpty(appdetailJson)) {
@@ -200,6 +253,7 @@ public class Parse {
 			appDetail.setDescription(object.getString("description"));
 			appDetail.setDownload(object.getString("download"));
 			appDetail.setPackageName(object.getString("appPackage"));
+			appDetail.setCategoryId(object.getInt("categoryId"));
 			appDetail.setIconFilePath(host + appKey + "/" + object.getString("iconFilePath"));
 			appDetail.setPosterFilePath(host + appKey + "/" + object.getString("posterFilePath"));
 
@@ -293,50 +347,50 @@ public class Parse {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static boolean parseRankingList(String rankingListJson) {
 		if (TextUtils.isEmpty(rankingListJson)) {
 			L.w("rankingListJson is null!");
 			return false;
 		}
 		RankingData rankingData = RankingData.getInstance();
-		
+
 		try {
 			JSONObject object = new JSONObject(rankingListJson);
-			
+
 			String host = object.getString("host");
 			JSONArray surgeListJsonArray = object.getJSONArray("FASTEST");
 			JSONArray hotListJsonArray = object.getJSONArray("HOTEST");
 			JSONArray newListJsonArray = object.getJSONArray("NEWEST");
-			
+
 			ArrayList<Ranking_Item> newArrayList = parseRankingApp(newListJsonArray);
 			ArrayList<Ranking_Item> hotArrayList = parseRankingApp(hotListJsonArray);
 			ArrayList<Ranking_Item> surgeArrayList = parseRankingApp(surgeListJsonArray);
-			
+
 			rankingData.setHost(host);
-			
-			if(newArrayList != null && !newArrayList.isEmpty()) {
+
+			if (newArrayList != null && !newArrayList.isEmpty()) {
 				rankingData.setNewRankingData(newArrayList);
 			}
-			if(hotArrayList != null && !hotArrayList.isEmpty()) {
+			if (hotArrayList != null && !hotArrayList.isEmpty()) {
 				rankingData.setHotRankingData(hotArrayList);
 			}
-			if(surgeArrayList != null && !surgeArrayList.isEmpty()) {
+			if (surgeArrayList != null && !surgeArrayList.isEmpty()) {
 				rankingData.setSurgeRankingData(surgeArrayList);
 			}
-			
+
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return true;
 	}
-	
+
 	private static ArrayList<Ranking_Item> parseRankingApp(JSONArray jsonArray) {
 		ArrayList<Ranking_Item> rankingList = null;
-		
-		if(jsonArray == null) {
+
+		if (jsonArray == null) {
 			return rankingList;
 		}
 		rankingList = new ArrayList<Ranking_Item>();
@@ -360,14 +414,14 @@ public class Parse {
 					ranking_Item.setDownload_num(object.getString("download"));
 				}
 				ranking_Item.setTopNum(i + 1);
-				
+
 				rankingList.add(ranking_Item);
 			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			L.w("Ranking_Item parse error!");
-			if(rankingList != null) {
+			if (rankingList != null) {
 				rankingList.clear();
 			}
 			rankingList = null;

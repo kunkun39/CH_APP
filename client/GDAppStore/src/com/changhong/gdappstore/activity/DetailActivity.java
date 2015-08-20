@@ -1,5 +1,8 @@
 package com.changhong.gdappstore.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -17,7 +20,7 @@ import com.changhong.gdappstore.database.DBManager;
 import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.AppDetail;
-import com.changhong.gdappstore.model.NativeApp;
+import com.changhong.gdappstore.net.LoadListener;
 import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
 import com.changhong.gdappstore.service.UpdateService;
 import com.changhong.gdappstore.util.ImageLoadUtil;
@@ -42,9 +45,9 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	private ImageView iv_post, iv_icon;
 
 	private AppDetail appDetail;
-	
+
 	private ProgressDialog progressDialog;
-	
+
 	private UpdateService updateService;
 
 	@Override
@@ -78,36 +81,36 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		tv_updatetime = findView(R.id.tv_updatetime);
 		tv_controltool = findView(R.id.tv_controltool);
 		tv_introduce = findView(R.id.tv_introduce);
-		progressDialog=new ProgressDialog(context);
+		progressDialog = new ProgressDialog(context);
 		progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		progressDialog.setTitle("当前下载进度...");
 		progressDialog.setCancelable(false);
 		progressDialog.setButton("后台下载", new DialogInterface.OnClickListener() {
-			
+
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				if (dialog!=null) {
+				if (dialog != null) {
 					dialog.dismiss();
 				}
 			}
 		});
 	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if (progressDialog!=null) {
+		if (progressDialog != null) {
 			progressDialog.dismiss();
 		}
 		updateBtnState();
 	}
 
 	private void initData() {
-		view_usermaylike.initData();
 		int appId = -1;
 		if (getIntent() != null) {
 			appId = getIntent().getIntExtra(Config.KEY_APPID, -1);
 		}
-		updateService=new UpdateService(context, null, progressDialog);
+		updateService = new UpdateService(context, null, progressDialog);
 		DataCenter.getInstance().loadAppDetail(appId, new LoadObjectListener() {
 
 			@Override
@@ -122,12 +125,39 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 					ImageLoadUtil.displayImgByNoCache(appDetail.getIconFilePath(), iv_icon);
 					ImageLoadUtil.displayImgByNoCache(appDetail.getPosterFilePath(), iv_post);
 					updateBtnState();
+					if (appDetail.getCategoryId() > 0) {
+						initRecommendData();
+					}
 				}
 			}
 		});
+
 	}
+
+	private void initRecommendData() {
+		DataCenter.getInstance().loadRecommendData(context, appDetail.getCategoryId(),
+				new LoadListener.LoadListListener() {
+
+					@Override
+					public void onComplete(List<Object> items) {
+
+						if (items != null && items.size() > 0) {
+							List<App> apps = new ArrayList<App>();
+							for (int i = 0; i < items.size(); i++) {
+								apps.add(((App) items.get(i)));
+							}
+							view_usermaylike.initData(apps);
+						}
+
+					}
+				});
+	}
+
+	/**
+	 * 更改按钮状态
+	 */
 	private void updateBtnState() {
-		if (appDetail==null) {
+		if (appDetail == null) {
 			return;
 		}
 		App nativeApp = DBManager.getInstance(context).queryAppVersionById(appDetail.getAppid());
@@ -138,13 +168,12 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 			try {// 因为不能保证所有应用的versionname都能强制转行为float类型
 				float appdetailVersion = Float.parseFloat(appDetail.getVersion());
 				float nativeVersion = Float.parseFloat(nativeApp.getVersion());
-				L.d("checkversion--appdetail is " + appDetail.getVersion() + " nativeapp is "
-						+ nativeApp.getVersion());
+				L.d("checkversion--appdetail is " + appDetail.getVersion() + " nativeapp is " + nativeApp.getVersion());
 				bt_update.setVisibility((appdetailVersion > nativeVersion) ? VISIBLE : GONE);
 			} catch (Exception e) {
 				L.e("checkversion--error appdetail is " + appDetail.getVersion() + " nativeapp is "
 						+ nativeApp.getVersion());
-				bt_update.setVisibility(GONE);//TODO 如果版本号转换异常就不能更新
+				bt_update.setVisibility(GONE);// TODO 如果版本号转换异常就不能更新
 				e.printStackTrace();
 			}
 		} else {
@@ -162,11 +191,11 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 			break;
 		case R.id.bt_download:
 			progressDialog.setProgress(0);
-			updateService.update(appDetail,true);
+			updateService.update(appDetail, true);
 			break;
 		case R.id.bt_update:
 			progressDialog.setProgress(0);
-			updateService.update(appDetail,false);
+			updateService.update(appDetail, false);
 			break;
 
 		default:
