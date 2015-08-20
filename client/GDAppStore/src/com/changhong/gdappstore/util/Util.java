@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -14,6 +15,19 @@ import android.widget.Toast;
 import com.changhong.gdappstore.model.NativeApp;
 
 public class Util {
+	/**
+	 * 获取当前显示activity
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public static String getTopActivity(Context context) {
+		ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+		ActivityManager.RunningTaskInfo info = manager.getRunningTasks(1).get(0);
+		String curClassName = info.topActivity.getClassName(); // 类名
+		return curClassName;
+	}
+
 	/**
 	 * 递归删除文件及其只文件
 	 * 
@@ -47,7 +61,7 @@ public class Util {
 	 */
 	public static boolean openAppByPackageName(Context context, String packageName) {
 		boolean isOk = false;
-		if (packageName!=null && packageName.equals("com.changhong.gdappstore")) {
+		if (packageName != null && packageName.equals("com.changhong.gdappstore")) {
 			Toast.makeText(context, "该应用已打开", Toast.LENGTH_LONG).show();
 			return false;
 		}
@@ -119,9 +133,9 @@ public class Util {
 				tmpInfo.appPackage = packageInfo.packageName;
 				tmpInfo.appIcon = packageInfo.applicationInfo.loadIcon(context.getPackageManager());
 				nativeApps.add(tmpInfo);
-				tmpInfo.appid=-1;
-				tmpInfo.nativeVersion="0";
-				tmpInfo.ServerVersion="0";
+				tmpInfo.appid = -1;
+				tmpInfo.nativeVersion = "0";
+				tmpInfo.ServerVersion = "0";
 			}
 		}
 		return nativeApps;

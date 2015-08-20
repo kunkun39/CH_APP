@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.DisplayMetrics;
@@ -23,7 +25,11 @@ import com.changhong.gdappstore.base.BaseActivity;
 import com.changhong.gdappstore.base.BasePageView;
 import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.model.Category;
+import com.changhong.gdappstore.net.LoadListener.LoadCompleteListener;
+import com.changhong.gdappstore.service.NetChangeReceiver;
+import com.changhong.gdappstore.service.NetChangeReceiver.NetChangeListener;
 import com.changhong.gdappstore.util.L;
+import com.changhong.gdappstore.util.Util;
 import com.changhong.gdappstore.view.JingpinView;
 import com.changhong.gdappstore.view.PostTitleView;
 import com.changhong.gdappstore.view.PostTitleView.TitleItemOnClickListener;
@@ -64,7 +70,7 @@ public class MainActivity extends BaseActivity {
 	private Animation anim_rightin, anim_leftin;
 	/** viewpager 当前选中标签页 */
 	private int currIndex = 0;
-
+	/** 栏目分类数据 */
 	private List<Category> categories = null;
 
 	@Override
@@ -92,8 +98,23 @@ public class MainActivity extends BaseActivity {
 		viewPager.setCurrentItem(0);
 		viewPager.setAnimationCacheEnabled(true);
 		viewPager.setOnPageChangeListener(pageChangeListener);
-		initPageChangeAnimtion();
+		NetChangeReceiver.listeners.add(new NetChangeListener() {
 
+			@Override
+			public void onNetChange(boolean isconnect) {
+				L.d("MainActivity---onnetchanged--" + isconnect+" "+Util.getTopActivity(context)+" ");
+				if (isconnect&&Util.getTopActivity(context).equals(context.getClass().getName())) {//网络从断开到链接更新数据
+					DataCenter.getInstance().loadCategoryAndPageData(context,new LoadCompleteListener() {
+						
+						@Override
+						public void onComplete() {
+							initData();
+						}
+					});
+				}
+			}
+		});
+		initPageChangeAnimtion();
 	}
 
 	/**
@@ -102,26 +123,28 @@ public class MainActivity extends BaseActivity {
 	private void initData() {
 		categories = DataCenter.getInstance().getCategories();
 		titleView.setMargin(0, 50);
-		titleView.initData(categories);
-		
-		// 目前是初始化默认数据
-		for (int i = 0; i < categories.size(); i++) {
-			if (i==0) {
-				view_jingpin.initData(categories.get(0));
-				view_jingpin.setNextFocuesUpId(titleView.getItemTextViewAt(0).getId());
-				pageViews.add(view_jingpin);
-			}else if (i==1) {
-				view_yule.initData(categories.get(1));
-				view_yule.setNextFocuesUpId(titleView.getItemTextViewAt(1).getId());
-				pageViews.add(view_yule);
-			}else if (i==2) {
-				view_youxi.initData(categories.get(2));
-				view_youxi.setNextFocuesUpId(titleView.getItemTextViewAt(2).getId());
-				pageViews.add(view_youxi);
-			}else if (i==3) {
-				view_zhuanti.initData(categories.get(3));
-				view_zhuanti.setNextFocuesUpId(titleView.getItemTextViewAt(3).getId());
-				pageViews.add(view_zhuanti);
+		if (categories != null) {
+			titleView.initData(categories);
+
+			// 目前是初始化默认数据
+			for (int i = 0; i < categories.size(); i++) {
+				if (i == 0) {
+					view_jingpin.initData(categories.get(0));
+					view_jingpin.setNextFocuesUpId(titleView.getItemTextViewAt(0).getId());
+					pageViews.add(view_jingpin);
+				} else if (i == 1) {
+					view_yule.initData(categories.get(1));
+					view_yule.setNextFocuesUpId(titleView.getItemTextViewAt(1).getId());
+					pageViews.add(view_yule);
+				} else if (i == 2) {
+					view_youxi.initData(categories.get(2));
+					view_youxi.setNextFocuesUpId(titleView.getItemTextViewAt(2).getId());
+					pageViews.add(view_youxi);
+				} else if (i == 3) {
+					view_zhuanti.initData(categories.get(3));
+					view_zhuanti.setNextFocuesUpId(titleView.getItemTextViewAt(3).getId());
+					pageViews.add(view_zhuanti);
+				}
 			}
 		}
 		viewPagerAdapter.updateList(pageViews);
@@ -156,7 +179,6 @@ public class MainActivity extends BaseActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 	}
-
 
 	/**
 	 * 初始化动画
