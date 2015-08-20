@@ -12,6 +12,8 @@
         android:paddingBottom="15dp"
         android:background="@drawable/selector_btn_title"
         android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:clickable="true"
         android:singleLine="true"
         android:ellipsize="marquee"
         android:marqueeRepeatLimit="marquee_forever"

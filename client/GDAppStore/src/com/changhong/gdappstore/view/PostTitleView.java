@@ -211,7 +211,6 @@ public class PostTitleView extends BaseRelativeLayout {
 				if (titleItemOnFocuesChangedListener != null) {
 					titleItemOnFocuesChangedListener.onItemFocuesChanged(v, hasFocus, position);
 				}
-				L.d("setFocusItem--"+hasFocus);
 				if (hasFocus) {
 					textView.setSelected(true);
 					if (currentSelectedView != null && currentSelectedView != v) {
