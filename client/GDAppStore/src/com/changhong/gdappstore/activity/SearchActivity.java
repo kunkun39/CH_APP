@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,6 +19,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,10 +27,12 @@ import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.adapter.SearchResultAdapter;
 import com.changhong.gdappstore.base.BaseActivity;
 import com.changhong.gdappstore.datacenter.DataCenter;
+import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.RankingData;
 import com.changhong.gdappstore.model.Ranking_Item;
 import com.changhong.gdappstore.net.LoadListener.LoadListListener;
@@ -152,7 +156,23 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 				gv_search.setSelection(-1);// 解决进入页面要默认选择第一个。
 			}
 		});
-		// bt_chinese.requestFocus();
+		gv_search.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				int appid=0;
+				if (adapter.isIsapp()) {
+					if (dataList!=null && dataList.size()>position&&dataList.get(position)!=null) {
+						appid=((App)dataList.get(position)).getAppid();
+					}
+				}else {
+					appid=RankingData.getInstance().getHotRankingData().get(position).getAppId();
+				}
+				Intent intent=new Intent(SearchActivity.this,DetailActivity.class);
+				intent.putExtra(Config.KEY_APPID, appid);
+				startActivity(intent);
+			}
+		});
 	}
 
 	private void initData() {

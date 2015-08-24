@@ -98,7 +98,6 @@ public class SearchResultAdapter extends BaseAdapter {
 			viewHolder.scoreView.setScoreBy5Total(5);
 			viewHolder.tv_appname.setText(model.getAppName());
 			ImageLoadUtil.displayImgByNoCache(model.getAppIconPath(), viewHolder.iv_appicon);
-			
 		}
 		return convertView;
 	}
@@ -109,4 +108,9 @@ public class SearchResultAdapter extends BaseAdapter {
 		public ScoreView scoreView;
 	}
 
+	public boolean isIsapp() {
+		return isapp;
+	}
+
+	
 }
