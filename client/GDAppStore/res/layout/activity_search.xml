@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginLeft="@dimen/searchpage_marginleft_right"
-        android:layout_marginTop="50dp" >
+        android:layout_marginTop="80dp" >
 
         <ImageView
             android:id="@+id/iv_back"
@@ -27,7 +27,7 @@
             android:layout_toRightOf="@+id/iv_back"
             android:text="@string/sousuo"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="28sp" />
     </RelativeLayout>
     <!-- 搜索输入框 -->
 
@@ -50,11 +50,11 @@
 
     <RelativeLayout
         android:id="@+id/rl_fullkeybord"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="@dimen/searchpage_marginleft_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/edt_search" >
+        android:layout_below="@id/edt_search"
+        android:layout_marginLeft="@dimen/searchpage_marginleft_right"
+        android:layout_marginTop="30dp" >
 
         <LinearLayout
             android:id="@+id/ll_fullkeybord_row1"
@@ -223,10 +223,11 @@
                 android:layout_width="@dimen/bt_search_width"
                 android:layout_height="@dimen/bt_search_height"
                 android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/bt_keybord_margin"
+                android:layout_marginRight="@dimen/bt_keybord_margin"
                 android:background="@drawable/selector_search_full_keyboard"
                 android:gravity="center"
                 android:text="退格"
-                android:layout_marginLeft="@dimen/bt_keybord_margin"
                 android:textColor="@color/white"
                 android:textSize="22sp" />
 
@@ -244,9 +245,9 @@
                 android:id="@+id/bt_search_chinese"
                 android:layout_width="@dimen/bt_search_width"
                 android:layout_height="@dimen/bt_search_height"
+                android:layout_marginLeft="@dimen/bt_keybord_margin"
                 android:background="@drawable/selector_search_full_keyboard"
                 android:text="中文"
-                android:layout_marginLeft="@dimen/bt_keybord_margin"
                 android:textColor="@color/white"
                 android:textSize="22sp" />
         </LinearLayout>
@@ -325,6 +326,7 @@
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/selector_search_full_keyboard"
                 android:gravity="center"
+                android:layout_marginLeft="@dimen/bt_keybord_margin"
                 android:text="清除"
                 android:textColor="@color/white"
                 android:textSize="22sp" />
@@ -332,46 +334,44 @@
     </RelativeLayout>
     <!-- 搜索提示 -->
 
-    <TextView
-        android:id="@+id/tv_search_suggestion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/rl_fullkeybord"
-        android:layout_alignRight="@id/rl_fullkeybord"
-        android:layout_below="@id/rl_fullkeybord"
-        android:layout_marginLeft="@dimen/bt_keybord_margin"
-        android:layout_marginRight="@dimen/bt_keybord_margin"
-        android:layout_marginTop="20dp"
-        android:text="@string/search_suggestion" />
-
     <RelativeLayout
         android:id="@+id/rl_resust"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignTop="@id/rl_title"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="@dimen/searchpage_marginleft_right"
+        android:layout_marginTop="130dp"
         android:layout_toRightOf="@id/rl_fullkeybord"
         android:paddingRight="30dp" >
+
+        <TextView
+            android:id="@+id/tv_search_tishi_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
+            android:text="搜索小贴士"
+            android:textColor="@color/blue"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/tv_search_tishi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_search_tishi_title"
+            android:layout_below="@id/tv_search_tishi_title"
+            android:text="只要输入应用首字母即可"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/tv_everybody_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="80dp"
+            android:layout_alignLeft="@id/tv_search_tishi_title"
+            android:layout_below="@id/tv_search_tishi"
             android:text="大家都在搜"
-            android:textColor="@color/white"
-            android:textSize="22sp" />
-
-        <Button
-            android:id="@+id/bt_nextpage"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/selector_search_full_keyboard"
-            android:text="换一批"
+            android:layout_marginTop="30dp"
             android:textColor="@color/white"
             android:textSize="22sp" />
 
@@ -380,8 +380,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:text="当前搜索结果0个"
+            android:layout_alignTop="@id/tv_everybody_search"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:visibility="invisible" />

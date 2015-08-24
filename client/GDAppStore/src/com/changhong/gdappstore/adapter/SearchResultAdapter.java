@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.model.App;
+import com.changhong.gdappstore.model.Ranking_Item;
 import com.changhong.gdappstore.util.ImageLoadUtil;
 import com.changhong.gdappstore.view.ScoreView;
 /**
@@ -25,6 +26,7 @@ import com.changhong.gdappstore.view.ScoreView;
 public class SearchResultAdapter extends BaseAdapter {
 	private List<Object> datas = new ArrayList<Object>();
 	private Context context;
+	private boolean isapp=true;
 
 	public SearchResultAdapter(Context context) {
 		this.context = context;
@@ -34,6 +36,7 @@ public class SearchResultAdapter extends BaseAdapter {
 		super();
 		this.datas = datas;
 		this.context = context;
+		this.isapp=true;
 	}
 
 	/**
@@ -43,6 +46,15 @@ public class SearchResultAdapter extends BaseAdapter {
 	 */
 	public void updateData(List<Object> datas) {
 		this.datas = datas;
+		this.isapp=true;
+		notifyDataSetChanged();
+	}
+	public void updateRankingData(List<Ranking_Item> rankingItems) {
+		this.datas.clear();
+		if (rankingItems!=null) {
+			this.datas.addAll(rankingItems);
+		}
+		this.isapp=false;
 		notifyDataSetChanged();
 	}
 
@@ -76,11 +88,18 @@ public class SearchResultAdapter extends BaseAdapter {
 		}
 		RelativeLayout rl_content = (RelativeLayout) convertView.findViewById(R.id.rl_appsearch_content);
 		rl_content.setBackgroundColor(Color.TRANSPARENT);
-		
-		App model=(App) getItem(position);
-		viewHolder.scoreView.setScoreBy5Total(5);
-		viewHolder.tv_appname.setText(model.getAppname());
-		ImageLoadUtil.displayImgByNoCache(model.getPosterFilePath(), viewHolder.iv_appicon);
+		if (isapp) {
+			App model=(App) getItem(position);
+			viewHolder.scoreView.setScoreBy5Total(5);
+			viewHolder.tv_appname.setText(model.getAppname());
+			ImageLoadUtil.displayImgByNoCache(model.getPosterFilePath(), viewHolder.iv_appicon);
+		}else {
+			Ranking_Item model=(Ranking_Item) getItem(position);
+			viewHolder.scoreView.setScoreBy5Total(5);
+			viewHolder.tv_appname.setText(model.getAppName());
+			ImageLoadUtil.displayImgByNoCache(model.getAppIconPath(), viewHolder.iv_appicon);
+			
+		}
 		return convertView;
 	}
 

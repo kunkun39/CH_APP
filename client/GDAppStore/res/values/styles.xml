@@ -3,7 +3,7 @@
 
     <style name="style_btn_fullkeybord">
         <item name="android:background">@drawable/selector_search_full_keyboard</item>
-        <item name="android:layout_width">@dimen/bt_search_height</item>
+        <item name="android:layout_width">@dimen/bt_keybord_width</item>
         <item name="android:layout_height">@dimen/bt_search_height</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">22sp</item>

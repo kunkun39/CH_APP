@@ -29,7 +29,10 @@ import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.adapter.SearchResultAdapter;
 import com.changhong.gdappstore.base.BaseActivity;
 import com.changhong.gdappstore.datacenter.DataCenter;
+import com.changhong.gdappstore.model.RankingData;
+import com.changhong.gdappstore.model.Ranking_Item;
 import com.changhong.gdappstore.net.LoadListener.LoadListListener;
+import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
 import com.changhong.gdappstore.util.L;
 
 /**
@@ -57,7 +60,7 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 	/** 输入框 */
 	private EditText editText;
 	/** 按钮：中文，回退，清楚，换一批 */
-	private Button bt_chinese, bt_backone, bt_clear, bt_nextpage;
+	private Button bt_chinese, bt_backone, bt_clear;
 	/** 查询结果页码提示 */
 	private TextView tv_searchresult;
 	/** 查询结果 */
@@ -89,14 +92,12 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 		bt_backone = findView(R.id.bt_search_backone);
 		bt_chinese = findView(R.id.bt_search_chinese);
 		bt_clear = findView(R.id.bt_search_clear);
-		bt_nextpage = findView(R.id.bt_nextpage);
 		tv_searchresult = findView(R.id.tv_num_searchresult);
 		gv_search = findView(R.id.gv_search_result);
 
 		bt_backone.setOnClickListener(this);
 		bt_chinese.setOnClickListener(this);
 		bt_clear.setOnClickListener(this);
-		bt_nextpage.setOnClickListener(this);
 
 		scallAnimation = AnimationUtils.loadAnimation(context, R.anim.scale_big);
 		adapter = new SearchResultAdapter(context);
@@ -126,7 +127,7 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 		gv_search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
-				if (!hasFocus) {//反射方法在焦点离开gridview后清楚gridview焦点记录
+				if (!hasFocus) {// 反射方法在焦点离开gridview后清楚gridview焦点记录
 					try {
 						@SuppressWarnings("unchecked")
 						Class<GridView> c = (Class<GridView>) Class.forName("android.widget.GridView");
@@ -148,13 +149,27 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 			@Override
 			public void onGlobalLayout() {
 				gv_search.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-				gv_search.setSelection(-1);//解决进入页面要默认选择第一个。
+				gv_search.setSelection(-1);// 解决进入页面要默认选择第一个。
 			}
 		});
-//		bt_chinese.requestFocus();
+		// bt_chinese.requestFocus();
 	}
 
 	private void initData() {
+		List<Ranking_Item> rankingItems;
+		rankingItems = RankingData.getInstance().getHotRankingData();
+		if (rankingItems == null || rankingItems.size() <= 0) {
+			DataCenter.getInstance().loadRankingList(context, new LoadObjectListener() {
+
+				@Override
+				public void onComplete(Object object) {
+					List<Ranking_Item> rankingItems2 = RankingData.getInstance().getHotRankingData();
+					adapter.updateRankingData(rankingItems2);
+				}
+			});
+		} else {
+			adapter.updateRankingData(rankingItems);
+		}
 	}
 
 	@Override
@@ -172,9 +187,6 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 			break;
 		case R.id.bt_search_clear:
 			editText.setText("");
-			break;
-		case R.id.bt_nextpage:
-
 			break;
 
 		default:
@@ -208,17 +220,21 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 		@Override
 		public void afterTextChanged(Editable s) {
 			L.d("textWatcher afterTextChanged--" + s.toString());
-			DataCenter.getInstance().loadAppSearch(s.toString(), new LoadListListener() {
-				
-				@Override
-				public void onComplete(List<Object> items) {
-					dataList.clear();
-					dataList.addAll(items);
-					adapter.updateData(dataList);
-					updateAppnumTextVisible();
-				}
-			});
-			
+			if (TextUtils.isEmpty(s.toString())) {
+				initData();
+				updateAppnumTextVisible();
+			} else {
+				DataCenter.getInstance().loadAppSearch(s.toString(), new LoadListListener() {
+
+					@Override
+					public void onComplete(List<Object> items) {
+						dataList.clear();
+						dataList.addAll(items);
+						adapter.updateData(dataList);
+						updateAppnumTextVisible();
+					}
+				});
+			}
 		}
 	};
 
@@ -229,11 +245,9 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 		if (TextUtils.isEmpty(editText.getText().toString().trim())) {
 			// 输入框为空时候，显示推荐。
 			tv_searchresult.setVisibility(INVISIBLE);
-			bt_nextpage.setVisibility(VISIBLE);
 			findViewById(R.id.tv_everybody_search).setVisibility(VISIBLE);
 		} else {
 			tv_searchresult.setVisibility(VISIBLE);
-			bt_nextpage.setVisibility(INVISIBLE);
 			findViewById(R.id.tv_everybody_search).setVisibility(INVISIBLE);
 			int datasize = dataList.size();
 			if (datasize > 0) {

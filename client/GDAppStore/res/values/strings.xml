@@ -7,7 +7,6 @@
     <string name="youxi">游戏</string>
     <string name="faxian">发现</string>
     <string name="sousuo">搜索</string>
-    <string name="search_suggestion">拼音首字母搜索，如《奔跑吧兄弟》输入：BPBXD \n英文字母搜索《Running Man》输入RUNNINGMAN;\n新增中文搜索，点击“中文”输入法呼出中文输入法键盘搜索</string>
     <string name="str_ranking_list">排行榜</string>
     <string name="str_download">下载量：</string>
 
