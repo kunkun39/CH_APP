@@ -151,7 +151,7 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 				gv_search.setSelection(-1);//解决进入页面要默认选择第一个。
 			}
 		});
-		bt_chinese.requestFocus();
+//		bt_chinese.requestFocus();
 	}
 
 	private void initData() {

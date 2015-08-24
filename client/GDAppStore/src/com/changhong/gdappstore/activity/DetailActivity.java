@@ -56,6 +56,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		setContentView(R.layout.activity_detail);
 		initView();
 		initData();
+		L.d("detail oncreate");
 	}
 
 	private void initView() {

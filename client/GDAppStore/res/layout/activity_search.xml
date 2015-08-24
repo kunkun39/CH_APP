@@ -38,9 +38,9 @@
         android:layout_alignLeft="@+id/rl_fullkeybord"
         android:layout_alignRight="@+id/rl_fullkeybord"
         android:layout_below="@id/rl_title"
-        android:layout_marginTop="50dp"
         android:layout_marginLeft="@dimen/bt_keybord_margin"
         android:layout_marginRight="@dimen/bt_keybord_margin"
+        android:layout_marginTop="50dp"
         android:background="@color/white"
         android:hint="支持首字母搜索"
         android:padding="3dp"
@@ -48,56 +48,13 @@
         android:textColor="@color/black"
         android:textSize="18sp" />
 
-    <LinearLayout
-        android:id="@+id/ll_serarchbtns"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/rl_title"
-        android:layout_below="@id/edt_search"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/bt_search_chinese"
-            android:layout_width="@dimen/bt_search_width"
-            android:layout_height="@dimen/bt_search_height"
-            android:background="@drawable/selector_search_full_keyboard"
-            android:text="中文"
-            android:textColor="@color/white"
-            android:textSize="22sp" />
-
-        <Button
-            android:id="@+id/bt_search_backone"
-            android:layout_width="@dimen/bt_search_width"
-            android:layout_height="@dimen/bt_search_height"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/selector_search_full_keyboard"
-            android:gravity="center"
-            android:text="退格"
-            android:textColor="@color/white"
-            android:textSize="22sp" />
-
-        <Button
-            android:id="@+id/bt_search_clear"
-            android:layout_width="@dimen/bt_search_width"
-            android:layout_height="@dimen/bt_search_height"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/selector_search_full_keyboard"
-            android:gravity="center"
-            android:text="清除"
-            android:textColor="@color/white"
-            android:textSize="22sp" />
-    </LinearLayout>
-
     <RelativeLayout
         android:id="@+id/rl_fullkeybord"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="@dimen/searchpage_marginleft_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/ll_serarchbtns"
-        android:layout_below="@id/ll_serarchbtns" >
+        android:layout_below="@id/edt_search" >
 
         <LinearLayout
             android:id="@+id/ll_fullkeybord_row1"
@@ -262,6 +219,18 @@
             android:orientation="horizontal" >
 
             <Button
+                android:id="@+id/bt_search_backone"
+                android:layout_width="@dimen/bt_search_width"
+                android:layout_height="@dimen/bt_search_height"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/selector_search_full_keyboard"
+                android:gravity="center"
+                android:text="退格"
+                android:layout_marginLeft="@dimen/bt_keybord_margin"
+                android:textColor="@color/white"
+                android:textSize="22sp" />
+
+            <Button
                 android:id="@+id/bt_fullkeybord_y"
                 style="@style/style_btn_fullkeybord"
                 android:text="Y" />
@@ -270,6 +239,25 @@
                 android:id="@+id/bt_fullkeybord_z"
                 style="@style/style_btn_fullkeybord"
                 android:text="Z" />
+
+            <Button
+                android:id="@+id/bt_search_chinese"
+                android:layout_width="@dimen/bt_search_width"
+                android:layout_height="@dimen/bt_search_height"
+                android:background="@drawable/selector_search_full_keyboard"
+                android:text="中文"
+                android:layout_marginLeft="@dimen/bt_keybord_margin"
+                android:textColor="@color/white"
+                android:textSize="22sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_fullkeybord_row6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/ll_fullkeybord_row5"
+            android:layout_below="@id/ll_fullkeybord_row5"
+            android:orientation="horizontal" >
 
             <Button
                 android:id="@+id/bt_fullkeybord_1"
@@ -290,15 +278,6 @@
                 android:id="@+id/bt_fullkeybord_4"
                 style="@style/style_btn_fullkeybord"
                 android:text="4" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_fullkeybord_row6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/ll_fullkeybord_row5"
-            android:layout_below="@id/ll_fullkeybord_row5"
-            android:orientation="horizontal" >
 
             <Button
                 android:id="@+id/bt_fullkeybord_5"
@@ -309,6 +288,15 @@
                 android:id="@+id/bt_fullkeybord_6"
                 style="@style/style_btn_fullkeybord"
                 android:text="6" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_fullkeybord_row7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/ll_fullkeybord_row6"
+            android:layout_below="@id/ll_fullkeybord_row6"
+            android:orientation="horizontal" >
 
             <Button
                 android:id="@+id/bt_fullkeybord_7"
@@ -329,6 +317,17 @@
                 android:id="@+id/bt_fullkeybord_0"
                 style="@style/style_btn_fullkeybord"
                 android:text="0" />
+
+            <Button
+                android:id="@+id/bt_search_clear"
+                android:layout_width="@dimen/bt_search_width"
+                android:layout_height="@dimen/bt_search_height"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/selector_search_full_keyboard"
+                android:gravity="center"
+                android:text="清除"
+                android:textColor="@color/white"
+                android:textSize="22sp" />
         </LinearLayout>
     </RelativeLayout>
     <!-- 搜索提示 -->
@@ -351,16 +350,16 @@
         android:layout_height="40dp"
         android:layout_alignTop="@id/rl_title"
         android:layout_marginLeft="50dp"
-        android:paddingRight="30dp"
         android:layout_marginRight="@dimen/searchpage_marginleft_right"
-        android:layout_toRightOf="@id/rl_fullkeybord" >
+        android:layout_toRightOf="@id/rl_fullkeybord"
+        android:paddingRight="30dp" >
 
         <TextView
             android:id="@+id/tv_everybody_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="80dp"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="80dp"
             android:text="大家都在搜"
             android:textColor="@color/white"
             android:textSize="22sp" />
@@ -383,9 +382,9 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:text="当前搜索结果0个"
-            android:visibility="invisible"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:visibility="invisible" />
     </RelativeLayout>
 
     <GridView
@@ -394,11 +393,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/rl_resust"
         android:layout_marginLeft="50dp"
-        android:listSelector="@color/transparent"
         android:layout_marginTop="-10dp"
-        android:horizontalSpacing="0dp"
-        android:verticalSpacing="0dp"
         android:layout_toRightOf="@id/rl_fullkeybord"
-        android:numColumns="2" />
+        android:horizontalSpacing="0dp"
+        android:listSelector="@color/transparent"
+        android:numColumns="2"
+        android:verticalSpacing="0dp" />
 
 </RelativeLayout>
