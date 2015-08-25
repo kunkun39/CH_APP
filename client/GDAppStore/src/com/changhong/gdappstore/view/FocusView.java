@@ -93,8 +93,8 @@ public class FocusView {
 		
 		holder.ranking_item.setBackgroundResource(R.drawable.item_float_focus_bg);
 		
-		Animation scallBigAnimation = AnimationUtils.loadAnimation(mContext, R.anim.scale_big);
-		focusItem.startAnimation(scallBigAnimation);
+		//Animation scallBigAnimation = AnimationUtils.loadAnimation(mContext, R.anim.scale_big);
+		//focusItem.startAnimation(scallBigAnimation);
 		focusItem.bringToFront();
 		
 		this.position = position;

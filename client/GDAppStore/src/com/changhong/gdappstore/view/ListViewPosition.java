@@ -151,9 +151,10 @@ public class ListViewPosition {
 			}
 		}
 		
-		if(-1 != offset && toPosition != startNumPosition) {
+		if(-1 != offset) {
 			lastOffset = offset;
-			offset += (offset % itemHeight) > 0 ? (offset / itemHeight) * 2 : ((offset / itemHeight) + 1) * 2;
+			L.i("lastOffset = " + lastOffset);
+			offset += (offset % itemHeight) == 0 ? (offset / itemHeight) * 2 : ((offset / itemHeight) + 1) * 2;
 		}
 		
 		currentPosition = toPosition;
