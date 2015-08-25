@@ -1,6 +1,7 @@
 package com.changhong.gdappstore.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -91,6 +92,7 @@ public class PostItemView extends BaseRelativeLayout {
 			// 大海报图片
 			rl_app.setVisibility(INVISIBLE);
 			rl_post.setVisibility(VISIBLE);
+			rl_post.setBackgroundColor(Color.TRANSPARENT);
 			if (pageApp != null) {
 				ImageLoadUtil.displayImgByMemoryDiscCache(pageApp.getPosterFilePath(), iv_post);
 				tv_postname.setText(TextUtils.isEmpty(pageApp.getAppname()) ? "" : pageApp.getAppname());

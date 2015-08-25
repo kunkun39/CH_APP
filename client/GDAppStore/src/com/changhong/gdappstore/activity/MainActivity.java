@@ -4,17 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnFocusChangeListener;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 
@@ -34,10 +28,9 @@ import com.changhong.gdappstore.view.JingpinView;
 import com.changhong.gdappstore.view.PostTitleView;
 import com.changhong.gdappstore.view.PostTitleView.TitleItemOnClickListener;
 import com.changhong.gdappstore.view.PostTitleView.TitleItemOnFocuesChangedListener;
-import com.changhong.gdappstore.view.TitleView;
-import com.changhong.gdappstore.view.ZhuanTiView;
 import com.changhong.gdappstore.view.YouXiView;
 import com.changhong.gdappstore.view.YuLeView;
+import com.changhong.gdappstore.view.ZhuanTiView;
 
 /**
  * homepage

@@ -56,6 +56,10 @@ public class YouXiView extends BasePageView implements OnFocusChangeListener, On
 			itemViews[i].setOnFocusChangeListener(this);
 			itemViews[i].setOnClickListener(this);
 		}
+		itemViews[9].setBackgroundResource(R.drawable.img_maincategory_bg1);
+		itemViews[10].setBackgroundResource(R.drawable.img_maincategory_bg2);
+		itemViews[11].setBackgroundResource(R.drawable.img_maincategory_bg3);
+		itemViews[12].setBackgroundResource(R.drawable.img_maincategory_bg4);
 	}
 
 	public void initData(final Category category) {
@@ -141,15 +145,15 @@ public class YouXiView extends BasePageView implements OnFocusChangeListener, On
 			tmplayout.height = v.getHeight();
 			if (viewId == R.id.jingping_item1 || viewId == R.id.jingping_item2 || viewId == R.id.jingping_item3) {
 				// 大海报
-				mlayout.leftMargin = tmplayout.leftMargin - 9 - tmplayout.width / 20;
-				mlayout.topMargin = tmplayout.topMargin - 7 - tmplayout.height / 20;
-				mlayout.width = tmplayout.width + 14 + (tmplayout.width / 10);
-				mlayout.height = tmplayout.height + 8 + (tmplayout.height / 10);
+				mlayout.leftMargin = tmplayout.leftMargin+bigLeftMar_add - tmplayout.width / 20;
+				mlayout.topMargin = tmplayout.topMargin +bigTopMar_add - tmplayout.height / 20;
+				mlayout.width = tmplayout.width + bigWidth_add + (tmplayout.width / 10);
+				mlayout.height = tmplayout.height + bigHeight_add + (tmplayout.height / 10);
 			} else {
-				mlayout.leftMargin = tmplayout.leftMargin - 18 - tmplayout.width / 20;
-				mlayout.topMargin = tmplayout.topMargin - 18 - tmplayout.height / 20;
-				mlayout.width = tmplayout.width + 30 + (tmplayout.width / 10);
-				mlayout.height = tmplayout.height + 30 + (tmplayout.height / 10);
+				mlayout.leftMargin = tmplayout.leftMargin+smallLeftMar_add - tmplayout.width / 20;
+				mlayout.topMargin = tmplayout.topMargin +smallTopMar_add - tmplayout.height / 20;
+				mlayout.width = tmplayout.width + smallWidth_add + (tmplayout.width / 10);
+				mlayout.height = tmplayout.height + smallHeight_add + (tmplayout.height / 10);
 			}
 			ivFocues.setBackgroundResource(R.drawable.focues_post);
 			ivFocues.setLayoutParams(mlayout);

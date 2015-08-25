@@ -237,14 +237,17 @@ public class Parse {
 			String host = object.getString("host");
 			String appKey = object.getString("appKey");
 			appDetail.setAppkey(appKey);
+			appDetail.setHost(host);
 			appDetail.setApkFilePath(host + appKey + "/" + object.getString("apkFilePath"));
 			appDetail.setAppid(object.getInt("appId"));
 			appDetail.setAppname(object.getString("appName"));
 			appDetail.setApkSize(object.getString("appSize"));
 			appDetail.setVersion(object.getString("appVersion"));
+			appDetail.setVersionInt(object.getInt("appVersionInt"));
 			appDetail.setDescription(object.getString("description"));
 			appDetail.setDownload(object.getString("download"));
 			appDetail.setPackageName(object.getString("appPackage"));
+			appDetail.setUpdateDate(object.getString("updateDate"));
 			appDetail.setCategoryId(object.getInt("categoryId"));
 			appDetail.setIconFilePath(host + appKey + "/" + object.getString("iconFilePath"));
 			appDetail.setPosterFilePath(host + appKey + "/" + object.getString("posterFilePath"));

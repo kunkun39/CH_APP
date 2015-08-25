@@ -44,6 +44,8 @@ public class NativeAppActivity extends PostActivity {
 		postSetting.setFristItemFocus(true);
 		postSetting.setPost_column(5);
 		postSetting.setPost_row(3);
+		postSetting.setMargins(10,10, 0, 0);
+		postView.init(postSetting);
 		if (nativeApps != null) {
 			postView.refreshAllData(nativeApps, postSetting, nativeApps.size());
 			//获取包名，用于请求版本号
