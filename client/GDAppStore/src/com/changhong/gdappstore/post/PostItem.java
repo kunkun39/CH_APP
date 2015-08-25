@@ -167,9 +167,9 @@ public class PostItem extends BasePostItem {
 
 	private void doScalse(boolean isScaleIn) {
 		if (isScaleIn) {
-			startAnimation(AnimationUtils.loadAnimation(context, R.anim.scale_big));
+			startAnimation(AnimationUtils.loadAnimation(context, R.anim.scale_big_post));
 		} else {
-			startAnimation(AnimationUtils.loadAnimation(context, R.anim.scale_small));
+			startAnimation(AnimationUtils.loadAnimation(context, R.anim.scale_small_post));
 		}
 	}
 

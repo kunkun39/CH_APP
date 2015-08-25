@@ -25,9 +25,9 @@
     <dimen name="searchpage_marginleft_right">120dp</dimen>
     
     <!-- 海报墙页面 -->
-    <dimen name="pageheader_margintop">50dp</dimen>
-    <dimen name="pagename_textsize">24sp</dimen>
-    <dimen name="pagename_marginleft">100dp</dimen>
+    <dimen name="pageheader_margintop">60dp</dimen>
+    <dimen name="pagename_textsize">30sp</dimen>
+    <dimen name="pagename_marginleft">130dp</dimen>
     
     <!-- 详情页面 -->
     <dimen name="detail_contenttextsize">20sp</dimen>

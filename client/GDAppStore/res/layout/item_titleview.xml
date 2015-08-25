@@ -19,6 +19,6 @@
         android:marqueeRepeatLimit="marquee_forever"
         android:gravity="center_horizontal"
         android:textColor="@drawable/selector_btn_title_textcolor"
-        android:textSize="22sp" />
+        android:textSize="28sp" />
 
 </RelativeLayout>

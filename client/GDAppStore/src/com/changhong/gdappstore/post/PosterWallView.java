@@ -82,7 +82,7 @@ public class PosterWallView extends BasePosterWallView {
 					children.setNextFocusLeftId(postSetting.getNextFocuesLeftId());// 横向滚动，第一列往左按默认焦点
 				}
 			}
-
+			children.setVisibility(View.INVISIBLE);
 			children.init(postSetting);
 			children.setFocusable(true);
 			children.setId(314313 + i + index * 1000);

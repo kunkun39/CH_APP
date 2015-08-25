@@ -83,7 +83,7 @@ public class PostActivity extends BaseActivity {
 	private void initPostView() {
 
 		// 海报墙设置，监听器没有可以设为空，行列设为负数则使用默认值
-		postSetting = new PostSetting(3, 5, R.drawable.selector_bg_postitem, iPosteDateListener, null,
+		postSetting = new PostSetting(3, 3, R.drawable.selector_bg_postitem, iPosteDateListener, null,
 				postItemOnclickListener, null, postOnKeyListener);
 		postSetting.setVerticalScroll(false);// 纵向滚动
 		postSetting.setVisibleClumn(1.14f);// 显示的页数
