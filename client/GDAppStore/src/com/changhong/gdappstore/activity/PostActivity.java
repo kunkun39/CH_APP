@@ -7,8 +7,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.R;
@@ -46,9 +49,13 @@ public class PostActivity extends BaseActivity {
 	/** 父栏目，根据首页传过来的id确定 */
 	protected Category parentCategory = null;
 	/** 栏目名字 */
-	protected TextView tv_name;
+	protected TextView tv_name,tv_page;
+	/**搜索按钮*/
+	protected ImageView iv_search;
 	/** 当前应用列表 */
 	private List<Object> currentApps = new ArrayList<Object>();
+	/**阴影图片*/
+	protected ImageView iv_shandow1,iv_shandow2,iv_shandow3,iv_shandow4;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +69,19 @@ public class PostActivity extends BaseActivity {
 		postView = findView(R.id.postview);
 		titleView = findView(R.id.posttitleview);
 		tv_name = findView(R.id.tv_pagename);
+		iv_shandow1=findView(R.id.iv_shandow1);
+		iv_shandow2=findView(R.id.iv_shandow2);
+		iv_shandow3=findView(R.id.iv_shandow3);
+		iv_shandow4=findView(R.id.iv_shandow4);
+		tv_page=findView(R.id.tv_page);
+		iv_search=findView(R.id.iv_search);
+		iv_search.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(PostActivity.this,SearchActivity.class));
+			}
+		});
 		titleView.setTitleItemOnClickListener(new TitleItemOnClickListener() {
 
 			@Override
@@ -83,11 +103,11 @@ public class PostActivity extends BaseActivity {
 	private void initPostView() {
 
 		// 海报墙设置，监听器没有可以设为空，行列设为负数则使用默认值
-		postSetting = new PostSetting(2, 3, R.drawable.selector_bg_postitem, iPosteDateListener, null,
+		postSetting = new PostSetting(3, 3, R.drawable.selector_bg_postitem, iPosteDateListener, null,
 				postItemOnclickListener, null, postOnKeyListener);
 		postSetting.setVerticalScroll(false);// 纵向滚动
-		postSetting.setVisibleClumn(1.1f);// 显示的页数
-		postSetting.setMargins(5, 5, 5, 5);// item的距离
+		postSetting.setVisibleClumn(1.07f);// 显示的页数
+		postSetting.setMargins(0, 0, 0, 0);// item的距离
 		// postSetting.setPagePadding(0, 0, 0, 0);
 		postSetting.setFirstRowFocusUp(true);// 第一排是否允许焦点再往上
 		postSetting.setFirstClumnFocusLeft(false);
@@ -154,6 +174,8 @@ public class PostActivity extends BaseActivity {
 		@Override
 		public void changePage(Boolean isnext, int curpage, int totalpage) {
 			// 翻页回调
+			tv_page.setText("("+curpage+"/"+totalpage+")");
+			setShandowsVisible(curpage, totalpage);
 		}
 
 		@Override
@@ -168,6 +190,26 @@ public class PostActivity extends BaseActivity {
 			// Toast.LENGTH_SHORT).show();
 		}
 	};
+
+	private void setShandowsVisible(int curPage, int totalPage) {
+		if (currentApps==null ||curPage < 0 || totalPage < 0 || curPage > totalPage) {
+			return;
+		}
+		int size=currentApps.size();
+		if (curPage==totalPage) {
+			iv_shandow4.setVisibility(INVISIBLE);
+			int curItems=size-((curPage-1)*9);//本页有多少个item
+			iv_shandow1.setVisibility(curItems>=7?VISIBLE:INVISIBLE);
+			iv_shandow2.setVisibility(curItems>=8?VISIBLE:INVISIBLE);
+			iv_shandow3.setVisibility(curItems==9?VISIBLE:INVISIBLE);
+		}else {
+			iv_shandow1.setVisibility(VISIBLE);
+			iv_shandow2.setVisibility(VISIBLE);
+			iv_shandow3.setVisibility(VISIBLE);
+			int nextItems=size-(curPage*9);//本页有多少个item
+			iv_shandow4.setVisibility(nextItems>=7?VISIBLE:INVISIBLE);
+		}
+	}
 
 	private OnKeyListener postOnKeyListener = new OnKeyListener() {
 

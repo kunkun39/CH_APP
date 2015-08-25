@@ -3,6 +3,7 @@ package com.changhong.gdappstore.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseRelativeLayout;
@@ -88,6 +89,9 @@ public class ScoreView extends BaseRelativeLayout {
 	 */
 	private ImageView getImageView(int state) {
 		ImageView imageView = new ImageView(context);
+		imageView.setScaleType(ScaleType.FIT_XY);
+		LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(25, 25);
+		imageView.setLayoutParams(layoutParams);
 		updateStarViewState(imageView, state);
 		return imageView;
 	}
