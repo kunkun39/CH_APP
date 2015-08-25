@@ -28,6 +28,8 @@
     <dimen name="pageheader_margintop">60dp</dimen>
     <dimen name="pagename_textsize">30sp</dimen>
     <dimen name="pagename_marginleft">130dp</dimen>
+    <dimen name="iv_shandow_width">335dp</dimen>
+    <dimen name="iv_shandow_marginleft">30dp</dimen>
     
     <!-- 详情页面 -->
     <dimen name="detail_contenttextsize">20sp</dimen>

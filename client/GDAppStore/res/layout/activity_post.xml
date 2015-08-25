@@ -20,30 +20,28 @@
             android:textColor="@color/white"
             android:textSize="@dimen/pagename_textsize" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/iv_search"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@id/tv_pagename"
-            android:layout_marginRight="200dp" >
-
-            <ImageView
-                android:id="@+id/iv_search"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/img_search" />
-
-            <TextView
-                android:id="@+id/tv_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:focusable="true"
-                android:text="搜索"
-                android:textColor="@drawable/selector_btn_title_textcolor"
-                android:textSize="24sp" />
-        </LinearLayout>
+            android:layout_marginRight="200dp"
+            android:background="@drawable/selector_bg_postitem"
+            android:focusable="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/btn_search" />
+        <TextView
+            android:id="@+id/tv_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_search"
+            android:layout_alignTop="@id/iv_search"
+            android:layout_marginLeft="10dp"
+            android:focusable="false"
+            android:text="(0/0)"
+            android:textColor="@color/white"
+            android:textSize="@dimen/pagename_textsize" />
     </RelativeLayout>
 
     <com.changhong.gdappstore.view.PostTitleView
@@ -52,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/rl_pageheader"
         android:layout_marginLeft="105dp"
-        android:layout_marginTop="35dp" />
+        android:layout_marginTop="20dp" />
 
     <com.changhong.gdappstore.post.PosterLayoutView
         android:id="@+id/postview"
@@ -60,9 +58,54 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/posttitleview"
         android:layout_marginBottom="-80dp"
-        android:layout_marginTop="0dp"
         android:layout_marginLeft="110dp"
         android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
         android:visibility="visible" />
+
+    <RelativeLayout
+        android:id="@+id/rl_postshandow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
+
+        <ImageView
+            android:id="@+id/iv_shandow1"
+            android:layout_width="@dimen/iv_shandow_width"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="125dp"
+            android:src="@drawable/img_postshandow"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/iv_shandow2"
+            android:layout_width="@dimen/iv_shandow_width"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/iv_shandow1"
+            android:layout_marginLeft="@dimen/iv_shandow_marginleft"
+            android:layout_toRightOf="@id/iv_shandow1"
+            android:src="@drawable/img_postshandow"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/iv_shandow3"
+            android:layout_width="@dimen/iv_shandow_width"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/iv_shandow1"
+            android:layout_marginLeft="@dimen/iv_shandow_marginleft"
+            android:layout_toRightOf="@id/iv_shandow2"
+            android:src="@drawable/img_postshandow"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/iv_shandow4"
+            android:layout_width="@dimen/iv_shandow_width"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/iv_shandow1"
+            android:layout_marginLeft="40dp"
+            android:layout_toRightOf="@id/iv_shandow3"
+            android:src="@drawable/img_postshandow"
+            android:visibility="invisible" />
+    </RelativeLayout>
 
 </RelativeLayout>
