@@ -75,15 +75,15 @@ public class MyApplication extends Application {
 
 		option_memory_disc = new DisplayImageOptions.Builder().displayer(new SimpleBitmapDisplayer())
 				.bitmapConfig(bmConfig).imageScaleType(ImageScaleType.IN_SAMPLE_INT).cacheInMemory(true)
-				.showImageForEmptyUri(R.drawable.img_loadfail).showImageOnFail(R.drawable.img_loadfail)
+				.showImageForEmptyUri(R.drawable.img_normal_ver).showImageOnFail(R.drawable.img_normal_ver)
 				.cacheOnDisc(true).build();
 		option_nomemory_disc = new DisplayImageOptions.Builder().displayer(new SimpleBitmapDisplayer())
 				.bitmapConfig(bmConfig).imageScaleType(ImageScaleType.IN_SAMPLE_INT).cacheInMemory(false)
-				.showImageForEmptyUri(R.drawable.img_loadfail).showImageOnFail(R.drawable.img_loadfail)
+				.showImageForEmptyUri(R.drawable.img_normal_square).showImageOnFail(R.drawable.img_normal_square)
 				.cacheOnDisc(true).build();
 		option_nomemory_nodisc = new DisplayImageOptions.Builder().displayer(new SimpleBitmapDisplayer())
 				.bitmapConfig(bmConfig).imageScaleType(ImageScaleType.IN_SAMPLE_INT).cacheInMemory(false)
-				.showImageForEmptyUri(R.drawable.img_loadfail).showImageOnFail(R.drawable.img_loadfail)
+				.showImageForEmptyUri(R.drawable.img_normal_square).showImageOnFail(R.drawable.img_normal_square)
 				.cacheOnDisc(false).build();
 	}
 
