@@ -4,16 +4,16 @@
     android:layout_height="wrap_content" >
 
     <RelativeLayout
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:background="@color/black_half20"
-        android:padding="5dp" >
+        android:layout_width="328dp"
+        android:layout_height="125dp"
+        android:background="@drawable/bg_itempost" >
 
         <ImageView
             android:id="@+id/iv_appicon"
-            android:layout_width="85dp"
-            android:layout_height="85dp"
-            android:layout_centerHorizontal="true"
+            android:layout_width="95dp"
+            android:layout_height="95dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
             android:scaleType="fitXY"
             android:src="@drawable/img_post1" />
 
@@ -21,18 +21,47 @@
             android:id="@+id/tv_appname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/iv_appicon"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
+            android:layout_alignTop="@id/iv_appicon"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/iv_appicon"
             android:ellipsize="marquee"
             android:marqueeRepeatLimit="marquee_forever"
-            android:paddingBottom="5dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="5dp"
             android:singleLine="true"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="26sp" />
+
+        <TextView
+            android:id="@+id/tv_apksize_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_appname"
+            android:layout_below="@id/tv_appname"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:text="大小："
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_apksize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tv_apksize_title"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/tv_apksize_title"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <com.changhong.gdappstore.view.ScoreView
+            android:id="@+id/scoreview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_apksize_title"
+            android:layout_below="@id/tv_apksize_title" />
     </RelativeLayout>
 
 </RelativeLayout>

@@ -13,7 +13,11 @@ public class App {
 	protected String appkey = "";
 	// 应用名称
 	protected String appname;
-	// 应用海报地址
+	// 应用大小
+	protected String apkSize;
+	// 应用下载量
+	protected String download;
+	// 应用海报地址(也有可能是图标，具体根据服务器的传值)
 	protected String posterFilePath;
 	// 应用版本号
 	protected String version;
@@ -24,31 +28,24 @@ public class App {
 		super();
 	}
 
-	public App(int appid, String appkey, String appname, String posterFilePath) {
+	public App(int appid, String appkey, String appname, String apkSize, String download, String posterFilePath,
+			String version, String packageName) {
 		super();
 		this.appid = appid;
 		this.appkey = appkey;
 		this.appname = appname;
-		this.posterFilePath = posterFilePath;
-	}
-
-	public App(int appid, String appkey, String appname, String posterFilePath, String version, String packageName) {
-		super();
-		this.appid = appid;
-		this.appkey = appkey;
-		this.appname = appname;
+		this.apkSize = apkSize;
+		this.download = download;
 		this.posterFilePath = posterFilePath;
 		this.version = version;
 		this.packageName = packageName;
 	}
 
-	public App(int appid, String appkey, String appname, String posterFilePath, String version) {
-		super();
-		this.appid = appid;
-		this.appkey = appkey;
-		this.appname = appname;
-		this.posterFilePath = posterFilePath;
-		this.version = version;
+	@Override
+	public String toString() {
+		return "App [appid=" + appid + ", appkey=" + appkey + ", appname=" + appname + ", apkSize=" + apkSize
+				+ ", download=" + download + ", posterFilePath=" + posterFilePath + ", version=" + version
+				+ ", packageName=" + packageName + "]";
 	}
 
 	public int getAppid() {
@@ -75,6 +72,22 @@ public class App {
 		this.appname = appname;
 	}
 
+	public String getApkSize() {
+		return apkSize;
+	}
+
+	public void setApkSize(String apkSize) {
+		this.apkSize = apkSize;
+	}
+
+	public String getDownload() {
+		return download;
+	}
+
+	public void setDownload(String download) {
+		this.download = download;
+	}
+
 	public String getPosterFilePath() {
 		return posterFilePath;
 	}
@@ -97,12 +110,6 @@ public class App {
 
 	public void setPackageName(String packageName) {
 		this.packageName = packageName;
-	}
-
-	@Override
-	public String toString() {
-		return "App [appid=" + appid + ", appkey=" + appkey + ", appname=" + appname + ", posterFilePath="
-				+ posterFilePath + ", version=" + version + ", packageName=" + packageName + "]";
 	}
 
 }

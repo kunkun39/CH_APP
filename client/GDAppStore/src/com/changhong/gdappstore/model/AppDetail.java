@@ -11,12 +11,8 @@ public class AppDetail extends App {
 	protected String iconFilePath;
 	// 应用apk下载地址
 	protected String apkFilePath;
-	// 应用大小
-	protected String apkSize;
 	// 应用描述
 	protected String description;
-	// 应用下载量
-	protected String download;
 	// 应用路径
 	protected String host;
 	// 分类id

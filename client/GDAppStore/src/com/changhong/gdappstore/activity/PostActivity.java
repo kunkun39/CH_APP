@@ -83,11 +83,11 @@ public class PostActivity extends BaseActivity {
 	private void initPostView() {
 
 		// 海报墙设置，监听器没有可以设为空，行列设为负数则使用默认值
-		postSetting = new PostSetting(3, 3, R.drawable.selector_bg_postitem, iPosteDateListener, null,
+		postSetting = new PostSetting(2, 3, R.drawable.selector_bg_postitem, iPosteDateListener, null,
 				postItemOnclickListener, null, postOnKeyListener);
 		postSetting.setVerticalScroll(false);// 纵向滚动
-		postSetting.setVisibleClumn(1.14f);// 显示的页数
-		postSetting.setMargins(10, 10, 0, 0);// item的距离
+		postSetting.setVisibleClumn(1.1f);// 显示的页数
+		postSetting.setMargins(5, 5, 5, 5);// item的距离
 		// postSetting.setPagePadding(0, 0, 0, 0);
 		postSetting.setFirstRowFocusUp(true);// 第一排是否允许焦点再往上
 		postSetting.setFirstClumnFocusLeft(false);

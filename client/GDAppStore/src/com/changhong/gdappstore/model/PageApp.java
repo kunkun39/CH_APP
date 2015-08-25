@@ -14,27 +14,6 @@ public class PageApp extends App {
 		super();
 	}
 
-	public PageApp(int appid, String appkey, String appname, String posterFilePath, int pageid, int position) {
-		super();
-		this.appid = appid;
-		this.appkey = appkey;
-		this.appname = appname;
-		this.posterFilePath = posterFilePath;
-		this.pageid = pageid;
-		this.position = position;
-	}
-
-	public PageApp(int appid, String appkey, String appname, String posterFilePath, String version, int pageid,
-			int position) {
-		super();
-		this.appid = appid;
-		this.appkey = appkey;
-		this.appname = appname;
-		this.posterFilePath = posterFilePath;
-		this.version = version;
-		this.pageid = pageid;
-		this.position = position;
-	}
 
 	public int getPageid() {
 		return pageid;

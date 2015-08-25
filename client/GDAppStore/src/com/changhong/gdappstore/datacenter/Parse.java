@@ -329,6 +329,9 @@ public class Parse {
 			if (appobject.has("appName")) {
 				app.setAppname(appobject.getString("appName"));
 			}
+			if (appobject.has("appSize")) {
+				app.setApkSize(appobject.getString("appSize"));
+			}
 			if (appobject.has("appVersion")) {
 				app.setVersion(appobject.getString("appVersion"));
 			}

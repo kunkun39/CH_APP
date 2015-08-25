@@ -6,18 +6,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.NativeApp;
 import com.changhong.gdappstore.util.ImageLoadUtil;
+import com.changhong.gdappstore.view.ScoreView;
 import com.post.view.base.BasePostItem;
 
 public class PostItem extends BasePostItem {
 	private PostSetting postSetting;
 	private ImageView iv_appicon, iv_update;
-	private TextView tv_appname, tv_apptext;
+	private TextView tv_appname,tv_apksize;
+	private ScoreView scoreView;
 
 	public PostItem(Context context) {
 		super(context);
@@ -55,6 +58,8 @@ public class PostItem extends BasePostItem {
 		addView(view);
 		iv_appicon = (ImageView) view.findViewById(R.id.iv_appicon);
 		tv_appname = (TextView) view.findViewById(R.id.tv_appname);
+		tv_apksize=(TextView)view.findViewById(R.id.tv_apksize);
+		scoreView=(ScoreView)view.findViewById(R.id.scoreview);
 	}
 
 	private void initNativeAppView() {
@@ -95,6 +100,8 @@ public class PostItem extends BasePostItem {
 		}
 		ImageLoadUtil.displayImgByonlyDiscCache(app.getPosterFilePath(), iv_appicon);
 		tv_appname.setText(app.getAppname());
+		tv_apksize.setText(app.getApkSize());
+		scoreView.setScoreBy5Total(5);
 	}
 
 	private void doNativeAppData(Object object) {
