@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_mainpost" >
+    >
 
     <!-- 大海报 -->
 
@@ -10,6 +10,7 @@
         android:id="@+id/rl_postitem_bigpost"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/bg_mainpost" 
         android:visibility="visible" >
 
         <ImageView
@@ -39,10 +40,11 @@
 
     <RelativeLayout
         android:id="@+id/rl_postitem_apppost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:padding="10dp"
+        android:background="@drawable/bg_mainpost" 
+        android:paddingTop="10dp"
         android:visibility="invisible" >
 
         <ImageView
@@ -71,7 +73,7 @@
             android:singleLine="true"
             android:text="应用名字"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="22sp" />
     </RelativeLayout>
 
 </RelativeLayout>
