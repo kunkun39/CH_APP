@@ -15,7 +15,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:scaleType="fitXY"
-            android:src="@drawable/img_post1" />
+            android:src="@drawable/img_normal_square" />
 
         <TextView
             android:id="@+id/tv_appname"

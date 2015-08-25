@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/postbg" >
+    android:background="@drawable/bg_mainpost" >
 
     <!-- 大海报 -->
 
@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:focusable="false"
             android:scaleType="fitXY"
-            android:src="@drawable/img_post1" />
+            android:src="@drawable/img_normal_ver" />
 
         <TextView
             android:id="@+id/tv_postname"
@@ -52,7 +52,7 @@
             android:layout_centerHorizontal="true"
             android:focusable="false"
             android:scaleType="fitXY"
-            android:src="@drawable/img_post1" />
+            android:src="@drawable/img_normal_square" />
 
         <TextView
             android:id="@+id/tv_appname"
