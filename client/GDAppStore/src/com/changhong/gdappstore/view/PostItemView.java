@@ -65,38 +65,7 @@ public class PostItemView extends BaseRelativeLayout {
 		if (category == null) {
 			return;
 		}
-		if (TextUtils.isEmpty(category.getIconFilePath()) && !TextUtils.isEmpty(category.getName())) {
-			// 没有配置图片时候写死配置
-			if (category.getName().equals("搜索")) {
-				iv_appicon.setImageResource(R.drawable.icon_jingpin_search);
-			} else if (category.getName().equals("排行榜")) {
-				iv_appicon.setImageResource(R.drawable.icon_jingpin_ranklist);
-			} else if (category.getName().equals("本地应用")) {
-				iv_appicon.setImageResource(R.drawable.icon_jingpin_subject);
-			} else if (category.getName().equals("装机必备")) {
-				iv_appicon.setImageResource(R.drawable.icon_jingpin_necessary);
-			} else if (category.getName().equals("生活")) {
-				iv_appicon.setImageResource(R.drawable.icon_yule_life);
-			} else if (category.getName().equals("音乐")) {
-				iv_appicon.setImageResource(R.drawable.icon_yule_child);
-			} else if (category.getName().equals("健康")) {
-				iv_appicon.setImageResource(R.drawable.icon_yule_health);
-			} else if (category.getName().equals("其他") || category.getName().equals("其它")) {
-				iv_appicon.setImageResource(R.drawable.icon_yule_more);
-			} else if (category.getName().equals("休闲")) {
-				iv_appicon.setImageResource(R.drawable.icon_youxi_relax);
-			} else if (category.getName().equals("棋牌")) {
-				iv_appicon.setImageResource(R.drawable.icon_youxi_card);
-			} else if (category.getName().equals("动作")) {
-				iv_appicon.setImageResource(R.drawable.icon_youxi_move);
-			} else if (category.getName().equals("工具")) {
-				iv_appicon.setImageResource(R.drawable.icon_zhuanti_tool);
-			} else if (category.getName().equals("教育")) {
-				iv_appicon.setImageResource(R.drawable.icon_zhuanti_education);
-			} else if (category.getName().equals("咨询")) {
-				iv_appicon.setImageResource(R.drawable.icon_zhuanti_parts);
-			}
-		}
+		ImageLoadUtil.displayImgByMemoryDiscCache(category.getIconFilePath(), iv_appicon);
 		tv_appname.setText(TextUtils.isEmpty(category.getName()) ? "" : category.getName());
 
 	}
