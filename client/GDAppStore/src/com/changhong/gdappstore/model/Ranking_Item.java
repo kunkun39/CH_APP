@@ -1,7 +1,10 @@
 package com.changhong.gdappstore.model;
 
+import com.changhong.gdappstore.R;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.view.View;
 
 public class Ranking_Item implements Comparable<Ranking_Item>{
 	private int topNum;
@@ -112,5 +115,28 @@ public class Ranking_Item implements Comparable<Ranking_Item>{
 		return "Ranking_Item [topNum=" + topNum + ", imgPath=" + imgPath
 				+ ", appName=" + appName + ", download_num=" + download_num
 				+ ", appId=" + appId + ", appKey=" + appKey + "]";
+	}
+	
+	public void setTopImg(View view) {
+		if(view == null) {
+			return ;
+		}
+		switch(getTopNum()) {
+		case 1:
+			view.setBackgroundResource(R.drawable.img_top1);
+			break;
+		case 2:
+			view.setBackgroundResource(R.drawable.img_top2);
+			break;
+		case 3:
+			view.setBackgroundResource(R.drawable.img_top3);
+			break;
+		case 4:
+			view.setBackgroundResource(R.drawable.img_top4);
+			break;
+		default :
+			view.setBackgroundResource(R.drawable.img_top5);
+			break;
+		}
 	}
 }

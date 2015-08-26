@@ -74,6 +74,7 @@ public class FocusView {
 		
 		Ranking_Item ranking_Item = mArrayList.get(position);
 		holder.top_num.setText(ranking_Item.getTopNum() + "");
+		ranking_Item.setTopImg(holder.top_num);
 		
 		Bitmap bitmap = ranking_Item.getAppBitmap();
 		if (null != bitmap) {
@@ -84,14 +85,14 @@ public class FocusView {
 		}
 		holder.app_name.setText(ranking_Item.getAppName());
 		holder.download_num.setText(mContext.getString(R.string.str_download) + ranking_Item.getDownload_num());
-		holder.app_size.setText(ranking_Item.getAppSize());
+		holder.app_size.setText(ranking_Item.getAppSize() + "M");
 		
 		mlayout.leftMargin = leftMargin - 25;
-		mlayout.topMargin = topMargin - 25;
+		mlayout.topMargin = topMargin - 26;
 		
 		focusItem.setLayoutParams(mlayout);
 		
-		holder.ranking_item.setBackgroundResource(R.drawable.item_float_focus_bg);
+		holder.ranking_item.setBackgroundResource(R.drawable.focues_ranking);
 		
 		//Animation scallBigAnimation = AnimationUtils.loadAnimation(mContext, R.anim.scale_big);
 		//focusItem.startAnimation(scallBigAnimation);
@@ -123,7 +124,7 @@ public class FocusView {
 		}
 		holder.app_name.setText(ranking_Item.getAppName());
 		holder.download_num.setText(mContext.getString(R.string.str_download) + ranking_Item.getDownload_num());
-		holder.app_size.setText(ranking_Item.getAppSize());
+		holder.app_size.setText(ranking_Item.getAppSize() + "M");
 	}
 	
 	public boolean hasChanged() {

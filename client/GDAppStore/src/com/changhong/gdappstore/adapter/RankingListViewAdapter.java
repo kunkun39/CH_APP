@@ -84,6 +84,7 @@ public class RankingListViewAdapter extends BaseAdapter {
 		
 		Ranking_Item ranking_Item = mArrayList.get(position);
 		holder.top_num.setText(ranking_Item.getTopNum() + "");
+		ranking_Item.setTopImg(holder.top_num);
 		
 		Bitmap bitmap = ranking_Item.getAppBitmap();
 		if (null != bitmap) {
@@ -95,7 +96,7 @@ public class RankingListViewAdapter extends BaseAdapter {
 		
 		holder.app_name.setText(ranking_Item.getAppName());
 		holder.download_num.setText(mContext.getString(R.string.str_download) + ranking_Item.getDownload_num());
-		holder.app_size.setText(ranking_Item.getAppSize());
+		holder.app_size.setText(ranking_Item.getAppSize() + "M");
 		
 		return convertView;
 	}

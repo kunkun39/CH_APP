@@ -408,6 +408,9 @@ public class Parse {
 				if (object.has("download")) {
 					ranking_Item.setDownload_num(object.getString("download"));
 				}
+				if (object.has("appSize")) {
+					ranking_Item.setAppSize(object.getString("appSize"));
+				}
 				ranking_Item.setTopNum(i + 1);
 
 				rankingList.add(ranking_Item);

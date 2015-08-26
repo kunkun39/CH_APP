@@ -5,7 +5,7 @@
     android:background="@drawable/bg_main" >
 	<RelativeLayout 
         android:layout_width="wrap_content"
-        android:layout_height="680dp">
+        android:layout_height="720dp">
 		<include
         android:id="@+id/focus_item"
         layout="@layout/rankings_item"
@@ -16,36 +16,48 @@
 	        android:layout_height="wrap_content"
 	        android:layout_marginLeft="150dp"
 	        android:layout_marginTop="60dp"
-	        android:text="@string/str_ranking_list"
-	        android:textSize="30sp" />
-	    <ImageView 
+	        android:textSize="30sp"
+	        android:textColor="#FFFFFF" />
+	    <TextView 
 	        android:id="@+id/img_new"
 	        android:layout_width="350dp"
 	        android:layout_height="60dp"
 	        android:layout_marginLeft="105dp"
 	        android:layout_marginTop="120dp"
-	        android:background="@drawable/img_new"/>
-	    <ImageView 
+	        android:gravity="center"
+	        android:text="@string/str_new"
+	        android:textSize="35sp"
+	        android:background="@drawable/img_new"
+	        android:textColor="#FFFFFF"/>
+	    <TextView 
 	        android:id="@+id/img_hot"
 	        android:layout_width="350dp"
 	        android:layout_height="60dp"
 	        android:layout_marginLeft="465dp"
 	        android:layout_marginTop="120dp"
-	        android:background="@drawable/img_hot"/>
-	    <ImageView 
+	        android:gravity="center"
+	        android:text="@string/str_hot"
+	        android:textSize="35sp"
+	        android:background="@drawable/img_hot"
+	        android:textColor="#FFFFFF"/>
+	    <TextView 
 	        android:id="@+id/img_surge"
 	        android:layout_width="350dp"
 	        android:layout_height="60dp"
 	        android:layout_marginLeft="825dp"
 	        android:layout_marginTop="120dp"
-	        android:background="@drawable/img_surge"/>
+	        android:gravity="center"
+	        android:text="@string/str_surge"
+	        android:textSize="35sp"
+	        android:background="@drawable/img_surge"
+	        android:textColor="#FFFFFF"/>
 	    <ListView 
 	        android:id="@+id/listView_new"
 	        android:layout_width="350dp"
 	        android:layout_height="450dp"
 	      	android:layout_below="@+id/img_new"
 	      	android:layout_marginLeft="105dp"
-	        android:divider="@null"
+	        android:divider="#3FFFFFFF"
 	        android:dividerHeight="2dp"
 	        android:listSelector="#00000000"/>
 	    <ListView 
@@ -54,7 +66,7 @@
 	        android:layout_height="450dp"
 	        android:layout_below="@+id/img_hot"
 	        android:layout_marginLeft="465dp"
-	        android:divider="@null"
+	        android:divider="#3FFFFFFF"
 	        android:dividerHeight="2dp"
 	        android:listSelector="#00000000" />
 	    <ListView 
@@ -63,9 +75,30 @@
 	        android:layout_height="450dp"
 	        android:layout_below="@+id/img_surge"
 	        android:layout_marginLeft="825dp"
-	        android:divider="@null"
+	        android:divider="#3FFFFFFF"
 	        android:dividerHeight="2dp"
 	        android:listSelector="#00000000" />
+	    <ImageView
+	        android:id="@+id/img_projection_new"
+	        android:layout_width="350dp"
+	        android:layout_height="30dp"
+	        android:layout_marginTop="635dp"
+	        android:layout_marginLeft="105dp"
+	        android:background="@drawable/img_ranking_projection" />
+	    <ImageView
+	        android:id="@+id/img_projection_hot"
+	        android:layout_width="350dp"
+	        android:layout_height="30dp"
+	        android:layout_marginTop="635dp"
+	        android:layout_marginLeft="465dp"
+	        android:background="@drawable/img_ranking_projection" />
+	    <ImageView
+	        android:id="@+id/img_projection_surge"
+	        android:layout_width="350dp"
+	        android:layout_height="30dp"
+	        android:layout_marginTop="635dp"
+	        android:layout_marginLeft="825dp"
+	        android:background="@drawable/img_ranking_projection" />
     </RelativeLayout>
 
 </RelativeLayout>
