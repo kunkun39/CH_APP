@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.model.App;
+import com.changhong.gdappstore.model.RankingData;
 import com.changhong.gdappstore.model.Ranking_Item;
 import com.changhong.gdappstore.util.ImageLoadUtil;
 import com.changhong.gdappstore.view.ScoreView;
@@ -81,6 +82,7 @@ public class SearchResultAdapter extends BaseAdapter {
 			convertView = LayoutInflater.from(context).inflate(R.layout.item_appsearch, null);
 			viewHolder.iv_appicon = (ImageView) convertView.findViewById(R.id.iv_appicon);
 			viewHolder.tv_appname = (TextView) convertView.findViewById(R.id.tv_appname);
+			viewHolder.tv_apksize = (TextView) convertView.findViewById(R.id.tv_apksize);
 			viewHolder.scoreView = (ScoreView) convertView.findViewById(R.id.scoreview);
 			convertView.setTag(viewHolder);
 		}else {
@@ -92,19 +94,21 @@ public class SearchResultAdapter extends BaseAdapter {
 			App model=(App) getItem(position);
 			viewHolder.scoreView.setScoreBy5Total(5);
 			viewHolder.tv_appname.setText(model.getAppname());
+			viewHolder.tv_apksize.setText(model.getApkSize());
 			ImageLoadUtil.displayImgByNoCache(model.getPosterFilePath(), viewHolder.iv_appicon);
 		}else {
 			Ranking_Item model=(Ranking_Item) getItem(position);
 			viewHolder.scoreView.setScoreBy5Total(5);
 			viewHolder.tv_appname.setText(model.getAppName());
-			ImageLoadUtil.displayImgByNoCache(model.getAppIconPath(), viewHolder.iv_appicon);
+			viewHolder.tv_apksize.setText(model.getAppSize());
+			ImageLoadUtil.displayImgByNoCache(RankingData.getInstance().getHost()+model.getAppKey()+"/"+model.getAppIconPath(), viewHolder.iv_appicon);
 		}
 		return convertView;
 	}
 
 	private class ViewHolder {
 		public ImageView iv_appicon;
-		public TextView tv_appname;
+		public TextView tv_appname,tv_apksize;
 		public ScoreView scoreView;
 	}
 

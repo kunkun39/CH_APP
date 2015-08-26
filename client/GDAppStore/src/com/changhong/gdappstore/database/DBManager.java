@@ -55,7 +55,7 @@ public class DBManager {
 		contentValues.put(helper.CLUM_APPID, app.getAppid());
 		contentValues.put(helper.CLUM_PCKNAME, app.getPackageName());
 		contentValues.put(helper.CLUM_VERSIONNAME, app.getVersion());
-		contentValues.put(helper.CLUM_VERSIONCODE, app.getVersion());// TODO
+		contentValues.put(helper.CLUM_VERSIONCODE, app.getVersionInt());
 		return db.insert(helper.APPVERSION_TABLE, "", contentValues);
 		// db.beginTransaction(); // 开始事务
 		// db.execSQL("INSERT INTO person VALUES(null, ?, ?, ?)", new Object[] {
@@ -79,8 +79,8 @@ public class DBManager {
 		contentValues.put(helper.CLUM_APPID, app.getAppid());
 		contentValues.put(helper.CLUM_PCKNAME, app.getPackageName());
 		contentValues.put(helper.CLUM_VERSIONNAME, app.getVersion());
-		contentValues.put(helper.CLUM_VERSIONCODE, app.getVersion());// TODO
-																		// 暂时只有一个版本信息
+		contentValues.put(helper.CLUM_VERSIONCODE, app.getVersionInt());
+																		
 		return db.update(helper.APPVERSION_TABLE, contentValues, helper.CLUM_APPID + " = ?",
 				new String[] { app.getAppid() + "" });
 	}
@@ -131,7 +131,7 @@ public class DBManager {
 				app.setAppid(c.getInt(c.getColumnIndex(helper.CLUM_APPID)));
 				app.setPackageName(c.getString(c.getColumnIndex(helper.CLUM_PCKNAME)));
 				app.setVersion(c.getString(c.getColumnIndex(helper.CLUM_VERSIONNAME)));
-				app.setVersion(c.getString(c.getColumnIndex(helper.CLUM_VERSIONNAME)));// TODO
+				app.setVersionInt(c.getInt(c.getColumnIndex(helper.CLUM_VERSIONCODE)));
 			} else {
 				// 删除多余列
 				deleteAppVersions(c.getInt(c.getColumnIndex(helper.CLUM_APPID)));
@@ -160,7 +160,7 @@ public class DBManager {
 				app.setAppid(c.getInt(c.getColumnIndex(helper.CLUM_APPID)));
 				app.setPackageName(c.getString(c.getColumnIndex(helper.CLUM_PCKNAME)));
 				app.setVersion(c.getString(c.getColumnIndex(helper.CLUM_VERSIONNAME)));
-				app.setVersion(c.getString(c.getColumnIndex(helper.CLUM_VERSIONNAME)));// TODO
+				app.setVersionInt(c.getInt(c.getColumnIndex(helper.CLUM_VERSIONCODE)));
 			} else {
 				// 删除多余列
 				deleteAppVersions(c.getInt(c.getColumnIndex(helper.CLUM_APPID)));
@@ -186,8 +186,7 @@ public class DBManager {
 			app.setAppid(c.getInt(c.getColumnIndex(helper.CLUM_APPID)));
 			app.setPackageName(c.getString(c.getColumnIndex(helper.CLUM_PCKNAME)));
 			app.setVersion(c.getString(c.getColumnIndex(helper.CLUM_VERSIONNAME)));
-			app.setVersion(c.getString(c.getColumnIndex(helper.CLUM_VERSIONNAME)));// TODO
-																					// 暂时没有versioncode
+			app.setVersionInt(c.getInt(c.getColumnIndex(helper.CLUM_VERSIONCODE)));
 			apps.add(app);
 		}
 		c.close();

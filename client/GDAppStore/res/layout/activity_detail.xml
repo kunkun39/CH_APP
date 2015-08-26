@@ -35,36 +35,32 @@
             android:layout_below="@id/tv_appname"
             android:layout_marginTop="10dp" >
 
-            <Button
+            <ImageView
                 android:id="@+id/bt_download"
-                android:layout_width="@dimen/detail_btn_width"
-                android:layout_height="@dimen/detail_btn_height"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/selector_search_full_keyboard"
-                android:text="下载"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_btnfocues"
+                android:focusable="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/btn_download" />
 
-            <Button
+            <ImageView
+                android:id="@+id/bt_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_btnfocues"
+                android:focusable="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/btn_startapp" />
+
+            <ImageView
                 android:id="@+id/bt_update"
-                android:layout_width="@dimen/detail_btn_width"
-                android:layout_height="@dimen/detail_btn_height"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/selector_search_full_keyboard"
-                android:text="更新"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
-
-            <Button
-                android:id="@+id/bt_open"
-                android:layout_width="@dimen/detail_btn_width"
-                android:layout_height="@dimen/detail_btn_height"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/selector_search_full_keyboard"
-                android:text="打开"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_btnfocues"
+                android:focusable="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/btn_updateapp" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -160,22 +156,6 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/detail_contenttextsize" />
 
-            <TextView
-                android:id="@+id/tv_controltool_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/detail_content_textmarginleft"
-                android:text="遥控设备："
-                android:textColor="@color/detail_content_title_textcolor"
-                android:textSize="@dimen/detail_contenttextsize" />
-
-            <TextView
-                android:id="@+id/tv_controltool"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0.0M"
-                android:textColor="@color/white"
-                android:textSize="@dimen/detail_contenttextsize" />
         </LinearLayout>
 
         <ImageView
@@ -236,6 +216,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_usermaylike"
-        android:layout_marginLeft="70dp" />
+        android:layout_marginLeft="65dp" />
 
 </RelativeLayout>

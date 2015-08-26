@@ -106,8 +106,8 @@ public class UserMayLikeView extends BasePageView implements OnFocusChangeListen
 			tmplayout.height = v.getHeight();
 			mlayout.leftMargin = tmplayout.leftMargin - 15 - tmplayout.width / 20;
 			mlayout.topMargin = tmplayout.topMargin - 15 - tmplayout.height / 20;
-			mlayout.width = tmplayout.width + 25 + (tmplayout.width / 10);
-			mlayout.height = tmplayout.height + 23 + (tmplayout.height / 10);
+			mlayout.width = tmplayout.width + 23 + (tmplayout.width / 10);
+			mlayout.height = tmplayout.height + 21 + (tmplayout.height / 10);
 			ivFocues.setBackgroundResource(R.drawable.focues_post);
 			ivFocues.setLayoutParams(mlayout);
 			ivFocues.setVisibility(View.VISIBLE);

@@ -36,11 +36,11 @@ import com.changhong.gdappstore.view.UserMayLikeView;
  */
 public class DetailActivity extends BaseActivity implements OnFocusChangeListener, OnClickListener {
 	/** 下载按钮 */
-	private Button bt_dowload, bt_update, bt_open;
+	private ImageView bt_dowload, bt_update, bt_open;
 	/** 用户喜欢 */
 	private UserMayLikeView view_usermaylike;
 	/** 应用文本介绍信息 */
-	private TextView tv_appname, tv_downloadcount, tv_size, tv_version, tv_updatetime, tv_controltool, tv_introduce;
+	private TextView tv_appname, tv_downloadcount, tv_size, tv_version, tv_updatetime, tv_introduce;
 
 	private ImageView iv_post, iv_icon;
 
@@ -56,7 +56,6 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		setContentView(R.layout.activity_detail);
 		initView();
 		initData();
-		L.d("detail oncreate");
 	}
 
 	private void initView() {
@@ -67,7 +66,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		bt_update = findView(R.id.bt_update);
 		bt_update.setOnFocusChangeListener(this);
 		bt_update.setOnClickListener(this);
-		bt_open = findView(R.id.bt_open);
+		bt_open = findView(R.id.bt_start);
 		bt_open.setOnFocusChangeListener(this);
 		bt_open.setOnClickListener(this);
 		bt_dowload.setVisibility(GONE);
@@ -80,7 +79,6 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		tv_size = findView(R.id.tv_appsize);
 		tv_version = findView(R.id.tv_version);
 		tv_updatetime = findView(R.id.tv_updatetime);
-		tv_controltool = findView(R.id.tv_controltool);
 		tv_introduce = findView(R.id.tv_introduce);
 		progressDialog = new ProgressDialog(context);
 		progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -123,6 +121,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 					tv_size.setText(appDetail.getApkSize());
 					tv_version.setText(appDetail.getVersion());
 					tv_introduce.setText(appDetail.getDescription());
+					tv_updatetime.setText(appDetail.getUpdateDate());
 					ImageLoadUtil.displayImgByNoCache(appDetail.getIconFilePath(), iv_icon);
 					ImageLoadUtil.displayImgByNoCache(appDetail.getPosterFilePath(), iv_post);
 					updateBtnState();
@@ -167,8 +166,8 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 			bt_open.setVisibility(VISIBLE);
 			bt_dowload.setVisibility(GONE);
 			try {// 因为不能保证所有应用的versionname都能强制转行为float类型
-				float appdetailVersion = Float.parseFloat(appDetail.getVersion());
-				float nativeVersion = Float.parseFloat(nativeApp.getVersion());
+				int appdetailVersion = appDetail.getVersionInt();
+				int nativeVersion = nativeApp.getVersionInt();
 				L.d("checkversion--appdetail is " + appDetail.getVersion() + " nativeapp is " + nativeApp.getVersion());
 				bt_update.setVisibility((appdetailVersion > nativeVersion) ? VISIBLE : GONE);
 			} catch (Exception e) {
@@ -187,7 +186,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.bt_open:
+		case R.id.bt_start:
 			Util.openAppByPackageName(context, appDetail.getPackageName());
 			break;
 		case R.id.bt_download:
