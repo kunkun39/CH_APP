@@ -62,7 +62,6 @@ public class DataCenter {
 	/** 上次请求详情推荐列表时间 **/
 	private static Map<Integer, Long> lastRequestRecommendApps = new HashMap<Integer, Long>();
 
-
 	/************************** 缓存数据定义区域end *************************/
 	//
 	//
@@ -88,7 +87,7 @@ public class DataCenter {
 	 * 加载栏目分类数据
 	 */
 	public void loadCategories(final Context context, final LoadCompleteListener completeListener) {
-		if (System.currentTimeMillis() - lastRequestCategoriesTime < Config.REQUEST_RESTTIEM) {
+		if (Config.ISCACHEABLE && (System.currentTimeMillis() - lastRequestCategoriesTime) < Config.REQUEST_RESTTIEM) {
 			String json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_CATEGORIES);
 			categories = Parse.parseCategory(json);
 			if (categories != null && categories.size() > 0 && completeListener != null) {
@@ -131,7 +130,7 @@ public class DataCenter {
 	 * 加载页面海报app数据（在category数据加载完后调用。）
 	 */
 	public void loadPageApps(final Context context, final LoadCompleteListener completeListener) {
-		if (System.currentTimeMillis() - lastRequestPageAppsTime < Config.REQUEST_RESTTIEM) {
+		if (Config.ISCACHEABLE && (System.currentTimeMillis() - lastRequestPageAppsTime) < Config.REQUEST_RESTTIEM) {
 			String json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_PAGEAPPS);
 			Parse.parsePageApps(json);
 			if (categories != null && categories.size() > 0 && completeListener != null) {
@@ -179,8 +178,8 @@ public class DataCenter {
 	 */
 	public void loadAppsByCategoryId(final Context context, final int categoryId,
 			final LoadListListener loadAppListListener) {
-		if (lastRequestAppsByCategoryId.get(categoryId) != null
-				&& System.currentTimeMillis() - lastRequestAppsByCategoryId.get(categoryId) < Config.REQUEST_RESTTIEM) {
+		if (Config.ISCACHEABLE && lastRequestAppsByCategoryId.get(categoryId) != null
+				&& (System.currentTimeMillis() - lastRequestAppsByCategoryId.get(categoryId)) < Config.REQUEST_RESTTIEM) {
 			String jsonString = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_CATEGORYAPPS + categoryId);
 			if (!TextUtils.isEmpty(jsonString) && loadAppListListener != null) {
 				loadAppListListener.onComplete(Parse.parseCategoryApp(jsonString));
@@ -259,7 +258,7 @@ public class DataCenter {
 	 * @param keywords
 	 * @param loadListListener
 	 */
-	public  void loadAppSearch(final String keywords, final LoadListListener loadListListener) {
+	public void loadAppSearch(final String keywords, final LoadListListener loadListListener) {
 		new AsyncTask<Object, Object, Object>() {
 
 			@Override
@@ -290,7 +289,7 @@ public class DataCenter {
 	 *            需要检测应用的包名
 	 * @param loadListListener
 	 */
-	public  void loadAppsUpdateData(final List<String> packages, final LoadListListener loadListListener) {
+	public void loadAppsUpdateData(final List<String> packages, final LoadListListener loadListListener) {
 		new AsyncTask<Object, Object, Object>() {
 
 			@Override
@@ -317,16 +316,18 @@ public class DataCenter {
 			}
 		}.execute("");
 	}
+
 	/**
-	 *获取详情页面推荐应用
+	 * 获取详情页面推荐应用
 	 * 
 	 * @param packages
 	 *            需要检测应用的包名
 	 * @param loadListListener
 	 */
-	public  void loadRecommendData(final Context context,final int categoryId, final LoadListListener loadAppListListener) {
-		if (lastRequestRecommendApps.get(categoryId) != null
-				&& System.currentTimeMillis() - lastRequestRecommendApps.get(categoryId) < Config.REQUEST_RESTTIEM) {
+	public void loadRecommendData(final Context context, final int categoryId,
+			final LoadListListener loadAppListListener) {
+		if (Config.ISCACHEABLE && lastRequestRecommendApps.get(categoryId) != null
+				&& (System.currentTimeMillis() - lastRequestRecommendApps.get(categoryId)) < Config.REQUEST_RESTTIEM) {
 			String jsonString = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_RECOMMENDAPPS + categoryId);
 			if (!TextUtils.isEmpty(jsonString) && loadAppListListener != null) {
 				loadAppListListener.onComplete(Parse.parseCategoryApp(jsonString));
@@ -344,7 +345,8 @@ public class DataCenter {
 					lastRequestRecommendApps.put(categoryId, System.currentTimeMillis());
 					CacheManager.putJsonFileCache(context, CacheManager.KEYJSON_RECOMMENDAPPS + categoryId, jsonString);
 				} else {
-					jsonString = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_RECOMMENDAPPS + categoryId);
+					jsonString = CacheManager
+							.getJsonFileCache(context, CacheManager.KEYJSON_RECOMMENDAPPS + categoryId);
 				}
 				return Parse.parseRecommendApp(jsonString);
 			}
@@ -366,7 +368,7 @@ public class DataCenter {
 	 * @param appId
 	 *            appid信息
 	 */
-	public  void submitAppDownloadOK(final String appId) {
+	public void submitAppDownloadOK(final String appId) {
 		new Thread(new Runnable() {
 
 			@Override
@@ -419,10 +421,10 @@ public class DataCenter {
 		}
 		return null;
 	}
-	
+
 	public void loadRankingList(final Context context, final LoadObjectListener objectListener) {
 		boolean result;
-		if (System.currentTimeMillis() - lastRequestRankListTime < Config.REQUEST_RESTTIEM
+		if (Config.ISCACHEABLE && (System.currentTimeMillis() - lastRequestRankListTime) < Config.REQUEST_RESTTIEM
 				&& lastRequestRankListTime != 0) {
 			String json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_RANKLIST);
 			result = Parse.parseRankingList(json);
@@ -431,9 +433,10 @@ public class DataCenter {
 				return;// 在一定的时间段内使用缓存数据不用重复请求服务器。
 			}
 		}
-		
+
 		new AsyncTask<Void, Void, Boolean>() {
 			boolean result;
+
 			@Override
 			protected Boolean doInBackground(Void... params) {
 				// TODO Auto-generated method stub
@@ -452,11 +455,12 @@ public class DataCenter {
 				result = Parse.parseRankingList(json);
 				return result;
 			}
+
 			@Override
 			protected void onPostExecute(Boolean result) {
 				objectListener.onComplete(result);
 			}
-			
+
 		}.execute((Void[]) null);
 	}
 }

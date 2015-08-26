@@ -1,5 +1,6 @@
 package com.changhong.gdappstore.util;
 
+import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.MyApplication;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 
@@ -21,7 +22,11 @@ public class ImageLoadUtil {
 	 *            图片imageView
 	 */
 	public static void displayImgByMemoryDiscCache(String url, ImageView imageView) {
-		MyApplication.imageLoader.displayImage(url, imageView, MyApplication.option_memory_disc);
+		if (Config.ISCACHEABLE) {
+			MyApplication.imageLoader.displayImage(url, imageView, MyApplication.option_memory_disc);
+		} else {
+			displayImgByNoCache(url, imageView);
+		}
 	}
 
 	/**
@@ -35,7 +40,11 @@ public class ImageLoadUtil {
 	 *            下载监听器
 	 */
 	public static void displayImgByMemoryDiscCache(String url, ImageView imageView, ImageLoadingListener listener) {
-		MyApplication.imageLoader.displayImage(url, imageView, MyApplication.option_memory_disc, listener);
+		if (Config.ISCACHEABLE) {
+			MyApplication.imageLoader.displayImage(url, imageView, MyApplication.option_memory_disc, listener);
+		} else {
+			displayImgByNoCache(url, imageView);
+		}
 	}
 
 	/**
@@ -47,7 +56,11 @@ public class ImageLoadUtil {
 	 *            图片imageView
 	 */
 	public static void displayImgByonlyDiscCache(String url, ImageView imageView) {
-		MyApplication.imageLoader.displayImage(url, imageView, MyApplication.option_nomemory_disc, null);
+		if (Config.ISCACHEABLE) {
+			MyApplication.imageLoader.displayImage(url, imageView, MyApplication.option_nomemory_disc, null);
+		} else {
+			displayImgByNoCache(url, imageView);
+		}
 	}
 
 	/**
@@ -61,7 +74,11 @@ public class ImageLoadUtil {
 	 *            下载监听器
 	 */
 	public static void displayImgByonlyDiscCache(String url, ImageView imageView, ImageLoadingListener listener) {
-		MyApplication.imageLoader.displayImage(url, imageView, MyApplication.option_nomemory_disc, listener);
+		if (Config.ISCACHEABLE) {
+			MyApplication.imageLoader.displayImage(url, imageView, MyApplication.option_nomemory_disc, listener);
+		} else {
+			displayImgByNoCache(url, imageView);
+		}
 	}
 
 	/**

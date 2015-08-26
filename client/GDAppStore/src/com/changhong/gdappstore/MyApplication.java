@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.changhong.gdappstore.util.FileNameGeneratorHelper;
 import com.changhong.gdappstore.util.L;
+import com.changhong.gdappstore.util.Util;
 import com.nostra13.universalimageloader.cache.disc.DiscCacheAware;
 import com.nostra13.universalimageloader.cache.disc.impl.FileCountLimitedDiscCache;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
@@ -97,6 +98,13 @@ public class MyApplication extends Application {
 		File cacheDir = StorageUtils.getCacheDirectory(this);// 图片缓存目录文件
 		if (!cacheDir.exists()) {
 			cacheDir.mkdirs();
+		} else {
+			if (!Config.ISCACHEABLE && cacheDir.listFiles()!=null) {
+				for (int i = 0; i < cacheDir.listFiles().length; i++) {
+					L.d("delete file "+cacheDir.listFiles()[i].getAbsolutePath());
+					Util.deleteFile(cacheDir.listFiles()[i].getAbsolutePath());
+				}
+			}
 		}
 		discCacheAware = new FileCountLimitedDiscCache(cacheDir, discCacheSize);
 	}

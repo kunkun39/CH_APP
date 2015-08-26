@@ -59,7 +59,7 @@ public class Parse {
 					category.setName(object.getString("name"));
 				}
 				if (object.has("filename")) {
-					category.setIconFilePath(host+object.getString("filename"));
+					category.setIconFilePath(host+"category/"+object.getString("filename"));
 				}
 				int parentid = -1;
 				if (object.has("parentId")) {

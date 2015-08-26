@@ -9,7 +9,10 @@ package com.changhong.gdappstore;
 public class Config {
 	public static final boolean ISTEST = false;
 	
-	public static final int REQUEST_RESTTIEM=10*60*60;
+	/**是否允许缓存。只有调试所有情况下都请求接口时候才改为false*/
+	public static final boolean ISCACHEABLE = true;
+	
+	public static final int REQUEST_RESTTIEM=10*60*1000;
 	/***************************** 网络请求配置项 ******************************************/
 	/** 请求链接超时 */
 	public static int CONNECTION_TIMEOUT = 6000;
