@@ -24,7 +24,7 @@ import com.changhong.gdappstore.model.PageApp;
  * @author wangxiufeng
  * 
  */
-public class JingpinView extends BasePageView implements OnFocusChangeListener, OnClickListener {
+public class HomePageView extends BasePageView implements OnFocusChangeListener, OnClickListener {
 
 	/** 外部回调点击监听器 */
 	private OnClickListener onClickListener;
@@ -35,17 +35,17 @@ public class JingpinView extends BasePageView implements OnFocusChangeListener, 
 
 	public boolean isRightItemFocused = false;
 
-	public JingpinView(Context context) {
+	public HomePageView(Context context) {
 		super(context);
 		initView();
 	}
 
-	public JingpinView(Context context, AttributeSet attrs) {
+	public HomePageView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		initView();
 	}
 
-	public JingpinView(Context context, AttributeSet attrs, int defStyle) {
+	public HomePageView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		initView();
 	}

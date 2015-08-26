@@ -24,7 +24,7 @@ import com.changhong.gdappstore.service.NetChangeReceiver;
 import com.changhong.gdappstore.service.NetChangeReceiver.NetChangeListener;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.Util;
-import com.changhong.gdappstore.view.JingpinView;
+import com.changhong.gdappstore.view.HomePageView;
 import com.changhong.gdappstore.view.PostTitleView;
 import com.changhong.gdappstore.view.PostTitleView.TitleItemOnClickListener;
 import com.changhong.gdappstore.view.PostTitleView.TitleItemOnFocuesChangedListener;
@@ -52,7 +52,7 @@ public class MainActivity extends BaseActivity {
 	/** 每页view */
 	private List<BasePageView> pageViews = new ArrayList<BasePageView>();
 	/** 精品view */
-	private JingpinView view_jingpin;
+	private HomePageView view_jingpin;
 	/** 娱乐view */
 	private YuLeView view_yule;
 	/** 应用view */
@@ -80,7 +80,7 @@ public class MainActivity extends BaseActivity {
 		titleView.setTitleItemOnClickListener(titleItemOnClickListener);
 		titleView.setTitleItemOnFocuesChangedListener(titleItemOnFocuesChangedListener);
 		// init page views
-		view_jingpin = new JingpinView(context);
+		view_jingpin = new HomePageView(context);
 		view_zhuanti = new ZhuanTiView(context);
 		view_youxi = new YouXiView(context);
 		view_yule = new YuLeView(context);
