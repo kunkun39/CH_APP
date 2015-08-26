@@ -4,7 +4,9 @@ import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.activity.DetailActivity;
 import com.changhong.gdappstore.activity.PostActivity;
+import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.L;
+import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.view.PostItemView;
 
 import android.content.Context;
@@ -79,7 +81,11 @@ public class BasePageView extends BaseRelativeLayout {
 	 */
 	protected void jumpToPostActivity(int parentCategoryId, int currentCategoryId) {
 		if (currentCategoryId < 0) {
-			Toast.makeText(context, "当前分类未配置", Toast.LENGTH_SHORT).show();
+			DialogUtil.showShortToast(context, "当前分类未配置");
+			return;
+		}
+		if (!NetworkUtils.ISNET_CONNECT) {
+			DialogUtil.showShortToast(context, context.getString(R.string.net_notconnected));
 			return;
 		}
 		Intent intent = new Intent(context, PostActivity.class);
@@ -96,6 +102,10 @@ public class BasePageView extends BaseRelativeLayout {
 	protected void jumpToDetailActivity(int appid) {
 		if (appid < 0) {
 			Toast.makeText(context, "当前应用未配置", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		if (!NetworkUtils.ISNET_CONNECT) {
+			DialogUtil.showShortToast(context, context.getString(R.string.net_notconnected));
 			return;
 		}
 		Intent intent = new Intent(context, DetailActivity.class);

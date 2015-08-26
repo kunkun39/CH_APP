@@ -23,7 +23,9 @@ import com.changhong.gdappstore.net.LoadListener.LoadListListener;
 import com.changhong.gdappstore.post.PostItem;
 import com.changhong.gdappstore.post.PostSetting;
 import com.changhong.gdappstore.post.PosterLayoutView;
+import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.L;
+import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.view.PostTitleView;
 import com.changhong.gdappstore.view.PostTitleView.TitleItemOnClickListener;
 import com.changhong.gdappstore.view.PostTitleView.TitleItemOnFocuesChangedListener;
@@ -155,6 +157,10 @@ public class PostActivity extends BaseActivity {
 		@Override
 		public void itemOnClick(BasePosterLayoutView arg0, View arg1, int arg2) {
 			if (arg1 == null || arg1.getTag() == null) {
+				return;
+			}
+			if (!NetworkUtils.ISNET_CONNECT) {
+				DialogUtil.showShortToast(context, context.getString(R.string.net_notconnected));
 				return;
 			}
 			App app = (App) arg1.getTag();

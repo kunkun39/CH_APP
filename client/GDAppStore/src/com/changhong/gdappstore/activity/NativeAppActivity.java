@@ -9,12 +9,15 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.changhong.gdappstore.Config;
+import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.database.DBManager;
 import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.NativeApp;
 import com.changhong.gdappstore.net.LoadListener.LoadListListener;
 import com.changhong.gdappstore.post.PostSetting;
+import com.changhong.gdappstore.util.DialogUtil;
+import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
 import com.post.view.base.BasePosterLayoutView;
 import com.post.view.listener.Listener.IItemOnClickListener;
@@ -103,6 +106,10 @@ public class NativeAppActivity extends PostActivity {
 		public void itemOnClick(BasePosterLayoutView arg0, View arg1, int arg2) {
 			NativeApp tmpInfo = (NativeApp) arg1.getTag();
 			if (tmpInfo.getAppid()>0) {//如果该应用来自于应用商城，进入详情
+				if (!NetworkUtils.ISNET_CONNECT) {
+					DialogUtil.showShortToast(context, context.getString(R.string.net_notconnected));
+					return;
+				}
 				Intent intent=new Intent(NativeAppActivity.this,DetailActivity.class);
 				intent.putExtra(Config.KEY_APPID, tmpInfo.getAppid());
 				startActivity(intent);

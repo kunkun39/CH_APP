@@ -5,17 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.os.Looper;
-import android.text.TextUtils;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.WindowManager;
-import android.view.WindowManager.LayoutParams;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import com.changhong.gdappstore.R;
+import android.widget.Toast;
 
 public class DialogUtil {
 	public static interface DialogBtnOnClickListener {
@@ -37,6 +27,22 @@ public class DialogUtil {
 			this.dialogInterface = dialogInterface;
 		}
 	}
+	/**
+	 * 显示短toast
+	 * @param context
+	 * @param text
+	 */
+	public static void showShortToast(Context context, String text) {
+		Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+	}
+	/**
+	 * 显示长toast
+	 * @param context
+	 * @param text
+	 */
+	public static void showLongToast(Context context, String text) {
+		Toast.makeText(context, text, Toast.LENGTH_LONG).show();
+	}
 
 	public static Dialog showAlertDialog(Context context, String title, String content,
 			final DialogBtnOnClickListener listener) {
@@ -45,7 +51,7 @@ public class DialogUtil {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						if (listener!=null) {
+						if (listener != null) {
 							listener.onSubmit(new DialogMessage(dialog));
 						}
 					}
@@ -54,7 +60,7 @@ public class DialogUtil {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						if (listener!=null) {
+						if (listener != null) {
 							listener.onCancel(new DialogMessage(dialog));
 						}
 					}
@@ -63,19 +69,4 @@ public class DialogUtil {
 		return alertDialog;
 	}
 
-	/**
-	 * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
-	 */
-	public static int dipTopx(Context context, float dpValue) {
-		final float scale = context.getResources().getDisplayMetrics().density;
-		return (int) (dpValue * scale + 0.5f);
-	}
-
-	/**
-	 * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
-	 */
-	public static int pxTodip(Context context, float pxValue) {
-		final float scale = context.getResources().getDisplayMetrics().density;
-		return (int) (pxValue / scale + 0.5f);
-	}
 }

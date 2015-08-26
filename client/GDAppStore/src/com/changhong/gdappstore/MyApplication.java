@@ -5,10 +5,10 @@ import java.io.File;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.widget.Toast;
 
 import com.changhong.gdappstore.util.FileNameGeneratorHelper;
 import com.changhong.gdappstore.util.L;
+import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
 import com.nostra13.universalimageloader.cache.disc.DiscCacheAware;
 import com.nostra13.universalimageloader.cache.disc.impl.FileCountLimitedDiscCache;
@@ -42,19 +42,18 @@ public class MyApplication extends Application {
 	public static DisplayImageOptions option_nomemory_disc;
 	/** 图片加载：磁盘内存都不缓存 */
 	public static DisplayImageOptions option_nomemory_nodisc;// 图片加载器设置（含缓存）
-
-	private static Context context;
 	/** 磁盘缓存大小 **/
 	private static int discCacheSize = 10 * 1024 * 1024;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		initImageLoaderCacheDir();
+		NetworkUtils.isConnectInternet(this);//网络链接
+		initImageLoaderCacheDir();//初始化imageloader 缓存路径
 		initImageLoader(this);
-		DeviceInfo.CollectInfo();
+		DeviceInfo.CollectInfo();//获取设备信息
 		deviceMac = DeviceInfo.DeviceMac;
-		L.d("device--" + deviceMac);
+		L.d("devicemac--" + deviceMac+"  netconnect "+NetworkUtils.ISNET_CONNECT);
 	}
 
 	/**

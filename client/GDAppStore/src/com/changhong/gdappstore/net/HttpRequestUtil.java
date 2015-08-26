@@ -12,7 +12,6 @@ import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.ParseException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -24,6 +23,7 @@ import android.text.TextUtils;
 
 import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.util.L;
+import com.changhong.gdappstore.util.NetworkUtils;
 
 /**
  * 网络请求
@@ -62,12 +62,12 @@ public class HttpRequestUtil {
 	 * @return
 	 */
 	public static HttpEntity doGetRequest(String url) {
-		if (TextUtils.isEmpty(url)) {
+		if (TextUtils.isEmpty(url)||!NetworkUtils.ISNET_CONNECT) {
+			L.d("doGetRequest--returned by url= " + url+" netisconnect= "+NetworkUtils.ISNET_CONNECT);
 			return null;
 		}
 		L.d("doGetRequest--url is " + url);
 		try {
-
 			HttpGet httpGet = new HttpGet(url);
 			DefaultHttpClient httpClient = new DefaultHttpClient();
 			httpClient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, Config.CONNECTION_TIMEOUT);
@@ -98,7 +98,8 @@ public class HttpRequestUtil {
 	 * @return
 	 */
 	public static HttpEntity doPostRequest(String url, final List<NameValuePair> paramList) {
-		if (TextUtils.isEmpty(url)) {
+		if (TextUtils.isEmpty(url)||!NetworkUtils.ISNET_CONNECT) {
+			L.d("doPostRequest--returned by url= " + url+" netisconnect= "+NetworkUtils.ISNET_CONNECT);
 			return null;
 		}
 		L.d("doPostRequest--url is " + url);

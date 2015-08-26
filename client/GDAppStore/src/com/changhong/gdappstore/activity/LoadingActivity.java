@@ -25,8 +25,6 @@ public class LoadingActivity extends BaseActivity {
 	private void initView() {
 		L.d("widthpx=="+context.getResources().getDisplayMetrics().density);
 		L.d("widthpx=="+screenWidth+" "+screenHeight);
-		L.d("widthpx1=="+DialogUtil.dipTopx(context, 292));
-		L.d("widthpx2=="+DialogUtil.dipTopx(context, 369));
 	}
 	
 	private void loadData() {
