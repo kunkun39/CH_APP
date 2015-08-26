@@ -52,7 +52,7 @@ public class MainActivity extends BaseActivity {
 	/** 每页view */
 	private List<BasePageView> pageViews = new ArrayList<BasePageView>();
 	/** 精品view */
-	private HomePageView view_jingpin;
+	private HomePageView view_homepage;
 	/** 娱乐view */
 	private YuLeView view_yule;
 	/** 应用view */
@@ -80,7 +80,7 @@ public class MainActivity extends BaseActivity {
 		titleView.setTitleItemOnClickListener(titleItemOnClickListener);
 		titleView.setTitleItemOnFocuesChangedListener(titleItemOnFocuesChangedListener);
 		// init page views
-		view_jingpin = new HomePageView(context);
+		view_homepage = new HomePageView(context);
 		view_zhuanti = new ZhuanTiView(context);
 		view_youxi = new YouXiView(context);
 		view_yule = new YuLeView(context);
@@ -116,15 +116,16 @@ public class MainActivity extends BaseActivity {
 	private void initData() {
 		categories = DataCenter.getInstance().getCategories();
 		titleView.setMargin(0, 50);
+		pageViews.add(view_homepage);
+		view_homepage.initNativeData();
 		if (categories != null) {
 			titleView.initData(categories);
 
 			// 目前是初始化默认数据
 			for (int i = 0; i < categories.size(); i++) {
 				if (i == 0) {
-					view_jingpin.initData(categories.get(0));
-					view_jingpin.setNextFocuesUpId(titleView.getItemTextViewAt(0).getId());
-					pageViews.add(view_jingpin);
+					view_homepage.initData(categories.get(0));
+					view_homepage.setNextFocuesUpId(titleView.getItemTextViewAt(0).getId());
 				} else if (i == 1) {
 					view_yule.initData(categories.get(1));
 					view_yule.setNextFocuesUpId(titleView.getItemTextViewAt(1).getId());

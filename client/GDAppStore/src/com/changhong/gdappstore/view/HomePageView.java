@@ -72,12 +72,19 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 		itemViews[12].setBackgroundResource(R.drawable.img_maincategory_bg4);
 	}
 
-	public void initData(Category category) {
+	public void initNativeData() {
 		// 首页的4个标签写死
 		itemViews[9].setCategoryData(new Category(-10, -10, "搜索"));
 		itemViews[10].setCategoryData(new Category(-10, -10, "排行榜"));
 		itemViews[11].setCategoryData(new Category(-10, -10, "本地应用"));
 		itemViews[12].setCategoryData(new Category(-10, -10, "装机必备"));
+		itemViews[9].setDrawableIconPost(false, R.drawable.icon_search);
+		itemViews[10].setDrawableIconPost(false, R.drawable.icon_ranklist);
+		itemViews[11].setDrawableIconPost(false, R.drawable.icon_nativeapp);
+		itemViews[12].setDrawableIconPost(false, R.drawable.icon_nessary);
+	}
+
+	public void initData(Category category) {
 		itemViews[9].setOnClickListener(this);
 		itemViews[10].setOnClickListener(this);
 		itemViews[11].setOnClickListener(this);
@@ -91,7 +98,7 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 			if (position <= 9) {
 				itemViews[(position - 1)].setPageAppData(pageApp);
 				itemViews[(position - 1)].setOnClickListener(new OnClickListener() {
-					
+
 					@Override
 					public void onClick(View v) {
 						if (onClickListener != null) {
@@ -157,13 +164,13 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 			tmplayout.height = v.getHeight();
 			if (viewId == R.id.jingping_item1 || viewId == R.id.jingping_item2 || viewId == R.id.jingping_item3) {
 				// 大海报
-				mlayout.leftMargin = tmplayout.leftMargin+bigLeftMar_add - tmplayout.width / 20;
-				mlayout.topMargin = tmplayout.topMargin +bigTopMar_add - tmplayout.height / 20;
+				mlayout.leftMargin = tmplayout.leftMargin + bigLeftMar_add - tmplayout.width / 20;
+				mlayout.topMargin = tmplayout.topMargin + bigTopMar_add - tmplayout.height / 20;
 				mlayout.width = tmplayout.width + bigWidth_add + (tmplayout.width / 10);
 				mlayout.height = tmplayout.height + bigHeight_add + (tmplayout.height / 10);
 			} else {
-				mlayout.leftMargin = tmplayout.leftMargin+smallLeftMar_add - tmplayout.width / 20;
-				mlayout.topMargin = tmplayout.topMargin +smallTopMar_add - tmplayout.height / 20;
+				mlayout.leftMargin = tmplayout.leftMargin + smallLeftMar_add - tmplayout.width / 20;
+				mlayout.topMargin = tmplayout.topMargin + smallTopMar_add - tmplayout.height / 20;
 				mlayout.width = tmplayout.width + smallWidth_add + (tmplayout.width / 10);
 				mlayout.height = tmplayout.height + smallHeight_add + (tmplayout.height / 10);
 			}
@@ -175,14 +182,14 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 			ivFocues.startAnimation(animationbig);
 			v.bringToFront();
 			ivFocues.bringToFront();
-			((PostItemView)v).setSelected(true);
+			((PostItemView) v).setSelected(true);
 		} else {
 			v.startAnimation(animationsmall);
 			ivFocues.startAnimation(animationsmall);
 			v.clearAnimation();
 			ivFocues.clearAnimation();
 			ivFocues.setVisibility(View.INVISIBLE);
-			((PostItemView)v).setSelected(false);
+			((PostItemView) v).setSelected(false);
 		}
 	}
 

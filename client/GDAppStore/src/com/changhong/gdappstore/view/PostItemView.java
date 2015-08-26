@@ -66,9 +66,23 @@ public class PostItemView extends BaseRelativeLayout {
 		if (category == null) {
 			return;
 		}
-		ImageLoadUtil.displayImgByMemoryDiscCache(category.getIconFilePath(), iv_appicon);
+		if (!TextUtils.isEmpty(category.getIconFilePath())) {
+			ImageLoadUtil.displayImgByMemoryDiscCache(category.getIconFilePath(), iv_appicon);
+		}
 		tv_appname.setText(TextUtils.isEmpty(category.getName()) ? "" : category.getName());
 
+	}
+	/**
+	 * 显示本地图片
+	 * @param ispost 是否是海报
+	 * @param drawableid 图片id
+	 */
+	public void setDrawableIconPost(boolean ispost,int drawableid) {
+		if (ispost) {
+			iv_post.setImageResource(drawableid);
+		}else {
+			iv_appicon.setImageResource(drawableid);
+		}
 	}
 
 	/**

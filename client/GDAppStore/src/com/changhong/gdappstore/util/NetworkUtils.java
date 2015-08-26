@@ -5,9 +5,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 /**
- * Created by Jack Wang
+ * 网络工具类
+ * 
+ * @author wangxiufeng
+ * 
  */
 public class NetworkUtils {
+	/** 网络是否链接 */
+	public static boolean ISNET_CONNECT = true;
 
 	public static boolean isConnectInternet(final Context pContext) {
 		final ConnectivityManager conManager = (ConnectivityManager) pContext
@@ -15,10 +20,11 @@ public class NetworkUtils {
 		final NetworkInfo networkInfo = conManager.getActiveNetworkInfo();
 
 		if (networkInfo != null) {
-			return networkInfo.isAvailable();
+			ISNET_CONNECT = networkInfo.isAvailable();
+			return ISNET_CONNECT;
 		}
-
-		return false;
+		ISNET_CONNECT = false;
+		return ISNET_CONNECT;
 	}
 
 	public static boolean isWifiConnected(Context context) {

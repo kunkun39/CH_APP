@@ -3,11 +3,9 @@ package com.changhong.gdappstore.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Message;
 import android.widget.Toast;
 
 import com.changhong.gdappstore.util.L;

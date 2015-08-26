@@ -96,6 +96,7 @@ public class MyApplication extends Application {
 		// "picCache" + File.separator;
 		// File cacheDir = new File(imgCacheDirStr);// 图片缓存目录文件
 		File cacheDir = StorageUtils.getCacheDirectory(this);// 图片缓存目录文件
+		L.d("imageloader cacheDir "+cacheDir);
 		if (!cacheDir.exists()) {
 			cacheDir.mkdirs();
 		} else {
