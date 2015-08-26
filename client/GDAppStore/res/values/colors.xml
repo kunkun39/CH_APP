@@ -18,4 +18,6 @@
 	<color name="postbg">#616b72</color>
 	<drawable name="draw_transparent">#00000000</drawable>
 	<color name="detail_content_title_textcolor">#7FFFFFFF</color>
+	<color name="bt_searchnormal">#3b4d51</color>
+	<color name="bt_searchfocues">#3685fc</color>
 </resources>

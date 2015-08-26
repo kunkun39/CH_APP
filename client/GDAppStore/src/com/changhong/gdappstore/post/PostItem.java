@@ -45,6 +45,9 @@ public class PostItem extends BasePostItem {
 		case PostSetting.TYPE_NATIVEAPP:
 			initNativeAppView();
 			break;
+		case PostSetting.TYPE_SEARCHAPP:
+			initSearchView();
+			break;
 		default:
 			initNormalView();
 			break;
@@ -54,6 +57,14 @@ public class PostItem extends BasePostItem {
 
 	private void initNormalView() {
 		View view = LayoutInflater.from(context).inflate(R.layout.item_apppost, null);
+		addView(view);
+		iv_appicon = (ImageView) view.findViewById(R.id.iv_appicon);
+		tv_appname = (TextView) view.findViewById(R.id.tv_appname);
+		tv_apksize=(TextView)view.findViewById(R.id.tv_apksize);
+		scoreView=(ScoreView)view.findViewById(R.id.scoreview);
+	}
+	private void initSearchView() {
+		View view = LayoutInflater.from(context).inflate(R.layout.item_appsearch, null);
 		addView(view);
 		iv_appicon = (ImageView) view.findViewById(R.id.iv_appicon);
 		tv_appname = (TextView) view.findViewById(R.id.tv_appname);
@@ -81,6 +92,7 @@ public class PostItem extends BasePostItem {
 		setTag(object);
 		switch (postSetting.getPosttype()) {
 		case PostSetting.TYPE_NORMAL:
+		case PostSetting.TYPE_SEARCHAPP:
 			doNormalData(object);
 			break;
 		case PostSetting.TYPE_NATIVEAPP:
@@ -133,6 +145,7 @@ public class PostItem extends BasePostItem {
 		switch (postSetting.getPosttype()) {
 		case PostSetting.TYPE_NORMAL:
 		case PostSetting.TYPE_NATIVEAPP:
+		case PostSetting.TYPE_SEARCHAPP:
 			doScalse(hasfocues);
 			if (tv_appname!=null) {
 				tv_appname.setSelected(hasfocues);
@@ -155,6 +168,7 @@ public class PostItem extends BasePostItem {
 		switch (postSetting.getPosttype()) {
 		case PostSetting.TYPE_NORMAL:
 		case PostSetting.TYPE_NATIVEAPP:
+		case PostSetting.TYPE_SEARCHAPP:
 			if (type == TYPE_FOCUES) {
 				setSelected(false);
 			} else if (type == TYPE_SELECTED) {

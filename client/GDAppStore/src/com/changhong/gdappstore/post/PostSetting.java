@@ -68,6 +68,7 @@ public class PostSetting {
 	private int posttype = 0;
 	public static final int TYPE_NORMAL = 0;
 	public static final int TYPE_NATIVEAPP = 1;
+	public static final int TYPE_SEARCHAPP = 2;
 
 	public PostSetting() {
 

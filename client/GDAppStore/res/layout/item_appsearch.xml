@@ -5,16 +5,16 @@
 
     <RelativeLayout
         android:id="@+id/rl_appsearch_content"
-        android:layout_width="328dp"
-        android:layout_height="125dp"
+        android:layout_width="300dp"
+        android:layout_height="115dp"
         android:background="@drawable/bg_itempost" >
 
         <ImageView
             android:id="@+id/iv_appicon"
-            android:layout_width="95dp"
-            android:layout_height="95dp"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="15dp"
             android:scaleType="fitXY"
             android:src="@drawable/img_normal_square" />
 
@@ -29,7 +29,7 @@
             android:marqueeRepeatLimit="marquee_forever"
             android:singleLine="true"
             android:textColor="@color/white"
-            android:textSize="26sp" />
+            android:textSize="22sp" />
 
         <TextView
             android:id="@+id/tv_apksize_title"

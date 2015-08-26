@@ -1,35 +1,22 @@
 package com.changhong.gdappstore.activity;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewTreeObserver;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.R;
-import com.changhong.gdappstore.adapter.SearchResultAdapter;
 import com.changhong.gdappstore.base.BaseActivity;
 import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.model.App;
@@ -37,7 +24,14 @@ import com.changhong.gdappstore.model.RankingData;
 import com.changhong.gdappstore.model.Ranking_Item;
 import com.changhong.gdappstore.net.LoadListener.LoadListListener;
 import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
+import com.changhong.gdappstore.post.PostSetting;
+import com.changhong.gdappstore.post.PosterLayoutView;
+import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.L;
+import com.changhong.gdappstore.util.NetworkUtils;
+import com.post.view.base.BasePosterLayoutView;
+import com.post.view.listener.IPosteDateListener;
+import com.post.view.listener.Listener.IItemOnClickListener;
 
 /**
  * searchActivity
@@ -64,25 +58,24 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 	/** 输入框 */
 	private EditText editText;
 	/** 按钮：中文，回退，清楚，换一批 */
-	private Button bt_chinese, bt_backone, bt_clear;
+	private ImageView bt_backone, bt_space, bt_clear;
 	/** 查询结果页码提示 */
 	private TextView tv_searchresult;
 	/** 查询结果 */
-	private GridView gv_search;
-	/** 搜索结果列表适配器 */
-	private SearchResultAdapter adapter;
+	private PosterLayoutView view_post;
+	/** 海报配置 */
+	private PostSetting postSetting;
 	/** 搜索结果 */
-	private List<Object> dataList = new ArrayList<Object>();
-	/** 上次选中的grideview */
-	private RelativeLayout lastContentLayout;
-	/** 选中放大动画 */
-	private Animation scallAnimation;
+	private List<Object> searchList = new ArrayList<Object>();
+	/** 排行榜结果 */
+	private List<Object> ranklist = new ArrayList<Object>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search);
 		initView();
+		initPostView();
 		initData();
 		updateAppnumTextVisible();
 	}
@@ -94,85 +87,32 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 		editText = findView(R.id.edt_search);
 		editText.addTextChangedListener(textWatcher);
 		bt_backone = findView(R.id.bt_search_backone);
-		bt_chinese = findView(R.id.bt_search_chinese);
+		bt_space = findView(R.id.bt_space);
 		bt_clear = findView(R.id.bt_search_clear);
 		tv_searchresult = findView(R.id.tv_num_searchresult);
-		gv_search = findView(R.id.gv_search_result);
+		view_post = findView(R.id.post_search);
 
 		bt_backone.setOnClickListener(this);
-		bt_chinese.setOnClickListener(this);
+		bt_space.setOnClickListener(this);
 		bt_clear.setOnClickListener(this);
 
-		scallAnimation = AnimationUtils.loadAnimation(context, R.anim.scale_big);
-		adapter = new SearchResultAdapter(context);
-		gv_search.setAdapter(adapter);
-		gv_search.setOnItemSelectedListener(new OnItemSelectedListener() {
+	}
 
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				RelativeLayout rl_content = (RelativeLayout) view.findViewById(R.id.rl_appsearch_content);
-				rl_content.setBackgroundResource(R.drawable.focues_post);
-				rl_content.startAnimation(scallAnimation);
-				if (lastContentLayout != null && lastContentLayout != rl_content) {
-					lastContentLayout.setBackgroundColor(Color.TRANSPARENT);
-					lastContentLayout.clearAnimation();
-				}
-				lastContentLayout = rl_content;
-			}
+	private void initPostView() {
 
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-				if (lastContentLayout != null) {
-					lastContentLayout.setBackgroundColor(Color.TRANSPARENT);
-					lastContentLayout.clearAnimation();
-				}
-			}
-		});
-		gv_search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (!hasFocus) {// 反射方法在焦点离开gridview后清楚gridview焦点记录
-					try {
-						@SuppressWarnings("unchecked")
-						Class<GridView> c = (Class<GridView>) Class.forName("android.widget.GridView");
-						Method[] flds = c.getDeclaredMethods();
-						for (Method f : flds) {
-							if ("setSelectionInt".equals(f.getName())) {
-								f.setAccessible(true);
-								f.invoke(v, new Object[] { Integer.valueOf(-1) });
-							}
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		});
-		ViewTreeObserver observer = gv_search.getViewTreeObserver();
-		observer.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-			@Override
-			public void onGlobalLayout() {
-				gv_search.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-				gv_search.setSelection(-1);// 解决进入页面要默认选择第一个。
-			}
-		});
-		gv_search.setOnItemClickListener(new OnItemClickListener() {
+		// 海报墙设置，监听器没有可以设为空，行列设为负数则使用默认值
+		postSetting = new PostSetting(3, 2, R.drawable.selector_bg_postitem, iPosteDateListener, null,
+				postItemOnclickListener, null, null);
+		postSetting.setVerticalScroll(true);// 纵向滚动
+		postSetting.setVisibleClumn(1f);// 显示的页数
+		postSetting.setMargins(0, 0, 0, 0);// item的距离
+		postSetting.setFirstRowFocusUp(false);// 第一排是否允许焦点再往上
+		postSetting.setFirstClumnFocusLeft(true);
+		postSetting.setFristItemFocus(false);
+		postSetting.setPosttype(PostSetting.TYPE_SEARCHAPP);
+		// 如果需要海报墙使用自己的设置，要先调用设置设置方法，在调用设置数据
+		view_post.init(postSetting);
 
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				int appid=0;
-				if (adapter.isIsapp()) {
-					if (dataList!=null && dataList.size()>position&&dataList.get(position)!=null) {
-						appid=((App)dataList.get(position)).getAppid();
-					}
-				}else {
-					appid=RankingData.getInstance().getHotRankingData().get(position).getAppId();
-				}
-				Intent intent=new Intent(SearchActivity.this,DetailActivity.class);
-				intent.putExtra(Config.KEY_APPID, appid);
-				startActivity(intent);
-			}
-		});
 	}
 
 	private void initData() {
@@ -184,21 +124,41 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 				@Override
 				public void onComplete(Object object) {
 					List<Ranking_Item> rankingItems2 = RankingData.getInstance().getHotRankingData();
-					adapter.updateRankingData(rankingItems2);
+					updateRankListData(rankingItems2);
 				}
 			});
 		} else {
-			adapter.updateRankingData(rankingItems);
+			updateRankListData(rankingItems);
 		}
+	}
+
+	public void updateRankListData(List<Ranking_Item> rankingItems) {
+		if (rankingItems == null || rankingItems.size() <= 0) {
+			return;
+		}
+		if (ranklist == null) {
+			ranklist = new ArrayList<Object>();
+		}
+		String host = RankingData.getInstance().getHost();
+		for (int i = 0; i < rankingItems.size(); i++) {
+			Ranking_Item ranking_Item = rankingItems.get(i);
+			App app = new App();
+			app.setAppid(ranking_Item.getAppId());
+			app.setApkSize(ranking_Item.getAppSize());
+			app.setAppkey(ranking_Item.getAppKey());
+			app.setAppname(ranking_Item.getAppName());
+			app.setDownload(ranking_Item.getDownload_num());
+			app.setPosterFilePath(host + ranking_Item.getAppKey() + "/" + ranking_Item.getAppIconPath());
+			ranklist.add(app);
+		}
+		view_post.refreshAllData(ranklist, postSetting, ranklist.size());
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.bt_search_chinese:
-			editText.requestFocus();
-			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+		case R.id.bt_space:
+			editText.append(" ");
 			break;
 		case R.id.bt_search_backone:
 			String curEdtString = editText.getText().toString().trim();
@@ -248,13 +208,53 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 
 					@Override
 					public void onComplete(List<Object> items) {
-						dataList.clear();
-						dataList.addAll(items);
-						adapter.updateData(dataList);
+						searchList.clear();
+						searchList.addAll(items);
+						view_post.refreshAllData(searchList, postSetting, searchList.size());
 						updateAppnumTextVisible();
 					}
 				});
 			}
+		}
+	};
+	/** 海报墙点击监听 **/
+	private IItemOnClickListener postItemOnclickListener = new IItemOnClickListener() {
+
+		@Override
+		public void itemOnClick(BasePosterLayoutView arg0, View arg1, int arg2) {
+			if (arg1 == null || arg1.getTag() == null) {
+				return;
+			}
+			if (!NetworkUtils.ISNET_CONNECT) {
+				DialogUtil.showShortToast(context, context.getString(R.string.net_notconnected));
+				return;
+			}
+			App app = (App) arg1.getTag();
+			Intent intent = new Intent(SearchActivity.this, DetailActivity.class);
+			intent.putExtra(Config.KEY_APPID, app.getAppid());
+			startActivity(intent);
+		}
+	};
+
+	private IPosteDateListener iPosteDateListener = new IPosteDateListener() {
+
+		@Override
+		public void requestNextPageDate(int currentSize) {
+			// 请求新数据回调
+		}
+
+		@Override
+		public void changePage(Boolean isnext, int curpage, int totalpage) {
+			// 翻页回调
+			// tv_page.setText("("+(totalpage<=0?0:curpage)+"/"+totalpage+")");
+		}
+
+		@Override
+		public void lastPageOnKeyDpadDown() {
+		}
+
+		@Override
+		public void firstPageOnKeyDpadup() {
 		}
 	};
 
@@ -269,9 +269,9 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 		} else {
 			tv_searchresult.setVisibility(VISIBLE);
 			findViewById(R.id.tv_everybody_search).setVisibility(INVISIBLE);
-			int datasize = dataList.size();
+			int datasize = searchList.size();
 			if (datasize > 0) {
-				tv_searchresult.setText("当前搜索结果有：" + dataList.size() + " 个应用。");
+				tv_searchresult.setText("当前搜索结果有：" + searchList.size() + " 个应用。");
 			} else {
 				tv_searchresult.setText("没有搜索到：“" + editText.getText().toString().trim() + "”相关应用，请重新输入搜索信息！");
 			}

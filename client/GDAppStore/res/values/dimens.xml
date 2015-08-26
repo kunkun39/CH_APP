@@ -18,11 +18,11 @@
     <dimen name="item_first_marginleft">50dp</dimen>
     
     <!-- 搜索页面 -->
-    <dimen name="bt_search_width">108.4dp</dimen>
+    <dimen name="bt_search_width">112.4dp</dimen>
     <dimen name="bt_search_height">55dp</dimen>
     <dimen name="bt_keybord_margin">1dp</dimen>
-    <dimen name="bt_keybord_width">53dp</dimen>
-    <dimen name="searchpage_marginleft_right">120dp</dimen>
+    <dimen name="bt_keybord_width">55dp</dimen>
+    <dimen name="searchpage_marginleft_right">113dp</dimen>
     
     <!-- 海报墙页面 -->
     <dimen name="pageheader_margintop">60dp</dimen>
