@@ -9,8 +9,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
 
 import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.R;
@@ -65,7 +67,8 @@ public class MainActivity extends BaseActivity {
 	private int currIndex = 0;
 	/** 栏目分类数据 */
 	private List<Category> categories = null;
-
+	/**设置按钮*/
+	private ImageView iv_setting;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -108,6 +111,15 @@ public class MainActivity extends BaseActivity {
 			}
 		});
 		initPageChangeAnimtion();
+		iv_setting=findView(R.id.iv_setting);
+		iv_setting.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(android.provider.Settings.ACTION_SETTINGS); //系统设置
+				startActivity(intent);	
+			}
+		});
 	}
 
 	/**

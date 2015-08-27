@@ -179,7 +179,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 			} catch (Exception e) {
 				L.e("checkversion--error appdetail is " + appDetail.getVersion() + " nativeapp is "
 						+ nativeApp.getVersion());
-				bt_update.setVisibility(GONE);// TODO 如果版本号转换异常就不能更新
+				bt_update.setVisibility(VISIBLE);// TODO 如果版本号转换异常就不能更新
 				e.printStackTrace();
 			}
 		} else {

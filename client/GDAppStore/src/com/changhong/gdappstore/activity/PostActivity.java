@@ -130,7 +130,7 @@ public class PostActivity extends BaseActivity {
 		}
 		parentCategory = dataCenter.getCategoryById(parentCategoryId);// 获取父栏目
 		if (parentCategory != null && parentCategory.getCategoyChildren() != null) {
-			tv_name.setText(parentCategory.getName());
+			tv_name.setText("< "+parentCategory.getName());
 			titleView.initData(parentCategory, parentCategory.getCategoyChildren());
 			for (int i = 0; i < parentCategory.getCategoyChildren().size(); i++) {
 				if (parentCategory.getCategoyChildren().get(i).getId() == currentCategoryId) {
