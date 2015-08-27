@@ -24,7 +24,7 @@
                 android:layout_width="130dp"
                 android:layout_height="130dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/img_post1" />
+                android:src="@drawable/img_normal_square" />
 
             <TextView
                 android:id="@+id/tv_appname"
@@ -210,7 +210,7 @@
             android:layout_height="320dp"
             android:layout_centerInParent="true"
             android:scaleType="fitXY"
-            android:src="@drawable/img_post1" />
+            android:src="@drawable/img_normal_ver" />
     </RelativeLayout>
 
     <TextView
