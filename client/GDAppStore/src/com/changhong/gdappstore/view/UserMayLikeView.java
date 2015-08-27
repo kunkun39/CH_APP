@@ -65,10 +65,10 @@ public class UserMayLikeView extends BasePageView implements OnFocusChangeListen
 	}
 
 	public void initData(List<App> apps) {
-		if (apps == null || apps.size() <= 0) {
-			return;
+		int appsSize=0;
+		if (apps != null && apps.size() > 0) {
+			 appsSize=apps.size();
 		}
-		int appsSize=apps.size();
 		for (int i = 0; i < itemCount; i++) {
 			if (i<appsSize) {
 				itemViews[i].setAppData(apps.get(i));
@@ -116,13 +116,14 @@ public class UserMayLikeView extends BasePageView implements OnFocusChangeListen
 			ivFocues.startAnimation(animationbig);
 			v.bringToFront();
 			ivFocues.bringToFront();
-
+			((PostItemView) v).setSelected(true);
 		} else {
 			v.startAnimation(animationsmall);
 			ivFocues.startAnimation(animationsmall);
 			v.clearAnimation();
 			ivFocues.clearAnimation();
 			ivFocues.setVisibility(View.INVISIBLE);
+			((PostItemView) v).setSelected(false);
 		}
 	}
 

@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,6 +25,7 @@ import com.changhong.gdappstore.service.UpdateService;
 import com.changhong.gdappstore.util.ImageLoadUtil;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.Util;
+import com.changhong.gdappstore.view.ScoreView;
 import com.changhong.gdappstore.view.UserMayLikeView;
 
 /**
@@ -49,6 +49,8 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	private ProgressDialog progressDialog;
 
 	private UpdateService updateService;
+
+	private ScoreView scoreview;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +82,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		tv_version = findView(R.id.tv_version);
 		tv_updatetime = findView(R.id.tv_updatetime);
 		tv_introduce = findView(R.id.tv_introduce);
+		scoreview = findView(R.id.scoreview_detail);
 		progressDialog = new ProgressDialog(context);
 		progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		progressDialog.setTitle("当前下载进度...");
@@ -109,6 +112,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		if (getIntent() != null) {
 			appId = getIntent().getIntExtra(Config.KEY_APPID, -1);
 		}
+		scoreview.setScoreBy5Total(4.5f);
 		updateService = new UpdateService(context, null, progressDialog);
 		DataCenter.getInstance().loadAppDetail(appId, new LoadObjectListener() {
 
@@ -125,6 +129,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 					ImageLoadUtil.displayImgByNoCache(appDetail.getIconFilePath(), iv_icon);
 					ImageLoadUtil.displayImgByNoCache(appDetail.getPosterFilePath(), iv_post);
 					updateBtnState();
+					L.d("appdetail categoryid="+appDetail.getCategoryId());
 					if (appDetail.getCategoryId() > 0) {
 						initRecommendData();
 					}
@@ -140,15 +145,15 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 
 					@Override
 					public void onComplete(List<Object> items) {
-
 						if (items != null && items.size() > 0) {
 							List<App> apps = new ArrayList<App>();
 							for (int i = 0; i < items.size(); i++) {
 								apps.add(((App) items.get(i)));
 							}
 							view_usermaylike.initData(apps);
+						}else {
+							view_usermaylike.initData(null);
 						}
-
 					}
 				});
 	}
@@ -164,6 +169,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		if (nativeApp != null) {
 			// 存在该应用
 			bt_open.setVisibility(VISIBLE);
+			bt_open.requestFocus();
 			bt_dowload.setVisibility(GONE);
 			try {// 因为不能保证所有应用的versionname都能强制转行为float类型
 				int appdetailVersion = appDetail.getVersionInt();
@@ -180,6 +186,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 			bt_open.setVisibility(GONE);
 			bt_update.setVisibility(GONE);
 			bt_dowload.setVisibility(VISIBLE);
+			bt_dowload.requestFocus();
 		}
 	}
 

@@ -330,7 +330,7 @@ public class DataCenter {
 				&& (System.currentTimeMillis() - lastRequestRecommendApps.get(categoryId)) < Config.REQUEST_RESTTIEM) {
 			String jsonString = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_RECOMMENDAPPS + categoryId);
 			if (!TextUtils.isEmpty(jsonString) && loadAppListListener != null) {
-				loadAppListListener.onComplete(Parse.parseCategoryApp(jsonString));
+				loadAppListListener.onComplete(Parse.parseRecommendApp(jsonString));
 				return;
 			}
 		}

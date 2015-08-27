@@ -5,7 +5,7 @@
 
     <RelativeLayout
         android:id="@+id/rl_usermaylike"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
         <com.changhong.gdappstore.view.PostItemView
