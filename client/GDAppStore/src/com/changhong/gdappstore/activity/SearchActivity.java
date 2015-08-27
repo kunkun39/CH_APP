@@ -138,6 +138,8 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 		}
 		if (ranklist == null) {
 			ranklist = new ArrayList<Object>();
+		}else {
+			ranklist.clear();
 		}
 		String host = RankingData.getInstance().getHost();
 		for (int i = 0; i < rankingItems.size(); i++) {

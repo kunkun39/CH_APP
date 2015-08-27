@@ -10,8 +10,8 @@
 
         <ImageView
             android:id="@+id/iv_appicon"
-            android:layout_width="95dp"
-            android:layout_height="95dp"
+            android:layout_width="@dimen/iv_appicon_width"
+            android:layout_height="@dimen/iv_appicon_height"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:scaleType="fitXY"

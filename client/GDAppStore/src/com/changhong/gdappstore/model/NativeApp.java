@@ -8,9 +8,9 @@ public class NativeApp {
 	/** 应用名称 */
 	public String appname;
 	/** 服务端配置版本（不一定是apk里面版本号） */
-	public String ServerVersion="0";
+	public int ServerVersionInt;
 	/** 本地数据库保存版本（不一定是apk里面版本号） */
-	public String nativeVersion="0";
+	public int nativeVersionInt;
 	/** 应用图标 */
 	public Drawable appIcon;
 	/** 应用包名 */
@@ -19,14 +19,13 @@ public class NativeApp {
 	public NativeApp() {
 	}
 
-
-	public NativeApp(int appid, String appname, String serverVersion, String nativeVersion, Drawable appIcon,
+	public NativeApp(int appid, String appname, int serverVersionInt, int nativeVersionInt, Drawable appIcon,
 			String appPackage) {
 		super();
 		this.appid = appid;
 		this.appname = appname;
-		ServerVersion = serverVersion;
-		this.nativeVersion = nativeVersion;
+		ServerVersionInt = serverVersionInt;
+		this.nativeVersionInt = nativeVersionInt;
 		this.appIcon = appIcon;
 		this.appPackage = appPackage;
 	}
@@ -47,26 +46,21 @@ public class NativeApp {
 		this.appname = appname;
 	}
 
-
-	public String getServerVersion() {
-		return ServerVersion;
+	public int getServerVersionInt() {
+		return ServerVersionInt;
 	}
 
-
-	public void setServerVersion(String serverVersion) {
-		ServerVersion = serverVersion;
+	public void setServerVersionInt(int serverVersionInt) {
+		ServerVersionInt = serverVersionInt;
 	}
 
-
-	public String getNativeVersion() {
-		return nativeVersion;
+	public int getNativeVersionInt() {
+		return nativeVersionInt;
 	}
 
-
-	public void setNativeVersion(String nativeVersion) {
-		this.nativeVersion = nativeVersion;
+	public void setNativeVersionInt(int nativeVersionInt) {
+		this.nativeVersionInt = nativeVersionInt;
 	}
-
 
 	public Drawable getAppIcon() {
 		return appIcon;
@@ -84,12 +78,11 @@ public class NativeApp {
 		this.appPackage = appPackage;
 	}
 
-
 	@Override
 	public String toString() {
-		return "NativeApp [appid=" + appid + ", appname=" + appname + ", ServerVersion=" + ServerVersion
-				+ ", nativeVersion=" + nativeVersion + ", appIcon=" + appIcon + ", appPackage=" + appPackage + "]";
+		return "NativeApp [appid=" + appid + ", appname=" + appname + ", ServerVersionInt=" + ServerVersionInt
+				+ ", nativeVersionInt=" + nativeVersionInt + ", appIcon=" + appIcon + ", appPackage=" + appPackage
+				+ "]";
 	}
-
 
 }

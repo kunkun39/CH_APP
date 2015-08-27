@@ -100,8 +100,9 @@ public class MyApplication extends Application {
 			cacheDir.mkdirs();
 		} else {
 			if (!Config.ISCACHEABLE && cacheDir.listFiles()!=null) {
+				L.d("imageloader cacheDir "+cacheDir.listFiles().length);
 				for (int i = 0; i < cacheDir.listFiles().length; i++) {
-					L.d("delete file "+cacheDir.listFiles()[i].getAbsolutePath());
+					L.d("imageloader delete file "+cacheDir.listFiles()[i].getAbsolutePath());
 					Util.deleteFile(cacheDir.listFiles()[i].getAbsolutePath());
 				}
 			}

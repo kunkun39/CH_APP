@@ -106,7 +106,7 @@ public class ScoreView extends BaseRelativeLayout {
 		} else if (state == SCORE_FULL) {
 			imageView.setImageResource(R.drawable.star_full);
 		} else {
-			imageView.setImageResource(R.drawable.star_empty);
+			imageView.setImageResource(R.drawable.star_none);
 		}
 		imageView.invalidate();
 	}

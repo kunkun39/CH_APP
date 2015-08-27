@@ -150,8 +150,6 @@ public class Util {
 				tmpInfo.appIcon = packageInfo.applicationInfo.loadIcon(context.getPackageManager());
 				nativeApps.add(tmpInfo);
 				tmpInfo.appid = -1;
-				tmpInfo.nativeVersion = "0";
-				tmpInfo.ServerVersion = "0";
 			}
 		}
 		return nativeApps;

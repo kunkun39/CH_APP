@@ -335,6 +335,9 @@ public class Parse {
 			if (appobject.has("appVersion")) {
 				app.setVersion(appobject.getString("appVersion"));
 			}
+			if (appobject.has("appVersionInt")) {
+				app.setVersionInt(appobject.getInt("appVersionInt"));
+			}
 			if (appobject.has("posterFilePath")) {
 				app.setPosterFilePath(host + app.getAppkey() + "/" + appobject.getString("posterFilePath"));
 			}

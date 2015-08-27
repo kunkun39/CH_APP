@@ -12,6 +12,7 @@ import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.NativeApp;
 import com.changhong.gdappstore.util.ImageLoadUtil;
+import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.view.ScoreView;
 import com.post.view.base.BasePostItem;
 
@@ -123,7 +124,7 @@ public class PostItem extends BasePostItem {
 		iv_appicon.setImageDrawable(app.getAppIcon());
 		tv_appname.setText(app.getAppname());
 		try {
-			if (Float.parseFloat(app.ServerVersion) > Float.parseFloat(app.nativeVersion)) {
+			if (app.ServerVersionInt > app.nativeVersionInt) {
 				iv_update.setVisibility(VISIBLE);
 			} else {
 				iv_update.setVisibility(INVISIBLE);

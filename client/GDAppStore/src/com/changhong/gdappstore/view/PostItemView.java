@@ -110,6 +110,7 @@ public class PostItemView extends BaseRelativeLayout {
 			if (pageApp != null) {
 				ImageLoadUtil.displayImgByMemoryDiscCache(pageApp.getPosterFilePath(), iv_post);
 				tv_postname.setText(TextUtils.isEmpty(pageApp.getAppname()) ? "" : pageApp.getAppname());
+				tv_postname.setVisibility(GONE);
 			}
 		}
 	}
