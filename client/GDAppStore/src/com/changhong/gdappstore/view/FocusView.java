@@ -8,6 +8,8 @@ import com.changhong.gdappstore.model.RankingData;
 import com.changhong.gdappstore.model.Ranking_Item;
 import com.changhong.gdappstore.util.ImageLoadUtil;
 import com.changhong.gdappstore.util.L;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -46,7 +48,7 @@ public class FocusView {
 		holder.app_size = (TextView)focusItem.findViewById(R.id.item_app_size);
 		holder.ranking_item = (RelativeLayout) focusItem.findViewById(R.id.ranking_item);
 		
-		mlayout = new RelativeLayout.LayoutParams(width + 50, height + 50);
+		mlayout = new RelativeLayout.LayoutParams(width + 50, height + 40);
 		
 		rankingData = RankingData.getInstance();
 		
@@ -71,24 +73,24 @@ public class FocusView {
 			L.w("focusViewChange parameter error!");
 			return ;
 		}
-		
 		Ranking_Item ranking_Item = mArrayList.get(position);
-		holder.top_num.setText(ranking_Item.getTopNum() + "");
-		ranking_Item.setTopImg(holder.top_num);
-		
 		Bitmap bitmap = ranking_Item.getAppBitmap();
 		if (null != bitmap) {
 			holder.app_icon.setImageBitmap(bitmap);
 		}
 		else {
-			ImageLoadUtil.displayImgByMemoryDiscCache(rankingData.getHost() + ranking_Item.getAppKey() + "/" + ranking_Item.getAppIconPath(), holder.app_icon);
+			holder.app_icon.setVisibility(View.INVISIBLE);
+			ImageLoadUtil.displayImgByMemoryDiscCache(rankingData.getHost() + ranking_Item.getAppKey() + "/" + ranking_Item.getAppIconPath(), holder.app_icon,imageLoadingListener);
 		}
+		holder.top_num.setText(ranking_Item.getTopNum() + "");
+		ranking_Item.setTopImg(holder.top_num);
+		
 		holder.app_name.setText(ranking_Item.getAppName());
 		holder.download_num.setText(mContext.getString(R.string.str_download) + ranking_Item.getDownload_num());
 		holder.app_size.setText(ranking_Item.getAppSize() + "M");
 		
 		mlayout.leftMargin = leftMargin - 25;
-		mlayout.topMargin = topMargin - 26;
+		mlayout.topMargin = topMargin - 22;
 		
 		focusItem.setLayoutParams(mlayout);
 		
@@ -110,18 +112,18 @@ public class FocusView {
 			L.w("refreshView position error!");
 			return ;
 		}
-		
 		Ranking_Item ranking_Item = mArrayList.get(position);
-		
-		holder.top_num.setText(ranking_Item.getTopNum() + "");
-		
 		Bitmap bitmap = ranking_Item.getAppBitmap();
 		if (null != bitmap) {
 			holder.app_icon.setImageBitmap(bitmap);
 		}
 		else {
-			ImageLoadUtil.displayImgByMemoryDiscCache(rankingData.getHost() + ranking_Item.getAppKey() + "/" + ranking_Item.getAppIconPath(), holder.app_icon);
+			holder.app_icon.setVisibility(View.INVISIBLE);
+			ImageLoadUtil.displayImgByMemoryDiscCache(rankingData.getHost() + ranking_Item.getAppKey() + "/" + ranking_Item.getAppIconPath(), holder.app_icon,imageLoadingListener);
 		}
+		
+		holder.top_num.setText(ranking_Item.getTopNum() + "");
+
 		holder.app_name.setText(ranking_Item.getAppName());
 		holder.download_num.setText(mContext.getString(R.string.str_download) + ranking_Item.getDownload_num());
 		holder.app_size.setText(ranking_Item.getAppSize() + "M");
@@ -134,5 +136,31 @@ public class FocusView {
 	public void reset() {
 		haschanged = false;
 	}
-
+	
+	private ImageLoadingListener imageLoadingListener = new ImageLoadingListener() {
+		
+		@Override
+		public void onLoadingStarted(String arg0, View arg1) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void onLoadingFailed(String arg0, View arg1, FailReason arg2) {
+			// TODO Auto-generated method stub
+			holder.app_icon.setVisibility(View.VISIBLE);
+		}
+		
+		@Override
+		public void onLoadingComplete(String arg0, View arg1, Bitmap arg2) {
+			// TODO Auto-generated method stub
+			holder.app_icon.setVisibility(View.VISIBLE);
+		}
+		
+		@Override
+		public void onLoadingCancelled(String arg0, View arg1) {
+			// TODO Auto-generated method stub
+			holder.app_icon.setVisibility(View.VISIBLE);
+		}
+	};
 }
