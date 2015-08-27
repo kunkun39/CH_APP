@@ -47,7 +47,7 @@ public class ZhuanTiView extends BasePageView implements OnFocusChangeListener, 
 	}
 
 	protected void initView() {
-		View rootView = LayoutInflater.from(context).inflate(R.layout.view_jingpin, this);
+		View rootView = LayoutInflater.from(context).inflate(R.layout.view_homepage, this);
 		ivFocues = findView(R.id.iv_jingpin_focues);
 		ivFocues.setVisibility(INVISIBLE);
 		for (int i = 0; i < itemCount; i++) {

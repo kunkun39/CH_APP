@@ -19,8 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/iv_seprateline"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="70dp"
         android:layout_marginBottom="-16dp"
+        android:layout_marginRight="70dp"
         android:background="@drawable/selector_bg_postitem"
         android:focusable="true"
         android:scaleType="fitXY"
@@ -48,8 +48,6 @@
         android:id="@+id/viewpager"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/titleview"
-        android:layout_gravity="top|left"
-        android:layout_marginTop="-20dip" />
+        android:layout_below="@+id/titleview" />
 
 </RelativeLayout>

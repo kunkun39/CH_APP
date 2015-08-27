@@ -9,13 +9,16 @@
     <dimen name="title_btn_textsize">28sp</dimen>
 
     <!-- 一级页面推荐位 -->
-    <dimen name="item_square1_width">142dp</dimen>
-    <dimen name="item_square1_height">118dp</dimen>
-    <dimen name="item_square1_margintop">8dp</dimen>
-    <dimen name="item_big1_width">292dp</dimen>
+    <dimen name="item_square1_width">158dp</dimen>
+    <dimen name="item_square1_height">121dp</dimen>
+    <dimen name="item_square2_width">142dp</dimen>
+    <dimen name="item_square2_height">118dp</dimen>
+    <dimen name="item_square1_margintop">5dp</dimen>
+    <dimen name="item_square2_marginleft">8dp</dimen>
+    <dimen name="item_big1_width">290dp</dimen>
     <dimen name="item_big1_height">369dp</dimen>
-    <dimen name="item_first_margintop">50dp</dimen>
-    <dimen name="item_first_marginleft">50dp</dimen>
+    <dimen name="item_first_margintop">10dp</dimen>
+<!--     <dimen name="item_first_marginleft">50dp</dimen> -->
     
     <!-- 搜索页面 -->
     <dimen name="bt_search_width">112.4dp</dimen>
