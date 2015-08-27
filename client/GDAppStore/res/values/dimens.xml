@@ -17,8 +17,9 @@
     <dimen name="item_square2_marginleft">8dp</dimen>
     <dimen name="item_big1_width">290dp</dimen>
     <dimen name="item_big1_height">369dp</dimen>
-    <dimen name="item_first_margintop">10dp</dimen>
-<!--     <dimen name="item_first_marginleft">50dp</dimen> -->
+    <dimen name="item_first_margintop">35dp</dimen>
+    <dimen name="txtsize_home_appname">18sp</dimen>
+    <dimen name="txtsize_home_categoryname">22sp</dimen>
     
     <!-- 搜索页面 -->
     <dimen name="bt_search_width">112.4dp</dimen>

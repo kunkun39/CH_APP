@@ -24,7 +24,7 @@ import com.changhong.gdappstore.util.ImageLoadUtil;
  */
 public class PostItemView extends BaseRelativeLayout {
 
-	private ImageView iv_post, iv_appicon;
+	private ImageView iv_post, iv_appicon,iv_categoryicon;
 	private TextView tv_postname, tv_appname;
 	private RelativeLayout rl_post, rl_app;
 
@@ -51,6 +51,7 @@ public class PostItemView extends BaseRelativeLayout {
 		rl_app = findView(R.id.rl_postitem_apppost);
 		iv_appicon = findView(R.id.iv_appicon);
 		tv_appname = findView(R.id.tv_appname);
+		iv_categoryicon = findView(R.id.iv_categoryicon);
 	}
 
 	/**
@@ -63,14 +64,16 @@ public class PostItemView extends BaseRelativeLayout {
 	public void setCategoryData(Category category) {
 		rl_app.setVisibility(VISIBLE);
 		rl_post.setVisibility(INVISIBLE);
+		iv_appicon.setVisibility(GONE);
+		iv_categoryicon.setVisibility(VISIBLE);
 		if (category == null) {
 			return;
 		}
 		if (!TextUtils.isEmpty(category.getIconFilePath())) {
-			ImageLoadUtil.displayImgByMemoryDiscCache(category.getIconFilePath(), iv_appicon);
+			ImageLoadUtil.displayImgByMemoryDiscCache(category.getIconFilePath(), iv_categoryicon);
 		}
 		tv_appname.setText(TextUtils.isEmpty(category.getName()) ? "" : category.getName());
-
+		tv_appname.setTextSize(context.getResources().getDimension(R.dimen.txtsize_home_categoryname));
 	}
 	/**
 	 * 显示本地图片
@@ -81,7 +84,9 @@ public class PostItemView extends BaseRelativeLayout {
 		if (ispost) {
 			iv_post.setImageResource(drawableid);
 		}else {
-			iv_appicon.setImageResource(drawableid);
+			iv_appicon.setVisibility(GONE);
+			iv_categoryicon.setVisibility(VISIBLE);
+			iv_categoryicon.setImageResource(drawableid);
 		}
 	}
 
@@ -98,9 +103,12 @@ public class PostItemView extends BaseRelativeLayout {
 			// 小海报图标
 			rl_app.setVisibility(VISIBLE);
 			rl_post.setVisibility(INVISIBLE);
+			iv_appicon.setVisibility(VISIBLE);
+			iv_categoryicon.setVisibility(GONE);
 			if (pageApp != null) {
 				ImageLoadUtil.displayImgByMemoryDiscCache(pageApp.getPosterFilePath(), iv_appicon);
 				tv_appname.setText(TextUtils.isEmpty(pageApp.getAppname()) ? "" : pageApp.getAppname());
+				tv_appname.setTextSize(context.getResources().getDimension(R.dimen.txtsize_home_appname));
 			}
 		} else {
 			// 大海报图片
