@@ -46,16 +46,21 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 
 	private AppDetail appDetail;
 
-	private ProgressDialog progressDialog;
+	private ProgressDialog downloadPDialog, updateAppPDialog;
 
 	private UpdateService updateService;
 
 	private ScoreView scoreview;
 
+	int appId = -1;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_detail);
+		if (getIntent() != null) {
+			appId = getIntent().getIntExtra(Config.KEY_APPID, -1);
+		}
 		initView();
 		initData();
 	}
@@ -83,11 +88,11 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		tv_updatetime = findView(R.id.tv_updatetime);
 		tv_introduce = findView(R.id.tv_introduce);
 		scoreview = findView(R.id.scoreview_detail);
-		progressDialog = new ProgressDialog(context);
-		progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-		progressDialog.setTitle("当前下载进度...");
-		progressDialog.setCancelable(false);
-		progressDialog.setButton("后台下载", new DialogInterface.OnClickListener() {
+		downloadPDialog = new ProgressDialog(context);
+		downloadPDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		downloadPDialog.setTitle("当前下载进度...");
+		downloadPDialog.setCancelable(false);
+		downloadPDialog.setButton("后台下载", new DialogInterface.OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -96,29 +101,44 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 				}
 			}
 		});
+		updateAppPDialog = new ProgressDialog(context);
+		updateAppPDialog.setCancelable(false);
+		updateAppPDialog.dismiss();
+		view_usermaylike.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (v.getTag() != null) {
+					App app = (App) v.getTag();
+					appId = app.getAppid();
+					initData();
+				}
+			}
+		});
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if (progressDialog != null) {
-			progressDialog.dismiss();
+		if (downloadPDialog != null) {
+			downloadPDialog.dismiss();
+		}
+		if (updateAppPDialog != null) {
+			updateAppPDialog.dismiss();
 		}
 		updateBtnState();
 	}
 
 	private void initData() {
-		int appId = -1;
-		if (getIntent() != null) {
-			appId = getIntent().getIntExtra(Config.KEY_APPID, -1);
-		}
 		scoreview.setScoreBy5Total(4.5f);
-		updateService = new UpdateService(context, null, progressDialog);
+		updateService = new UpdateService(context, null, downloadPDialog);
+		updateAppPDialog.show();
 		DataCenter.getInstance().loadAppDetail(appId, new LoadObjectListener() {
 
 			@Override
 			public void onComplete(Object object) {
 				appDetail = (AppDetail) object;
+				updateAppPDialog.dismiss();
 				if (appDetail != null) {
 					tv_appname.setText(appDetail.getAppname());
 					tv_downloadcount.setText(appDetail.getDownload());
@@ -129,7 +149,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 					ImageLoadUtil.displayImgByNoCache(appDetail.getIconFilePath(), iv_icon);
 					ImageLoadUtil.displayImgByNoCache(appDetail.getPosterFilePath(), iv_post);
 					updateBtnState();
-					L.d("appdetail categoryid="+appDetail.getCategoryId());
+					L.d("appdetail categoryid=" + appDetail.getCategoryId() + " appdetailid=" + appDetail.getAppid());
 					if (appDetail.getCategoryId() > 0) {
 						initRecommendData();
 					}
@@ -139,6 +159,9 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 
 	}
 
+	/**
+	 * 获取猜你喜欢数据
+	 */
 	private void initRecommendData() {
 		DataCenter.getInstance().loadRecommendData(context, appDetail.getCategoryId(),
 				new LoadListener.LoadListListener() {
@@ -151,7 +174,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 								apps.add(((App) items.get(i)));
 							}
 							view_usermaylike.initData(apps);
-						}else {
+						} else {
 							view_usermaylike.initData(null);
 						}
 					}
@@ -165,28 +188,26 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		if (appDetail == null) {
 			return;
 		}
+		// 是否已经安装
+		boolean isInstalled = Util.getNativeApp(context, appDetail.getPackageName()) != null;
+		bt_open.setVisibility(isInstalled ? VISIBLE : GONE);
+		bt_dowload.setVisibility(isInstalled ? GONE : VISIBLE);
+		bt_update.setVisibility(isInstalled ? VISIBLE : GONE);
 		App nativeApp = DBManager.getInstance(context).queryAppVersionById(appDetail.getAppid());
+		L.d("nativeapp " + nativeApp);
 		if (nativeApp != null) {
 			// 存在该应用
-			bt_open.setVisibility(VISIBLE);
-			bt_open.requestFocus();
-			bt_dowload.setVisibility(GONE);
 			try {// 因为不能保证所有应用的versionname都能强制转行为float类型
 				int appdetailVersion = appDetail.getVersionInt();
 				int nativeVersion = nativeApp.getVersionInt();
-				L.d("checkversion--appdetail is " + appDetail.getVersion() + " nativeapp is " + nativeApp.getVersion());
+				L.d("checkversion--appdetail is " + appDetail.getVersionInt() + " nativeapp is " + nativeApp.getVersionInt());
 				bt_update.setVisibility((appdetailVersion > nativeVersion) ? VISIBLE : GONE);
 			} catch (Exception e) {
-				L.e("checkversion--error appdetail is " + appDetail.getVersion() + " nativeapp is "
-						+ nativeApp.getVersion());
-				bt_update.setVisibility(VISIBLE);// TODO 如果版本号转换异常就不能更新
+				L.e("checkversion--error appdetail is " + appDetail.getVersionInt() + " nativeapp is "
+						+ nativeApp.getVersionInt());
 				e.printStackTrace();
 			}
 		} else {
-			bt_open.setVisibility(GONE);
-			bt_update.setVisibility(GONE);
-			bt_dowload.setVisibility(VISIBLE);
-			bt_dowload.requestFocus();
 		}
 	}
 
@@ -197,11 +218,11 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 			Util.openAppByPackageName(context, appDetail.getPackageName());
 			break;
 		case R.id.bt_download:
-			progressDialog.setProgress(0);
+			downloadPDialog.setProgress(0);
 			updateService.update(appDetail, true);
 			break;
 		case R.id.bt_update:
-			progressDialog.setProgress(0);
+			downloadPDialog.setProgress(0);
 			updateService.update(appDetail, false);
 			break;
 

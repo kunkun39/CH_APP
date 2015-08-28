@@ -20,7 +20,7 @@
             android:layout_width="@dimen/item_usermaylike_width"
             android:layout_height="@dimen/item_usermaylike_height"
             android:layout_alignTop="@id/usermaylike_item0"
-            android:layout_marginLeft="@dimen/item_square1_margintop"
+            android:layout_marginLeft="@dimen/guessyoulike_item_marginleft"
             android:layout_toRightOf="@id/usermaylike_item0" />
 
         <com.changhong.gdappstore.view.PostItemView
@@ -28,7 +28,7 @@
             android:layout_width="@dimen/item_usermaylike_width"
             android:layout_height="@dimen/item_usermaylike_height"
             android:layout_alignTop="@id/usermaylike_item0"
-            android:layout_marginLeft="@dimen/item_square1_margintop"
+            android:layout_marginLeft="@dimen/guessyoulike_item_marginleft"
             android:layout_toRightOf="@id/usermaylike_item1" />
 
         <com.changhong.gdappstore.view.PostItemView
@@ -36,7 +36,7 @@
             android:layout_width="@dimen/item_usermaylike_width"
             android:layout_height="@dimen/item_usermaylike_height"
             android:layout_alignTop="@id/usermaylike_item0"
-            android:layout_marginLeft="@dimen/item_square1_margintop"
+            android:layout_marginLeft="@dimen/guessyoulike_item_marginleft"
             android:layout_toRightOf="@id/usermaylike_item2" />
 
         <com.changhong.gdappstore.view.PostItemView
@@ -44,7 +44,7 @@
             android:layout_width="@dimen/item_usermaylike_width"
             android:layout_height="@dimen/item_usermaylike_height"
             android:layout_alignTop="@id/usermaylike_item0"
-            android:layout_marginLeft="@dimen/item_square1_margintop"
+            android:layout_marginLeft="@dimen/guessyoulike_item_marginleft"
             android:layout_toRightOf="@id/usermaylike_item3" />
 
         <com.changhong.gdappstore.view.PostItemView
@@ -52,7 +52,7 @@
             android:layout_width="@dimen/item_usermaylike_width"
             android:layout_height="@dimen/item_usermaylike_height"
             android:layout_alignTop="@id/usermaylike_item0"
-            android:layout_marginLeft="@dimen/item_square1_margintop"
+            android:layout_marginLeft="@dimen/guessyoulike_item_marginleft"
             android:layout_toRightOf="@id/usermaylike_item4" />
 
         <com.changhong.gdappstore.view.PostItemView
@@ -60,14 +60,14 @@
             android:layout_width="@dimen/item_usermaylike_width"
             android:layout_height="@dimen/item_usermaylike_height"
             android:layout_alignTop="@id/usermaylike_item0"
-            android:layout_marginLeft="@dimen/item_square1_margintop"
+            android:layout_marginLeft="@dimen/guessyoulike_item_marginleft"
             android:layout_toRightOf="@id/usermaylike_item5" />
         <com.changhong.gdappstore.view.PostItemView
             android:id="@+id/usermaylike_item7"
             android:layout_width="@dimen/item_usermaylike_width"
             android:layout_height="@dimen/item_usermaylike_height"
             android:layout_alignTop="@id/usermaylike_item0"
-            android:layout_marginLeft="@dimen/item_square1_margintop"
+            android:layout_marginLeft="@dimen/guessyoulike_item_marginleft"
             android:layout_toRightOf="@id/usermaylike_item6" />
     </RelativeLayout>
 

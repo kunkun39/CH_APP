@@ -24,6 +24,7 @@
         android:background="@drawable/selector_bg_postitem"
         android:focusable="true"
         android:scaleType="fitXY"
+        android:visibility="invisible"
         android:src="@drawable/btn_setting" />
 
     <ImageView

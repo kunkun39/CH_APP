@@ -72,6 +72,7 @@ public class UserMayLikeView extends BasePageView implements OnFocusChangeListen
 		for (int i = 0; i < itemCount; i++) {
 			if (i<appsSize) {
 				itemViews[i].setAppData(apps.get(i));
+				itemViews[i].setTag(apps.get(i));
 				itemViews[i].setVisibility(VISIBLE);
 			}else {
 				itemViews[i].setVisibility(INVISIBLE);
@@ -125,6 +126,14 @@ public class UserMayLikeView extends BasePageView implements OnFocusChangeListen
 			ivFocues.setVisibility(View.INVISIBLE);
 			((PostItemView) v).setSelected(false);
 		}
+	}
+
+	public void setOnClickListener(OnClickListener onClickListener) {
+		this.onClickListener = onClickListener;
+	}
+
+	public void setOnFocusChangeListener(OnFocusChangeListener onFocusChangeListener) {
+		this.onFocusChangeListener = onFocusChangeListener;
 	}
 
 }

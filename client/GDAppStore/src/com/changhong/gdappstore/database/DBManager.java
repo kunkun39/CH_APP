@@ -134,6 +134,7 @@ public class DBManager {
 				app.setVersionInt(c.getInt(c.getColumnIndex(helper.CLUM_VERSIONCODE)));
 			} else {
 				// 删除多余列
+				L.d("delete 多余列id= "+c.getInt(c.getColumnIndex(helper.CLUM_APPID)));
 				deleteAppVersions(c.getInt(c.getColumnIndex(helper.CLUM_APPID)));
 			}
 		}
