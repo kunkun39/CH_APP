@@ -17,11 +17,13 @@ public class App {
 	protected String apkSize;
 	// 应用下载量
 	protected String download;
-	// 应用海报地址(也有可能是图标，具体根据服务器的传值)
+	// 应用海报地址
 	protected String posterFilePath;
+	// 应用图标下载地址
+	protected String iconFilePath;
 	// 应用版本号,int类型，如versionCode
 	protected int versionInt;
-	//应用版本号如versionName
+	// 应用版本号如versionName
 	protected String version;
 	// 应用包名
 	protected String packageName;
@@ -29,9 +31,9 @@ public class App {
 	public App() {
 		super();
 	}
-	
+
 	public App(int appid, String appkey, String appname, String apkSize, String download, String posterFilePath,
-			int versionInt, String version, String packageName) {
+			String iconFilePath, int versionInt, String version, String packageName) {
 		super();
 		this.appid = appid;
 		this.appkey = appkey;
@@ -39,19 +41,20 @@ public class App {
 		this.apkSize = apkSize;
 		this.download = download;
 		this.posterFilePath = posterFilePath;
+		this.iconFilePath = iconFilePath;
 		this.versionInt = versionInt;
 		this.version = version;
 		this.packageName = packageName;
 	}
 
 
+
 	@Override
 	public String toString() {
 		return "App [appid=" + appid + ", appkey=" + appkey + ", appname=" + appname + ", apkSize=" + apkSize
-				+ ", download=" + download + ", posterFilePath=" + posterFilePath + ", versionInt=" + versionInt
-				+ ", version=" + version + ", packageName=" + packageName + "]";
+				+ ", download=" + download + ", posterFilePath=" + posterFilePath + ", iconFilePath=" + iconFilePath
+				+ ", versionInt=" + versionInt + ", version=" + version + ", packageName=" + packageName + "]";
 	}
-
 
 	public int getAppid() {
 		return appid;
@@ -92,7 +95,7 @@ public class App {
 	public void setDownload(String download) {
 		this.download = download;
 	}
-	
+
 	public int getVersionInt() {
 		return versionInt;
 	}
@@ -100,7 +103,7 @@ public class App {
 	public void setVersionInt(int versionInt) {
 		this.versionInt = versionInt;
 	}
-	
+
 	public String getVersion() {
 		return version;
 	}
@@ -123,6 +126,14 @@ public class App {
 
 	public void setPackageName(String packageName) {
 		this.packageName = packageName;
+	}
+
+	public String getIconFilePath() {
+		return iconFilePath;
+	}
+
+	public void setIconFilePath(String iconFilePath) {
+		this.iconFilePath = iconFilePath;
 	}
 
 }

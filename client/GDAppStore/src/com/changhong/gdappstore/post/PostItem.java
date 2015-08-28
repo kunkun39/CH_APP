@@ -110,7 +110,7 @@ public class PostItem extends BasePostItem {
 		if (app == null) {
 			return;
 		}
-		ImageLoadUtil.displayImgByonlyDiscCache(app.getPosterFilePath(), iv_appicon);
+		ImageLoadUtil.displayImgByonlyDiscCache(app.getIconFilePath(), iv_appicon);
 		tv_appname.setText(app.getAppname());
 		tv_apksize.setText(app.getApkSize());
 		scoreView.setScoreBy5Total(5);

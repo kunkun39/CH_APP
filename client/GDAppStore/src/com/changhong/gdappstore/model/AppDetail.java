@@ -7,8 +7,6 @@ package com.changhong.gdappstore.model;
  * 
  */
 public class AppDetail extends App {
-	// 应用图标下载地址
-	protected String iconFilePath;
 	// 应用apk下载地址
 	protected String apkFilePath;
 	// 应用描述
@@ -22,14 +20,6 @@ public class AppDetail extends App {
 
 	public AppDetail() {
 		super();
-	}
-
-	public String getIconFilePath() {
-		return iconFilePath;
-	}
-
-	public void setIconFilePath(String iconFilePath) {
-		this.iconFilePath = iconFilePath;
 	}
 
 	public String getApkFilePath() {

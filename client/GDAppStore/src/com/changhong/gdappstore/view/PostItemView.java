@@ -135,6 +135,8 @@ public class PostItemView extends BaseRelativeLayout {
 		// 小海报图标
 		rl_app.setVisibility(VISIBLE);
 		rl_post.setVisibility(INVISIBLE);
+		iv_appicon.setVisibility(VISIBLE);
+		iv_categoryicon.setVisibility(GONE);
 		if (pageApp != null) {
 			ImageLoadUtil.displayImgByMemoryDiscCache(pageApp.getPosterFilePath(), iv_appicon);
 			tv_appname.setText(TextUtils.isEmpty(pageApp.getAppname()) ? "" : pageApp.getAppname());

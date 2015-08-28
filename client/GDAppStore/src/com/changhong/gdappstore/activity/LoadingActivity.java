@@ -6,7 +6,6 @@ import android.os.Bundle;
 import com.changhong.gdappstore.base.BaseActivity;
 import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.net.LoadListener.LoadCompleteListener;
-import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.L;
 /**
  * 应用进入动画页面

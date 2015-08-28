@@ -40,10 +40,10 @@ public class Parse {
 			return categories;
 		}
 		try {
-			JSONObject categoryObject=new JSONObject(categoryJson);
-			String host="";
+			JSONObject categoryObject = new JSONObject(categoryJson);
+			String host = "";
 			if (categoryObject.has("host")) {
-				host=categoryObject.getString("host");
+				host = categoryObject.getString("host");
 			}
 			JSONArray array = categoryObject.getJSONArray("values");
 			for (int i = 0; i < array.length(); i++) {
@@ -56,7 +56,7 @@ public class Parse {
 					category.setName(object.getString("name"));
 				}
 				if (object.has("filename")) {
-					category.setIconFilePath(host+"category/"+object.getString("filename"));
+					category.setIconFilePath(host + "category/" + object.getString("filename"));
 				}
 				int parentid = -1;
 				if (object.has("parentId")) {
@@ -125,7 +125,9 @@ public class Parse {
 				if (appobject.has("posterFilePath")) {
 					app.setPosterFilePath(host + app.getAppkey() + "/" + appobject.getString("posterFilePath"));
 				}
-
+				if (appobject.has("iconFilePath")) {
+					app.setIconFilePath(host + app.getAppkey() + "/" + appobject.getString("iconFilePath"));
+				}
 				// TODO 临时写死的匹配
 				for (int j = 0; j < dataCenter.getCategories().size(); j++) {
 					if (dataCenter.getCategories().get(j).getId() == 0 && app.getPageid() == 1) {
@@ -200,9 +202,9 @@ public class Parse {
 				if (appobject.has("appId")) {
 					app.setAppid(appobject.getInt("appId"));
 				}
-//				if (appobject.has("package")) {
-//					app.setPackageName(appobject.getString("package"));
-//				}
+				// if (appobject.has("package")) {
+				// app.setPackageName(appobject.getString("package"));
+				// }
 				if (appobject.has("appKey")) {
 					app.setAppkey(appobject.getString("appKey"));
 				}
@@ -340,6 +342,9 @@ public class Parse {
 			}
 			if (appobject.has("posterFilePath")) {
 				app.setPosterFilePath(host + app.getAppkey() + "/" + appobject.getString("posterFilePath"));
+			}
+			if (appobject.has("iconFilePath")) {
+				app.setIconFilePath(host + app.getAppkey() + "/" + appobject.getString("iconFilePath"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

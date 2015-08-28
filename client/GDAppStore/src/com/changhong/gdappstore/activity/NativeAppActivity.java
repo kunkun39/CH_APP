@@ -17,7 +17,6 @@ import com.changhong.gdappstore.model.NativeApp;
 import com.changhong.gdappstore.net.LoadListener.LoadListListener;
 import com.changhong.gdappstore.post.PostSetting;
 import com.changhong.gdappstore.util.DialogUtil;
-import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
 import com.post.view.base.BasePosterLayoutView;
@@ -41,7 +40,7 @@ public class NativeAppActivity extends PostActivity {
 	}
 
 	private void initView() {
-		tv_name.setText("< 本地应用");
+		tv_name.setText("本地应用");
 		iv_shandow1.setVisibility(INVISIBLE);
 		iv_shandow2.setVisibility(INVISIBLE);
 		iv_shandow3.setVisibility(INVISIBLE);
