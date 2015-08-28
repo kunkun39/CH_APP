@@ -53,7 +53,7 @@ public class MainActivity extends BaseActivity {
 	private MainViewPagerAdapter viewPagerAdapter;
 	/** 每页view */
 	private List<BasePageView> pageViews = new ArrayList<BasePageView>();
-	/** 精品view */
+	/** 首页view */
 	private HomePageView view_homepage;
 	/** 娱乐view */
 	private YuLeView view_yule;
