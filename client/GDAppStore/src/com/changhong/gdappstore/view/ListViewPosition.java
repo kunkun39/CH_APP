@@ -20,7 +20,7 @@ public class ListViewPosition {
 		
 		fullShowNum = layoutHeight / itemHeight;
 		
-		if(fullShowNum >= countNum) {
+		if(fullShowNum >= countNum && countNum > 0) {
 			fullShowNum = countNum;
 			remainderHeight = 0;
 		}
