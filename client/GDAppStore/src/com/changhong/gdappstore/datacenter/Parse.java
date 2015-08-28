@@ -16,6 +16,7 @@ import com.changhong.gdappstore.model.PageApp;
 import com.changhong.gdappstore.model.RankingData;
 import com.changhong.gdappstore.model.Ranking_Item;
 import com.changhong.gdappstore.util.L;
+import com.changhong.gdappstore.util.Util;
 
 /**
  * 数据解析类
@@ -414,7 +415,7 @@ public class Parse {
 					ranking_Item.setAppIconPath(object.getString("iconFilePath"));
 				}
 				if (object.has("download")) {
-					ranking_Item.setDownload_num(object.getString("download"));
+					ranking_Item.setDownload_num(Util.intToStr(object.getInt("download")));
 				}
 				if (object.has("appSize")) {
 					ranking_Item.setAppSize(object.getString("appSize"));

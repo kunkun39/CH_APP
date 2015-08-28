@@ -154,4 +154,28 @@ public class Util {
 		}
 		return nativeApps;
 	}
+	
+	/**
+	 * int转为str类型
+	 * 
+	 * @param int
+	 * @return String
+	 */
+	public static String intToStr(int num) {
+		if(num < 10000) {
+			//1w以下直接返回
+			return num + "";
+		}
+		else if(num < 100000) {
+			//1w~10w以下格式:x0000+  x为数字
+			return num / 10000 + "0000+";
+		}
+		else if(num < 1000000) {
+			//10w~100w以下格式:x0万+ x为数字
+			return num / 100000 + "0万+";
+		}
+		else {
+			return num / 1000000 + "00万+";
+		}
+	}
 }
