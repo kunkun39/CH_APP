@@ -1,7 +1,11 @@
 package com.changhong.gdappstore.activity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -69,11 +73,16 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 	private List<Object> searchList = new ArrayList<Object>();
 	/** 排行榜结果 */
 	private List<Object> ranklist = new ArrayList<Object>();
+	/** 请求缓存,LinkedHashMap有存数顺序，方便清理缓存 */
+	private Map<String, List<Object>> cacheMap = new LinkedHashMap<String, List<Object>>();
+	/**缓存保留数据数量*/
+	private static final int CACHESIZE=30;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search);
+		cacheMap = new LinkedHashMap<String, List<Object>>();
 		initView();
 		initPostView();
 		initData();
@@ -138,7 +147,7 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 		}
 		if (ranklist == null) {
 			ranklist = new ArrayList<Object>();
-		}else {
+		} else {
 			ranklist.clear();
 		}
 		String host = RankingData.getInstance().getHost();
@@ -150,7 +159,7 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 			app.setAppkey(ranking_Item.getAppKey());
 			app.setAppname(ranking_Item.getAppName());
 			app.setDownload(ranking_Item.getDownload_num());
-			app.setPosterFilePath(host + ranking_Item.getAppKey() + "/" + ranking_Item.getAppIconPath());
+			app.setIconFilePath(host + ranking_Item.getAppKey() + "/" + ranking_Item.getAppIconPath());
 			ranklist.add(app);
 		}
 		view_post.refreshAllData(ranklist, postSetting, ranklist.size());
@@ -200,22 +209,49 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 		}
 
 		@Override
-		public void afterTextChanged(Editable s) {
+		public void afterTextChanged(final Editable s) {
 			L.d("textWatcher afterTextChanged--" + s.toString());
 			if (TextUtils.isEmpty(s.toString())) {
 				initData();
 				updateAppnumTextVisible();
 			} else {
-				DataCenter.getInstance().loadAppSearch(s.toString(), new LoadListListener() {
+				if (cacheMap.containsKey(s.toString())) {
+					// 有缓存就用缓存
+					searchList.clear();
+					searchList.addAll(cacheMap.get(s.toString()));
+					view_post.refreshAllData(searchList, postSetting, searchList.size());
+					updateAppnumTextVisible();
+				} else {
+					DataCenter.getInstance().loadAppSearch(s.toString(), new LoadListListener() {
 
-					@Override
-					public void onComplete(List<Object> items) {
-						searchList.clear();
-						searchList.addAll(items);
-						view_post.refreshAllData(searchList, postSetting, searchList.size());
-						updateAppnumTextVisible();
-					}
-				});
+						@Override
+						public void onComplete(List<Object> items) {
+							searchList.clear();
+							searchList.addAll(items);
+							view_post.refreshAllData(searchList, postSetting, searchList.size());
+							updateAppnumTextVisible();
+							int mapsize=cacheMap.size();
+							if (mapsize > CACHESIZE) {
+								Iterator iter = cacheMap.entrySet().iterator();
+								int more=mapsize/10;// 清理最开始百分之10的缓存
+								int delete=0;
+								while (iter.hasNext()) {
+									Map.Entry entry = (Map.Entry) iter.next();
+									Object key = entry.getKey();
+									cacheMap.remove(key);
+									L.d("removed--key=="+key);
+									if (++delete>=more) {
+										break;
+									}
+								}
+							}
+							if (items == null) {
+								items=new ArrayList<Object>();
+							}
+							cacheMap.put(s.toString(), items);
+						}
+					});
+				}
 			}
 		}
 	};
@@ -279,6 +315,12 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 			}
 
 		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		cacheMap.clear();
 	}
 
 }
