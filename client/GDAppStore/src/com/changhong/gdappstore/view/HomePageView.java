@@ -17,6 +17,8 @@ import com.changhong.gdappstore.activity.SearchActivity;
 import com.changhong.gdappstore.base.BasePageView;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.model.PageApp;
+import com.changhong.gdappstore.util.DialogUtil;
+import com.changhong.gdappstore.util.NetworkUtils;
 
 /**
  * 精品view
@@ -78,6 +80,10 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 		itemViews[10].setCategoryData(new Category(-10, -10, "排行榜"));
 		itemViews[11].setCategoryData(new Category(-10, -10, "本地应用"));
 		itemViews[12].setCategoryData(new Category(-10, -10, "装机必备"));
+		itemViews[9].setOnClickListener(this);
+		itemViews[10].setOnClickListener(this);
+		itemViews[11].setOnClickListener(this);
+		itemViews[12].setOnClickListener(this);
 		itemViews[9].setDrawableIconPost(false, R.drawable.icon_search);
 		itemViews[10].setDrawableIconPost(false, R.drawable.icon_ranklist);
 		itemViews[11].setDrawableIconPost(false, R.drawable.icon_nativeapp);
@@ -85,10 +91,6 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 	}
 
 	public void initData(Category category) {
-		itemViews[9].setOnClickListener(this);
-		itemViews[10].setOnClickListener(this);
-		itemViews[11].setOnClickListener(this);
-		itemViews[12].setOnClickListener(this);
 		if (category.getCategoryPageApps() == null) {
 			return;
 		}
@@ -129,14 +131,18 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 		if (onClickListener != null) {
 			onClickListener.onClick(v);
 		}
-		if (v.getId() == R.id.jingping_itema1) {
-			context.startActivity(new Intent(context, SearchActivity.class));
-		} else if (v.getId() == R.id.jingping_itema2) {
-			context.startActivity(new Intent(context, RankingListActivity.class));
-		} else if (v.getId() == R.id.jingping_itema3) {
-			context.startActivity(new Intent(context, NativeAppActivity.class));
-		} else if (v.getId() == R.id.jingping_itema4) {
-			context.startActivity(new Intent(context, NativeAppActivity.class));
+		if (NetworkUtils.ISNET_CONNECT) {
+			if (v.getId() == R.id.jingping_itema1) {
+				context.startActivity(new Intent(context, SearchActivity.class));
+			} else if (v.getId() == R.id.jingping_itema2) {
+				context.startActivity(new Intent(context, RankingListActivity.class));
+			} else if (v.getId() == R.id.jingping_itema3) {
+				context.startActivity(new Intent(context, NativeAppActivity.class));
+			} else if (v.getId() == R.id.jingping_itema4) {
+				context.startActivity(new Intent(context, NativeAppActivity.class));
+			}
+		} else {
+			DialogUtil.showLongToast(context, context.getResources().getString(R.string.net_notconnected));
 		}
 	}
 
