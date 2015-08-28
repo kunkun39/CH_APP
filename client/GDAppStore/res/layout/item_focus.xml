@@ -4,7 +4,7 @@
     android:layout_height="wrap_content" >
     <RelativeLayout 
 	    android:id="@+id/ranking_item"
-	    android:layout_width="389dp"
+	    android:layout_width="390dp"
         android:layout_height="286dp">
 	</RelativeLayout>
 </RelativeLayout>

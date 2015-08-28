@@ -199,7 +199,7 @@ public class RankingListActivity extends Activity {
 		listView_hot = (ListView)findViewById(R.id.listView_hot);
 		listView_surge = (ListView)findViewById(R.id.listView_surge);
 		focusItem = (RelativeLayout)findViewById(R.id.focus_item);
-		((TextView)findViewById(R.id.ranking_list)).setText("< " + getString(R.string.str_ranking_list));
+		((TextView)findViewById(R.id.ranking_list)).setText(getString(R.string.str_ranking_list));
 		mlayout = new RelativeLayout.LayoutParams(0, 0);
 		
 		focusView = new FocusView(focusItem, ITEM_WIDTH, ITEM_HEIGHT);

@@ -12,7 +12,7 @@
 	    android:layout_width="345dp"
 	    android:layout_height="wrap_content"
 	    android:gravity="center"
-	    android:background="#33FFFFFF">
+	    android:background="#00000000">
 	    <TextView 
 	        android:id="@+id/top_num"
 	        android:layout_width="30dp"
@@ -32,7 +32,7 @@
 	
 		<TextView
 		    android:id="@+id/item_app_name"
-		    android:layout_width="155dp"
+		    android:layout_width="145dp"
 		    android:layout_height="wrap_content"
 		    android:layout_marginLeft="175dp"
 		    android:layout_marginTop="20dp"
@@ -40,10 +40,10 @@
 		    android:textSize="26sp"
 		    android:textColor="#FFFFFF"
 		    android:singleLine="true"
-		    android:ellipsize="end" />
+		    android:ellipsize="marquee" />
 		<TextView
 		    android:id="@+id/item_app_download_num"
-		    android:layout_width="155dp"
+		    android:layout_width="145dp"
 		    android:layout_height="wrap_content"
 		    android:layout_marginLeft="175dp"
 		    android:layout_marginTop="63dp"
@@ -52,7 +52,7 @@
 		    android:textColor="#FFFFFF" />
 		<TextView
 		    android:id="@+id/item_app_size"
-		    android:layout_width="155dp"
+		    android:layout_width="145dp"
 		    android:layout_height="wrap_content"
 		    android:layout_marginLeft="175dp"
 		    android:layout_marginTop="90dp"

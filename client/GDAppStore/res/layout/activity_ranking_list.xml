@@ -14,15 +14,15 @@
 	        android:id="@+id/ranking_list"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_marginLeft="95dp"
-	        android:layout_marginTop="45dp"
+	        android:layout_marginLeft="115dp"
+	        android:layout_marginTop="50dp"
 	        android:textSize="28sp"
 	        android:textColor="#FFFFFF" />
 	    <TextView 
 	        android:id="@+id/img_new"
 	        android:layout_width="345dp"
 	        android:layout_height="67dp"
-	        android:layout_marginLeft="107dp"
+	        android:layout_marginLeft="106dp"
 	        android:layout_marginTop="130dp"
 	        android:gravity="center"
 	        android:text="@string/str_new"
@@ -53,51 +53,54 @@
 	        android:textColor="#FFFFFF"/>
 	    <ListView 
 	        android:id="@+id/listView_new"
-	        android:layout_width="345dp"
+	        android:layout_width="344dp"
 	        android:layout_height="440dp"
 	      	android:layout_below="@+id/img_new"
 	      	android:layout_marginLeft="107dp"
-	        android:divider="#7FFFFFFF"
+	        android:divider="#4CFFFFFF"
 	        android:dividerHeight="2dp"
-	        android:listSelector="#00000000"/>
+	        android:listSelector="#00000000"
+	        android:background="@drawable/bg_listview"/>
 	    <ListView 
 	        android:id="@+id/listView_hot"
-	        android:layout_width="345dp"
+	        android:layout_width="344dp"
 	        android:layout_height="440dp"
 	        android:layout_below="@+id/img_hot"
 	        android:layout_marginLeft="466dp"
-	        android:divider="#7FFFFFFF"
+	        android:divider="#4CFFFFFF"
 	        android:dividerHeight="2dp"
-	        android:listSelector="#00000000" />
+	        android:listSelector="#00000000"
+	        android:background="@drawable/bg_listview" />
 	    <ListView 
 	        android:id="@+id/listView_surge"
-	        android:layout_width="345dp"
+	        android:layout_width="344dp"
 	        android:layout_height="440dp"
 	        android:layout_below="@+id/img_surge"
 	        android:layout_marginLeft="826dp"
-	        android:divider="#7FFFFFFF"
+	        android:divider="#4CFFFFFF"
 	        android:dividerHeight="2dp"
-	        android:listSelector="#00000000" />
+	        android:listSelector="#00000000"
+	        android:background="@drawable/bg_listview" />
 	    <ImageView
 	        android:id="@+id/img_projection_new"
 	        android:layout_width="345dp"
 	        android:layout_height="37dp"
-	        android:layout_marginTop="650dp"
+	        android:layout_marginTop="642dp"
 	        android:layout_marginLeft="107dp"
 	        android:background="@drawable/img_ranking_projection" />
 	    <ImageView
 	        android:id="@+id/img_projection_hot"
 	        android:layout_width="345dp"
 	        android:layout_height="37dp"
-	        android:layout_marginTop="650dp"
-	        android:layout_marginLeft="465dp"
+	        android:layout_marginTop="642dp"
+	        android:layout_marginLeft="466dp"
 	        android:background="@drawable/img_ranking_projection" />
 	    <ImageView
 	        android:id="@+id/img_projection_surge"
 	        android:layout_width="345dp"
 	        android:layout_height="37dp"
-	        android:layout_marginTop="650dp"
-	        android:layout_marginLeft="825dp"
+	        android:layout_marginTop="642dp"
+	        android:layout_marginLeft="826dp"
 	        android:background="@drawable/img_ranking_projection" />
     </RelativeLayout>
 
