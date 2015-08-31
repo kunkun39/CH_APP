@@ -423,7 +423,7 @@ public class DataCenter {
 	}
 	public void loadRankingList(final Context context, final LoadObjectListener objectListener,boolean getCacheData) {
 		boolean result;
-		if(getCacheData) {
+		if(getCacheData && Config.ISCACHEABLE) {
 			String json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_RANKLIST);
 			result = Parse.parseRankingList(json);
 			if (result == true) {
