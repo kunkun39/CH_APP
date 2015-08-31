@@ -1,6 +1,7 @@
 package com.changhong.gdappstore.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -9,12 +10,17 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.changhong.gdappstore.MyApplication;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseRelativeLayout;
 import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.model.PageApp;
 import com.changhong.gdappstore.util.ImageLoadUtil;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 
 /**
  * 推荐位海报
@@ -24,7 +30,7 @@ import com.changhong.gdappstore.util.ImageLoadUtil;
  */
 public class PostItemView extends BaseRelativeLayout {
 
-	private ImageView iv_post, iv_appicon,iv_categoryicon;
+	private ImageView iv_post, iv_appicon, iv_categoryicon;
 	private TextView tv_postname, tv_appname;
 	private RelativeLayout rl_post, rl_app;
 
@@ -75,15 +81,19 @@ public class PostItemView extends BaseRelativeLayout {
 		tv_appname.setText(TextUtils.isEmpty(category.getName()) ? "" : category.getName());
 		tv_appname.setTextSize(context.getResources().getDimension(R.dimen.txtsize_home_categoryname));
 	}
+
 	/**
 	 * 显示本地图片
-	 * @param ispost 是否是海报
-	 * @param drawableid 图片id
+	 * 
+	 * @param ispost
+	 *            是否是海报
+	 * @param drawableid
+	 *            图片id
 	 */
-	public void setDrawableIconPost(boolean ispost,int drawableid) {
+	public void setDrawableIconPost(boolean ispost, int drawableid) {
 		if (ispost) {
 			iv_post.setImageResource(drawableid);
-		}else {
+		} else {
 			iv_appicon.setVisibility(GONE);
 			iv_categoryicon.setVisibility(VISIBLE);
 			iv_categoryicon.setImageResource(drawableid);
@@ -116,6 +126,12 @@ public class PostItemView extends BaseRelativeLayout {
 			rl_post.setVisibility(VISIBLE);
 			rl_post.setBackgroundColor(Color.TRANSPARENT);
 			if (pageApp != null) {
+//				DisplayImageOptions options = new DisplayImageOptions.Builder()
+//						.displayer(new RoundedBitmapDisplayer(10)).bitmapConfig(Bitmap.Config.ARGB_8888)
+//						.imageScaleType(ImageScaleType.IN_SAMPLE_INT).cacheInMemory(true)
+//						.showImageForEmptyUri(R.drawable.img_normal_ver).showImageOnFail(R.drawable.img_normal_ver)
+//						.cacheOnDisc(true).build();
+//				MyApplication.imageLoader.displayImage(pageApp.getPosterFilePath(), iv_post, options);
 				ImageLoadUtil.displayImgByMemoryDiscCache(pageApp.getPosterFilePath(), iv_post);
 				tv_postname.setText(TextUtils.isEmpty(pageApp.getAppname()) ? "" : pageApp.getAppname());
 				tv_postname.setVisibility(GONE);
