@@ -82,9 +82,41 @@ public class DataCenter {
 			}
 		});
 	}
-
+	/**
+	 *  请求解析栏目分类和每页应用数据
+	 * @param context
+	 * @param completeListener
+	 * @param getCacheData 是否预加载本地缓存
+	 */
+	public void loadCategoryAndPageData(final Context context, final LoadCompleteListener completeListener,boolean getCacheData) {
+		loadCategories(context, new LoadCompleteListener() {
+			
+			@Override
+			public void onComplete() {
+				loadPageApps(context, completeListener,true);
+			}
+		},true);
+	}
 	/**
 	 * 加载栏目分类数据
+	 * @param context
+	 * @param completeListener
+	 * @param getCacheData 是否预加载本地缓存
+	 */
+	public void loadCategories(final Context context, final LoadCompleteListener completeListener,boolean getCacheData) {
+		if (getCacheData&&Config.ISCACHEABLE) {
+			String json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_CATEGORIES);
+			categories = Parse.parseCategory(json);
+			if (categories != null && categories.size() > 0 && completeListener != null) {
+				completeListener.onComplete();
+			}
+		}
+		loadCategories(context, completeListener);
+	}
+	/**
+	 * 加载栏目分类数据
+	 * @param context
+	 * @param completeListener
 	 */
 	public void loadCategories(final Context context, final LoadCompleteListener completeListener) {
 		if (Config.ISCACHEABLE && (System.currentTimeMillis() - lastRequestCategoriesTime) < Config.REQUEST_RESTTIEM) {
@@ -125,9 +157,26 @@ public class DataCenter {
 
 		}.execute("");
 	}
-
 	/**
-	 * 加载页面海报app数据（在category数据加载完后调用。）
+	 * 加载一级页面推荐应用
+	 * @param context
+	 * @param completeListener
+	 * @param getCacheData 是否预加载本地缓存
+	 */
+	public void loadPageApps(final Context context, final LoadCompleteListener completeListener, boolean getCacheData) {
+		if (getCacheData && Config.ISCACHEABLE) {
+			String json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_PAGEAPPS);
+			Parse.parsePageApps(json);
+			if (categories != null && categories.size() > 0 && completeListener != null) {
+				completeListener.onComplete();
+			}
+		}
+		loadPageApps(context, completeListener);
+	}
+	/**
+	 * 加载一级页面推荐应用
+	 * @param context
+	 * @param completeListener
 	 */
 	public void loadPageApps(final Context context, final LoadCompleteListener completeListener) {
 		if (Config.ISCACHEABLE && (System.currentTimeMillis() - lastRequestPageAppsTime) < Config.REQUEST_RESTTIEM) {
