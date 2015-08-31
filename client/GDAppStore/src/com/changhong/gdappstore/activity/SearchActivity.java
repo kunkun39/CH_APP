@@ -135,7 +135,7 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 					List<Ranking_Item> rankingItems2 = RankingData.getInstance().getHotRankingData();
 					updateRankListData(rankingItems2);
 				}
-			});
+			},true);
 		} else {
 			updateRankListData(rankingItems);
 		}

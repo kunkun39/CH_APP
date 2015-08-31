@@ -106,7 +106,7 @@ public class MainActivity extends BaseActivity {
 						public void onComplete() {
 							initData();
 						}
-					});
+					},true);
 				}
 			}
 		});
