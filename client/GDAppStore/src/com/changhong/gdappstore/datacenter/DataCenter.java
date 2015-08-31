@@ -421,7 +421,18 @@ public class DataCenter {
 		}
 		return null;
 	}
-
+	public void loadRankingList(final Context context, final LoadObjectListener objectListener,boolean getCacheData) {
+		boolean result;
+		if(getCacheData) {
+			String json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_RANKLIST);
+			result = Parse.parseRankingList(json);
+			if (result == true) {
+				objectListener.onComplete(result);
+			}
+		}
+		
+		loadRankingList(context,objectListener);
+	}
 	public void loadRankingList(final Context context, final LoadObjectListener objectListener) {
 		boolean result;
 		if (Config.ISCACHEABLE && (System.currentTimeMillis() - lastRequestRankListTime) < Config.REQUEST_RESTTIEM
@@ -450,7 +461,7 @@ public class DataCenter {
 				} else {
 					L.d("datacenter-loadRankingList--server json is null,getting cache data");
 					// 没有请求到服务器数据使用缓存文件
-					json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_RANKLIST);
+					return false;
 				}
 				result = Parse.parseRankingList(json);
 				return result;

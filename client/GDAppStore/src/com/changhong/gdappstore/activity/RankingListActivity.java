@@ -196,6 +196,11 @@ public class RankingListActivity extends Activity {
 		listView_hot = (ListView)findViewById(R.id.listView_hot);
 		listView_surge = (ListView)findViewById(R.id.listView_surge);
 		focusItem = (RelativeLayout)findViewById(R.id.focus_item);
+		
+		listView_new.setVisibility(View.INVISIBLE);
+		listView_hot.setVisibility(View.INVISIBLE);
+		listView_surge.setVisibility(View.INVISIBLE);
+		
 		((TextView)findViewById(R.id.ranking_list)).setText(getString(R.string.str_ranking_list));
 		mlayout = new RelativeLayout.LayoutParams(0, 0);
 		
@@ -241,7 +246,7 @@ public class RankingListActivity extends Activity {
 					handler.sendEmptyMessage(LOAD_RANKING_FAIL);
 				}
 			}
-		});
+		},true);
 	}
 	
 	private void jumpToDetailActivity(ArrayList<Ranking_Item> arrayList, int position) {
@@ -366,6 +371,9 @@ public class RankingListActivity extends Activity {
 					
 					if(newList != null) {
 						L.i(newList.toString());
+						if(listView_new.getVisibility() != View.VISIBLE) {
+							listView_new.setVisibility(View.VISIBLE);
+						}
 						newArrayList = newList;
 						newArrayListAdapter = new RankingListViewAdapter(RankingListActivity.this, newArrayList);
 
@@ -378,6 +386,9 @@ public class RankingListActivity extends Activity {
 					}
 					if(hotList != null) {
 						L.i(hotList.toString());
+						if(listView_hot.getVisibility() != View.VISIBLE) {
+							listView_hot.setVisibility(View.VISIBLE);
+						}
 						hotArrayList = hotList;
 						hotArrayListAdapter = new RankingListViewAdapter(RankingListActivity.this, hotArrayList);
 
@@ -390,6 +401,9 @@ public class RankingListActivity extends Activity {
 					}
 					if(surgeList != null) {
 						L.i(surgeList.toString());
+						if(listView_surge.getVisibility() != View.VISIBLE) {
+							listView_surge.setVisibility(View.VISIBLE);
+						}
 						surgeArrayList = surgeList;
 						surgeArrayListAdapter = new RankingListViewAdapter(RankingListActivity.this, surgeArrayList);
 
