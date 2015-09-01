@@ -6,6 +6,7 @@ import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.model.AppDetail;
 import com.changhong.gdappstore.util.DialogUtil;
@@ -13,6 +14,7 @@ import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.DialogUtil.DialogBtnOnClickListener;
 import com.changhong.gdappstore.util.DialogUtil.DialogMessage;
+import com.changhong.gdappstore.util.Util;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -78,9 +80,9 @@ public class UpdateService {
 			Toast.makeText(context, "当前正在下载更新，请耐心等待", Toast.LENGTH_SHORT).show();
 			return;
 		}
-		AppBroadcastReceiver.curAppDetail=appDetail;
+		AppBroadcastReceiver.curAppDetail = appDetail;
 		if (handler == null) {
-			handler = new Handler(){
+			handler = new Handler() {
 				@Override
 				public void handleMessage(Message msg) {
 					super.handleMessage(msg);
@@ -98,10 +100,10 @@ public class UpdateService {
 					default:
 						break;
 					}
-					if (progressDialog!=null && progressDialog.isShowing()) {
+					if (progressDialog != null && progressDialog.isShowing()) {
 						progressDialog.dismiss();
 					}
-					downloading=false;
+					downloading = false;
 				}
 			};
 		}
@@ -124,19 +126,18 @@ public class UpdateService {
 		 * 根据下载的文件和上次的异常来判断走升级那个流程
 		 */
 		if (updateFile.exists()) {
-			/**
-			 * 本地APK已存在流程
-			 * 该方法不适合此环境，因为版本是采用该服务器手动配置本地数据库保存方式，无法知道该apk版本，
-			 */
-//			fileExistFlow();
-			installApp();//可以直接安装是因为 版本不同apk名字不同，在这里apk名字是服务器的名字，所以是最新的apk，所以可以直接安装
+			// 本地APK已存在流程 该方法不适合此环境，因为版本是采用该服务器手动配置本地数据库保存方式，无法知道该apk版本，
+			// fileExistFlow();
+			// installApp();//可以直接安装是因为
+			// 版本不同apk名字不同，在这里apk名字是服务器的名字，所以是最新的apk，所以可以直接安装
 		} else {
-			/**
-			 * 本地文件不存在，从服务器获得更新流程
-			 */
-			fileNotExistFlow();
+			
 		}
-
+		Util.deleteFileChildrens(baseUpdatePath);
+		/**
+		 * 本地文件不存在，从服务器获得更新流程
+		 */
+		fileNotExistFlow();
 	}
 
 	private void fileExistFlow() {
@@ -199,7 +200,10 @@ public class UpdateService {
 	};
 
 	private void downloadApp() {
-
+		//TODO 每次下载前都删除APK，每次都是新下载，去掉断点记录
+		UpdateLogService preferenceService=new UpdateLogService(context);
+		preferenceService.saveThreadDownloadDataSize(1, 0);
+		preferenceService.saveThreadDownloadDataSize(2, 0);
 		// Dialog dialog = DialogUtil.showAlertDialog(context, "提示：",
 		// "确定要下载？...", new DialogBtnOnClickListener() {
 		// @Override
@@ -224,12 +228,12 @@ public class UpdateService {
 						URL url = new URL(appDetail.getApkFilePath());
 						connection = (HttpURLConnection) url.openConnection();
 						connection.setUseCaches(false);
-						connection.setConnectTimeout(20000);
+						connection.setConnectTimeout(Config.CONNECTION_TIMEOUT);
 						connection.setRequestMethod("GET");
 						if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
 							connection.connect();
 							fileTotalSize = connection.getContentLength();
-							if (progressDialog != null&&progressDialog.isShowing()) {
+							if (progressDialog != null && progressDialog.isShowing()) {
 								progressDialog.setMax(fileTotalSize);
 							}
 						}
@@ -292,7 +296,7 @@ public class UpdateService {
 						 * 计算现在更新的进度
 						 */
 						int alreadyRead = (int) preferenceService.getTotalDownlaodDataSize();
-						if (progressDialog != null&&progressDialog.isShowing()) {
+						if (progressDialog != null && progressDialog.isShowing()) {
 							progressDialog.setProgress(alreadyRead);
 						}
 					}
@@ -310,7 +314,7 @@ public class UpdateService {
 					Message message = new Message();
 					message.arg1 = MESSAGE_DOWNLOADOVER;
 					handler.sendMessage(message);
-					if (progressDialog != null&&progressDialog.isShowing()) {
+					if (progressDialog != null && progressDialog.isShowing()) {
 						progressDialog.setProgress(0);
 					}
 
