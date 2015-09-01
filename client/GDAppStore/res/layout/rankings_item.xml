@@ -9,10 +9,11 @@
 	    android:layout_height="wrap_content"
 	    android:gravity="center">
         <RelativeLayout
+        android:id="@+id/test"
 	    android:layout_width="345dp"
 	    android:layout_height="wrap_content"
 	    android:gravity="center"
-	    android:background="#00000000">
+	    android:background="#33FFFFFF">
 	    <TextView 
 	        android:id="@+id/top_num"
 	        android:layout_width="30dp"
@@ -40,7 +41,7 @@
 		    android:textSize="26sp"
 		    android:textColor="#FFFFFF"
 		    android:singleLine="true"
-		    android:ellipsize="marquee" />
+		    android:ellipsize="end" />
 		<TextView
 		    android:id="@+id/item_app_download_num"
 		    android:layout_width="145dp"
