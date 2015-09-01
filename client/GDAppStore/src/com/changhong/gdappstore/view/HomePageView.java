@@ -15,6 +15,7 @@ import com.changhong.gdappstore.activity.NativeAppActivity;
 import com.changhong.gdappstore.activity.RankingListActivity;
 import com.changhong.gdappstore.activity.SearchActivity;
 import com.changhong.gdappstore.base.BasePageView;
+import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.model.PageApp;
 import com.changhong.gdappstore.util.DialogUtil;
@@ -142,7 +143,10 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 			} else if (v.getId() == R.id.jingping_itema2) {
 				context.startActivity(new Intent(context, RankingListActivity.class));
 			} else if (v.getId() == R.id.jingping_itema4) {
-				context.startActivity(new Intent(context, NativeAppActivity.class));
+				DataCenter dataCenter=DataCenter.getInstance();
+				if (dataCenter.getCategoryById(12)!=null) {
+					jumpToPostActivity(dataCenter.getCategoryById(12).getParentId(), dataCenter.getCategoryById(12).getId());
+				}
 			}else {
 				DialogUtil.showLongToast(context, context.getResources().getString(R.string.weipeizhi));
 			}
