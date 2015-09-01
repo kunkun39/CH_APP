@@ -181,7 +181,7 @@ public class Parse {
 				}
 				// TODO 临时写死的匹配
 				for (int j = 0; j < dataCenter.getCategories().size(); j++) {
-					L.d("dataCenter.getCategories().get(j).getId()==="+dataCenter.getCategories().get(j).getId());
+//					L.d("dataCenter.getCategories().get(j).getId()==="+dataCenter.getCategories().get(j).getId());
 					if (dataCenter.getCategories().get(j).getId() == 0 && app.getPageid() == 1) {
 						dataCenter.getCategories().get(j).getCategoryPageApps().add(app);
 					} else if (dataCenter.getCategories().get(j).getId() == 1 && app.getPageid() == 2) {
