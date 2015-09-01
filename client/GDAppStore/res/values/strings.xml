@@ -10,6 +10,7 @@
     <string name="str_ranking_list">排行榜</string>
     <string name="str_download">下载量：</string>
     <string name="net_notconnected">网络已断开，请检查网络链接状态！</string>
+    <string name="weipeizhi">没有获取到应用配置信息！</string>
 	<string name="str_new">最新榜</string>
     <string name="str_hot">最热榜</string>
     <string name="str_surge">飙升榜</string>
