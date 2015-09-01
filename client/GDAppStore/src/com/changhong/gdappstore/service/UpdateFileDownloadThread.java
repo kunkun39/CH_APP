@@ -6,6 +6,7 @@ import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.util.L;
 
 import android.content.Context;
@@ -67,7 +68,8 @@ public class UpdateFileDownloadThread extends Thread {
 		try {
 			URL url = new URL(downLoadUrl);
 			downloadConnection = (HttpURLConnection) url.openConnection();
-			downloadConnection.setConnectTimeout(20000);
+			downloadConnection.setConnectTimeout(Config.CONNECTION_TIMEOUT);
+			downloadConnection.setReadTimeout(Config.CONNECTION_TIMEOUT);
 			downloadConnection.setRequestMethod("GET");
 			downloadConnection.setRequestProperty("Range", "bytes=" + downloadStartByte + "-" + downloadEndByte);
 			downloadConnection.setRequestProperty("Accept", "image/gif,image/x-xbitmap,application/msword,*/*");
