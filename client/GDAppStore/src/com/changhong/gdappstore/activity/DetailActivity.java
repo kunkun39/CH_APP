@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -142,7 +143,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 				if (appDetail != null) {
 					tv_appname.setText(appDetail.getAppname());
 					tv_downloadcount.setText(appDetail.getDownload());
-					tv_size.setText(appDetail.getApkSize());
+					tv_size.setText(TextUtils.isEmpty(appDetail.getApkSize())?"":appDetail.getApkSize()+"M");
 					tv_version.setText(appDetail.getVersion());
 					tv_introduce.setText(appDetail.getDescription());
 					tv_updatetime.setText(appDetail.getUpdateDate());

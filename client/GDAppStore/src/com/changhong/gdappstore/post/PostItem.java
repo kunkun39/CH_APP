@@ -1,6 +1,7 @@
 package com.changhong.gdappstore.post;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.NativeApp;
 import com.changhong.gdappstore.util.ImageLoadUtil;
 import com.changhong.gdappstore.util.L;
+import com.changhong.gdappstore.util.Util;
 import com.changhong.gdappstore.view.ScoreView;
 import com.post.view.base.BasePostItem;
 
@@ -112,8 +114,8 @@ public class PostItem extends BasePostItem {
 		}
 		ImageLoadUtil.displayImgByonlyDiscCache(app.getIconFilePath(), iv_appicon);
 		tv_appname.setText(app.getAppname());
-		tv_apksize.setText(app.getApkSize());
-		scoreView.setScoreBy5Total(5);
+		tv_apksize.setText(TextUtils.isEmpty(app.getApkSize())?"":app.getApkSize()+" M");
+		scoreView.setScoreBy5Total(Util.getStarRandomInt()); 
 	}
 
 	private void doNativeAppData(Object object) {

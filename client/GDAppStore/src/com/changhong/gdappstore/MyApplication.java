@@ -44,6 +44,10 @@ public class MyApplication extends Application {
 	public static DisplayImageOptions option_nomemory_nodisc;// 图片加载器设置（含缓存）
 	/** 磁盘缓存大小 **/
 	private static int discCacheSize = 10 * 1024 * 1024;
+	/**服务器端版本号*/
+	public static int SERVER_VERSION=0;
+	/**应用商城apk更新地址*/
+	public static String UPDATE_APKURL="";
 
 	@Override
 	public void onCreate() {

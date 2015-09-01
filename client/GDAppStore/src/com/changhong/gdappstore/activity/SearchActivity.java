@@ -92,7 +92,7 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 		for (int i = 0; i < id_keybords.length; i++) {
 			findViewById(id_keybords[i]).setOnClickListener(keyBordOnClickListener);
 		}
-		findViewById(id_keybords[0]).requestFocus();
+		findViewById(id_keybords[11]).requestFocus();//A获取焦点
 		editText = findView(R.id.edt_search);
 		editText.addTextChangedListener(textWatcher);
 		bt_backone = findView(R.id.bt_search_backone);

@@ -159,7 +159,8 @@ public class PostTitleView extends BaseRelativeLayout {
 	 * @param position
 	 */
 	public void setSelectedItem(int position) {
-		if (position > 0 && list_textViews != null && position <= list_textViews.size()
+		L.d("postItemView setSelectedItem pos=="+position+" size=="+list_textViews.size());
+		if (position >=0  && list_textViews != null && position <= list_textViews.size()
 				&& list_textViews.get(position) != null) {
 			list_textViews.get(position).setSelected(true);
 			if (currentSelectedView != null && currentSelectedView != list_textViews.get(position)) {

@@ -3,6 +3,7 @@ package com.changhong.gdappstore.util;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import android.app.ActivityManager;
 import android.content.Context;
@@ -27,7 +28,7 @@ public class Util {
 		String curClassName = info.topActivity.getClassName(); // 类名
 		return curClassName;
 	}
-	
+
 	/**
 	 * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
 	 */
@@ -42,6 +43,15 @@ public class Util {
 	public static int pxTodip(Context context, float pxValue) {
 		final float scale = context.getResources().getDisplayMetrics().density;
 		return (int) (pxValue / scale + 0.5f);
+	}
+
+	public static float getStarRandomInt() {
+		int max = 5;
+		int min = 3;
+		Random random = new Random();
+//		float s = random.nextInt(max) % (max - min + 1) + min;
+		float s = random.nextInt(max - min+1) + min;
+		return s;
 	}
 
 	/**
@@ -154,7 +164,7 @@ public class Util {
 		}
 		return nativeApps;
 	}
-	
+
 	/**
 	 * int转为str类型
 	 * 
@@ -162,19 +172,16 @@ public class Util {
 	 * @return String
 	 */
 	public static String intToStr(int num) {
-		if(num < 10000) {
-			//1w以下直接返回
+		if (num < 10000) {
+			// 1w以下直接返回
 			return num + "";
-		}
-		else if(num < 100000) {
-			//1w~10w以下格式:x0000+  x为数字
+		} else if (num < 100000) {
+			// 1w~10w以下格式:x0000+ x为数字
 			return num / 10000 + "0000+";
-		}
-		else if(num < 1000000) {
-			//10w~100w以下格式:x0万+ x为数字
+		} else if (num < 1000000) {
+			// 10w~100w以下格式:x0万+ x为数字
 			return num / 100000 + "0万+";
-		}
-		else {
+		} else {
 			return num / 1000000 + "00万+";
 		}
 	}

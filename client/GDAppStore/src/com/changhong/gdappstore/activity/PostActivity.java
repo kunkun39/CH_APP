@@ -50,13 +50,13 @@ public class PostActivity extends BaseActivity {
 	/** 父栏目，根据首页传过来的id确定 */
 	protected Category parentCategory = null;
 	/** 栏目名字 */
-	protected TextView tv_name,tv_page;
-	/**搜索按钮*/
+	protected TextView tv_name, tv_page;
+	/** 搜索按钮 */
 	protected ImageView iv_search;
 	/** 当前应用列表 */
 	private List<Object> currentApps = new ArrayList<Object>();
-	/**阴影图片*/
-	protected ImageView iv_shandow1,iv_shandow2,iv_shandow3,iv_shandow4;
+	/** 阴影图片 */
+	protected ImageView iv_shandow1, iv_shandow2, iv_shandow3, iv_shandow4;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,17 +70,17 @@ public class PostActivity extends BaseActivity {
 		postView = findView(R.id.postview);
 		titleView = findView(R.id.posttitleview);
 		tv_name = findView(R.id.tv_pagename);
-		iv_shandow1=findView(R.id.iv_shandow1);
-		iv_shandow2=findView(R.id.iv_shandow2);
-		iv_shandow3=findView(R.id.iv_shandow3);
-		iv_shandow4=findView(R.id.iv_shandow4);
-		tv_page=findView(R.id.tv_page);
-		iv_search=findView(R.id.iv_search);
+		iv_shandow1 = findView(R.id.iv_shandow1);
+		iv_shandow2 = findView(R.id.iv_shandow2);
+		iv_shandow3 = findView(R.id.iv_shandow3);
+		iv_shandow4 = findView(R.id.iv_shandow4);
+		tv_page = findView(R.id.tv_page);
+		iv_search = findView(R.id.iv_search);
 		iv_search.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(PostActivity.this,SearchActivity.class));
+				startActivity(new Intent(PostActivity.this, SearchActivity.class));
 			}
 		});
 		titleView.setTitleItemOnClickListener(new TitleItemOnClickListener() {
@@ -128,12 +128,16 @@ public class PostActivity extends BaseActivity {
 			return;
 		}
 		parentCategory = dataCenter.getCategoryById(parentCategoryId);// 获取父栏目
-		if (parentCategory != null && parentCategory.getCategoyChildren() != null) {
+		if (parentCategory != null) {
 			tv_name.setText(parentCategory.getName());
 			titleView.initData(parentCategory, parentCategory.getCategoyChildren());
-			for (int i = 0; i < parentCategory.getCategoyChildren().size(); i++) {
-				if (parentCategory.getCategoyChildren().get(i).getId() == currentCategoryId) {
-					titleView.setFocusItem(i + 1);// 选中当前item
+			if (parentCategory.getId() == currentCategoryId) {
+				titleView.setFocusItem(0);// 选中全部
+			} else if (parentCategory.getCategoyChildren() != null) {
+				for (int i = 0; i < parentCategory.getCategoyChildren().size(); i++) {
+					if (parentCategory.getCategoyChildren().get(i).getId() == currentCategoryId) {
+						titleView.setFocusItem(i + 1);// 选中当前item
+					}
 				}
 			}
 		}
@@ -179,7 +183,7 @@ public class PostActivity extends BaseActivity {
 		@Override
 		public void changePage(Boolean isnext, int curpage, int totalpage) {
 			// 翻页回调
-			tv_page.setText("("+(totalpage<=0?0:curpage)+"/"+totalpage+")");
+			tv_page.setText("(" + (totalpage <= 0 ? 0 : curpage) + "/" + totalpage + ")");
 			setShandowsVisible(curpage, totalpage);
 		}
 
@@ -197,22 +201,22 @@ public class PostActivity extends BaseActivity {
 	};
 
 	private void setShandowsVisible(int curPage, int totalPage) {
-		if (currentApps==null ||curPage < 0 || totalPage < 0 || curPage > totalPage) {
+		if (currentApps == null || curPage < 0 || totalPage < 0 || curPage > totalPage) {
 			return;
 		}
-		int size=currentApps.size();
-		if (curPage==totalPage) {
+		int size = currentApps.size();
+		if (curPage == totalPage) {
 			iv_shandow4.setVisibility(INVISIBLE);
-			int curItems=size-((curPage-1)*9);//本页有多少个item
-			iv_shandow1.setVisibility(curItems>=7?VISIBLE:INVISIBLE);
-			iv_shandow2.setVisibility(curItems>=8?VISIBLE:INVISIBLE);
-			iv_shandow3.setVisibility(curItems==9?VISIBLE:INVISIBLE);
-		}else {
+			int curItems = size - ((curPage - 1) * 9);// 本页有多少个item
+			iv_shandow1.setVisibility(curItems >= 7 ? VISIBLE : INVISIBLE);
+			iv_shandow2.setVisibility(curItems >= 8 ? VISIBLE : INVISIBLE);
+			iv_shandow3.setVisibility(curItems == 9 ? VISIBLE : INVISIBLE);
+		} else {
 			iv_shandow1.setVisibility(VISIBLE);
 			iv_shandow2.setVisibility(VISIBLE);
 			iv_shandow3.setVisibility(VISIBLE);
-			int nextItems=size-(curPage*9);//本页有多少个item
-			iv_shandow4.setVisibility(nextItems>=7?VISIBLE:INVISIBLE);
+			int nextItems = size - (curPage * 9);// 本页有多少个item
+			iv_shandow4.setVisibility(nextItems >= 7 ? VISIBLE : INVISIBLE);
 		}
 	}
 

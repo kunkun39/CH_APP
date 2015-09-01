@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.text.TextUtils;
 
+import com.changhong.gdappstore.MyApplication;
 import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.AppDetail;
 import com.changhong.gdappstore.model.Category;
@@ -88,6 +89,13 @@ public class Parse {
 			if (categoryObject.has(HOST)) {
 				host = categoryObject.getString(HOST);
 			}
+			if (categoryObject.has("client_url")) {
+				MyApplication.UPDATE_APKURL = categoryObject.getString("client_url");
+			}
+			if (categoryObject.has("client_v")) {
+				MyApplication.SERVER_VERSION = categoryObject.getInt("client_v");
+			}
+			L.d("server apk data  version="+MyApplication.SERVER_VERSION+" apkurl="+MyApplication.UPDATE_APKURL);
 			JSONArray array = categoryObject.getJSONArray(VALUES);
 			for (int i = 0; i < array.length(); i++) {
 				JSONObject object = array.getJSONObject(i);
