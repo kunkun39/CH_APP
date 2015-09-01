@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.changhong.gdappstore.model.NativeApp;
+import com.changhong.gdappstore.service.UpdateService;
 
 public class Util {
 	/**
@@ -53,9 +54,21 @@ public class Util {
 		float s = random.nextInt(max - min+1) + min;
 		return s;
 	}
+	/**
+	 * 只删除子文件，不删除父文件
+	 * @param path 父文件目录
+	 */
+	public static void deleteFileChildrens(String path) {
+		File file = new File(path);
+		if (file != null && file.isDirectory() && file.listFiles().length > 0) {
+			for (int i = 0; i < file.listFiles().length; i++) {
+				Util.deleteFile(file.listFiles()[i].getAbsolutePath());
+			}
+		}
+	}
 
 	/**
-	 * 递归删除文件及其只文件
+	 * 递归删除文件及其子文件
 	 * 
 	 * @param path
 	 */
