@@ -34,7 +34,7 @@ public class LoadingActivity extends BaseActivity {
 			public void onComplete() {
 				jumpToMain();
 			}
-		},true);
+		});
 	}
 	
 	private void jumpToMain() {
