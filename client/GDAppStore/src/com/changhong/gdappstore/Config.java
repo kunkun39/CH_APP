@@ -7,8 +7,6 @@ package com.changhong.gdappstore;
  * 
  */
 public class Config {
-	public static final boolean ISTEST = false;
-	
 	/**是否允许缓存。只有调试所有情况下都请求接口时候才改为false*/
 	public static final boolean ISCACHEABLE = true;
 	/**请求暂停时间，在这个时间内不能连续请求*/
