@@ -22,13 +22,9 @@ public class AppBroadcastReceiver extends BroadcastReceiver {
 		if (intent.getAction().equals("android.intent.action.PACKAGE_ADDED")) {
 			String packageName = intent.getDataString();
 			L.d("AppBroadcastReceiver--installed packageName=" + packageName+" "+curAppDetail);
-			// TODO 删除安装包
-			File file = new File(UpdateService.baseUpdatePath);
-			if (file != null && file.isDirectory() && file.listFiles().length > 0) {
-				for (int i = 0; i < file.listFiles().length; i++) {
-					Util.deleteFile(file.listFiles()[i].getAbsolutePath());
-				}
-			}
+			//  删除安装包
+			Util.deleteFileChildrens(UpdateService.baseUpdatePath);
+			
 			if (packageName!=null&&packageName.startsWith("package:")) {
 				packageName=packageName.substring(packageName.indexOf(":")+1, packageName.length());
 			}
