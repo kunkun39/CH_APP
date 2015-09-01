@@ -25,8 +25,50 @@ import com.changhong.gdappstore.util.Util;
  * 
  */
 public class Parse {
-	// /** 栏目（分类）的json数据 */
-	public static String json_appranklist = "{\"host\":\"http://localhost:8081/appmarket/upload/\",\"FASTEST\":[{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"posterFilePath\":\"sssth0c89d.png\"}],\"HOTEST\":[{\"appId\":126,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":132,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":120,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":128,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":122,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":127,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":131,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":135,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":134,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":121,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"}],\"NEWEST\":[{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":140,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"posterFilePath\":\"j9gd3z32ru.jpg\"},{\"appId\":139,\"appKey\":\"vo92sv6v\",\"appName\":\"游戏互动\",\"posterFilePath\":\"xy9sfxgope.png\"},{\"appId\":138,\"appKey\":\"z8d6gvqd\",\"appName\":\"百度音乐\",\"posterFilePath\":\"2muqe5g4wr.png\"},{\"appId\":137,\"appKey\":\"j4pyq3zv\",\"appName\":\"酷狗音乐\",\"posterFilePath\":\"2b0ckiz81r.apk\"},{\"appId\":2,\"appKey\":\"17c0cu1y\",\"appName\":\"网页新闻\",\"posterFilePath\":\"6ec33tpang.apk\"},{\"appId\":1,\"appKey\":\"nefbaxki\",\"appName\":\"大话宿友\",\"posterFilePath\":\"kk73gncxbr.png\"},{\"appId\":122,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":123,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":124,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"}]}";
+	public final static String HOST = "host";
+	public final static String VALUES = "values";
+	/**
+     * *******************************Category Part*********************************************
+     */
+
+    public final static String CATEGORY_ID = "id";
+
+    public final static String CATEGORY_NAME = "name";
+
+    public final static String CATEGORY_PARENTID = "pid";
+
+    public final static String CATEGORY_FILENAME = "fn";
+
+
+    /************************************APP Part************************************************/
+
+    public final static String APP_ID = "id";
+
+    public final static String APP_NAME = "name";
+
+    public final static String APP_KEY = "key";
+
+    public final static String APP_VERSION_INT = "ver_int";
+
+    public final static String APP_VERSION = "ver";
+
+    public final static String APP_PACKAGE = "package";
+
+    public final static String APP_SIZE = "size";
+
+    public final static String APP_DOWNLOAD = "download";
+
+    public final static String APP_UPDATE_DATE = "date";
+
+    public final static String APP_DESCRIPTION = "desc";
+
+    public final static String APP_ICON_FILEPATH = "icon_fp";
+
+    public final static String APP_POSTER_FILEPATH = "poster_fp";
+
+    public final static String APP_APK_FILEPATH = "apk_fp";
+
+    public final static String APP_CATEGORY_ID = "cate_id";
 
 	/**
 	 * 解析栏目数据
@@ -43,25 +85,25 @@ public class Parse {
 		try {
 			JSONObject categoryObject = new JSONObject(categoryJson);
 			String host = "";
-			if (categoryObject.has("host")) {
-				host = categoryObject.getString("host");
+			if (categoryObject.has(HOST)) {
+				host = categoryObject.getString(HOST);
 			}
-			JSONArray array = categoryObject.getJSONArray("values");
+			JSONArray array = categoryObject.getJSONArray(VALUES);
 			for (int i = 0; i < array.length(); i++) {
 				JSONObject object = array.getJSONObject(i);
 				Category category = new Category();
-				if (object.has("id")) {
-					category.setId(object.getInt("id"));
+				if (object.has(CATEGORY_ID)) {
+					category.setId(object.getInt(CATEGORY_ID));
 				}
-				if (object.has("name")) {
-					category.setName(object.getString("name"));
+				if (object.has(CATEGORY_NAME)) {
+					category.setName(object.getString(CATEGORY_NAME));
 				}
-				if (object.has("filename")) {
-					category.setIconFilePath(host + "category/" + object.getString("filename"));
+				if (object.has(CATEGORY_FILENAME)) {
+					category.setIconFilePath(host + "category/" + object.getString(CATEGORY_FILENAME));
 				}
 				int parentid = -1;
-				if (object.has("parentId")) {
-					parentid = object.getInt("parentId");
+				if (object.has(CATEGORY_PARENTID)) {
+					parentid = object.getInt(CATEGORY_PARENTID);
 					category.setParentId(parentid);
 				}
 				if (parentid == -1) {// 添加为父栏目
@@ -103,19 +145,19 @@ public class Parse {
 		}
 		try {
 			JSONObject object = new JSONObject(pageAppJson);
-			String host = object.getString("host");
+			String host = object.getString(HOST);
 			JSONArray array = object.getJSONArray("pages");
 			for (int i = 0; i < array.length(); i++) {
 				PageApp app = new PageApp();
 				JSONObject appobject = array.getJSONObject(i);
-				if (appobject.has("appId")) {
-					app.setAppid(appobject.getInt("appId"));
+				if (appobject.has(APP_ID)) {
+					app.setAppid(appobject.getInt(APP_ID));
 				}
-				if (appobject.has("appKey")) {
-					app.setAppkey(appobject.getString("appKey"));
+				if (appobject.has(APP_KEY)) {
+					app.setAppkey(appobject.getString(APP_KEY));
 				}
-				if (appobject.has("appName")) {
-					app.setAppname(appobject.getString("appName"));
+				if (appobject.has(APP_NAME)) {
+					app.setAppname(appobject.getString(APP_NAME));
 				}
 				if (appobject.has("page")) {
 					app.setPageid(appobject.getInt("page"));
@@ -123,14 +165,15 @@ public class Parse {
 				if (appobject.has("position")) {
 					app.setPosition(appobject.getInt("position"));
 				}
-				if (appobject.has("posterFilePath")) {
-					app.setPosterFilePath(host + app.getAppkey() + "/" + appobject.getString("posterFilePath"));
+				if (appobject.has(APP_POSTER_FILEPATH)) {
+					app.setPosterFilePath(host + app.getAppkey() + "/" + appobject.getString(APP_POSTER_FILEPATH));
 				}
-				if (appobject.has("iconFilePath")) {
-					app.setIconFilePath(host + app.getAppkey() + "/" + appobject.getString("iconFilePath"));
+				if (appobject.has(APP_ICON_FILEPATH)) {
+					app.setIconFilePath(host + app.getAppkey() + "/" + appobject.getString(APP_ICON_FILEPATH));
 				}
 				// TODO 临时写死的匹配
 				for (int j = 0; j < dataCenter.getCategories().size(); j++) {
+					L.d("dataCenter.getCategories().get(j).getId()==="+dataCenter.getCategories().get(j).getId());
 					if (dataCenter.getCategories().get(j).getId() == 0 && app.getPageid() == 1) {
 						dataCenter.getCategories().get(j).getCategoryPageApps().add(app);
 					} else if (dataCenter.getCategories().get(j).getId() == 1 && app.getPageid() == 2) {
@@ -165,8 +208,8 @@ public class Parse {
 		}
 		try {
 			JSONObject object = new JSONObject(categoryAppJson);
-			String host = object.getString("host");
-			JSONArray array = object.getJSONArray("values");
+			String host = object.getString(HOST);
+			JSONArray array = object.getJSONArray(VALUES);
 			for (int i = 0; i < array.length(); i++) {
 				App app = new App();
 				JSONObject appobject = array.getJSONObject(i);
@@ -195,27 +238,27 @@ public class Parse {
 		}
 		try {
 			JSONObject object = new JSONObject(categoryAppJson);
-			String host = object.getString("host");
-			JSONArray array = object.getJSONArray("values");
+			String host = object.getString(HOST);
+			JSONArray array = object.getJSONArray(VALUES);
 			for (int i = 0; i < array.length(); i++) {
 				App app = new App();
 				JSONObject appobject = array.getJSONObject(i);
-				if (appobject.has("appId")) {
-					app.setAppid(appobject.getInt("appId"));
+				if (appobject.has(APP_ID)) {
+					app.setAppid(appobject.getInt(APP_ID));
 				}
-				// if (appobject.has("package")) {
-				// app.setPackageName(appobject.getString("package"));
-				// }
-				if (appobject.has("appKey")) {
-					app.setAppkey(appobject.getString("appKey"));
+				 if (appobject.has(APP_PACKAGE)) {
+				 app.setPackageName(appobject.getString(APP_PACKAGE));
+				 }
+				if (appobject.has(APP_KEY)) {
+					app.setAppkey(appobject.getString(APP_KEY));
 				}
-				if (appobject.has("appName")) {
-					app.setAppname(appobject.getString("appName"));
+				if (appobject.has(APP_NAME)) {
+					app.setAppname(appobject.getString(APP_NAME));
 				}
-				if (appobject.has("download")) {
+				if (appobject.has(APP_DOWNLOAD)) {
 				}
-				if (appobject.has("iconFilePath")) {
-					app.setPosterFilePath(host + app.getAppkey() + "/" + appobject.getString("iconFilePath"));
+				if (appobject.has(APP_ICON_FILEPATH)) {
+					app.setPosterFilePath(host + app.getAppkey() + "/" + appobject.getString(APP_ICON_FILEPATH));
 				}
 				apps.add(app);
 			}
@@ -234,23 +277,23 @@ public class Parse {
 		}
 		try {
 			JSONObject object = new JSONObject(appdetailJson);
-			String host = object.getString("host");
-			String appKey = object.getString("appKey");
+			String host = object.getString(HOST);
+			String appKey = object.getString(APP_KEY);
 			appDetail.setAppkey(appKey);
 			appDetail.setHost(host);
-			appDetail.setApkFilePath(host + appKey + "/" + object.getString("apkFilePath"));
-			appDetail.setAppid(object.getInt("appId"));
-			appDetail.setAppname(object.getString("appName"));
-			appDetail.setApkSize(object.getString("appSize"));
-			appDetail.setVersion(object.getString("appVersion"));
-			appDetail.setVersionInt(object.getInt("appVersionInt"));
-			appDetail.setDescription(object.getString("description"));
-			appDetail.setDownload(object.getString("download"));
-			appDetail.setPackageName(object.getString("appPackage"));
-			appDetail.setUpdateDate(object.getString("updateDate"));
-			appDetail.setCategoryId(object.getInt("categoryId"));
-			appDetail.setIconFilePath(host + appKey + "/" + object.getString("iconFilePath"));
-			appDetail.setPosterFilePath(host + appKey + "/" + object.getString("posterFilePath"));
+			appDetail.setApkFilePath(host + appKey + "/" + object.getString(APP_APK_FILEPATH));
+			appDetail.setAppid(object.getInt(APP_ID));
+			appDetail.setAppname(object.getString(APP_NAME));
+			appDetail.setApkSize(object.getString(APP_SIZE));
+			appDetail.setVersion(object.getString(APP_VERSION));
+			appDetail.setVersionInt(object.getInt(APP_VERSION_INT));
+			appDetail.setDescription(object.getString(APP_DESCRIPTION));
+			appDetail.setDownload(object.getString(APP_DOWNLOAD));
+			appDetail.setPackageName(object.getString(APP_PACKAGE));
+			appDetail.setUpdateDate(object.getString(APP_UPDATE_DATE));
+			appDetail.setCategoryId(object.getInt(APP_CATEGORY_ID));
+			appDetail.setIconFilePath(host + appKey + "/" + object.getString(APP_ICON_FILEPATH));
+			appDetail.setPosterFilePath(host + appKey + "/" + object.getString(APP_POSTER_FILEPATH));
 
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -273,8 +316,8 @@ public class Parse {
 		}
 		try {
 			JSONObject object = new JSONObject(searchAppsJson);
-			String host = object.getString("host");
-			JSONArray array = object.getJSONArray("values");
+			String host = object.getString(HOST);
+			JSONArray array = object.getJSONArray(VALUES);
 			for (int i = 0; i < array.length(); i++) {
 				App app = new App();
 				JSONObject appobject = array.getJSONObject(i);
@@ -303,8 +346,8 @@ public class Parse {
 		}
 		try {
 			JSONObject object = new JSONObject(appVersionsJson);
-			String host = object.getString("host");
-			JSONArray array = object.getJSONArray("values");
+			String host = object.getString(HOST);
+			JSONArray array = object.getJSONArray(VALUES);
 			for (int i = 0; i < array.length(); i++) {
 				App app = new App();
 				JSONObject appobject = array.getJSONObject(i);
@@ -320,32 +363,32 @@ public class Parse {
 
 	private static void parseApp(JSONObject appobject, App app, String host) {
 		try {
-			if (appobject.has("appId")) {
-				app.setAppid(appobject.getInt("appId"));
+			if (appobject.has(APP_ID)) {
+				app.setAppid(appobject.getInt(APP_ID));
 			}
-			if (appobject.has("package")) {
-				app.setPackageName(appobject.getString("package"));
+			if (appobject.has(APP_PACKAGE)) {
+				app.setPackageName(appobject.getString(APP_PACKAGE));
 			}
-			if (appobject.has("appKey")) {
-				app.setAppkey(appobject.getString("appKey"));
+			if (appobject.has(APP_KEY)) {
+				app.setAppkey(appobject.getString(APP_KEY));
 			}
-			if (appobject.has("appName")) {
-				app.setAppname(appobject.getString("appName"));
+			if (appobject.has(APP_NAME)) {
+				app.setAppname(appobject.getString(APP_NAME));
 			}
-			if (appobject.has("appSize")) {
-				app.setApkSize(appobject.getString("appSize"));
+			if (appobject.has(APP_SIZE)) {
+				app.setApkSize(appobject.getString(APP_SIZE));
 			}
-			if (appobject.has("appVersion")) {
-				app.setVersion(appobject.getString("appVersion"));
+			if (appobject.has(APP_VERSION)) {
+				app.setVersion(appobject.getString(APP_VERSION));
 			}
-			if (appobject.has("appVersionInt")) {
-				app.setVersionInt(appobject.getInt("appVersionInt"));
+			if (appobject.has(APP_VERSION_INT)) {
+				app.setVersionInt(appobject.getInt(APP_VERSION_INT));
 			}
-			if (appobject.has("posterFilePath")) {
-				app.setPosterFilePath(host + app.getAppkey() + "/" + appobject.getString("posterFilePath"));
+			if (appobject.has(APP_POSTER_FILEPATH)) {
+				app.setPosterFilePath(host + app.getAppkey() + "/" + appobject.getString(APP_POSTER_FILEPATH));
 			}
-			if (appobject.has("iconFilePath")) {
-				app.setIconFilePath(host + app.getAppkey() + "/" + appobject.getString("iconFilePath"));
+			if (appobject.has(APP_ICON_FILEPATH)) {
+				app.setIconFilePath(host + app.getAppkey() + "/" + appobject.getString(APP_ICON_FILEPATH));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -362,7 +405,7 @@ public class Parse {
 		try {
 			JSONObject object = new JSONObject(rankingListJson);
 
-			String host = object.getString("host");
+			String host = object.getString(HOST);
 			JSONArray surgeListJsonArray = object.getJSONArray("FASTEST");
 			JSONArray hotListJsonArray = object.getJSONArray("HOTEST");
 			JSONArray newListJsonArray = object.getJSONArray("NEWEST");
@@ -402,23 +445,23 @@ public class Parse {
 			for (int i = 0; i < jsonArray.length(); i++) {
 				Ranking_Item ranking_Item = new Ranking_Item();
 				JSONObject object = jsonArray.getJSONObject(i);
-				if (object.has("appId")) {
-					ranking_Item.setAppId(object.getInt("appId"));
+				if (object.has(APP_ID)) {
+					ranking_Item.setAppId(object.getInt(APP_ID));
 				}
-				if (object.has("appKey")) {
-					ranking_Item.setAppKey(object.getString("appKey"));
+				if (object.has(APP_KEY)) {
+					ranking_Item.setAppKey(object.getString(APP_KEY));
 				}
-				if (object.has("appName")) {
-					ranking_Item.setAppName(object.getString("appName"));
+				if (object.has(APP_NAME)) {
+					ranking_Item.setAppName(object.getString(APP_NAME));
 				}
-				if (object.has("iconFilePath")) {
-					ranking_Item.setAppIconPath(object.getString("iconFilePath"));
+				if (object.has(APP_ICON_FILEPATH)) {
+					ranking_Item.setAppIconPath(object.getString(APP_ICON_FILEPATH));
 				}
-				if (object.has("download")) {
-					ranking_Item.setDownload_num(Util.intToStr(object.getInt("download")));
+				if (object.has(APP_DOWNLOAD)) {
+					ranking_Item.setDownload_num(Util.intToStr(object.getInt(APP_DOWNLOAD)));
 				}
-				if (object.has("appSize")) {
-					ranking_Item.setAppSize(object.getString("appSize"));
+				if (object.has(APP_SIZE)) {
+					ranking_Item.setAppSize(object.getString(APP_SIZE));
 				}
 				ranking_Item.setTopNum(i + 1);
 

@@ -60,6 +60,7 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 			itemViews[i] = findView(itemIds[i]);
 			itemViews[i].setFocusable(true);
 			itemViews[i].setClickable(true);
+			itemViews[i].setOnClickListener(this);
 			itemViews[i].setOnFocusChangeListener(this);
 		}
 
@@ -131,15 +132,19 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 		if (onClickListener != null) {
 			onClickListener.onClick(v);
 		}
+		if (v.getId() == R.id.jingping_itema3) {
+			context.startActivity(new Intent(context, NativeAppActivity.class));
+			return;
+		}
 		if (NetworkUtils.ISNET_CONNECT) {
 			if (v.getId() == R.id.jingping_itema1) {
 				context.startActivity(new Intent(context, SearchActivity.class));
 			} else if (v.getId() == R.id.jingping_itema2) {
 				context.startActivity(new Intent(context, RankingListActivity.class));
-			} else if (v.getId() == R.id.jingping_itema3) {
-				context.startActivity(new Intent(context, NativeAppActivity.class));
 			} else if (v.getId() == R.id.jingping_itema4) {
 				context.startActivity(new Intent(context, NativeAppActivity.class));
+			}else {
+				DialogUtil.showLongToast(context, context.getResources().getString(R.string.weipeizhi));
 			}
 		} else {
 			DialogUtil.showLongToast(context, context.getResources().getString(R.string.net_notconnected));

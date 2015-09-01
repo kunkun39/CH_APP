@@ -24,8 +24,11 @@ import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.net.LoadListener.LoadCompleteListener;
 import com.changhong.gdappstore.service.NetChangeReceiver;
 import com.changhong.gdappstore.service.NetChangeReceiver.NetChangeListener;
+import com.changhong.gdappstore.util.DialogUtil;
+import com.changhong.gdappstore.util.DialogUtil.DialogBtnOnClickListener;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.Util;
+import com.changhong.gdappstore.util.DialogUtil.DialogMessage;
 import com.changhong.gdappstore.view.HomePageView;
 import com.changhong.gdappstore.view.PostTitleView;
 import com.changhong.gdappstore.view.PostTitleView.TitleItemOnClickListener;
@@ -165,7 +168,22 @@ public class MainActivity extends BaseActivity {
 		case KeyEvent.KEYCODE_DPAD_RIGHT:
 			break;
 		case KeyEvent.KEYCODE_BACK:
-
+			if (event.getAction()==KeyEvent.ACTION_DOWN) {
+				DialogUtil.showAlertDialog(context, "提示：", "是否退出长虹应用商城？", new DialogBtnOnClickListener() {
+					
+					@Override
+					public void onSubmit(DialogMessage dialogMessage) {
+						System.exit(0);
+					}
+					
+					@Override
+					public void onCancel(DialogMessage dialogMessage) {
+						if (dialogMessage.dialogInterface!=null) {
+							dialogMessage.dialogInterface.dismiss();
+						}
+					}
+				});
+			}
 			break;
 		}
 		return super.onKeyDown(keyCode, event);

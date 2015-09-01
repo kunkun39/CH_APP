@@ -132,9 +132,6 @@ public class DataCenter {
 			@Override
 			protected Object doInBackground(Object... params) {
 				String json = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(Config.getCategoryUrl));
-				if (Config.ISTEST && TextUtils.isEmpty(json)) {
-					json = "[{\"id\":\"1\",\"name\":\"娱乐\",\"parentId\":\"-1\"},{\"id\":\"2\",\"name\":\"生活\",\"parentId\":\"1\"},{\"id\":\"3\",\"name\":\"音乐\",\"parentId\":\"1\"},{\"id\":\"4\",\"name\":\"健康\",\"parentId\":\"1\"},{\"id\":\"5\",\"name\":\"其他\",\"parentId\":\"1\"},{\"id\":\"6\",\"name\":\"游戏\",\"parentId\":\"-1\"},{\"id\":\"7\",\"name\":\"休闲\",\"parentId\":\"6\"},{\"id\":\"8\",\"name\":\"棋牌\",\"parentId\":\"6\"},{\"id\":\"9\",\"name\":\"动作\",\"parentId\":\"6\"},{\"id\":\"10\",\"name\":\"其他\",\"parentId\":\"6\"},{\"id\":\"11\",\"name\":\"专题\",\"parentId\":\"-1\"},{\"id\":\"12\",\"name\":\"工具\",\"parentId\":\"11\"},{\"id\":\"13\",\"name\":\"教育\",\"parentId\":\"11\"},{\"id\":\"14\",\"name\":\"咨询\",\"parentId\":\"11\"},{\"id\":\"15\",\"name\":\"其他\",\"parentId\":\"11\"},{\"id\":\"16\",\"name\":\"首页\",\"parentId\":\"-1\"}]";
-				}
 				if (!TextUtils.isEmpty(json)) {
 					lastRequestCategoriesTime = System.currentTimeMillis();// 更改上次请求时间
 					CacheManager.putJsonFileCache(context, CacheManager.KEYJSON_CATEGORIES, json);// 缓存json数据
@@ -192,10 +189,6 @@ public class DataCenter {
 			@Override
 			protected Object doInBackground(Object... params) {
 				String json = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(Config.getPagesUrl));
-				if (Config.ISTEST && TextUtils.isEmpty(json)) {
-					json = "{\"host\":\"http://localhost:8081/appmarket/upload/\",\"pages\":[{\"appId\":140,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"page\":\"1\",\"position\":1,\"posterFilePath\":\"j9gd3z32ru.jpg\"},{\"appId\":1,\"appKey\":\"nefbaxki\",\"appName\":\"大话宿友\",\"page\":\"1\",\"position\":2,\"posterFilePath\":\"kk73gncxbr.png\"},{\"appId\":1,\"appKey\":\"nefbaxki\",\"appName\":\"大话宿友\",\"page\":\"1\",\"position\":3,\"posterFilePath\":\"kk73gncxbr.png\"},{\"appId\":140,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"page\":\"1\",\"position\":4,\"posterFilePath\":\"j9gd3z32ru.jpg\"},{\"appId\":1,\"appKey\":\"nefbaxki\",\"appName\":\"大话宿友\",\"page\":\"1\",\"position\":5,\"posterFilePath\":\"kk73gncxbr.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"1\",\"position\":6,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"1\",\"position\":7,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"1\",\"position\":8,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"1\",\"position\":9,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":138,\"appKey\":\"z8d6gvqd\",\"appName\":\"百度音乐\",\"page\":\"2\",\"position\":1,\"posterFilePath\":\"2muqe5g4wr.png\"},{\"appId\":140,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"page\":\"2\",\"position\":2,\"posterFilePath\":\"j9gd3z32ru.jpg\"},{\"appId\":140,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"page\":\"2\",\"position\":3,\"posterFilePath\":\"j9gd3z32ru.jpg\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"2\",\"position\":4,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"2\",\"position\":5,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"2\",\"position\":6,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"2\",\"position\":7,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"2\",\"position\":8,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"2\",\"position\":9,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":139,\"appKey\":\"vo92sv6v\",\"appName\":\"游戏互动\",\"page\":\"3\",\"position\":1,\"posterFilePath\":\"xy9sfxgope.png\"},{\"appId\":139,\"appKey\":\"vo92sv6v\",\"appName\":\"游戏互动\",\"page\":\"3\",\"position\":2,\"posterFilePath\":\"xy9sfxgope.png\"},{\"appId\":139,\"appKey\":\"vo92sv6v\",\"appName\":\"游戏互动\",\"page\":\"3\",\"position\":3,\"posterFilePath\":\"xy9sfxgope.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"3\",\"position\":4,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"3\",\"position\":5,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"3\",\"position\":6,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"3\",\"position\":7,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"3\",\"position\":8,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"3\",\"position\":9,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":138,\"appKey\":\"z8d6gvqd\",\"appName\":\"百度音乐\",\"page\":\"4\",\"position\":1,\"posterFilePath\":\"2muqe5g4wr.png\"},{\"appId\":138,\"appKey\":\"z8d6gvqd\",\"appName\":\"百度音乐\",\"page\":\"4\",\"position\":2,\"posterFilePath\":\"2muqe5g4wr.png\"},{\"appId\":138,\"appKey\":\"z8d6gvqd\",\"appName\":\"百度音乐\",\"page\":\"4\",\"position\":3,\"posterFilePath\":\"2muqe5g4wr.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"4\",\"position\":4,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":138,\"appKey\":\"z8d6gvqd\",\"appName\":\"百度音乐\",\"page\":\"4\",\"position\":5,\"posterFilePath\":\"2muqe5g4wr.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"4\",\"position\":6,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"4\",\"position\":7,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"page\":\"4\",\"position\":8,\"posterFilePath\":\"sssth0c89d.png\"},{\"appId\":140,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"page\":\"4\",\"position\":9,\"posterFilePath\":\"j9gd3z32ru.jpg\"}]}";
-					// TODO 临时使用测试数据
-				}
 				if (!TextUtils.isEmpty(json)) {
 					lastRequestPageAppsTime = System.currentTimeMillis();// 更改上次请求时间
 					CacheManager.putJsonFileCache(context, CacheManager.KEYJSON_PAGEAPPS, json);// 缓存json数据
@@ -248,11 +241,6 @@ public class DataCenter {
 				} else {
 					jsonString = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_CATEGORYAPPS + categoryId);
 				}
-				if (Config.ISTEST && TextUtils.isEmpty(jsonString)) {
-					jsonString = "{\"host\":\"http://localhost:8081/appmarket/upload/\",\"values\":[{\"appId\":140,\"appKey\":\"b3t5nv0d\",\"appName\":\"大话西游\",\"posterFilePath\":\"j9gd3z32ru.jpg\"},{\"appId\":132,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":126,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":120,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":114,\"appKey\":\"1234567890\",\"appName\":\"Intel Me\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":108,\"appKey\":\"1234567890\",\"appName\":\"Intel Me\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":102,\"appKey\":\"1234567890\",\"appName\":\"Intel Me\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":1,\"appKey\":\"nefbaxki\",\"appName\":\"大话宿友\",\"posterFilePath\":\"kk73gncxbr.png\"},{\"appId\":122,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":123,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":124,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":128,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":127,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":131,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":135,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":134,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":121,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"}]}";
-					// TODO 临时使用测试数据
-				}
-
 				return Parse.parseCategoryApp(jsonString);
 			}
 
@@ -282,10 +270,6 @@ public class DataCenter {
 				// 缓存中没有就去服务器请求
 				String url = Config.getAppDetailUrl + "?appId=" + appId;
 				String jsonString = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(url));
-				if (Config.ISTEST && TextUtils.isEmpty(jsonString)) {
-					// TODO 临时使用测试数据
-					jsonString = "{\"apkFilePath\":\"2tx4dsmnx8.apk\",\"appId\":141,\"appKey\":\"w13d6kma\",\"appName\":\"西米隐隐\",\"appSize\":\"10.65\",\"appVersion\":\"2.004\",\"description\":\"西米隐隐西米隐隐\",\"download\":0,\"host\":\"http://localhost:8081/appmarket/upload/\",\"iconFilePath\":\"wrr3i3wy62.png\",\"posterFilePath\":\"sssth0c89d.png\"}";
-				}
 				AppDetail appDetail = Parse.parseAppDetail(jsonString);
 				return appDetail;
 			}
@@ -314,9 +298,6 @@ public class DataCenter {
 			protected Object doInBackground(Object... params) {
 				String url = Config.getAppSearchUrl + "?keywords=" + keywords;
 				String jsonString = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(url));
-				if (Config.ISTEST && TextUtils.isEmpty(jsonString)) {
-					jsonString = "{\"host\":\"http://localhost:8081/appmarket/upload/\",\"values\":[{\"appId\":132,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":126,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":120,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":114,\"appKey\":\"1234567890\",\"appName\":\"Intel Me\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":108,\"appKey\":\"1234567890\",\"appName\":\"Intel Me\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":102,\"appKey\":\"1234567890\",\"appName\":\"Intel Me\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":122,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":123,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":124,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"},{\"appId\":128,\"appKey\":\"1234567890\",\"appName\":\"NOEHFOE\",\"posterFilePath\":\"1234567890.png\"}]}";
-				}
 				List<Object> categoryApps = Parse.parseSearchApps(jsonString);
 				return categoryApps;
 			}
@@ -501,9 +482,6 @@ public class DataCenter {
 			protected Boolean doInBackground(Void... params) {
 				// TODO Auto-generated method stub
 				String json = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(Config.getAppRankListUrl));
-				if (Config.ISTEST && TextUtils.isEmpty(json)) {
-					json = Parse.json_appranklist;
-				}
 				if (!TextUtils.isEmpty(json)) {
 					lastRequestRankListTime = System.currentTimeMillis();// 更改上次请求时间
 					CacheManager.putJsonFileCache(context, CacheManager.KEYJSON_RANKLIST, json);// 缓存json数据

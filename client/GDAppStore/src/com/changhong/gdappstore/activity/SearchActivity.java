@@ -1,7 +1,6 @@
 package com.changhong.gdappstore.activity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -93,6 +92,7 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 		for (int i = 0; i < id_keybords.length; i++) {
 			findViewById(id_keybords[i]).setOnClickListener(keyBordOnClickListener);
 		}
+		findViewById(id_keybords[0]).requestFocus();
 		editText = findView(R.id.edt_search);
 		editText.addTextChangedListener(textWatcher);
 		bt_backone = findView(R.id.bt_search_backone);
@@ -104,7 +104,6 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 		bt_backone.setOnClickListener(this);
 		bt_space.setOnClickListener(this);
 		bt_clear.setOnClickListener(this);
-
 	}
 
 	private void initPostView() {

@@ -145,10 +145,10 @@ public class PostTitleView extends BaseRelativeLayout {
 		if (position >= 0 && list_textViews != null && position < list_textViews.size()
 				&& list_textViews.get(position) != null) {
 			list_textViews.get(position).requestFocus();
-			L.d("setFocusItem--pos=="+position+" "+hasChildFocesed());
 			if (currentSelectedView != null && currentSelectedView != list_textViews.get(position)) {
 				currentSelectedView.setSelected(false);
 			}
+			L.d("setFocusItem--pos=="+position+" "+hasChildFocesed());
 			currentSelectedView = list_textViews.get(position);
 		}
 	}

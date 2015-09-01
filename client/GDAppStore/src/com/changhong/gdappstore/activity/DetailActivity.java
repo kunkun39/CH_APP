@@ -193,8 +193,12 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		bt_open.setVisibility(isInstalled ? VISIBLE : GONE);
 		bt_dowload.setVisibility(isInstalled ? GONE : VISIBLE);
 		bt_update.setVisibility(isInstalled ? VISIBLE : GONE);
+		if (isInstalled) {
+			bt_open.requestFocus();
+		}else {
+			bt_dowload.requestFocus();
+		}
 		App nativeApp = DBManager.getInstance(context).queryAppVersionById(appDetail.getAppid());
-		L.d("nativeapp " + nativeApp);
 		if (nativeApp != null) {
 			// 存在该应用
 			try {// 因为不能保证所有应用的versionname都能强制转行为float类型
