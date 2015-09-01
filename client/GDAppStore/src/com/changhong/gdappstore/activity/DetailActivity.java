@@ -131,7 +131,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	}
 
 	private void initData() {
-		scoreview.setScoreBy5Total(4.5f);
+		scoreview.setScoreBy5Total(Util.getStarRandomInt());
 		updateService = new UpdateService(context, null, downloadPDialog);
 		updateAppPDialog.show();
 		DataCenter.getInstance().loadAppDetail(appId, new LoadObjectListener() {
@@ -143,14 +143,14 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 				if (appDetail != null) {
 					tv_appname.setText(appDetail.getAppname());
 					tv_downloadcount.setText(appDetail.getDownload());
-					tv_size.setText(TextUtils.isEmpty(appDetail.getApkSize())?"":appDetail.getApkSize()+"M");
+					tv_size.setText(TextUtils.isEmpty(appDetail.getApkSize())?"":appDetail.getApkSize()+" M");
 					tv_version.setText(appDetail.getVersion());
 					tv_introduce.setText(appDetail.getDescription());
 					tv_updatetime.setText(appDetail.getUpdateDate());
 					ImageLoadUtil.displayImgByNoCache(appDetail.getIconFilePath(), iv_icon);
 					ImageLoadUtil.displayImgByNoCache(appDetail.getPosterFilePath(), iv_post);
 					updateBtnState();
-					L.d("appdetail categoryid=" + appDetail.getCategoryId() + " appdetailid=" + appDetail.getAppid());
+					L.d("appdetail appdetail=" + appDetail.toString());
 					if (appDetail.getCategoryId() > 0) {
 						initRecommendData();
 					}
