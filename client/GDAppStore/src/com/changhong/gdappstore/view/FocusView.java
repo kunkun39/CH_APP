@@ -38,13 +38,8 @@ public class FocusView {
 		this.mContext = context;
 		this.width = width;
 		this.height = height;
-		
 		holder = new ViewHolder();
-		holder.top_num = (TextView)focusItem.findViewById(R.id.top_num);
-		holder.app_icon = (ImageView)focusItem.findViewById(R.id.item_app_icon);
-		holder.app_name = (TextView)focusItem.findViewById(R.id.item_app_name);
-		holder.download_num = (TextView)focusItem.findViewById(R.id.item_app_download_num);
-		holder.app_size = (TextView)focusItem.findViewById(R.id.item_app_size);
+		
 		holder.ranking_item = (RelativeLayout) focusItem.findViewById(R.id.ranking_item);
 		//((RelativeLayout) focusItem.findViewById(R.id.test)).setBackgroundColor(0X00000000);
 		
@@ -76,19 +71,6 @@ public class FocusView {
 		}
 		Ranking_Item ranking_Item = mArrayList.get(position);
 		Bitmap bitmap = ranking_Item.getAppBitmap();
-		if (null != bitmap) {
-			holder.app_icon.setImageBitmap(bitmap);
-		}
-		else {
-			holder.app_icon.setVisibility(View.INVISIBLE);
-			ImageLoadUtil.displayImgByMemoryDiscCache(rankingData.getHost() + ranking_Item.getAppKey() + "/" + ranking_Item.getAppIconPath(), holder.app_icon,imageLoadingListener);
-		}
-		holder.top_num.setText(ranking_Item.getTopNum() + "");
-		ranking_Item.setTopImg(holder.top_num);
-		
-		holder.app_name.setText(ranking_Item.getAppName());
-		holder.download_num.setText(mContext.getString(R.string.str_download) + ranking_Item.getDownload_num());
-		holder.app_size.setText(ranking_Item.getAppSize() + "M");
 		
 		mlayout.leftMargin = leftMargin - 20;
 		mlayout.topMargin = topMargin - 22;
@@ -112,21 +94,6 @@ public class FocusView {
 			L.w("refreshView position error!");
 			return ;
 		}
-		Ranking_Item ranking_Item = mArrayList.get(position);
-		Bitmap bitmap = ranking_Item.getAppBitmap();
-		if (null != bitmap) {
-			holder.app_icon.setImageBitmap(bitmap);
-		}
-		else {
-			holder.app_icon.setVisibility(View.INVISIBLE);
-			ImageLoadUtil.displayImgByMemoryDiscCache(rankingData.getHost() + ranking_Item.getAppKey() + "/" + ranking_Item.getAppIconPath(), holder.app_icon,imageLoadingListener);
-		}
-		
-		holder.top_num.setText(ranking_Item.getTopNum() + "");
-
-		holder.app_name.setText(ranking_Item.getAppName());
-		holder.download_num.setText(mContext.getString(R.string.str_download) + ranking_Item.getDownload_num());
-		holder.app_size.setText(ranking_Item.getAppSize() + "M");
 	}
 	
 	public boolean hasChanged() {

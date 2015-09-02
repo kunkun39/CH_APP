@@ -21,4 +21,17 @@ public class ListViewChange {
 			lastContentView = view;
 		}
 	}
+	public void showBackground() {
+		if(lastContentView != null) {
+			lastContentView.setBackgroundColor(0x33FFFFFF);
+		}
+	}
+	
+	public void hideBackground(View view) {
+		if(view != null) {
+			view.setBackgroundColor(0x00000000);
+			showBackground();
+			lastContentView = view;
+		}
+	}
 }

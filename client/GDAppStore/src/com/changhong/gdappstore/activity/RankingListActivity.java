@@ -114,7 +114,7 @@ public class RankingListActivity extends Activity {
 				//重绘hotListview
 				hotArrayListAdapter.notifyDataSetChanged();
 				View localView = listView_new.getChildAt(position - listView_new.getFirstVisiblePosition());
-				listViewChange.hideView((RelativeLayout) localView.findViewById(R.id.ranking_item));
+				listViewChange.hideBackground((RelativeLayout) localView.findViewById(R.id.ranking_bg));
 				L.i("开始位置：" + listView_new.getFirstVisiblePosition());
 				L.i("选择位置：" + listView_new.getSelectedItemPosition());
 			}
@@ -142,7 +142,7 @@ public class RankingListActivity extends Activity {
 				surgeArrayListAdapter.notifyDataSetChanged();
 				
 				View localView = listView_hot.getChildAt(position - listView_hot.getFirstVisiblePosition());
-				listViewChange.hideView((RelativeLayout) localView.findViewById(R.id.ranking_item));
+				listViewChange.hideBackground((RelativeLayout) localView.findViewById(R.id.ranking_bg));
 				L.i("开始位置：" + listView_hot.getFirstVisiblePosition());
 				L.i("选择位置：" + listView_hot.getSelectedItemPosition());
 			}
@@ -176,7 +176,7 @@ public class RankingListActivity extends Activity {
 				newArrayListAdapter.notifyDataSetChanged();
 				
 				View localView = listView_hot.getChildAt(position - listView_hot.getFirstVisiblePosition());
-				listViewChange.hideView((RelativeLayout) localView.findViewById(R.id.ranking_item));
+				listViewChange.hideBackground((RelativeLayout) localView.findViewById(R.id.ranking_bg));
 				L.i("开始位置：" + listView_hot.getFirstVisiblePosition());
 				L.i("选择位置：" + listView_hot.getSelectedItemPosition());
 			}
@@ -204,7 +204,7 @@ public class RankingListActivity extends Activity {
 				hotArrayListAdapter.notifyDataSetChanged();
 				
 				View localView = listView_surge.getChildAt(position - listView_surge.getFirstVisiblePosition());
-				listViewChange.hideView((RelativeLayout) localView.findViewById(R.id.ranking_item));
+				listViewChange.hideBackground((RelativeLayout) localView.findViewById(R.id.ranking_bg));
 				L.i("开始位置：" + listView_surge.getFirstVisiblePosition());
 				L.i("选择位置：" + listView_surge.getSelectedItemPosition());
 			}
@@ -320,14 +320,12 @@ public class RankingListActivity extends Activity {
 				int offset = newListViewPosition.caculateOffset(position,true);
 				if(-1 != offset || !focusView.hasChanged()) {
 					focusView.setArrayList(newArrayList);
-					//listViewChange.hideView((RelativeLayout)view.findViewById(R.id.ranking_item));
+					listViewChange.hideBackground((RelativeLayout)view.findViewById(R.id.ranking_bg));
 					if(newListViewPosition.getEndNumPosition() == listView_new.getCount() - 1) {
-						listViewChange.hideView((RelativeLayout)view.findViewById(R.id.ranking_item));
 						listView_new.setSelection(position);
 						focusView.focusViewChange(position, LEFT_MARGIN_NEW, offset + TOP_MARGIN - 4);
 					}
 					else {
-						listViewChange.hideView((RelativeLayout)view.findViewById(R.id.ranking_item));
 						listView_new.setSelectionFromTop(position,offset);
 						focusView.focusViewChange(position, LEFT_MARGIN_NEW, offset + TOP_MARGIN);
 					}
@@ -353,7 +351,7 @@ public class RankingListActivity extends Activity {
 				
 				int offset = hotListViewPosition.caculateOffset(position,true);
 				if(-1 != offset || !focusView.hasChanged()) {
-					listViewChange.hideView((RelativeLayout) view.findViewById(R.id.ranking_item));
+					listViewChange.hideBackground((RelativeLayout) view.findViewById(R.id.ranking_bg));
 					focusView.setArrayList(hotArrayList);
 					if(hotListViewPosition.getEndNumPosition() == listView_hot.getCount() - 1) {
 						listView_hot.setSelection(position);
@@ -387,7 +385,7 @@ public class RankingListActivity extends Activity {
 			
 				int offset = surgeListViewPosition.caculateOffset(position,true);
 				if(-1 != offset || !focusView.hasChanged()) {
-					listViewChange.hideView((RelativeLayout) view.findViewById(R.id.ranking_item));
+					listViewChange.hideBackground((RelativeLayout) view.findViewById(R.id.ranking_bg));
 					focusView.setArrayList(surgeArrayList);
 					if(surgeListViewPosition.getEndNumPosition() == listView_surge.getCount() - 1) {
 						listView_surge.setSelection(position);
