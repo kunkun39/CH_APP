@@ -204,11 +204,8 @@ public class UpdateService {
 		UpdateLogService preferenceService=new UpdateLogService(context);
 		preferenceService.saveThreadDownloadDataSize(1, 0);
 		preferenceService.saveThreadDownloadDataSize(2, 0);
-		// Dialog dialog = DialogUtil.showAlertDialog(context, "提示：",
-		// "确定要下载？...", new DialogBtnOnClickListener() {
-		// @Override
-		// public void onSubmit(DialogMessage dialogMessage) {
 		if (progressDialog != null) {
+			progressDialog.setProgress(0);
 			progressDialog.show();
 		}
 
@@ -323,18 +320,6 @@ public class UpdateService {
 				}
 			}
 		}).start();
-		// if (dialogMessage.dialogInterface != null) {
-		// dialogMessage.dialogInterface.cancel();
-		// }
-		// }
-		//
-		// @Override
-		// public void onCancel(DialogMessage dialogMessage) {
-		// if (dialogMessage.dialogInterface != null) {
-		// dialogMessage.dialogInterface.cancel();
-		// }
-		// }
-		// });
 	}
 
 	private void installApp() {
