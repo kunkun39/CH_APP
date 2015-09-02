@@ -252,9 +252,7 @@ public class UpdateService {
 
 					// 获得文件的大小为0，直接返回, 并通知用户
 					if (fileTotalSize <= 0) {
-						Message message = new Message();
-						message.arg1 = MESSAGE_SERVER_FILEERROR;
-						handler.sendMessage(message);
+						handler.sendMessage(handler.obtainMessage(MESSAGE_SERVER_FILEERROR));
 						downloading = false;
 						return;
 					}
@@ -311,20 +309,17 @@ public class UpdateService {
 
 					// 现在完成，设置DONWLOADING标志
 					downloading = false;
-					Message message = new Message();
-					message.arg1 = MESSAGE_DOWNLOADOVER;
-					handler.sendMessage(message);
+					handler.sendMessage(handler.obtainMessage(MESSAGE_DOWNLOADOVER));
 					if (progressDialog != null && progressDialog.isShowing()) {
 						progressDialog.setProgress(0);
 					}
 
 				} catch (Exception e) {
 					// 异常捕获
+					L.d("download exception---");
 					e.printStackTrace();
 					downloading = false;
-					Message message = new Message();
-					message.arg1 = MESSAGE_DOWNEXCEPTION;
-					handler.sendMessage(message);
+					handler.sendMessage(handler.obtainMessage(MESSAGE_DOWNEXCEPTION));
 				}
 			}
 		}).start();
