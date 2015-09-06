@@ -16,7 +16,6 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.GET_TOP_ACTIVITY_INFO" />
-
     <application
         android:name="com.changhong.gdappstore.MyApplication"
         android:allowBackup="true"
