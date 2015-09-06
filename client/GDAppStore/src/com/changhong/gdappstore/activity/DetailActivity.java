@@ -26,6 +26,7 @@ import com.changhong.gdappstore.service.UpdateService;
 import com.changhong.gdappstore.util.ImageLoadUtil;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.Util;
+import com.changhong.gdappstore.view.MyProgressDialog;
 import com.changhong.gdappstore.view.ScoreView;
 import com.changhong.gdappstore.view.UserMayLikeView;
 
@@ -47,7 +48,9 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 
 	private AppDetail appDetail;
 
-	private ProgressDialog downloadPDialog, updateAppPDialog;
+	private ProgressDialog updateAppPDialog;
+
+	private MyProgressDialog downloadPDialog;
 
 	private UpdateService updateService;
 
@@ -89,19 +92,8 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		tv_updatetime = findView(R.id.tv_updatetime);
 		tv_introduce = findView(R.id.tv_introduce);
 		scoreview = findView(R.id.scoreview_detail);
-		downloadPDialog = new ProgressDialog(context);
-		downloadPDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-		downloadPDialog.setTitle("当前下载进度...");
-		downloadPDialog.setCancelable(false);
-		downloadPDialog.setButton("后台下载", new DialogInterface.OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				if (dialog != null) {
-					dialog.dismiss();
-				}
-			}
-		});
+		downloadPDialog = new MyProgressDialog(context);
+		downloadPDialog.dismiss();
 		updateAppPDialog = new ProgressDialog(context);
 		updateAppPDialog.setCancelable(false);
 		updateAppPDialog.dismiss();
@@ -143,7 +135,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 				if (appDetail != null) {
 					tv_appname.setText(appDetail.getAppname());
 					tv_downloadcount.setText(appDetail.getDownload());
-					tv_size.setText(TextUtils.isEmpty(appDetail.getApkSize())?"":appDetail.getApkSize()+" M");
+					tv_size.setText(TextUtils.isEmpty(appDetail.getApkSize()) ? "" : appDetail.getApkSize() + " M");
 					tv_version.setText(appDetail.getVersion());
 					tv_introduce.setText(appDetail.getDescription());
 					tv_updatetime.setText(appDetail.getUpdateDate());
@@ -172,7 +164,9 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 						if (items != null && items.size() > 0) {
 							List<App> apps = new ArrayList<App>();
 							for (int i = 0; i < items.size(); i++) {
-								apps.add(((App) items.get(i)));
+								if (((App) items.get(i)).getAppid()!=appDetail.getAppid()) {
+									apps.add(((App) items.get(i)));
+								}
 							}
 							view_usermaylike.initData(apps);
 						} else {
@@ -196,7 +190,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		bt_update.setVisibility(isInstalled ? VISIBLE : GONE);
 		if (isInstalled) {
 			bt_open.requestFocus();
-		}else {
+		} else {
 			bt_dowload.requestFocus();
 		}
 		App nativeApp = DBManager.getInstance(context).queryAppVersionById(appDetail.getAppid());
@@ -205,7 +199,8 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 			try {// 因为不能保证所有应用的versionname都能强制转行为float类型
 				int appdetailVersion = appDetail.getVersionInt();
 				int nativeVersion = nativeApp.getVersionInt();
-				L.d("checkversion--appdetail is " + appDetail.getVersionInt() + " nativeapp is " + nativeApp.getVersionInt());
+				L.d("checkversion--appdetail is " + appDetail.getVersionInt() + " nativeapp is "
+						+ nativeApp.getVersionInt());
 				bt_update.setVisibility((appdetailVersion > nativeVersion) ? VISIBLE : GONE);
 			} catch (Exception e) {
 				L.e("checkversion--error appdetail is " + appDetail.getVersionInt() + " nativeapp is "

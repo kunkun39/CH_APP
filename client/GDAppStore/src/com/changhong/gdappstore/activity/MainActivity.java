@@ -3,10 +3,13 @@ package com.changhong.gdappstore.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,21 +18,25 @@ import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 
 import com.changhong.gdappstore.Config;
+import com.changhong.gdappstore.MyApplication;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.adapter.MainViewPagerAdapter;
 import com.changhong.gdappstore.base.BaseActivity;
 import com.changhong.gdappstore.base.BasePageView;
 import com.changhong.gdappstore.datacenter.DataCenter;
+import com.changhong.gdappstore.model.AppDetail;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.net.LoadListener.LoadCompleteListener;
 import com.changhong.gdappstore.service.NetChangeReceiver;
 import com.changhong.gdappstore.service.NetChangeReceiver.NetChangeListener;
+import com.changhong.gdappstore.service.UpdateService;
 import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.DialogUtil.DialogBtnOnClickListener;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.Util;
 import com.changhong.gdappstore.util.DialogUtil.DialogMessage;
 import com.changhong.gdappstore.view.HomePageView;
+import com.changhong.gdappstore.view.MyProgressDialog;
 import com.changhong.gdappstore.view.PostTitleView;
 import com.changhong.gdappstore.view.PostTitleView.TitleItemOnClickListener;
 import com.changhong.gdappstore.view.PostTitleView.TitleItemOnFocuesChangedListener;
@@ -70,8 +77,11 @@ public class MainActivity extends BaseActivity {
 	private int currIndex = 0;
 	/** 栏目分类数据 */
 	private List<Category> categories = null;
-	/**设置按钮*/
+	/** 设置按钮 */
 	private ImageView iv_setting;
+	/** 下载进度条 */
+	private MyProgressDialog progressDialog;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -101,28 +111,30 @@ public class MainActivity extends BaseActivity {
 
 			@Override
 			public void onNetChange(boolean isconnect) {
-				L.d("MainActivity---onnetchanged--" + isconnect+" "+Util.getTopActivity(context)+" ");
-				if (isconnect&&Util.getTopActivity(context).equals(context.getClass().getName())) {//网络从断开到链接更新数据
-					DataCenter.getInstance().loadCategoryAndPageData(context,new LoadCompleteListener() {
-						
+				L.d("MainActivity---onnetchanged--" + isconnect + " " + Util.getTopActivity(context) + " ");
+				if (isconnect && Util.getTopActivity(context).equals(context.getClass().getName())) {// 网络从断开到链接更新数据
+					DataCenter.getInstance().loadCategoryAndPageData(context, new LoadCompleteListener() {
+
 						@Override
 						public void onComplete() {
 							initData();
 						}
-					},true);
+					}, true);
 				}
 			}
 		});
 		initPageChangeAnimtion();
-		iv_setting=findView(R.id.iv_setting);
+		iv_setting = findView(R.id.iv_setting);
 		iv_setting.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(android.provider.Settings.ACTION_SETTINGS); //系统设置
-				startActivity(intent);	
+				Intent intent = new Intent(android.provider.Settings.ACTION_SETTINGS); // 系统设置
+				startActivity(intent);
 			}
 		});
+		progressDialog = new MyProgressDialog(context);
+		progressDialog.dismiss();
 	}
 
 	/**
@@ -158,6 +170,7 @@ public class MainActivity extends BaseActivity {
 		}
 		viewPagerAdapter.updateList(pageViews);
 		titleView.setFocusItem(0);
+		checkUpdate();
 	}
 
 	@Override
@@ -168,17 +181,17 @@ public class MainActivity extends BaseActivity {
 		case KeyEvent.KEYCODE_DPAD_RIGHT:
 			break;
 		case KeyEvent.KEYCODE_BACK:
-			if (event.getAction()==KeyEvent.ACTION_DOWN) {
+			if (event.getAction() == KeyEvent.ACTION_DOWN) {
 				DialogUtil.showAlertDialog(context, "提示：", "是否退出长虹应用商城？", new DialogBtnOnClickListener() {
-					
+
 					@Override
 					public void onSubmit(DialogMessage dialogMessage) {
 						System.exit(0);
 					}
-					
+
 					@Override
 					public void onCancel(DialogMessage dialogMessage) {
-						if (dialogMessage.dialogInterface!=null) {
+						if (dialogMessage.dialogInterface != null) {
 							dialogMessage.dialogInterface.dismiss();
 						}
 					}
@@ -282,4 +295,38 @@ public class MainActivity extends BaseActivity {
 		public void onPageScrollStateChanged(int arg0) {
 		}
 	};
+
+	private void checkUpdate() {
+		try {
+			int nativeVersion = getPackageManager().getPackageInfo(this.getPackageName(), 0).versionCode;
+			L.d("mainactivity readUpdate navVersion=" + nativeVersion + " serverVer " + MyApplication.SERVER_VERSION);
+			// if (nativeVersion < MyApplication.SERVER_VERSION &&
+			// !TextUtils.isEmpty(MyApplication.UPDATE_APKURL)) {
+			if (nativeVersion < MyApplication.SERVER_VERSION && !TextUtils.isEmpty(MyApplication.UPDATE_APKURL)) {
+				DialogUtil.showMyAlertDialog(context, "提示：", "有新版本更新。", "马上更新", "下次再说", new DialogBtnOnClickListener() {
+
+					@Override
+					public void onSubmit(DialogMessage dialogMessage) {
+
+						UpdateService updateService = new UpdateService(context, null, progressDialog);
+						AppDetail appDetail=new AppDetail();
+						appDetail.setApkFilePath(MyApplication.UPDATE_APKURL);
+						updateService.update(appDetail, false);
+						if (dialogMessage != null && dialogMessage.dialogInterface != null) {
+							dialogMessage.dialogInterface.dismiss();
+						}
+					}
+
+					@Override
+					public void onCancel(DialogMessage dialogMessage) {
+						if (dialogMessage != null && dialogMessage.dialogInterface != null) {
+							dialogMessage.dialogInterface.dismiss();
+						}
+					}
+				});
+			}
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 }

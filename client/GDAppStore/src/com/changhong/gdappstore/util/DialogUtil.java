@@ -5,7 +5,18 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
+import android.view.WindowManager.LayoutParams;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.changhong.gdappstore.R;
+import com.changhong.gdappstore.view.TextImageButton;
 
 public class DialogUtil {
 	public static interface DialogBtnOnClickListener {
@@ -42,6 +53,72 @@ public class DialogUtil {
 	 */
 	public static void showLongToast(Context context, String text) {
 		Toast.makeText(context, text, Toast.LENGTH_LONG).show();
+	}
+	
+	public static Dialog showMyAlertDialog(Context context, String title,
+			String content, String positiveBtnName, String negtiveBtnName,
+			final DialogBtnOnClickListener listener) {
+		final Dialog dialog = new Dialog(context, R.style.Dialog_nowindowbg);
+
+		View view = LayoutInflater.from(context).inflate(
+				R.layout.dialog_myalert, null);
+		dialog.setContentView(view);
+		LayoutParams param = dialog.getWindow().getAttributes();
+		param.gravity = Gravity.CENTER;
+		param.width = (int) context.getResources().getDimension(R.dimen.dialog_width);
+		param.height = (int) context.getResources().getDimension(R.dimen.dialog_height);
+
+		TextImageButton bt_submit = (TextImageButton) view.findViewById(R.id.bt_alertdia_submit);
+		TextImageButton bt_cancel = (TextImageButton) view.findViewById(R.id.bt_alertdia_cancel);
+		if (!TextUtils.isEmpty(positiveBtnName)) {
+			bt_submit.setText(positiveBtnName);
+		}
+		if (!TextUtils.isEmpty(negtiveBtnName)) {
+			bt_cancel.setText(negtiveBtnName);
+		}
+		bt_submit.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (listener != null) {
+					listener.onSubmit(new DialogMessage(dialog));
+				}
+			}
+		});
+		bt_cancel.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (listener != null) {
+					listener.onCancel(new DialogMessage(dialog));
+				}
+			}
+		});
+		TextView tv_title = (TextView) view
+				.findViewById(R.id.tv_alertdia_title);
+		TextView tv_content = (TextView) view
+				.findViewById(R.id.tv_alertdia_content);
+
+		if (!TextUtils.isEmpty(content)) {
+			tv_content.setText(content);
+			if (!TextUtils.isEmpty(title)) {
+				tv_title.setText(title);
+			}
+		} else {// 如果内容为空，内容显示标题信息，标题采用默认标题
+			if (!TextUtils.isEmpty(title)) {
+				tv_content.setText(title);
+			}
+		}
+
+		dialog.getWindow().setAttributes(param);
+//		dialog.getWindow()
+//				.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+		try {
+			dialog.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dialog;
 	}
 
 	public static Dialog showAlertDialog(Context context, String title, String content,

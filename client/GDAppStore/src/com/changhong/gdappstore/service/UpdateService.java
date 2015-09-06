@@ -2,23 +2,10 @@ package com.changhong.gdappstore.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import com.changhong.gdappstore.Config;
-import com.changhong.gdappstore.datacenter.DataCenter;
-import com.changhong.gdappstore.model.AppDetail;
-import com.changhong.gdappstore.util.DialogUtil;
-import com.changhong.gdappstore.util.L;
-import com.changhong.gdappstore.util.NetworkUtils;
-import com.changhong.gdappstore.util.DialogUtil.DialogBtnOnClickListener;
-import com.changhong.gdappstore.util.DialogUtil.DialogMessage;
-import com.changhong.gdappstore.util.Util;
-
-import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -27,9 +14,15 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.JsonReader;
-import android.util.Log;
 import android.widget.Toast;
+
+import com.changhong.gdappstore.Config;
+import com.changhong.gdappstore.datacenter.DataCenter;
+import com.changhong.gdappstore.model.AppDetail;
+import com.changhong.gdappstore.util.L;
+import com.changhong.gdappstore.util.NetworkUtils;
+import com.changhong.gdappstore.util.Util;
+import com.changhong.gdappstore.view.MyProgressDialog;
 
 public class UpdateService {
 
@@ -45,7 +38,7 @@ public class UpdateService {
 	private final int MESSAGE_DOWNEXCEPTION = 13;
 
 	/** ACITIVY传过来更新进度条 */
-	private ProgressDialog progressDialog;
+	private MyProgressDialog progressDialog;
 
 	public static boolean downloading = false;
 	public static boolean THREAD_ONE_FINISHED = true;
@@ -59,7 +52,7 @@ public class UpdateService {
 	/** 是否是下载应用，true下载，false更新 */
 	private boolean isdownload = false;
 
-	public UpdateService(Context context, Handler handler, ProgressDialog progressDialog) {
+	public UpdateService(Context context, Handler handler, MyProgressDialog progressDialog) {
 		this.context = context;
 		this.handler = handler;
 		this.progressDialog = progressDialog;
@@ -116,7 +109,7 @@ public class UpdateService {
 		// preferenceService.isDownloadingException();
 		this.appDetail = appDetail;
 		String apkname = appDetail.getApkFilePath().substring(appDetail.getApkFilePath().lastIndexOf("/"),
-				appDetail.getApkFilePath().length());
+				appDetail.getApkFilePath().length()).trim();
 		File baseFile = new File(baseUpdatePath);
 		if (baseFile == null || !baseFile.exists() || !baseFile.isDirectory()) {
 			baseFile.mkdirs();
@@ -300,7 +293,9 @@ public class UpdateService {
 					preferenceService.saveThreadDownloadDataSize(DOWNLOAD_THREAD_ONE, 0);
 					preferenceService.saveThreadDownloadDataSize(DOWNLOAD_THREAD_TWO, 0);
 					// 提交下载统计
-					DataCenter.getInstance().submitAppDownloadOK(appDetail.getAppid() + "");
+					if (appDetail.getAppid()>0) {
+						DataCenter.getInstance().submitAppDownloadOK(appDetail.getAppid() + "");
+					}
 					// 下载完成 安装
 					installApp();
 
@@ -330,9 +325,11 @@ public class UpdateService {
 		}
 
 		try {
+			L.d("updateFile=="+updateFile.getAbsolutePath().toString());
 			Runtime.getRuntime().exec("chmod 0777  " + baseUpdatePath);
 			Runtime.getRuntime().exec("chmod 0777  " + updateFile.getAbsolutePath().toString());
-		} catch (IOException e) {
+			Thread.sleep(600);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
