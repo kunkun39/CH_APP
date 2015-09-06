@@ -16,9 +16,9 @@
             android:id="@+id/iv_dialog_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/iv_dialog_title_margintop"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="@dimen/iv_dialog_title_margintop"
             android:src="@drawable/img_dialog_title" />
 
         <TextView
@@ -100,9 +100,10 @@
             android:layout_toRightOf="@id/bt_alertdia_cancel"
             android:background="@drawable/selector_textbtnfocues"
             android:gravity="center"
-            android:paddingBottom="1.2dp"
+            android:scaleType="fitXY"
+            android:paddingBottom="1.4dp"
             android:paddingLeft="1.5dp"
-            android:paddingRight="1dp"
+            android:paddingRight="1.1dp"
             android:paddingTop="1.4dp"
             android:src="@drawable/btn_dialog"
             textImageView:text="确    认"
