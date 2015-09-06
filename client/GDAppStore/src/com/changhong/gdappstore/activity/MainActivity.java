@@ -182,13 +182,13 @@ public class MainActivity extends BaseActivity {
 			break;
 		case KeyEvent.KEYCODE_BACK:
 			if (event.getAction() == KeyEvent.ACTION_DOWN) {
-				DialogUtil.showAlertDialog(context, "提示：", "是否退出长虹应用商城？", new DialogBtnOnClickListener() {
-
+				DialogUtil.showMyAlertDialog(context, "提示：", "确认退出应用商城？", "确  认", "取  消", new DialogBtnOnClickListener() {
+					
 					@Override
 					public void onSubmit(DialogMessage dialogMessage) {
 						System.exit(0);
 					}
-
+					
 					@Override
 					public void onCancel(DialogMessage dialogMessage) {
 						if (dialogMessage.dialogInterface != null) {
@@ -300,8 +300,6 @@ public class MainActivity extends BaseActivity {
 		try {
 			int nativeVersion = getPackageManager().getPackageInfo(this.getPackageName(), 0).versionCode;
 			L.d("mainactivity readUpdate navVersion=" + nativeVersion + " serverVer " + MyApplication.SERVER_VERSION);
-			// if (nativeVersion < MyApplication.SERVER_VERSION &&
-			// !TextUtils.isEmpty(MyApplication.UPDATE_APKURL)) {
 			if (nativeVersion < MyApplication.SERVER_VERSION && !TextUtils.isEmpty(MyApplication.UPDATE_APKURL)) {
 				DialogUtil.showMyAlertDialog(context, "提示：", "有新版本更新。", "马上更新", "下次再说", new DialogBtnOnClickListener() {
 

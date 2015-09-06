@@ -109,7 +109,7 @@ public class DialogUtil {
 				tv_content.setText(title);
 			}
 		}
-
+		bt_submit.requestFocus();
 		dialog.getWindow().setAttributes(param);
 //		dialog.getWindow()
 //				.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
