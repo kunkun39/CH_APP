@@ -21,7 +21,7 @@ import com.changhong.gdappstore.util.L;
  */
 public class LoadingActivity extends BaseActivity {
 	/** 动画执行时间 */
-	private final int AnimDuration = 3500;
+	private final int AnimDuration = 3000;
 	private ImageView ivLoading;
 	private AlphaAnimation alphaAnimation;
 	/** 动画是否加载完成 */
