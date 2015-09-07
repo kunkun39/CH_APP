@@ -126,13 +126,13 @@ public class PostItemView extends BaseRelativeLayout {
 			rl_post.setVisibility(VISIBLE);
 			rl_post.setBackgroundColor(Color.TRANSPARENT);
 			if (pageApp != null) {
-//				DisplayImageOptions options = new DisplayImageOptions.Builder()
-//						.displayer(new RoundedBitmapDisplayer(10)).bitmapConfig(Bitmap.Config.ARGB_8888)
-//						.imageScaleType(ImageScaleType.IN_SAMPLE_INT).cacheInMemory(true)
-//						.showImageForEmptyUri(R.drawable.img_normal_ver).showImageOnFail(R.drawable.img_normal_ver)
-//						.cacheOnDisc(true).build();
-//				MyApplication.imageLoader.displayImage(pageApp.getPosterFilePath(), iv_post, options);
-				ImageLoadUtil.displayImgByMemoryDiscCache(pageApp.getPosterFilePath(), iv_post);
+				DisplayImageOptions options = new DisplayImageOptions.Builder()
+						.displayer(new RoundedBitmapDisplayer(8)).bitmapConfig(Bitmap.Config.ARGB_8888)
+						.imageScaleType(ImageScaleType.IN_SAMPLE_INT).cacheInMemory(true)
+						.showImageForEmptyUri(R.drawable.img_normal_ver).showImageOnFail(R.drawable.img_normal_ver)
+						.cacheOnDisc(true).build();
+				MyApplication.imageLoader.displayImage(pageApp.getPosterFilePath(), iv_post, options);
+//				ImageLoadUtil.displayImgByMemoryDiscCache(pageApp.getPosterFilePath(), iv_post);
 				tv_postname.setText(TextUtils.isEmpty(pageApp.getAppname()) ? "" : pageApp.getAppname());
 				tv_postname.setVisibility(GONE);
 			}

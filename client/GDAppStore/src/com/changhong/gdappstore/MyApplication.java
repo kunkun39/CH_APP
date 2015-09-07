@@ -10,8 +10,8 @@ import com.changhong.gdappstore.util.FileNameGeneratorHelper;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
-import com.nostra13.universalimageloader.cache.disc.DiscCacheAware;
-import com.nostra13.universalimageloader.cache.disc.impl.FileCountLimitedDiscCache;
+import com.nostra13.universalimageloader.cache.disc.DiskCache;
+import com.nostra13.universalimageloader.cache.disc.impl.LimitedAgeDiskCache;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -35,7 +35,7 @@ public class MyApplication extends Application {
 
 	public static ImageLoader imageLoader;// 图片加载器
 
-	public static DiscCacheAware discCacheAware;// 图片加载器缓存目录
+	public static DiskCache discCacheAware;// 图片加载器缓存目录
 	/** 图片加载：内存缓存+磁盘缓存 */
 	public static DisplayImageOptions option_memory_disc;
 	/** 图片加载：磁盘缓存，内存不缓存 */
@@ -44,6 +44,8 @@ public class MyApplication extends Application {
 	public static DisplayImageOptions option_nomemory_nodisc;// 图片加载器设置（含缓存）
 	/** 磁盘缓存大小 **/
 	private static int discCacheSize = 10 * 1024 * 1024;
+	/** 磁盘缓存最大时间 ,以秒为单位**/
+	private static int discCacheMaxSeconds = 60*60*24*10;//10天
 	/**服务器端版本号*/
 	public static int SERVER_VERSION=0;
 	/**应用商城apk更新地址*/
@@ -73,13 +75,13 @@ public class MyApplication extends Application {
 				.tasksProcessingOrder(QueueProcessingType.FIFO).denyCacheImageMultipleSizesInMemory()
 				.memoryCache(new LruMemoryCache(lruMemCachSize)).threadPoolSize(threadPoolSize)
 				.discCacheFileNameGenerator(FileNameGeneratorHelper.getInstance()).threadPriority(Thread.NORM_PRIORITY)
-				.discCache(discCacheAware).build();
+				.discCacheSize(discCacheSize).discCache(discCacheAware).build();
 		ImageLoader.getInstance().init(config);
 		imageLoader = ImageLoader.getInstance();
 
 		option_memory_disc = new DisplayImageOptions.Builder().displayer(new SimpleBitmapDisplayer())
 				.bitmapConfig(bmConfig).imageScaleType(ImageScaleType.IN_SAMPLE_INT).cacheInMemory(true)
-				.showImageForEmptyUri(R.drawable.img_normal_ver).showImageOnFail(R.drawable.img_normal_ver)
+				.showImageForEmptyUri(R.drawable.img_normal_square).showImageOnFail(R.drawable.img_normal_ver)
 				.cacheOnDisc(true).build();
 		option_nomemory_disc = new DisplayImageOptions.Builder().displayer(new SimpleBitmapDisplayer())
 				.bitmapConfig(bmConfig).imageScaleType(ImageScaleType.IN_SAMPLE_INT).cacheInMemory(false)
@@ -111,7 +113,9 @@ public class MyApplication extends Application {
 				}
 			}
 		}
-		discCacheAware = new FileCountLimitedDiscCache(cacheDir, discCacheSize);
+		
+		discCacheAware=new LimitedAgeDiskCache(cacheDir, discCacheMaxSeconds);
+//		discCacheAware = new FileCountLimitedDiscCache(cacheDir, discCacheSize);
 	}
 
 }

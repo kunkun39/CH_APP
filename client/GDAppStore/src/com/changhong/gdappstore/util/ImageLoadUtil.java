@@ -1,10 +1,10 @@
 package com.changhong.gdappstore.util;
 
+import android.widget.ImageView;
+
 import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.MyApplication;
-import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
-
-import android.widget.ImageView;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 /**
  * imageLoader加载图片工具类
