@@ -69,8 +69,8 @@ public class MyApplication extends Application {
 	 */
 	public static void initImageLoader(Context context) {
 		int lruMemCachSize = 10 * 1024 * 1024;
-		int threadPoolSize = 7;
-		Bitmap.Config bmConfig = Bitmap.Config.ARGB_4444;
+		int threadPoolSize = 5;
+		Bitmap.Config bmConfig = Bitmap.Config.ARGB_8888;
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context).discCacheSize(discCacheSize)
 				.tasksProcessingOrder(QueueProcessingType.FIFO).denyCacheImageMultipleSizesInMemory()
 				.memoryCache(new LruMemoryCache(lruMemCachSize)).threadPoolSize(threadPoolSize)
