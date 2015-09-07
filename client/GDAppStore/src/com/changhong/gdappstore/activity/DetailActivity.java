@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -208,6 +207,8 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 				e.printStackTrace();
 			}
 		} else {
+			//安装了但是没有保存到数据库
+			L.d("checkversion--appdetail isnot in database "+appDetail.getAppid());
 		}
 	}
 
