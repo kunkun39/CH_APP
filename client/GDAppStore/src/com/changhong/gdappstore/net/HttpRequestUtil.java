@@ -66,6 +66,7 @@ public class HttpRequestUtil {
 			L.d("doGetRequest--returned by url= " + url+" netisconnect= "+NetworkUtils.ISNET_CONNECT);
 			return null;
 		}
+		url = url.replaceAll(" ", "%20");//替换空格
 		L.d("doGetRequest--url is " + url);
 		try {
 			HttpGet httpGet = new HttpGet(url);
@@ -102,6 +103,7 @@ public class HttpRequestUtil {
 			L.d("doPostRequest--returned by url= " + url+" netisconnect= "+NetworkUtils.ISNET_CONNECT);
 			return null;
 		}
+		url = url.replaceAll(" ", "%20");//替换空格
 		L.d("doPostRequest--url is " + url);
 		HttpPost httpPost = null;
 		try {

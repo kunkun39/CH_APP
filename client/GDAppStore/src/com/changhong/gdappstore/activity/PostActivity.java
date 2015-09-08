@@ -57,6 +57,8 @@ public class PostActivity extends BaseActivity {
 	private List<Object> currentApps = new ArrayList<Object>();
 	/** 阴影图片 */
 	protected ImageView iv_shandow1, iv_shandow2, iv_shandow3, iv_shandow4;
+	/**当前显示类别id**/
+	protected int curCategoryId=0; 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +90,10 @@ public class PostActivity extends BaseActivity {
 			@Override
 			public void onItemClick(View view, int position) {
 				Category category = (Category) view.getTag();
-				dataCenter.loadAppsByCategoryId(context, category.getId(), loadAppListListener);
+				if (curCategoryId!=category.getId()) {
+					dataCenter.loadAppsByCategoryId(context, category.getId(), loadAppListListener);
+					curCategoryId=category.getId();
+				}
 			}
 		});
 		titleView.setTitleItemOnFocuesChangedListener(new TitleItemOnFocuesChangedListener() {
@@ -128,6 +133,7 @@ public class PostActivity extends BaseActivity {
 			return;
 		}
 		parentCategory = dataCenter.getCategoryById(parentCategoryId);// 获取父栏目
+		curCategoryId=currentCategoryId;
 		if (parentCategory != null) {
 			tv_name.setText(parentCategory.getName());
 			titleView.initData(parentCategory, parentCategory.getCategoyChildren());

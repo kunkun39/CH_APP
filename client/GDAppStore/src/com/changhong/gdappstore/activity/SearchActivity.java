@@ -237,7 +237,8 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 								while (iter.hasNext()) {
 									Map.Entry entry = (Map.Entry) iter.next();
 									Object key = entry.getKey();
-									cacheMap.remove(key);
+//									cacheMap.remove(key);//会抛出ConcurrentModificationException
+									iter.remove();
 									L.d("removed--key=="+key);
 									if (++delete>=more) {
 										break;
