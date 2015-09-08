@@ -189,7 +189,7 @@ public class PostActivity extends BaseActivity {
 		@Override
 		public void changePage(Boolean isnext, int curpage, int totalpage) {
 			// 翻页回调
-			tv_page.setText("(" + (totalpage <= 0 ? 0 : curpage) + "/" + totalpage + ")");
+			tv_page.setText("当前显示第"+(totalpage <= 0 ? 0 : curpage)+"页;共"+totalpage+"页");
 			setShandowsVisible(curpage, totalpage);
 		}
 

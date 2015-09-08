@@ -20,6 +20,7 @@ import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
 import com.post.view.base.BasePosterLayoutView;
+import com.post.view.listener.IPosteDateListener;
 import com.post.view.listener.Listener.IItemOnClickListener;
 
 /**
@@ -48,7 +49,7 @@ public class NativeAppActivity extends PostActivity {
 		// 重新配置post设置
 		postSetting.setPosttype(PostSetting.TYPE_NATIVEAPP);
 		postSetting.setOnItemClickListener(nativeappPostItemOnclickListener);
-		postSetting.setiPosteDateListener(null);
+		postSetting.setiPosteDateListener(iPosteDateListener);
 		postSetting.setOnItemLongClickListener(null);
 		postSetting.setFristItemFocus(true);
 		postSetting.setPost_column(5);
@@ -126,6 +127,27 @@ public class NativeAppActivity extends PostActivity {
 			} else {// 启动该应用
 				Util.openAppByPackageName(context, tmpInfo.getAppPackage());
 			}
+		}
+	};
+	private IPosteDateListener iPosteDateListener = new IPosteDateListener() {
+
+		@Override
+		public void requestNextPageDate(int currentSize) {
+			// 请求新数据回调
+		}
+
+		@Override
+		public void changePage(Boolean isnext, int curpage, int totalpage) {
+			// 翻页回调
+			tv_page.setText("当前显示第"+(totalpage <= 0 ? 0 : curpage)+"页;共"+totalpage+"页");
+		}
+
+		@Override
+		public void lastPageOnKeyDpadDown() {
+		}
+
+		@Override
+		public void firstPageOnKeyDpadup() {
 		}
 	};
 }

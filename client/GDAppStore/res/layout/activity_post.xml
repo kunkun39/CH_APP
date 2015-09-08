@@ -24,26 +24,13 @@
             android:id="@+id/iv_search"
             android:layout_width="130dp"
             android:layout_height="65dp"
+            android:layout_alignParentRight="true"
             android:layout_alignTop="@id/tv_pagename"
-            android:layout_toLeftOf="@+id/tv_page"
+            android:layout_marginRight="160dp"
             android:background="@drawable/selector_bg_postitem"
             android:focusable="true"
             android:scaleType="fitXY"
             android:src="@drawable/btn_search" />
-
-        <TextView
-            android:id="@+id/tv_page"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@id/tv_pagename"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="200dp"
-            android:focusable="false"
-            android:text="(0/0)"
-            android:textColor="@color/white"
-            android:textSize="@dimen/pagename_textsize" />
     </RelativeLayout>
 
     <com.changhong.gdappstore.view.PostTitleView
@@ -64,6 +51,19 @@
         android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
         android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/tv_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_above="@id/postview"
+        android:layout_marginRight="170dp"
+        android:layout_marginBottom="10dp"
+        android:focusable="false"
+        android:text="当前显示第0页;共0页"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 
     <RelativeLayout
         android:id="@+id/rl_postshandow"
