@@ -57,8 +57,8 @@ public class PostActivity extends BaseActivity {
 	private List<Object> currentApps = new ArrayList<Object>();
 	/** 阴影图片 */
 	protected ImageView iv_shandow1, iv_shandow2, iv_shandow3, iv_shandow4;
-	/**当前显示类别id**/
-	protected int curCategoryId=0; 
+	/** 当前显示类别id **/
+	protected int curCategoryId = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -90,9 +90,9 @@ public class PostActivity extends BaseActivity {
 			@Override
 			public void onItemClick(View view, int position) {
 				Category category = (Category) view.getTag();
-				if (curCategoryId!=category.getId()) {
+				if (curCategoryId != category.getId()) {
 					dataCenter.loadAppsByCategoryId(context, category.getId(), loadAppListListener);
-					curCategoryId=category.getId();
+					curCategoryId = category.getId();
 				}
 			}
 		});
@@ -133,7 +133,7 @@ public class PostActivity extends BaseActivity {
 			return;
 		}
 		parentCategory = dataCenter.getCategoryById(parentCategoryId);// 获取父栏目
-		curCategoryId=currentCategoryId;
+		curCategoryId = currentCategoryId;
 		if (parentCategory != null) {
 			tv_name.setText(parentCategory.getName());
 			titleView.initData(parentCategory, parentCategory.getCategoyChildren());
@@ -156,7 +156,16 @@ public class PostActivity extends BaseActivity {
 		public void onComplete(List<Object> items) {
 			currentApps = items;
 			L.d("loadapp complete " + ((items == null) ? "items is null" : items.size()));
-			postView.refreshAllData(currentApps, postSetting, currentApps == null ? 0 : currentApps.size());
+			if (items != null && items.size() > 0) {
+				postView.setVisibility(VISIBLE);
+				postView.refreshAllData(currentApps, postSetting, currentApps == null ? 0 : currentApps.size());
+			} else {
+				postView.setVisibility(INVISIBLE);
+				iv_shandow1.setVisibility(INVISIBLE);
+				iv_shandow2.setVisibility(INVISIBLE);
+				iv_shandow3.setVisibility(INVISIBLE);
+				iv_shandow4.setVisibility(INVISIBLE);
+			}
 		}
 	};
 
@@ -189,7 +198,7 @@ public class PostActivity extends BaseActivity {
 		@Override
 		public void changePage(Boolean isnext, int curpage, int totalpage) {
 			// 翻页回调
-			tv_page.setText("当前显示第"+(totalpage <= 0 ? 0 : curpage)+"页;共"+totalpage+"页");
+			tv_page.setText("当前显示第" + (totalpage <= 0 ? 0 : curpage) + "页;共" + totalpage + "页");
 			setShandowsVisible(curpage, totalpage);
 		}
 
@@ -232,9 +241,10 @@ public class PostActivity extends BaseActivity {
 		public boolean onKey(View v, int keyCode, KeyEvent event) {
 			int pos = ((PostItem) v).getPosition();
 			if (pos < postSetting.getPost_column() && keyCode == KeyEvent.KEYCODE_DPAD_UP
-					&& titleView.getCurrentSelectedView() != null) {
+					&& event.getAction() == KeyEvent.ACTION_DOWN && titleView.getCurrentSelectedView() != null) {
 				// 处理每次海报墙按上键时候选中当前标签
 				titleView.getCurrentSelectedView().requestFocus();
+				return true;
 			}
 			return false;
 		}
