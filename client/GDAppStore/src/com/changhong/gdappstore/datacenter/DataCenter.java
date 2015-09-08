@@ -163,7 +163,6 @@ public class DataCenter {
 	public void loadPageApps(final Context context, final LoadCompleteListener completeListener, boolean getCacheData) {
 		if (getCacheData && Config.ISCACHEABLE) {
 			String json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_PAGEAPPS);
-			L.d("json--"+json);
 			Parse.parsePageApps(json);
 			if (categories != null && categories.size() > 0 && completeListener != null) {
 				completeListener.onComplete();
