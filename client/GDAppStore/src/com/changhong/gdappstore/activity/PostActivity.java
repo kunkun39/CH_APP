@@ -134,6 +134,7 @@ public class PostActivity extends BaseActivity {
 		}
 		parentCategory = dataCenter.getCategoryById(parentCategoryId);// 获取父栏目
 		curCategoryId = currentCategoryId;
+		L.d("parentCategory "+parentCategory.getId()+"  "+parentCategory.getName());
 		if (parentCategory != null) {
 			tv_name.setText(parentCategory.getName());
 			titleView.initData(parentCategory, parentCategory.getCategoyChildren());

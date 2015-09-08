@@ -89,8 +89,13 @@ public class PostTitleView extends BaseRelativeLayout {
 			return;
 		}
 		List<Category> totalCategories=new ArrayList<Category>();
-		parentCategory.setName("全部");
-		totalCategories.add(parentCategory);
+		Category parentCategory2=new Category();
+		parentCategory2.setId(parentCategory.getId());
+		parentCategory2.setCategoyChildren(parentCategory.getCategoyChildren());
+		parentCategory2.setIconFilePath(parentCategory.getIconFilePath());
+		parentCategory2.setParentId(parentCategory.getParentId());
+		parentCategory2.setName("全部");
+		totalCategories.add(parentCategory2);
 		totalCategories.addAll(items);
 		initData(totalCategories);
 	}

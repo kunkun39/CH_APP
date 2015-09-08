@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/pagename_marginleft"
             android:focusable="false"
-            android:text="@string/zhuanti"
+            android:text=""
             android:textColor="@color/white"
             android:textSize="@dimen/pagename_textsize" />
 

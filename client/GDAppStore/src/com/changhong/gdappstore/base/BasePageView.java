@@ -1,20 +1,19 @@
 package com.changhong.gdappstore.base;
 
-import com.changhong.gdappstore.Config;
-import com.changhong.gdappstore.R;
-import com.changhong.gdappstore.activity.DetailActivity;
-import com.changhong.gdappstore.activity.PostActivity;
-import com.changhong.gdappstore.util.DialogUtil;
-import com.changhong.gdappstore.util.L;
-import com.changhong.gdappstore.util.NetworkUtils;
-import com.changhong.gdappstore.view.PostItemView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
+
+import com.changhong.gdappstore.Config;
+import com.changhong.gdappstore.R;
+import com.changhong.gdappstore.activity.DetailActivity;
+import com.changhong.gdappstore.activity.PostActivity;
+import com.changhong.gdappstore.util.DialogUtil;
+import com.changhong.gdappstore.util.NetworkUtils;
+import com.changhong.gdappstore.view.PostItemView;
 
 /**
  * 基类pageView
