@@ -86,7 +86,7 @@ public class MainActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		initView();
-		initData();
+		initOnCreateData();
 	}
 
 	private void initView() {
@@ -134,6 +134,16 @@ public class MainActivity extends BaseActivity {
 		});
 		progressDialog = new MyProgressDialog(context);
 		progressDialog.dismiss();
+	}
+	
+	private void initOnCreateData() {
+		DataCenter.getInstance().loadPageApps(context, new LoadCompleteListener() {
+			
+			@Override
+			public void onComplete() {
+				initData();
+			}
+		}, true);
 	}
 
 	/**
