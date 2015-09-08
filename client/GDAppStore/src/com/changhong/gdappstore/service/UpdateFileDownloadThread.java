@@ -94,7 +94,7 @@ public class UpdateFileDownloadThread extends Thread {
 					/**
 					 * 不听保存当前线程文件下载
 					 */
-					Log.d("file write size", ">>>>>" + alreadyDownloadSize);
+					Log.d("file write size", "loadsize >>>>>" + alreadyDownloadSize+"  threadNumber>>"+threadNumber);
 					preferenceService.saveThreadDownloadDataSize(threadNumber, alreadyDownloadSize);
 				}
 				// 下载完成，重置当前线程下载的状态
