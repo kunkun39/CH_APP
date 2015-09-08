@@ -7,10 +7,14 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -63,7 +67,7 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 	/** 按钮：中文，回退，清楚，换一批 */
 	private ImageView bt_backone, bt_space, bt_clear;
 	/** 查询结果页码提示 */
-	private TextView tv_searchresult;
+	private TextView tv_searchresult,tv_search_tishi;
 	/** 查询结果 */
 	private PosterLayoutView view_post;
 	/** 海报配置 */
@@ -100,7 +104,13 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 		bt_clear = findView(R.id.bt_search_clear);
 		tv_searchresult = findView(R.id.tv_num_searchresult);
 		view_post = findView(R.id.post_search);
-
+		tv_search_tishi=findView(R.id.tv_search_tishi);
+		String tishi=getResources().getString(R.string.tv_search_tishi);
+		SpannableStringBuilder style = new SpannableStringBuilder(tishi);
+		style.setSpan(new ForegroundColorSpan(Color.RED), 14, 18, Spannable.SPAN_EXCLUSIVE_INCLUSIVE); //设置指定位置文字的背景颜色
+		style.setSpan(new ForegroundColorSpan(Color.RED), 21, 25, Spannable.SPAN_EXCLUSIVE_INCLUSIVE); 
+		tv_search_tishi.setText(style);
+		
 		bt_backone.setOnClickListener(this);
 		bt_space.setOnClickListener(this);
 		bt_clear.setOnClickListener(this);

@@ -29,47 +29,47 @@ public class Parse {
 	public final static String HOST = "host";
 	public final static String VALUES = "values";
 	/**
-     * *******************************Category Part*********************************************
-     */
+	 * *******************************Category
+	 * Part*********************************************
+	 */
 
-    public final static String CATEGORY_ID = "id";
+	public final static String CATEGORY_ID = "id";
 
-    public final static String CATEGORY_NAME = "name";
+	public final static String CATEGORY_NAME = "name";
 
-    public final static String CATEGORY_PARENTID = "pid";
+	public final static String CATEGORY_PARENTID = "pid";
 
-    public final static String CATEGORY_FILENAME = "fn";
+	public final static String CATEGORY_FILENAME = "fn";
 
+	/************************************ APP Part ************************************************/
 
-    /************************************APP Part************************************************/
+	public final static String APP_ID = "id";
 
-    public final static String APP_ID = "id";
+	public final static String APP_NAME = "name";
 
-    public final static String APP_NAME = "name";
+	public final static String APP_KEY = "key";
 
-    public final static String APP_KEY = "key";
+	public final static String APP_VERSION_INT = "ver_int";
 
-    public final static String APP_VERSION_INT = "ver_int";
+	public final static String APP_VERSION = "ver";
 
-    public final static String APP_VERSION = "ver";
+	public final static String APP_PACKAGE = "package";
 
-    public final static String APP_PACKAGE = "package";
+	public final static String APP_SIZE = "size";
 
-    public final static String APP_SIZE = "size";
+	public final static String APP_DOWNLOAD = "download";
 
-    public final static String APP_DOWNLOAD = "download";
+	public final static String APP_UPDATE_DATE = "date";
 
-    public final static String APP_UPDATE_DATE = "date";
+	public final static String APP_DESCRIPTION = "desc";
 
-    public final static String APP_DESCRIPTION = "desc";
+	public final static String APP_ICON_FILEPATH = "icon_fp";
 
-    public final static String APP_ICON_FILEPATH = "icon_fp";
+	public final static String APP_POSTER_FILEPATH = "poster_fp";
 
-    public final static String APP_POSTER_FILEPATH = "poster_fp";
+	public final static String APP_APK_FILEPATH = "apk_fp";
 
-    public final static String APP_APK_FILEPATH = "apk_fp";
-
-    public final static String APP_CATEGORY_ID = "cate_id";
+	public final static String APP_CATEGORY_ID = "cate_id";
 
 	/**
 	 * 解析栏目数据
@@ -95,7 +95,7 @@ public class Parse {
 			if (categoryObject.has("client_v")) {
 				MyApplication.SERVER_VERSION = categoryObject.getInt("client_v");
 			}
-			L.d("server apk data  version="+MyApplication.SERVER_VERSION+" apkurl="+MyApplication.UPDATE_APKURL);
+			L.d("server apk data  version=" + MyApplication.SERVER_VERSION + " apkurl=" + MyApplication.UPDATE_APKURL);
 			JSONArray array = categoryObject.getJSONArray(VALUES);
 			for (int i = 0; i < array.length(); i++) {
 				JSONObject object = array.getJSONObject(i);
@@ -106,7 +106,7 @@ public class Parse {
 				if (object.has(CATEGORY_NAME)) {
 					category.setName(object.getString(CATEGORY_NAME).trim());
 				}
-				if (object.has(CATEGORY_FILENAME)) {
+				if (object.has(CATEGORY_FILENAME) && !TextUtils.isEmpty(object.getString(CATEGORY_FILENAME))) {
 					category.setIconFilePath(host + "category/" + object.getString(CATEGORY_FILENAME).trim());
 				}
 				int parentid = -1;
@@ -173,15 +173,15 @@ public class Parse {
 				if (appobject.has("position")) {
 					app.setPosition(appobject.getInt("position"));
 				}
-				if (appobject.has(APP_POSTER_FILEPATH)) {
+				if (appobject.has(APP_POSTER_FILEPATH) && !TextUtils.isEmpty(appobject.getString(APP_POSTER_FILEPATH))) {
 					app.setPosterFilePath(host + app.getAppkey() + "/" + appobject.getString(APP_POSTER_FILEPATH));
 				}
-				if (appobject.has(APP_ICON_FILEPATH)) {
+				if (appobject.has(APP_ICON_FILEPATH) && !TextUtils.isEmpty(appobject.getString(APP_ICON_FILEPATH))) {
 					app.setIconFilePath(host + app.getAppkey() + "/" + appobject.getString(APP_ICON_FILEPATH));
 				}
 				// TODO 临时写死的匹配
 				for (int j = 0; j < dataCenter.getCategories().size(); j++) {
-//					L.d("dataCenter.getCategories().get(j).getId()==="+dataCenter.getCategories().get(j).getId());
+					// L.d("dataCenter.getCategories().get(j).getId()==="+dataCenter.getCategories().get(j).getId());
 					if (dataCenter.getCategories().get(j).getId() == 0 && app.getPageid() == 1) {
 						dataCenter.getCategories().get(j).getCategoryPageApps().add(app);
 					} else if (dataCenter.getCategories().get(j).getId() == 1 && app.getPageid() == 2) {
@@ -193,9 +193,9 @@ public class Parse {
 					}
 				}
 			}
-			for (int i = 0; i < dataCenter.getCategories().size(); i++) {
-				L.d("parse pageapps--" + dataCenter.getCategories().get(i));
-			}
+//			for (int i = 0; i < dataCenter.getCategories().size(); i++) {
+//				L.d("parse pageapps--" + dataCenter.getCategories().get(i));
+//			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -254,9 +254,9 @@ public class Parse {
 				if (appobject.has(APP_ID)) {
 					app.setAppid(appobject.getInt(APP_ID));
 				}
-				 if (appobject.has(APP_PACKAGE)) {
-				 app.setPackageName(appobject.getString(APP_PACKAGE).trim());
-				 }
+				if (appobject.has(APP_PACKAGE)) {
+					app.setPackageName(appobject.getString(APP_PACKAGE).trim());
+				}
 				if (appobject.has(APP_KEY)) {
 					app.setAppkey(appobject.getString(APP_KEY).trim());
 				}
@@ -265,7 +265,7 @@ public class Parse {
 				}
 				if (appobject.has(APP_DOWNLOAD)) {
 				}
-				if (appobject.has(APP_ICON_FILEPATH)) {
+				if (appobject.has(APP_ICON_FILEPATH) && !TextUtils.isEmpty(appobject.getString(APP_ICON_FILEPATH))) {
 					app.setPosterFilePath(host + app.getAppkey() + "/" + appobject.getString(APP_ICON_FILEPATH).trim());
 				}
 				apps.add(app);
@@ -300,9 +300,12 @@ public class Parse {
 			appDetail.setPackageName(object.getString(APP_PACKAGE).trim());
 			appDetail.setUpdateDate(object.getString(APP_UPDATE_DATE).trim());
 			appDetail.setCategoryId(object.getInt(APP_CATEGORY_ID));
-			appDetail.setIconFilePath(host + appKey + "/" + object.getString(APP_ICON_FILEPATH).trim());
-			appDetail.setPosterFilePath(host + appKey + "/" + object.getString(APP_POSTER_FILEPATH).trim());
-
+			if (object.has(APP_ICON_FILEPATH) && !TextUtils.isEmpty(object.getString(APP_ICON_FILEPATH))) {
+				appDetail.setIconFilePath(host + appKey + "/" + object.getString(APP_ICON_FILEPATH).trim());
+			}
+			if (object.has(APP_POSTER_FILEPATH) && !TextUtils.isEmpty(object.getString(APP_POSTER_FILEPATH))) {
+				appDetail.setPosterFilePath(host + appKey + "/" + object.getString(APP_POSTER_FILEPATH).trim());
+			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -392,10 +395,10 @@ public class Parse {
 			if (appobject.has(APP_VERSION_INT)) {
 				app.setVersionInt(appobject.getInt(APP_VERSION_INT));
 			}
-			if (appobject.has(APP_POSTER_FILEPATH)) {
+			if (appobject.has(APP_POSTER_FILEPATH) && !TextUtils.isEmpty(appobject.getString(APP_POSTER_FILEPATH))) {
 				app.setPosterFilePath(host + app.getAppkey() + "/" + appobject.getString(APP_POSTER_FILEPATH).trim());
 			}
-			if (appobject.has(APP_ICON_FILEPATH)) {
+			if (appobject.has(APP_ICON_FILEPATH) && !TextUtils.isEmpty(appobject.getString(APP_ICON_FILEPATH))) {
 				app.setIconFilePath(host + app.getAppkey() + "/" + appobject.getString(APP_ICON_FILEPATH).trim());
 			}
 		} catch (Exception e) {

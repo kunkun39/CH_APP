@@ -121,7 +121,7 @@ public class PostTitleView extends BaseRelativeLayout {
 			if (i == 0 && i == count - 1) {
 				break;
 			}
-			L.d("posttitle init " + list_textViews.get(i));
+			L.d("posttitle init " + list_textViews.get(i).getText().toString());
 			if (i == 0) {
 				list_textViews.get(i).setNextFocusRightId(list_textViews.get(i + 1).getId());
 				list_textViews.get(i).setNextFocusLeftId(list_textViews.get(i).getId());

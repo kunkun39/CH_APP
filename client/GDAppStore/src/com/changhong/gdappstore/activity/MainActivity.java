@@ -3,7 +3,6 @@ package com.changhong.gdappstore.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
@@ -32,9 +31,9 @@ import com.changhong.gdappstore.service.NetChangeReceiver.NetChangeListener;
 import com.changhong.gdappstore.service.UpdateService;
 import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.DialogUtil.DialogBtnOnClickListener;
+import com.changhong.gdappstore.util.DialogUtil.DialogMessage;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.Util;
-import com.changhong.gdappstore.util.DialogUtil.DialogMessage;
 import com.changhong.gdappstore.view.HomePageView;
 import com.changhong.gdappstore.view.MyProgressDialog;
 import com.changhong.gdappstore.view.PostTitleView;
@@ -142,10 +141,16 @@ public class MainActivity extends BaseActivity {
 	 */
 	private void initData() {
 		categories = DataCenter.getInstance().getCategories();
-		titleView.setMargin(0, 50);
+		titleView.setMargin(0, 30);
 		pageViews.add(view_homepage);
 		view_homepage.initNativeData();
 		if (categories != null) {
+			for (int i = 0; i < categories.size(); i++) {
+				if (i > 3) {
+					categories.remove(i);// TODO 第一阶段只显示4个标签，
+					i--;
+				}
+			}
 			titleView.initData(categories);
 
 			// 目前是初始化默认数据
@@ -182,20 +187,21 @@ public class MainActivity extends BaseActivity {
 			break;
 		case KeyEvent.KEYCODE_BACK:
 			if (event.getAction() == KeyEvent.ACTION_DOWN) {
-				DialogUtil.showMyAlertDialog(context, "提示：", "确认退出应用商城？", "确  认", "取  消", new DialogBtnOnClickListener() {
-					
-					@Override
-					public void onSubmit(DialogMessage dialogMessage) {
-						System.exit(0);
-					}
-					
-					@Override
-					public void onCancel(DialogMessage dialogMessage) {
-						if (dialogMessage.dialogInterface != null) {
-							dialogMessage.dialogInterface.dismiss();
-						}
-					}
-				});
+				DialogUtil.showMyAlertDialog(context, "提示：", "确认退出应用商城？", "确  认", "取  消",
+						new DialogBtnOnClickListener() {
+
+							@Override
+							public void onSubmit(DialogMessage dialogMessage) {
+								System.exit(0);
+							}
+
+							@Override
+							public void onCancel(DialogMessage dialogMessage) {
+								if (dialogMessage.dialogInterface != null) {
+									dialogMessage.dialogInterface.dismiss();
+								}
+							}
+						});
 			}
 			break;
 		}
@@ -307,7 +313,7 @@ public class MainActivity extends BaseActivity {
 					public void onSubmit(DialogMessage dialogMessage) {
 
 						UpdateService updateService = new UpdateService(context, null, progressDialog);
-						AppDetail appDetail=new AppDetail();
+						AppDetail appDetail = new AppDetail();
 						appDetail.setApkFilePath(MyApplication.UPDATE_APKURL);
 						updateService.update(appDetail, false);
 						if (dialogMessage != null && dialogMessage.dialogInterface != null) {

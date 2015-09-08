@@ -11,8 +11,9 @@
     <string name="str_download">下载量：</string>
     <string name="net_notconnected">网络已断开，请检查网络链接状态！</string>
     <string name="weipeizhi">没有获取到应用配置信息！</string>
-	<string name="str_new">最新榜</string>
+    <string name="str_new">最新榜</string>
     <string name="str_hot">最热榜</string>
     <string name="str_surge">飙升榜</string>
+    <string name="tv_search_tishi">只要输入应用首字母即可\n比如应用商城输入：YYSC即可成功搜索</string>
 
 </resources>

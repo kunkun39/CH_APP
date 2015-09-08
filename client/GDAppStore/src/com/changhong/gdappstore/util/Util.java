@@ -164,7 +164,7 @@ public class Util {
 		List<PackageInfo> packages = context.getPackageManager().getInstalledPackages(0);
 		for (int i = 0; i < packages.size(); i++) {
 			PackageInfo packageInfo = packages.get(i);
-			if ((packageInfo.applicationInfo.flags & packageInfo.applicationInfo.FLAG_SYSTEM) <= 0) {
+//			if ((packageInfo.applicationInfo.flags & packageInfo.applicationInfo.FLAG_SYSTEM) <= 0) {
 				// 非系统预装的应用程序
 
 				NativeApp tmpInfo = new NativeApp();
@@ -173,7 +173,7 @@ public class Util {
 				tmpInfo.appIcon = packageInfo.applicationInfo.loadIcon(context.getPackageManager());
 				nativeApps.add(tmpInfo);
 				tmpInfo.appid = -1;
-			}
+//			}
 		}
 		return nativeApps;
 	}
