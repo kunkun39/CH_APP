@@ -82,14 +82,14 @@ public class PostTitleView extends BaseRelativeLayout {
 		removeAllViews();
 		addView(ll_content);
 	}
-	
-	public void initData(Category parentCategory,List<Category> items) {
-		if (parentCategory==null) {
+
+	public void initData(Category parentCategory, List<Category> items) {
+		if (parentCategory == null) {
 			initData(items);
 			return;
 		}
-		List<Category> totalCategories=new ArrayList<Category>();
-		Category parentCategory2=new Category();
+		List<Category> totalCategories = new ArrayList<Category>();
+		Category parentCategory2 = new Category();
 		parentCategory2.setId(parentCategory.getId());
 		parentCategory2.setCategoyChildren(parentCategory.getCategoyChildren());
 		parentCategory2.setIconFilePath(parentCategory.getIconFilePath());
@@ -99,15 +99,17 @@ public class PostTitleView extends BaseRelativeLayout {
 		totalCategories.addAll(items);
 		initData(totalCategories);
 	}
-	
-	public void setMargin(int leftMargin,int rightMargin) {
+
+	public void setMargin(int leftMargin, int rightMargin) {
 		layoutParams.leftMargin = leftMargin;
 		layoutParams.rightMargin = rightMargin;
 	}
 
 	/**
 	 * 初始化标签数据
-	 * @param items 栏目
+	 * 
+	 * @param items
+	 *            栏目
 	 */
 	public void initData(List<Category> items) {
 		if (items == null || items.size() <= 0) {
@@ -153,7 +155,7 @@ public class PostTitleView extends BaseRelativeLayout {
 			if (currentSelectedView != null && currentSelectedView != list_textViews.get(position)) {
 				currentSelectedView.setSelected(false);
 			}
-			L.d("setFocusItem--pos=="+position+" "+hasChildFocesed());
+			L.d("setFocusItem--pos==" + position + " " + hasChildFocesed());
 			currentSelectedView = list_textViews.get(position);
 		}
 	}
@@ -164,8 +166,8 @@ public class PostTitleView extends BaseRelativeLayout {
 	 * @param position
 	 */
 	public void setSelectedItem(int position) {
-		L.d("postItemView setSelectedItem pos=="+position+" size=="+list_textViews.size());
-		if (position >=0  && list_textViews != null && position <= list_textViews.size()
+		L.d("postItemView setSelectedItem pos==" + position + " size==" + list_textViews.size());
+		if (position >= 0 && position < list_textViews.size() && list_textViews != null
 				&& list_textViews.get(position) != null) {
 			list_textViews.get(position).setSelected(true);
 			if (currentSelectedView != null && currentSelectedView != list_textViews.get(position)) {
