@@ -32,6 +32,7 @@ public class FocusView {
 	private RankingData rankingData;
 	private boolean haschanged;
 	private int position;
+	private Animation scallBigAnimation;
 	public FocusView(Context context,RelativeLayout focusItem,int width,int height) {
 		// TODO Auto-generated constructor stub
 		this.focusItem = focusItem;
@@ -46,6 +47,8 @@ public class FocusView {
 		mlayout = new RelativeLayout.LayoutParams(width + 40, height + 40);
 		
 		rankingData = RankingData.getInstance();
+		
+		scallBigAnimation = AnimationUtils.loadAnimation(mContext, R.anim.scale_big);
 		
 		haschanged = false;
 	}
@@ -77,7 +80,7 @@ public class FocusView {
 		focusItem.setLayoutParams(mlayout);	
 		
 		holder.ranking_item.setBackgroundResource(R.drawable.focues_ranking);
-		Animation scallBigAnimation = AnimationUtils.loadAnimation(mContext, R.anim.scale_big);
+
 		focusItem.startAnimation(scallBigAnimation);
 		focusItem.bringToFront();
 		
