@@ -56,10 +56,10 @@
         android:id="@+id/tv_page"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_above="@id/postview"
-        android:layout_marginRight="170dp"
+        android:layout_alignParentRight="true"
         android:layout_marginBottom="10dp"
+        android:layout_marginRight="170dp"
         android:focusable="false"
         android:text="当前显示第0页;共0页"
         android:textColor="@color/white"
@@ -98,16 +98,17 @@
             android:layout_toRightOf="@id/iv_shandow2"
             android:src="@drawable/img_postshandow"
             android:visibility="invisible" />
-
-        <ImageView
-            android:id="@+id/iv_shandow4"
-            android:layout_width="@dimen/iv_shandow_width"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/iv_shandow1"
-            android:layout_marginLeft="40dp"
-            android:layout_toRightOf="@id/iv_shandow3"
-            android:src="@drawable/img_postshandow"
-            android:visibility="invisible" />
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/iv_shandow4"
+        android:layout_width="@dimen/iv_shandow_width"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-00dp"
+        android:layout_marginRight="-274dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/img_postshandow"
+        android:visibility="invisible" />
 
 </RelativeLayout>
