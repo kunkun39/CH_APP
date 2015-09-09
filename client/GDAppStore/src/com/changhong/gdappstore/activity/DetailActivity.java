@@ -92,6 +92,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		tv_introduce = findView(R.id.tv_introduce);
 		scoreview = findView(R.id.scoreview_detail);
 		downloadPDialog = new MyProgressDialog(context);
+		downloadPDialog.setUpdateFileSizeName(true);
 		downloadPDialog.dismiss();
 		updateAppPDialog = new ProgressDialog(context);
 		updateAppPDialog.setCancelable(false);

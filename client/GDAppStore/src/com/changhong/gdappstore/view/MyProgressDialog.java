@@ -1,5 +1,6 @@
 package com.changhong.gdappstore.view;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import android.app.Dialog;
@@ -27,7 +28,9 @@ public class MyProgressDialog extends Dialog {
 	// 当前进度
 	private int curprogress = 0;
 	// 创建一个数值格式化对象
-	NumberFormat numberFormat;
+	private NumberFormat numberFormat;
+	//
+	private boolean isUpdateFileSizeName=false;
 
 	public MyProgressDialog(Context context) {
 		super(context, R.style.Dialog_nowindowbg);
@@ -91,7 +94,12 @@ public class MyProgressDialog extends Dialog {
 		} else {
 			curprogress = progress;
 		}
-		tv_progress_total.setText(curprogress + "/" + max);
+		if (isUpdateFileSizeName) {
+			tv_progress_total.setText(parseByteToM(curprogress) + "/" + parseByteToM(max));
+		}else {
+			tv_progress_total.setText(curprogress + "/" + max);
+		}
+		
 		if (max == 0) {
 			tv_progress_hundred.setText("0%");
 		} else {
@@ -99,4 +107,21 @@ public class MyProgressDialog extends Dialog {
 		}
 		seekBar.setProgress(progress);
 	}
+	
+	private String parseByteToM(float size) {
+		float returnSize=(float) 0.0;
+		returnSize=(float)size/(float)(1000*1000);
+		DecimalFormat decimalFormat=new DecimalFormat("0.0");//构造方法的字符格式这里如果小数不足2位,会以0补足.
+		String p=decimalFormat.format(returnSize);
+		return p;
+	}
+
+	public boolean isUpdateFileSizeName() {
+		return isUpdateFileSizeName;
+	}
+
+	public void setUpdateFileSizeName(boolean isUpdateFileSizeName) {
+		this.isUpdateFileSizeName = isUpdateFileSizeName;
+	}
+
 }

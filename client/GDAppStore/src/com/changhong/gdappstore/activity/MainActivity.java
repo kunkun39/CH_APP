@@ -133,6 +133,7 @@ public class MainActivity extends BaseActivity {
 			}
 		});
 		progressDialog = new MyProgressDialog(context);
+		progressDialog.setUpdateFileSizeName(true);
 		progressDialog.dismiss();
 	}
 	
