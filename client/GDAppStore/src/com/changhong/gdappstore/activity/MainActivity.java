@@ -153,10 +153,13 @@ public class MainActivity extends BaseActivity {
 	private void initData() {
 		categories = DataCenter.getInstance().getCategories();
 		titleView.setMargin(0, 30);
-		pageViews.add(view_homepage);
+		if (!pageViews.contains(view_homepage)) {
+			pageViews.add(view_homepage);
+		}
 		view_homepage.initNativeData();
 		if (categories != null) {
 			for (int i = 0; i < categories.size(); i++) {
+				L.d("mainactivity initdata category is "+categories.get(i));
 				if (i > 3) {
 					categories.remove(i);// TODO 第一阶段只显示4个标签，
 					i--;
@@ -172,17 +175,25 @@ public class MainActivity extends BaseActivity {
 				} else if (i == 1) {
 					view_yule.initData(categories.get(1));
 					view_yule.setNextFocuesUpId(titleView.getItemTextViewAt(1).getId());
-					pageViews.add(view_yule);
+					if (!pageViews.contains(view_yule)) {
+						pageViews.add(view_yule);
+					}
 				} else if (i == 2) {
 					view_youxi.initData(categories.get(2));
 					view_youxi.setNextFocuesUpId(titleView.getItemTextViewAt(2).getId());
-					pageViews.add(view_youxi);
+					if (!pageViews.contains(view_youxi)) {
+						pageViews.add(view_youxi);
+					}
 				} else if (i == 3) {
 					view_zhuanti.initData(categories.get(3));
 					view_zhuanti.setNextFocuesUpId(titleView.getItemTextViewAt(3).getId());
-					pageViews.add(view_zhuanti);
+					if (!pageViews.contains(view_zhuanti)) {
+						pageViews.add(view_zhuanti);
+					}
 				}
 			}
+		}else {
+			L.d("mainactivity initdata category is null");
 		}
 		viewPagerAdapter.updateList(pageViews);
 		titleView.setFocusItem(0);
