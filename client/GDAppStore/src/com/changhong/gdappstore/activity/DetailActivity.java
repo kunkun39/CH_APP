@@ -22,9 +22,12 @@ import com.changhong.gdappstore.model.AppDetail;
 import com.changhong.gdappstore.net.LoadListener;
 import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
 import com.changhong.gdappstore.service.UpdateService;
+import com.changhong.gdappstore.util.DialogUtil;
+import com.changhong.gdappstore.util.DialogUtil.DialogBtnOnClickListener;
 import com.changhong.gdappstore.util.ImageLoadUtil;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.Util;
+import com.changhong.gdappstore.util.DialogUtil.DialogMessage;
 import com.changhong.gdappstore.view.MyProgressDialog;
 import com.changhong.gdappstore.view.ScoreView;
 import com.changhong.gdappstore.view.UserMayLikeView;
@@ -220,17 +223,41 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 			Util.openAppByPackageName(context, appDetail.getPackageName());
 			break;
 		case R.id.bt_download:
-			downloadPDialog.setProgress(0);
-			updateService.update(appDetail, true);
+			showDownloadDialog(true);
 			break;
 		case R.id.bt_update:
-			downloadPDialog.setProgress(0);
-			updateService.update(appDetail, false);
+			showDownloadDialog(false);
 			break;
 
 		default:
 			break;
 		}
+	}
+	private void showDownloadDialog(final boolean isDownload) {
+		String content="";
+		if (isDownload) {
+			content="确认下载应用？";
+		}else {
+			content="确认更新应用？";
+		}
+		DialogUtil.showMyAlertDialog(context, "提示：", content, "确  定", "取  消", new DialogBtnOnClickListener() {
+			
+			@Override
+			public void onSubmit(DialogMessage dialogMessage) {
+				downloadPDialog.setProgress(0);
+				updateService.update(appDetail, isDownload);
+				if (dialogMessage!=null && dialogMessage.dialogInterface!=null) {
+					dialogMessage.dialogInterface.dismiss();
+				}
+			}
+			
+			@Override
+			public void onCancel(DialogMessage dialogMessage) {
+				if (dialogMessage!=null && dialogMessage.dialogInterface!=null) {
+					dialogMessage.dialogInterface.dismiss();
+				}
+			}
+		});
 	}
 
 	@Override
