@@ -6,7 +6,7 @@
 
     <RelativeLayout
         android:id="@+id/rl_detailcontent"
-        android:layout_width="700dp"
+        android:layout_width="500dp"
         android:layout_height="380dp"
         android:layout_marginLeft="85dp"
         android:layout_marginTop="85dp"
@@ -186,28 +186,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_introduce_title"
-                android:maxLines="3"
+                android:maxLines="5"
                 android:text=""
                 android:ellipsize="end"
                 android:textColor="@color/white"
-                android:textSize="@dimen/detail_contenttextsize" />
+                android:textSize="16sp" />
         </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_detailpost"
-        android:layout_width="360dp"
+        android:layout_width="580dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/rl_detailcontent"
         android:layout_alignTop="@id/rl_detailcontent"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/rl_detailcontent"
         android:background="@drawable/bg_detailcontent" >
 
         <ImageView
             android:id="@+id/iv_detailpost"
-            android:layout_width="250dp"
-            android:layout_height="320dp"
+            android:layout_width="560dp"
+            android:layout_height="315dp"
             android:layout_centerInParent="true"
             android:scaleType="fitXY"
             android:src="@drawable/img_normal_ver" />
