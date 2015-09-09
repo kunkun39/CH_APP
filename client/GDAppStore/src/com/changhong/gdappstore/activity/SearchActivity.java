@@ -67,7 +67,7 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 	/** 按钮：中文，回退，清楚，换一批 */
 	private ImageView bt_backone, bt_space, bt_clear;
 	/** 查询结果页码提示 */
-	private TextView tv_searchresult,tv_search_tishi;
+	private TextView tv_searchresult, tv_search_tishi;
 	/** 查询结果 */
 	private PosterLayoutView view_post;
 	/** 海报配置 */
@@ -78,8 +78,8 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 	private List<Object> ranklist = new ArrayList<Object>();
 	/** 请求缓存,LinkedHashMap有存数顺序，方便清理缓存 */
 	private Map<String, List<Object>> cacheMap = new LinkedHashMap<String, List<Object>>();
-	/**缓存保留数据数量*/
-	private static final int CACHESIZE=30;
+	/** 缓存保留数据数量 */
+	private static final int CACHESIZE = 30;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +96,7 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 		for (int i = 0; i < id_keybords.length; i++) {
 			findViewById(id_keybords[i]).setOnClickListener(keyBordOnClickListener);
 		}
-		findViewById(id_keybords[11]).requestFocus();//A获取焦点
+		findViewById(id_keybords[11]).requestFocus();// A获取焦点
 		editText = findView(R.id.edt_search);
 		editText.addTextChangedListener(textWatcher);
 		bt_backone = findView(R.id.bt_search_backone);
@@ -104,13 +104,13 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 		bt_clear = findView(R.id.bt_search_clear);
 		tv_searchresult = findView(R.id.tv_num_searchresult);
 		view_post = findView(R.id.post_search);
-		tv_search_tishi=findView(R.id.tv_search_tishi);
-		String tishi=getResources().getString(R.string.tv_search_tishi);
+		tv_search_tishi = findView(R.id.tv_search_tishi);
+		String tishi = getResources().getString(R.string.tv_search_tishi);
 		SpannableStringBuilder style = new SpannableStringBuilder(tishi);
-		style.setSpan(new ForegroundColorSpan(Color.RED), 14, 18, Spannable.SPAN_EXCLUSIVE_INCLUSIVE); //设置指定位置文字的背景颜色
-		style.setSpan(new ForegroundColorSpan(Color.RED), 21, 25, Spannable.SPAN_EXCLUSIVE_INCLUSIVE); 
+		style.setSpan(new ForegroundColorSpan(Color.RED), 14, 18, Spannable.SPAN_EXCLUSIVE_INCLUSIVE); // 设置指定位置文字的背景颜色
+		style.setSpan(new ForegroundColorSpan(Color.RED), 21, 25, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
 		tv_search_tishi.setText(style);
-		
+
 		bt_backone.setOnClickListener(this);
 		bt_space.setOnClickListener(this);
 		bt_clear.setOnClickListener(this);
@@ -144,7 +144,7 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 					List<Ranking_Item> rankingItems2 = RankingData.getInstance().getHotRankingData();
 					updateRankListData(rankingItems2);
 				}
-			},true);
+			}, true);
 		} else {
 			updateRankListData(rankingItems);
 		}
@@ -171,7 +171,12 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 			app.setIconFilePath(host + ranking_Item.getAppKey() + "/" + ranking_Item.getAppIconPath());
 			ranklist.add(app);
 		}
-		view_post.refreshAllData(ranklist, postSetting, ranklist.size());
+		if (ranklist == null || ranklist.size() <= 0) {
+			view_post.setVisibility(INVISIBLE);
+		} else {
+			view_post.setVisibility(VISIBLE);
+			view_post.refreshAllData(ranklist, postSetting, ranklist.size());
+		}
 	}
 
 	@Override
@@ -228,7 +233,12 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 					// 有缓存就用缓存
 					searchList.clear();
 					searchList.addAll(cacheMap.get(s.toString()));
-					view_post.refreshAllData(searchList, postSetting, searchList.size());
+					if (searchList == null || searchList.size() <= 0) {
+						view_post.setVisibility(INVISIBLE);
+					} else {
+						view_post.setVisibility(VISIBLE);
+						view_post.refreshAllData(searchList, postSetting, searchList.size());
+					}
 					updateAppnumTextVisible();
 				} else {
 					DataCenter.getInstance().loadAppSearch(s.toString(), new LoadListListener() {
@@ -237,26 +247,31 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 						public void onComplete(List<Object> items) {
 							searchList.clear();
 							searchList.addAll(items);
-							view_post.refreshAllData(searchList, postSetting, searchList.size());
+							if (searchList == null || searchList.size() <= 0) {
+								view_post.setVisibility(INVISIBLE);
+							} else {
+								view_post.setVisibility(VISIBLE);
+								view_post.refreshAllData(searchList, postSetting, searchList.size());
+							}
 							updateAppnumTextVisible();
-							int mapsize=cacheMap.size();
+							int mapsize = cacheMap.size();
 							if (mapsize > CACHESIZE) {
 								Iterator iter = cacheMap.entrySet().iterator();
-								int more=mapsize/10;// 清理最开始百分之10的缓存
-								int delete=0;
+								int more = mapsize / 10;// 清理最开始百分之10的缓存
+								int delete = 0;
 								while (iter.hasNext()) {
 									Map.Entry entry = (Map.Entry) iter.next();
 									Object key = entry.getKey();
-//									cacheMap.remove(key);//会抛出ConcurrentModificationException
+									// cacheMap.remove(key);//会抛出ConcurrentModificationException
 									iter.remove();
-									L.d("removed--key=="+key);
-									if (++delete>=more) {
+									L.d("removed--key==" + key);
+									if (++delete >= more) {
 										break;
 									}
 								}
 							}
 							if (items == null) {
-								items=new ArrayList<Object>();
+								items = new ArrayList<Object>();
 							}
 							cacheMap.put(s.toString(), items);
 						}
