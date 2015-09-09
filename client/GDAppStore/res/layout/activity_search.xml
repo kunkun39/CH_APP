@@ -38,7 +38,7 @@
         android:drawableRight="@drawable/img_search"
         android:hint="支持首字母搜索"
         android:padding="3dp"
-        android:singleLine="false"
+        android:singleLine="true"
         android:textColor="@color/white"
         android:textSize="18sp" />
 
