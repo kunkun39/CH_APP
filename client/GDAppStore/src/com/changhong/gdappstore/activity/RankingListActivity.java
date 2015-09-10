@@ -103,7 +103,7 @@ public class RankingListActivity extends Activity {
 				position = newListViewPosition.caculateAbsolutePosition(hotListViewPosition.getRelativePosition());
 				offset = newListViewPosition.caculateOffset(position,false);
 				focusView.setArrayList(newArrayList);
-				if(newListViewPosition.getEndNumPosition() == listView_new.getCount() - 1) {
+				if(newListViewPosition.getEndNumPosition() == listView_new.getCount() - 1 && newListViewPosition.getStartNumPosition() != 0) {
 					listView_new.setSelection(position);
 					focusView.focusViewChange(position, LEFT_MARGIN_NEW, offset + TOP_MARGIN - 4);
 				}
@@ -130,7 +130,7 @@ public class RankingListActivity extends Activity {
 				position = hotListViewPosition.caculateAbsolutePosition(surgeListViewPosition.getRelativePosition());
 				offset = hotListViewPosition.caculateOffset(position,false);
 				focusView.setArrayList(hotArrayList);
-				if(hotListViewPosition.getEndNumPosition() == listView_hot.getCount() - 1) {
+				if(hotListViewPosition.getEndNumPosition() == listView_hot.getCount() - 1 && hotListViewPosition.getStartNumPosition() != 0) {
 					listView_hot.setSelection(position);
 					focusView.focusViewChange(position, LEFT_MARGIN_HOT, offset + TOP_MARGIN - 4);
 				}
@@ -164,7 +164,7 @@ public class RankingListActivity extends Activity {
 				position = hotListViewPosition.caculateAbsolutePosition(newListViewPosition.getRelativePosition());
 				offset = hotListViewPosition.caculateOffset(position,false);
 				focusView.setArrayList(hotArrayList);
-				if(hotListViewPosition.getEndNumPosition() == listView_hot.getCount() - 1) {
+				if(hotListViewPosition.getEndNumPosition() == listView_hot.getCount() - 1 && hotListViewPosition.getStartNumPosition() != 0) {
 					listView_hot.setSelection(position);
 					focusView.focusViewChange(position, LEFT_MARGIN_HOT, offset + TOP_MARGIN - 4);
 				}
@@ -192,7 +192,7 @@ public class RankingListActivity extends Activity {
 				position = surgeListViewPosition.caculateAbsolutePosition(hotListViewPosition.getRelativePosition());
 				offset = surgeListViewPosition.caculateOffset(position,false);
 				focusView.setArrayList(surgeArrayList);
-				if(surgeListViewPosition.getEndNumPosition() == listView_surge.getCount() - 1) {
+				if(surgeListViewPosition.getEndNumPosition() == listView_surge.getCount() - 1 && surgeListViewPosition.getStartNumPosition() != 0) {
 					listView_surge.setSelection(position);
 					focusView.focusViewChange(position, LEFT_MARGIN_SURGE, offset + TOP_MARGIN - 4);
 				}
@@ -321,7 +321,7 @@ public class RankingListActivity extends Activity {
 				if(-1 != offset || !focusView.hasChanged()) {
 					focusView.setArrayList(newArrayList);
 					listViewChange.hideBackground((RelativeLayout)view.findViewById(R.id.ranking_bg));
-					if(newListViewPosition.getEndNumPosition() == listView_new.getCount() - 1) {
+					if(newListViewPosition.getEndNumPosition() == listView_new.getCount() - 1 && newListViewPosition.getStartNumPosition() != 0) {
 						listView_new.setSelection(position);
 						focusView.focusViewChange(position, LEFT_MARGIN_NEW, offset + TOP_MARGIN - 4);
 					}
@@ -353,7 +353,7 @@ public class RankingListActivity extends Activity {
 				if(-1 != offset || !focusView.hasChanged()) {
 					listViewChange.hideBackground((RelativeLayout) view.findViewById(R.id.ranking_bg));
 					focusView.setArrayList(hotArrayList);
-					if(hotListViewPosition.getEndNumPosition() == listView_hot.getCount() - 1) {
+					if(hotListViewPosition.getEndNumPosition() == listView_hot.getCount() - 1 && hotListViewPosition.getStartNumPosition() != 0) {
 						listView_hot.setSelection(position);
 						focusView.focusViewChange(position, LEFT_MARGIN_HOT, offset + TOP_MARGIN - 4);
 					}
@@ -387,7 +387,7 @@ public class RankingListActivity extends Activity {
 				if(-1 != offset || !focusView.hasChanged()) {
 					listViewChange.hideBackground((RelativeLayout) view.findViewById(R.id.ranking_bg));
 					focusView.setArrayList(surgeArrayList);
-					if(surgeListViewPosition.getEndNumPosition() == listView_surge.getCount() - 1) {
+					if(surgeListViewPosition.getEndNumPosition() == listView_surge.getCount() - 1 && surgeListViewPosition.getStartNumPosition() != 0) {
 						listView_surge.setSelection(position);
 						focusView.focusViewChange(position, LEFT_MARGIN_SURGE, offset + TOP_MARGIN - 4);
 					}

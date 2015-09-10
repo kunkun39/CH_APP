@@ -177,6 +177,10 @@ public class ListViewPosition {
 		return endNumPosition;
 	}
 	
+	public int getStartNumPosition() {
+		return startNumPosition;
+	}
+	
 	public void resetParameter(int countNum) {
 		this.countNum = countNum;
 		
