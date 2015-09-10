@@ -3,6 +3,7 @@ package com.changhong.gdappstore.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
@@ -324,13 +325,16 @@ public class MainActivity extends BaseActivity {
 		public void onPageScrollStateChanged(int arg0) {
 		}
 	};
-
+	private Dialog updateDialog=null;
 	private void checkUpdate() {
 		try {
 			int nativeVersion = getPackageManager().getPackageInfo(this.getPackageName(), 0).versionCode;
 			L.d("mainactivity readUpdate navVersion=" + nativeVersion + " serverVer " + MyApplication.SERVER_VERSION);
 			if (nativeVersion < MyApplication.SERVER_VERSION && !TextUtils.isEmpty(MyApplication.UPDATE_APKURL)) {
-				DialogUtil.showMyAlertDialog(context, "提示：", "有新版本更新。", "马上更新", "下次再说", new DialogBtnOnClickListener() {
+				if (updateDialog!=null && updateDialog.isShowing()) {
+					updateDialog.dismiss();
+				}
+				updateDialog=DialogUtil.showMyAlertDialog(context, "提示：", "有新版本更新。", "马上更新", "下次再说", new DialogBtnOnClickListener() {
 
 					@Override
 					public void onSubmit(DialogMessage dialogMessage) {
