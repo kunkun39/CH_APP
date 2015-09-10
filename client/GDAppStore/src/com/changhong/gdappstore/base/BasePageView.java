@@ -23,22 +23,28 @@ import com.changhong.gdappstore.view.PostItemView;
  */
 public class BasePageView extends BaseRelativeLayout {
 
-	/** 推荐位ID （默认布局为：左边4个序号分别是9,10,11,12上面3个海报序号为0,1,2下面6个序号为3,4,5,6,7,8） */
-	protected int[] itemIds = { R.id.jingping_item1, R.id.jingping_item2, R.id.jingping_item3, R.id.jingping_item4,
+	/** 应用推荐位ID */
+	protected int[] postItemIds = { R.id.jingping_item1, R.id.jingping_item2, R.id.jingping_item3, R.id.jingping_item4,
 			R.id.jingping_item5, R.id.jingping_item6, R.id.jingping_item7, R.id.jingping_item8, R.id.jingping_item9,
-			R.id.jingping_itema1, R.id.jingping_itema2, R.id.jingping_itema3, R.id.jingping_itema4 };
-	/** 推荐位个数 */
-	protected int itemCount = 13;
-	/** 推荐位view （默认布局为：左边4个序号分别是9,10,11,12上面3个海报序号为0,1,2下面6个序号为3,4,5,6,7,8） */
-	protected PostItemView[] itemViews = new PostItemView[itemCount];
+			R.id.jingping_item10, R.id.jingping_item11, R.id.jingping_item12 };
+	/** 栏目推荐位ID */
+	protected int[] categroyItemIds = { R.id.jingping_itema1, R.id.jingping_itema2, R.id.jingping_itema3,
+			R.id.jingping_itema4 };
+	/** 应用推荐位个数 */
+	protected  int postItemCount = 12;
+	/** 应用推荐位view */
+	protected PostItemView[] postItemViews = new PostItemView[postItemCount];
+	/** 栏目推荐位view */
+	protected PostItemView[] categoryItemViews = new PostItemView[4];
 	/** 焦点缩放动画 */
 	protected Animation animationbig, animationsmall;
 	/** 当前焦点位置 */
 	public int currentFocuesId;
-	
-	protected final int bigLeftMar_add=-7,bigTopMar_add=-4,bigWidth_add=9,bigHeight_add=4;
-	protected final int horLeftMar_add=-15,horTopMar_add=-15,horWidth_add=22,horHeight_add=23;
-	protected final int smallLeftMar_add=-16,smallTopMar_add=-18,smallWidth_add=25,smallHeight_add=27;
+
+	protected final int bigLeftMar_add = 3, bigTopMar_add = -6, bigWidth_add = 10, bigHeight_add = 18;
+	protected final int big2LeftMar_add = -7, big2TopMar_add = -4, big2Width_add = 9, big2Height_add = 4;
+	protected final int horLeftMar_add = -15, horTopMar_add = -15, horWidth_add = 22, horHeight_add = 23;
+	protected final int smallLeftMar_add = -15, smallTopMar_add = -15, smallWidth_add = 25, smallHeight_add = 27;
 
 	public BasePageView(Context context) {
 		super(context);
@@ -61,13 +67,26 @@ public class BasePageView extends BaseRelativeLayout {
 	}
 
 	/**
-	 * set the item view in itemViews request focus by position .
+	 * set the item view in categoryItemViews request focus by position .
 	 * 
 	 * @param position
 	 */
-	public void setFocuesItemByPosition(int position) {
-		if (itemViews != null && position >= 0 && position < itemViews.length && itemViews[position] != null) {
-			itemViews[position].requestFocus();
+	public void setCategoryItemFocuesByPos(int position) {
+		if (categoryItemViews != null && position >= 0 && position < categoryItemViews.length
+				&& categoryItemViews[position] != null) {
+			categoryItemViews[position].requestFocus();
+		}
+	}
+
+	/**
+	 * set the item view in postItemViews request focus by position .
+	 * 
+	 * @param position
+	 */
+	public void setPostItemFocuesByPos(int position) {
+		if (postItemViews != null && position >= 0 && position < postItemViews.length
+				&& postItemViews[position] != null) {
+			postItemViews[position].requestFocus();
 		}
 	}
 
