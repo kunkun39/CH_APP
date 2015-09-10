@@ -3,6 +3,8 @@ package com.changhong.gdappstore.activity;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +18,7 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.R;
@@ -60,6 +63,7 @@ public class RankingListActivity extends Activity {
 	private ListViewPosition hotListViewPosition;
 	private ListViewPosition surgeListViewPosition;
 	private ListViewChange listViewChange;
+	private ProgressDialog dialog;
 	
 	enum FocusSelect{
 		NEW_LISTVIEW,
@@ -82,6 +86,7 @@ public class RankingListActivity extends Activity {
 		setContentView(R.layout.activity_ranking_list);
 		initData();
 		initView();
+		dialog = DialogUtil.showCirculProDialog(this, getString(R.string.tishi), getString(R.string.dataloading), true);
 	}
 	
 	@Override
@@ -303,8 +308,10 @@ public class RankingListActivity extends Activity {
 				else {
 					handler.sendEmptyMessage(LOAD_RANKING_FAIL);
 				}
+				dialog.dismiss();
+				
 			}
-		},true);
+		});
 	}
 	
 	private void jumpToDetailActivity(ArrayList<Ranking_Item> arrayList, int position) {
@@ -491,6 +498,7 @@ public class RankingListActivity extends Activity {
 					}
 					break;
 				case LOAD_RANKING_FAIL:
+					Toast.makeText(RankingListActivity.this, "获取网络数据失败", Toast.LENGTH_LONG).show();
 					break;
 				default:
 					break;
