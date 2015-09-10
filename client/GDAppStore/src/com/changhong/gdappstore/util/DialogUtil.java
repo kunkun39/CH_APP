@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.graphics.Color;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -40,25 +41,41 @@ public class DialogUtil {
 			this.dialogInterface = dialogInterface;
 		}
 	}
+
 	/**
 	 * 显示短toast
+	 * 
 	 * @param context
 	 * @param text
 	 */
 	public static void showShortToast(Context context, String text) {
 		Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
 	}
+
 	/**
 	 * 显示长toast
+	 * 
 	 * @param context
 	 * @param text
 	 */
 	public static void showLongToast(Context context, String text) {
 		Toast.makeText(context, text, Toast.LENGTH_LONG).show();
 	}
-	
-	public static ProgressDialog showCirculProDialog(Context context,String title,String content,boolean isshow) {
-		ProgressDialog progressDialog=new ProgressDialog(context, R.style.Dialog_nowindowbg);
+
+	public static void showChildThreadToast(final String msg, final Context context, final boolean islong) {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				Looper.prepare();
+				Toast.makeText(context, msg, islong ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT).show();
+				Looper.loop();
+			}
+		}).start();
+	}
+
+	public static ProgressDialog showCirculProDialog(Context context, String title, String content, boolean isshow) {
+		ProgressDialog progressDialog = new ProgressDialog(context, R.style.Dialog_nowindowbg);
 		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		progressDialog.getWindow().setTitleColor(Color.WHITE);
 		progressDialog.setTitle(title);
@@ -69,14 +86,12 @@ public class DialogUtil {
 		}
 		return progressDialog;
 	}
-	
-	public static Dialog showMyAlertDialog(Context context, String title,
-			String content, String positiveBtnName, String negtiveBtnName,
-			final DialogBtnOnClickListener listener) {
+
+	public static Dialog showMyAlertDialog(Context context, String title, String content, String positiveBtnName,
+			String negtiveBtnName, final DialogBtnOnClickListener listener) {
 		final Dialog dialog = new Dialog(context, R.style.Dialog_nowindowbg);
 
-		View view = LayoutInflater.from(context).inflate(
-				R.layout.dialog_myalert, null);
+		View view = LayoutInflater.from(context).inflate(R.layout.dialog_myalert, null);
 		dialog.setContentView(view);
 		LayoutParams param = dialog.getWindow().getAttributes();
 		param.gravity = Gravity.CENTER;
@@ -109,10 +124,8 @@ public class DialogUtil {
 				}
 			}
 		});
-		TextView tv_title = (TextView) view
-				.findViewById(R.id.tv_alertdia_title);
-		TextView tv_content = (TextView) view
-				.findViewById(R.id.tv_alertdia_content);
+		TextView tv_title = (TextView) view.findViewById(R.id.tv_alertdia_title);
+		TextView tv_content = (TextView) view.findViewById(R.id.tv_alertdia_content);
 
 		if (!TextUtils.isEmpty(content)) {
 			tv_content.setText(content);
@@ -126,8 +139,8 @@ public class DialogUtil {
 		}
 		bt_submit.requestFocus();
 		dialog.getWindow().setAttributes(param);
-//		dialog.getWindow()
-//				.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+		// dialog.getWindow()
+		// .setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
 		try {
 			dialog.show();
 		} catch (Exception e) {
