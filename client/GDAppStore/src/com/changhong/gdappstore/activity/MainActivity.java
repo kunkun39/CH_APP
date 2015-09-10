@@ -84,6 +84,7 @@ public class MainActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		L.d("mainactivity on create ");
 		setContentView(R.layout.activity_main);
 		initView();
 		initOnCreateData();

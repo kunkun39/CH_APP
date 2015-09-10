@@ -1,8 +1,16 @@
 package com.changhong.gdappstore.util;
 
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
+
+import org.apache.http.conn.util.InetAddressUtils;
+
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 /**
  * 网络工具类
@@ -36,6 +44,23 @@ public class NetworkUtils {
 		}
 
 		return false;
+	}
+
+	public static String getIpAddress(Context context) {
+		try {
+			for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+				NetworkInterface intf = en.nextElement();
+				for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+					InetAddress inetAddress = enumIpAddr.nextElement();
+					if (!inetAddress.isLoopbackAddress()&& InetAddressUtils.isIPv4Address(inetAddress.getHostAddress())) {
+						return inetAddress.getHostAddress().toString() + "";
+					}
+				}
+			}
+		} catch (SocketException ex) {
+			Log.e("getIpAddress IpAddress", ex.toString());
+		}
+		return "";
 	}
 
 }
