@@ -40,27 +40,27 @@ public class UserMayLikeView extends BasePageView implements OnFocusChangeListen
 	}
 
 	protected void initView() {
-		itemCount = 8;
-		itemIds = new int[itemCount];
-		itemIds[0] = R.id.usermaylike_item0;
-		itemIds[1] = R.id.usermaylike_item1;
-		itemIds[2] = R.id.usermaylike_item2;
-		itemIds[3] = R.id.usermaylike_item3;
-		itemIds[4] = R.id.usermaylike_item4;
-		itemIds[5] = R.id.usermaylike_item5;
-		itemIds[6] = R.id.usermaylike_item6;
-		itemIds[7] = R.id.usermaylike_item7;
-		itemViews = new PostItemView[itemCount];
+		postItemCount = 8;
+		postItemIds = new int[postItemCount];
+		postItemIds[0] = R.id.usermaylike_item0;
+		postItemIds[1] = R.id.usermaylike_item1;
+		postItemIds[2] = R.id.usermaylike_item2;
+		postItemIds[3] = R.id.usermaylike_item3;
+		postItemIds[4] = R.id.usermaylike_item4;
+		postItemIds[5] = R.id.usermaylike_item5;
+		postItemIds[6] = R.id.usermaylike_item6;
+		postItemIds[7] = R.id.usermaylike_item7;
+		postItemViews = new PostItemView[postItemCount];
 		View rootView = LayoutInflater.from(context).inflate(R.layout.view_usermaylike, this);
 		ivFocues = findView(R.id.iv_detail_focues);
 		ivFocues.setVisibility(INVISIBLE);
-		for (int i = 0; i < itemCount; i++) {
-			itemViews[i] = findView(itemIds[i]);
-			itemViews[i].setFocusable(true);
-			itemViews[i].setClickable(true);
-			itemViews[i].setOnFocusChangeListener(this);
-			itemViews[i].setOnClickListener(this);
-			itemViews[i].setVisibility(INVISIBLE);
+		for (int i = 0; i < postItemCount; i++) {
+			postItemViews[i] = findView(postItemIds[i]);
+			postItemViews[i].setFocusable(true);
+			postItemViews[i].setClickable(true);
+			postItemViews[i].setOnFocusChangeListener(this);
+			postItemViews[i].setOnClickListener(this);
+			postItemViews[i].setVisibility(INVISIBLE);
 		}
 	}
 
@@ -69,13 +69,13 @@ public class UserMayLikeView extends BasePageView implements OnFocusChangeListen
 		if (apps != null && apps.size() > 0) {
 			 appsSize=apps.size();
 		}
-		for (int i = 0; i < itemCount; i++) {
+		for (int i = 0; i < postItemCount; i++) {
 			if (i<appsSize) {
-				itemViews[i].setAppData(apps.get(i));
-				itemViews[i].setTag(apps.get(i));
-				itemViews[i].setVisibility(VISIBLE);
+				postItemViews[i].setAppData(apps.get(i));
+				postItemViews[i].setTag(apps.get(i));
+				postItemViews[i].setVisibility(VISIBLE);
 			}else {
-				itemViews[i].setVisibility(INVISIBLE);
+				postItemViews[i].setVisibility(INVISIBLE);
 			}
 		}
 	}

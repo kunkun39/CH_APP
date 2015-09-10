@@ -50,7 +50,7 @@ public class PostItemView extends BaseRelativeLayout {
 	}
 
 	protected void initView() {
-		LayoutInflater.from(context).inflate(R.layout.item_post, this);
+		LayoutInflater.from(context).inflate(R.layout.item_mainpost, this);
 		rl_post = findView(R.id.rl_postitem_bigpost);
 		iv_post = findView(R.id.iv_post);
 		tv_postname = findView(R.id.tv_postname);
@@ -109,7 +109,7 @@ public class PostItemView extends BaseRelativeLayout {
 		if (pageApp == null) {
 			return;
 		}
-		if (pageApp.getPosition() > 3) {
+		if (pageApp.getPosition() > 6) {
 			// 小海报图标
 			rl_app.setVisibility(VISIBLE);
 			rl_post.setVisibility(INVISIBLE);
