@@ -219,6 +219,7 @@ public class UpdateService {
 						connection = (HttpURLConnection) url.openConnection();
 						connection.setUseCaches(false);
 						connection.setConnectTimeout(Config.CONNECTION_TIMEOUT);
+						connection.setReadTimeout(Config.CONNECTION_TIMEOUT);
 						connection.setRequestMethod("GET");
 						if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
 							connection.connect();
