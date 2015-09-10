@@ -22,11 +22,11 @@ public class ImageLoadUtil {
 	 *            图片imageView
 	 */
 	public static void displayImgByMemoryDiscCache(String url, ImageView imageView) {
-		if (Config.ISCACHEABLE) {
+//		if (Config.ISCACHEABLE) {
 			MyApplication.imageLoader.displayImage(url, imageView, MyApplication.option_memory_disc);
-		} else {
-			displayImgByNoCache(url, imageView);
-		}
+//		} else {
+//			displayImgByNoCache(url, imageView);
+//		}
 	}
 
 	/**
@@ -40,11 +40,11 @@ public class ImageLoadUtil {
 	 *            下载监听器
 	 */
 	public static void displayImgByMemoryDiscCache(String url, ImageView imageView, ImageLoadingListener listener) {
-		if (Config.ISCACHEABLE) {
+//		if (Config.ISCACHEABLE) {
 			MyApplication.imageLoader.displayImage(url, imageView, MyApplication.option_memory_disc, listener);
-		} else {
-			displayImgByNoCache(url, imageView);
-		}
+//		} else {
+//			displayImgByNoCache(url, imageView);
+//		}
 	}
 
 	/**
@@ -56,11 +56,11 @@ public class ImageLoadUtil {
 	 *            图片imageView
 	 */
 	public static void displayImgByonlyDiscCache(String url, ImageView imageView) {
-		if (Config.ISCACHEABLE) {
+//		if (Config.ISCACHEABLE) {
 			MyApplication.imageLoader.displayImage(url, imageView, MyApplication.option_nomemory_disc, null);
-		} else {
-			displayImgByNoCache(url, imageView);
-		}
+//		} else {
+//			displayImgByNoCache(url, imageView);
+//		}
 	}
 
 	/**
@@ -74,11 +74,11 @@ public class ImageLoadUtil {
 	 *            下载监听器
 	 */
 	public static void displayImgByonlyDiscCache(String url, ImageView imageView, ImageLoadingListener listener) {
-		if (Config.ISCACHEABLE) {
+//		if (Config.ISCACHEABLE) {
 			MyApplication.imageLoader.displayImage(url, imageView, MyApplication.option_nomemory_disc, listener);
-		} else {
-			displayImgByNoCache(url, imageView);
-		}
+//		} else {
+//			displayImgByNoCache(url, imageView);
+//		}
 	}
 
 	/**
