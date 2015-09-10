@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -80,6 +81,8 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 	private Map<String, List<Object>> cacheMap = new LinkedHashMap<String, List<Object>>();
 	/** 缓存保留数据数量 */
 	private static final int CACHESIZE = 30;
+	/**加载进度圈*/
+	private ProgressDialog loadDataProDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +96,7 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void initView() {
+		loadDataProDialog=DialogUtil.showCirculProDialog(context, context.getString(R.string.tishi), context.getString(R.string.dataloading), true);
 		for (int i = 0; i < id_keybords.length; i++) {
 			findViewById(id_keybords[i]).setOnClickListener(keyBordOnClickListener);
 		}
@@ -151,6 +155,9 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 	}
 
 	public void updateRankListData(List<Ranking_Item> rankingItems) {
+		if (loadDataProDialog==null ||loadDataProDialog.isShowing()) {
+			loadDataProDialog.dismiss();
+		}
 		if (rankingItems == null || rankingItems.size() <= 0) {
 			return;
 		}

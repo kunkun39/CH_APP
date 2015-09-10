@@ -97,9 +97,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		downloadPDialog = new MyProgressDialog(context);
 		downloadPDialog.setUpdateFileSizeName(true);
 		downloadPDialog.dismiss();
-		updateAppPDialog = new ProgressDialog(context);
-		updateAppPDialog.setCancelable(false);
-		updateAppPDialog.dismiss();
+		updateAppPDialog=DialogUtil.showCirculProDialog(context, context.getString(R.string.tishi), context.getString(R.string.dataloading), true);
 		view_usermaylike.setOnClickListener(new OnClickListener() {
 
 			@Override

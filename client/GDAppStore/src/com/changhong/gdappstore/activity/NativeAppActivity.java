@@ -3,6 +3,7 @@ package com.changhong.gdappstore.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -33,6 +34,7 @@ public class NativeAppActivity extends PostActivity {
 	/** 本地应用 */
 	private List<Object> nativeApps;
 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,11 +59,17 @@ public class NativeAppActivity extends PostActivity {
 		postSetting.setVisibleClumn(1.1f);
 		postSetting.setMargins(15, 15, 0, 0);
 		postView.init(postSetting);
+		if (loadDataProDialog!=null && loadDataProDialog.isShowing()) {
+			loadDataProDialog.dismiss();
+		}
 	}
 
 	private void initData() {
 		nativeApps = Util.getApp(context);
 		if (nativeApps != null) {
+			if (loadDataProDialog!=null && !loadDataProDialog.isShowing()) {
+				loadDataProDialog.show();
+			}
 			postView.refreshAllData(nativeApps, postSetting, nativeApps.size());
 			// 获取包名，用于请求版本号
 			List<String> packages = new ArrayList<String>();
@@ -105,6 +113,9 @@ public class NativeAppActivity extends PostActivity {
 						}
 					}
 					postView.refreshAllData(nativeApps, postSetting, nativeApps.size());
+					if (loadDataProDialog!=null && loadDataProDialog.isShowing()) {
+						loadDataProDialog.dismiss();
+					}
 				}
 			});
 		}

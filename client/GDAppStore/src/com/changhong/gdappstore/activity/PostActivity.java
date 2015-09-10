@@ -3,6 +3,7 @@ package com.changhong.gdappstore.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -59,6 +60,8 @@ public class PostActivity extends BaseActivity {
 	protected ImageView iv_shandow1, iv_shandow2, iv_shandow3, iv_shandow4;
 	/** 当前显示类别id **/
 	protected int curCategoryId = 0;
+	
+	protected ProgressDialog loadDataProDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +81,7 @@ public class PostActivity extends BaseActivity {
 		iv_shandow4 = findView(R.id.iv_shandow4);
 		tv_page = findView(R.id.tv_page);
 		iv_search = findView(R.id.iv_search);
+		loadDataProDialog=DialogUtil.showCirculProDialog(context, context.getString(R.string.tishi), context.getString(R.string.dataloading), true);
 		iv_search.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -91,6 +95,9 @@ public class PostActivity extends BaseActivity {
 			public void onItemClick(View view, int position) {
 				Category category = (Category) view.getTag();
 				if (curCategoryId != category.getId()) {
+					if (loadDataProDialog!=null && !loadDataProDialog.isShowing()) {
+						loadDataProDialog.show();
+					}
 					dataCenter.loadAppsByCategoryId(context, category.getId(), loadAppListListener);
 					curCategoryId = category.getId();
 				}
@@ -155,6 +162,9 @@ public class PostActivity extends BaseActivity {
 
 		@Override
 		public void onComplete(List<Object> items) {
+			if (loadDataProDialog!=null && loadDataProDialog.isShowing()) {
+				loadDataProDialog.dismiss();
+			}
 			currentApps = items;
 			L.d("loadapp complete " + ((items == null) ? "items is null" : items.size()));
 			if (items != null && items.size() > 0) {
