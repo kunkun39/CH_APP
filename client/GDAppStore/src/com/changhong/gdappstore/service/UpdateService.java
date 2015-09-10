@@ -302,7 +302,7 @@ public class UpdateService {
 					preferenceService.saveThreadDownloadDataSize(DOWNLOAD_THREAD_TWO, 0);
 					// 提交下载统计
 					if (appDetail.getAppid()>0) {
-						DataCenter.getInstance().submitAppDownloadOK(appDetail.getAppid() + "");
+						DataCenter.getInstance().submitAppDownloadOK(appDetail.getAppid() + "",context);
 					}
 					// 下载完成 安装
 					installApp();
