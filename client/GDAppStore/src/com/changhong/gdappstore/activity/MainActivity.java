@@ -113,15 +113,15 @@ public class MainActivity extends BaseActivity {
 			@Override
 			public void onNetChange(boolean isconnect) {
 				L.d("MainActivity---onnetchanged--" + isconnect + " " + Util.getTopActivity(context) + " ");
-				if (isconnect && Util.getTopActivity(context).equals(context.getClass().getName())) {// 网络从断开到链接更新数据
-					DataCenter.getInstance().loadCategoryAndPageData(context, new LoadCompleteListener() {
+				DataCenter.getInstance().loadCategoryAndPageData(context, new LoadCompleteListener() {
 
-						@Override
-						public void onComplete() {
+					@Override
+					public void onComplete() {
+						if (Util.getTopActivity(context).equals(context.getClass().getName())) {// 网络从断开到链接更新数据
 							initData();
 						}
-					}, true);
-				}
+					}
+				}, true);
 			}
 		});
 		initPageChangeAnimtion();
@@ -138,10 +138,10 @@ public class MainActivity extends BaseActivity {
 		progressDialog.setUpdateFileSizeName(true);
 		progressDialog.dismiss();
 	}
-	
+
 	private void initOnCreateData() {
 		DataCenter.getInstance().loadPageApps(context, new LoadCompleteListener() {
-			
+
 			@Override
 			public void onComplete() {
 				initData();
@@ -161,7 +161,7 @@ public class MainActivity extends BaseActivity {
 		view_homepage.initNativeData();
 		if (categories != null) {
 			for (int i = 0; i < categories.size(); i++) {
-				L.d("mainactivity initdata category is "+categories.get(i));
+				L.d("mainactivity initdata category is " + categories.get(i));
 				if (i > 3) {
 					categories.remove(i);// TODO 第一阶段只显示4个标签，
 					i--;
@@ -194,7 +194,7 @@ public class MainActivity extends BaseActivity {
 					}
 				}
 			}
-		}else {
+		} else {
 			L.d("mainactivity initdata category is null");
 		}
 		viewPagerAdapter.updateList(pageViews);
@@ -325,36 +325,38 @@ public class MainActivity extends BaseActivity {
 		public void onPageScrollStateChanged(int arg0) {
 		}
 	};
-	private Dialog updateDialog=null;
+	private Dialog updateDialog = null;
+
 	private void checkUpdate() {
 		try {
 			int nativeVersion = getPackageManager().getPackageInfo(this.getPackageName(), 0).versionCode;
 			L.d("mainactivity readUpdate navVersion=" + nativeVersion + " serverVer " + MyApplication.SERVER_VERSION);
 			if (nativeVersion < MyApplication.SERVER_VERSION && !TextUtils.isEmpty(MyApplication.UPDATE_APKURL)) {
-				if (updateDialog!=null && updateDialog.isShowing()) {
+				if (updateDialog != null && updateDialog.isShowing()) {
 					updateDialog.dismiss();
 				}
-				updateDialog=DialogUtil.showMyAlertDialog(context, "提示：", "有新版本更新。", "马上更新", "下次再说", new DialogBtnOnClickListener() {
+				updateDialog = DialogUtil.showMyAlertDialog(context, "提示：", "有新版本更新。", "马上更新", "下次再说",
+						new DialogBtnOnClickListener() {
 
-					@Override
-					public void onSubmit(DialogMessage dialogMessage) {
+							@Override
+							public void onSubmit(DialogMessage dialogMessage) {
 
-						UpdateService updateService = new UpdateService(context, null, progressDialog);
-						AppDetail appDetail = new AppDetail();
-						appDetail.setApkFilePath(MyApplication.UPDATE_APKURL);
-						updateService.update(appDetail, false);
-						if (dialogMessage != null && dialogMessage.dialogInterface != null) {
-							dialogMessage.dialogInterface.dismiss();
-						}
-					}
+								UpdateService updateService = new UpdateService(context, null, progressDialog);
+								AppDetail appDetail = new AppDetail();
+								appDetail.setApkFilePath(MyApplication.UPDATE_APKURL);
+								updateService.update(appDetail, false);
+								if (dialogMessage != null && dialogMessage.dialogInterface != null) {
+									dialogMessage.dialogInterface.dismiss();
+								}
+							}
 
-					@Override
-					public void onCancel(DialogMessage dialogMessage) {
-						if (dialogMessage != null && dialogMessage.dialogInterface != null) {
-							dialogMessage.dialogInterface.dismiss();
-						}
-					}
-				});
+							@Override
+							public void onCancel(DialogMessage dialogMessage) {
+								if (dialogMessage != null && dialogMessage.dialogInterface != null) {
+									dialogMessage.dialogInterface.dismiss();
+								}
+							}
+						});
 			}
 		} catch (NameNotFoundException e) {
 			e.printStackTrace();
