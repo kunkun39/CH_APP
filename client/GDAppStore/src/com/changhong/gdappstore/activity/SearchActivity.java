@@ -282,7 +282,7 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 							}
 							cacheMap.put(s.toString(), items);
 						}
-					});
+					},context);
 				}
 			}
 		}

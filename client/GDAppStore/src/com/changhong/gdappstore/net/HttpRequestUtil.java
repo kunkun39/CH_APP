@@ -19,9 +19,16 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
 
+import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.changhong.gdappstore.Config;
+import com.changhong.gdappstore.R;
+import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.NetworkUtils;
 
@@ -35,12 +42,13 @@ public class HttpRequestUtil {
 
 	/**
 	 * 获取String
+	 * 
 	 * @param httpEntity
 	 * @return
 	 */
-	public static String getEntityString(HttpEntity httpEntity) {
+	public static String getEntityString(HttpEntity httpEntity,Context context) {
 		String jsonString = "";
-		if(httpEntity == null) {
+		if (httpEntity == null) {
 			return null;
 		}
 		try {
@@ -49,6 +57,7 @@ public class HttpRequestUtil {
 			L.d("getEntityString-httpentity content lenght is " + contentLenght + " jsonString " + jsonString);
 		} catch (Exception e) {
 			L.d("getEntityString error " + e);
+			DialogUtil.showChildThreadToast(context.getString(R.string.error_parse), context, true);
 			e.printStackTrace();
 		}
 		return jsonString;
@@ -61,12 +70,13 @@ public class HttpRequestUtil {
 	 *            地址
 	 * @return
 	 */
-	public static HttpEntity doGetRequest(String url) {
-		if (TextUtils.isEmpty(url)||!NetworkUtils.ISNET_CONNECT) {
-			L.d("doGetRequest--returned by url= " + url+" netisconnect= "+NetworkUtils.ISNET_CONNECT);
+	public static HttpEntity doGetRequest(String url, Context context) {
+		if (TextUtils.isEmpty(url) || !NetworkUtils.isConnectInternet(context)) {
+			L.d("doGetRequest--returned by url= " + url + " netisconnect= " + NetworkUtils.ISNET_CONNECT);
+			DialogUtil.showChildThreadToast(context.getString(R.string.error_nonet), context, true);
 			return null;
 		}
-		url = url.replaceAll(" ", "%20");//替换空格
+		url = url.replaceAll(" ", "%20");// 替换空格
 		L.d("doGetRequest--url is " + url);
 		try {
 			HttpGet httpGet = new HttpGet(url);
@@ -84,6 +94,7 @@ public class HttpRequestUtil {
 			}
 		} catch (Exception e) {
 			L.e("doGetRequest- connect error");
+			DialogUtil.showChildThreadToast(context.getString(R.string.error_serverconnect), context, true);
 			e.printStackTrace();
 		}
 		return null;
@@ -98,12 +109,13 @@ public class HttpRequestUtil {
 	 *            参数
 	 * @return
 	 */
-	public static HttpEntity doPostRequest(String url, final List<NameValuePair> paramList) {
-		if (TextUtils.isEmpty(url)||!NetworkUtils.ISNET_CONNECT) {
-			L.d("doPostRequest--returned by url= " + url+" netisconnect= "+NetworkUtils.ISNET_CONNECT);
+	public static HttpEntity doPostRequest(String url, final List<NameValuePair> paramList,Context context) {
+		if (TextUtils.isEmpty(url) || !NetworkUtils.isConnectInternet(context)) {
+			L.d("doPostRequest--returned by url= " + url + " netisconnect= " + NetworkUtils.ISNET_CONNECT);
+			DialogUtil.showChildThreadToast(context.getString(R.string.error_nonet), context, true);
 			return null;
 		}
-		url = url.replaceAll(" ", "%20");//替换空格
+		url = url.replaceAll(" ", "%20");// 替换空格
 		L.d("doPostRequest--url is " + url);
 		HttpPost httpPost = null;
 		try {
@@ -129,10 +141,12 @@ public class HttpRequestUtil {
 			}
 		} catch (Exception e) {
 			L.e("doPostRequest--connect error ");
+			DialogUtil.showChildThreadToast(context.getString(R.string.error_serverconnect), context, true);
 			e.printStackTrace();
 		}
 		return null;
 	}
+
 
 	public static void writetofile(byte[] bytes, File file) {
 		FileOutputStream fos = null;

@@ -281,7 +281,7 @@ public class Parse {
 		AppDetail appDetail = new AppDetail();
 		if (TextUtils.isEmpty(appdetailJson)) {
 			L.w("returned by appdetailJson is empty when parseAppDetail");
-			return appDetail;
+			return null;
 		}
 		try {
 			JSONObject object = new JSONObject(appdetailJson);
@@ -308,6 +308,7 @@ public class Parse {
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
+			return null;
 		}
 		return appDetail;
 	}

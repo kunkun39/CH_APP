@@ -149,7 +149,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 					}
 				}
 			}
-		});
+		},context);
 
 	}
 

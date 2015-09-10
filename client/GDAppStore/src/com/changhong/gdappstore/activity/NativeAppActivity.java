@@ -117,7 +117,7 @@ public class NativeAppActivity extends PostActivity {
 						loadDataProDialog.dismiss();
 					}
 				}
-			});
+			},context);
 		}
 	}
 

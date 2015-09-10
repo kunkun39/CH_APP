@@ -60,8 +60,10 @@ public class PostActivity extends BaseActivity {
 	protected ImageView iv_shandow1, iv_shandow2, iv_shandow3, iv_shandow4;
 	/** 当前显示类别id **/
 	protected int curCategoryId = 0;
-	
+
 	protected ProgressDialog loadDataProDialog;
+
+	private int itemsize;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +83,8 @@ public class PostActivity extends BaseActivity {
 		iv_shandow4 = findView(R.id.iv_shandow4);
 		tv_page = findView(R.id.tv_page);
 		iv_search = findView(R.id.iv_search);
-		loadDataProDialog=DialogUtil.showCirculProDialog(context, context.getString(R.string.tishi), context.getString(R.string.dataloading), true);
+		loadDataProDialog = DialogUtil.showCirculProDialog(context, context.getString(R.string.tishi),
+				context.getString(R.string.dataloading), true);
 		iv_search.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -95,7 +98,7 @@ public class PostActivity extends BaseActivity {
 			public void onItemClick(View view, int position) {
 				Category category = (Category) view.getTag();
 				if (curCategoryId != category.getId()) {
-					if (loadDataProDialog!=null && !loadDataProDialog.isShowing()) {
+					if (loadDataProDialog != null && !loadDataProDialog.isShowing()) {
 						loadDataProDialog.show();
 					}
 					dataCenter.loadAppsByCategoryId(context, category.getId(), loadAppListListener);
@@ -121,7 +124,7 @@ public class PostActivity extends BaseActivity {
 		postSetting.setVerticalScroll(false);// 纵向滚动
 		postSetting.setVisibleClumn(1.07f);// 显示的页数
 		postSetting.setMargins(0, 0, 0, 0);// item的距离
-		// postSetting.setPagePadding(0, 0, 0, 0);
+		postSetting.setLastClumnFocusRight(false);
 		postSetting.setFirstRowFocusUp(true);// 第一排是否允许焦点再往上
 		postSetting.setFirstClumnFocusLeft(false);
 		postSetting.setFristItemFocus(false);
@@ -141,7 +144,7 @@ public class PostActivity extends BaseActivity {
 		}
 		parentCategory = dataCenter.getCategoryById(parentCategoryId);// 获取父栏目
 		curCategoryId = currentCategoryId;
-		L.d("parentCategory "+parentCategory.getId()+"  "+parentCategory.getName());
+		L.d("parentCategory " + parentCategory.getId() + "  " + parentCategory.getName());
 		if (parentCategory != null) {
 			tv_name.setText(parentCategory.getName());
 			titleView.initData(parentCategory, parentCategory.getCategoyChildren());
@@ -162,15 +165,17 @@ public class PostActivity extends BaseActivity {
 
 		@Override
 		public void onComplete(List<Object> items) {
-			if (loadDataProDialog!=null && loadDataProDialog.isShowing()) {
+			if (loadDataProDialog != null && loadDataProDialog.isShowing()) {
 				loadDataProDialog.dismiss();
 			}
 			currentApps = items;
 			L.d("loadapp complete " + ((items == null) ? "items is null" : items.size()));
 			if (items != null && items.size() > 0) {
+				itemsize = currentApps.size();
 				postView.setVisibility(VISIBLE);
-				postView.refreshAllData(currentApps, postSetting, currentApps == null ? 0 : currentApps.size());
+				postView.refreshAllData(currentApps, postSetting, currentApps == null ? 0 : itemsize);
 			} else {
+				itemsize = 0;
 				postView.setVisibility(INVISIBLE);
 				iv_shandow1.setVisibility(INVISIBLE);
 				iv_shandow2.setVisibility(INVISIBLE);
