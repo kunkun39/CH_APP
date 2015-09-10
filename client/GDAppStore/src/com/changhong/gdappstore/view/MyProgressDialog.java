@@ -113,7 +113,7 @@ public class MyProgressDialog extends Dialog {
 		returnSize=(float)size/(float)(1000*1000);
 		DecimalFormat decimalFormat=new DecimalFormat("0.0");//构造方法的字符格式这里如果小数不足2位,会以0补足.
 		String p=decimalFormat.format(returnSize);
-		return p;
+		return p+"M";
 	}
 
 	public boolean isUpdateFileSizeName() {
