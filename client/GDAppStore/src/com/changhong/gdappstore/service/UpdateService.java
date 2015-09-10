@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.model.AppDetail;
+import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
@@ -36,6 +37,7 @@ public class UpdateService {
 	private final int MESSAGE_SERVER_FILEERROR = 11;
 	private final int MESSAGE_DOWNLOADOVER = 12;
 	private final int MESSAGE_DOWNEXCEPTION = 13;
+	private final int MESSAGE_NETNOTCONNECT = 14;
 
 	/** ACITIVY传过来更新进度条 */
 	private MyProgressDialog progressDialog;
@@ -81,13 +83,16 @@ public class UpdateService {
 					super.handleMessage(msg);
 					switch (msg.what) {
 					case MESSAGE_SERVER_FILEERROR:
-						Toast.makeText(context, "服务端文件解析异常", Toast.LENGTH_SHORT).show();
+						DialogUtil.showLongToast(context, "服务器连接异常");
 						break;
 					case MESSAGE_DOWNLOADOVER:
-						Toast.makeText(context, "下载完成", Toast.LENGTH_SHORT).show();
+						DialogUtil.showLongToast(context, "下载完成");
 						break;
 					case MESSAGE_DOWNEXCEPTION:
-						Toast.makeText(context, "下载发生异常", Toast.LENGTH_LONG).show();
+						DialogUtil.showLongToast(context, "下载发生异常");
+						break;
+					case MESSAGE_NETNOTCONNECT:
+						DialogUtil.showLongToast(context, "网络未连接");
 						break;
 
 					default:
@@ -206,6 +211,8 @@ public class UpdateService {
 			@Override
 			public void run() {
 				if (!NetworkUtils.isConnectInternet(context)) {
+					handler.sendMessage(handler.obtainMessage(MESSAGE_NETNOTCONNECT));
+					downloading = false;
 					return;
 				}
 				try {
