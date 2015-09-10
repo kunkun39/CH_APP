@@ -2,9 +2,11 @@ package com.changhong.gdappstore.util;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -53,6 +55,19 @@ public class DialogUtil {
 	 */
 	public static void showLongToast(Context context, String text) {
 		Toast.makeText(context, text, Toast.LENGTH_LONG).show();
+	}
+	
+	public static ProgressDialog showCirculProDialog(Context context,String title,String content,boolean isshow) {
+		ProgressDialog progressDialog=new ProgressDialog(context, R.style.Dialog_nowindowbg);
+		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		progressDialog.getWindow().setTitleColor(Color.WHITE);
+		progressDialog.setTitle(title);
+		progressDialog.setMessage(content);
+		progressDialog.setCancelable(false);
+		if (isshow) {
+			progressDialog.show();
+		}
+		return progressDialog;
 	}
 	
 	public static Dialog showMyAlertDialog(Context context, String title,
