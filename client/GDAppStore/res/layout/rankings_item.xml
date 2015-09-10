@@ -41,7 +41,8 @@
 		    android:textSize="26sp"
 		    android:textColor="#FFFFFF"
 		    android:singleLine="true"
-		    android:ellipsize="marquee" />
+		    android:ellipsize="marquee"
+		    android:marqueeRepeatLimit="marquee_forever" />
 		<TextView
 		    android:id="@+id/item_app_download_num"
 		    android:layout_width="145dp"

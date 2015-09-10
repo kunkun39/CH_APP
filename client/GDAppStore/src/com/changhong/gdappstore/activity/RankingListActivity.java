@@ -24,7 +24,10 @@ import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.model.RankingData;
 import com.changhong.gdappstore.model.Ranking_Item;
 import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
+import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.L;
+import com.changhong.gdappstore.util.NetworkUtils;
+import com.changhong.gdappstore.util.Util;
 import com.changhong.gdappstore.view.FocusView;
 import com.changhong.gdappstore.view.ListViewChange;
 import com.changhong.gdappstore.view.ListViewPosition;
@@ -100,23 +103,25 @@ public class RankingListActivity extends Activity {
 				listView_surge.setFocusable(false);
 				listView_new.requestFocus();
 				
-				position = newListViewPosition.caculateAbsolutePosition(hotListViewPosition.getRelativePosition());
-				offset = newListViewPosition.caculateOffset(position,false);
-				focusView.setArrayList(newArrayList);
-				if(newListViewPosition.getEndNumPosition() == listView_new.getCount() - 1 && newListViewPosition.getStartNumPosition() != 0) {
-					listView_new.setSelection(position);
-					focusView.focusViewChange(position, LEFT_MARGIN_NEW, offset + TOP_MARGIN - 4);
+				if(!Util.listIsEmpty(newArrayList)) {
+					position = newListViewPosition.caculateAbsolutePosition(hotListViewPosition.getRelativePosition());
+					offset = newListViewPosition.caculateOffset(position,false);
+					focusView.setArrayList(newArrayList);
+					if(newListViewPosition.getEndNumPosition() == listView_new.getCount() - 1 && newListViewPosition.getStartNumPosition() != 0) {
+						listView_new.setSelection(position);
+						focusView.focusViewChange(position, LEFT_MARGIN_NEW, offset + TOP_MARGIN - 4);
+					}
+					else {
+						listView_new.setSelectionFromTop(position,offset);
+						focusView.focusViewChange(position, LEFT_MARGIN_NEW, offset + TOP_MARGIN);
+					}
+					//重绘hotListview
+					hotArrayListAdapter.notifyDataSetChanged();
+					View localView = listView_new.getChildAt(position - listView_new.getFirstVisiblePosition());
+					listViewChange.hideBackground((RelativeLayout) localView.findViewById(R.id.ranking_bg));
+					L.i("开始位置：" + listView_new.getFirstVisiblePosition());
+					L.i("选择位置：" + listView_new.getSelectedItemPosition());
 				}
-				else {
-					listView_new.setSelectionFromTop(position,offset);
-					focusView.focusViewChange(position, LEFT_MARGIN_NEW, offset + TOP_MARGIN);
-				}
-				//重绘hotListview
-				hotArrayListAdapter.notifyDataSetChanged();
-				View localView = listView_new.getChildAt(position - listView_new.getFirstVisiblePosition());
-				listViewChange.hideBackground((RelativeLayout) localView.findViewById(R.id.ranking_bg));
-				L.i("开始位置：" + listView_new.getFirstVisiblePosition());
-				L.i("选择位置：" + listView_new.getSelectedItemPosition());
 			}
 			else if(currFocusSelect == FocusSelect.SURGE_LISTVIEW) {
 				//移动到newListview
@@ -130,21 +135,23 @@ public class RankingListActivity extends Activity {
 				position = hotListViewPosition.caculateAbsolutePosition(surgeListViewPosition.getRelativePosition());
 				offset = hotListViewPosition.caculateOffset(position,false);
 				focusView.setArrayList(hotArrayList);
-				if(hotListViewPosition.getEndNumPosition() == listView_hot.getCount() - 1 && hotListViewPosition.getStartNumPosition() != 0) {
-					listView_hot.setSelection(position);
-					focusView.focusViewChange(position, LEFT_MARGIN_HOT, offset + TOP_MARGIN - 4);
+				if(!Util.listIsEmpty(hotArrayList)) {
+					if(hotListViewPosition.getEndNumPosition() == listView_hot.getCount() - 1 && hotListViewPosition.getStartNumPosition() != 0) {
+						listView_hot.setSelection(position);
+						focusView.focusViewChange(position, LEFT_MARGIN_HOT, offset + TOP_MARGIN - 4);
+					}
+					else {
+						listView_hot.setSelectionFromTop(position,offset);
+						focusView.focusViewChange(position, LEFT_MARGIN_HOT, offset + TOP_MARGIN);
+					}
+					//重绘hotListview
+					surgeArrayListAdapter.notifyDataSetChanged();
+					
+					View localView = listView_hot.getChildAt(position - listView_hot.getFirstVisiblePosition());
+					listViewChange.hideBackground((RelativeLayout) localView.findViewById(R.id.ranking_bg));
+					L.i("开始位置：" + listView_hot.getFirstVisiblePosition());
+					L.i("选择位置：" + listView_hot.getSelectedItemPosition());
 				}
-				else {
-					listView_hot.setSelectionFromTop(position,offset);
-					focusView.focusViewChange(position, LEFT_MARGIN_HOT, offset + TOP_MARGIN);
-				}
-				//重绘hotListview
-				surgeArrayListAdapter.notifyDataSetChanged();
-				
-				View localView = listView_hot.getChildAt(position - listView_hot.getFirstVisiblePosition());
-				listViewChange.hideBackground((RelativeLayout) localView.findViewById(R.id.ranking_bg));
-				L.i("开始位置：" + listView_hot.getFirstVisiblePosition());
-				L.i("选择位置：" + listView_hot.getSelectedItemPosition());
 			}
 			else {
 				//不做任何处理
@@ -164,21 +171,24 @@ public class RankingListActivity extends Activity {
 				position = hotListViewPosition.caculateAbsolutePosition(newListViewPosition.getRelativePosition());
 				offset = hotListViewPosition.caculateOffset(position,false);
 				focusView.setArrayList(hotArrayList);
-				if(hotListViewPosition.getEndNumPosition() == listView_hot.getCount() - 1 && hotListViewPosition.getStartNumPosition() != 0) {
-					listView_hot.setSelection(position);
-					focusView.focusViewChange(position, LEFT_MARGIN_HOT, offset + TOP_MARGIN - 4);
-				}
-				else {
-					listView_hot.setSelectionFromTop(position,offset);
-					focusView.focusViewChange(position, LEFT_MARGIN_HOT, offset + TOP_MARGIN);
-				}
-				//重绘hotListview
-				newArrayListAdapter.notifyDataSetChanged();
 				
-				View localView = listView_hot.getChildAt(position - listView_hot.getFirstVisiblePosition());
-				listViewChange.hideBackground((RelativeLayout) localView.findViewById(R.id.ranking_bg));
-				L.i("开始位置：" + listView_hot.getFirstVisiblePosition());
-				L.i("选择位置：" + listView_hot.getSelectedItemPosition());
+				if(!Util.listIsEmpty(hotArrayList)) {
+					if(hotListViewPosition.getEndNumPosition() == listView_hot.getCount() - 1 && hotListViewPosition.getStartNumPosition() != 0) {
+						listView_hot.setSelection(position);
+						focusView.focusViewChange(position, LEFT_MARGIN_HOT, offset + TOP_MARGIN - 4);
+					}
+					else {
+						listView_hot.setSelectionFromTop(position,offset);
+						focusView.focusViewChange(position, LEFT_MARGIN_HOT, offset + TOP_MARGIN);
+					}
+					//重绘hotListview
+					newArrayListAdapter.notifyDataSetChanged();
+					
+					View localView = listView_hot.getChildAt(position - listView_hot.getFirstVisiblePosition());
+					listViewChange.hideBackground((RelativeLayout) localView.findViewById(R.id.ranking_bg));
+					L.i("开始位置：" + listView_hot.getFirstVisiblePosition());
+					L.i("选择位置：" + listView_hot.getSelectedItemPosition());
+				}
 			}
 			else if(currFocusSelect == FocusSelect.HOT_LISTVIEW) {
 				//移动到surgeListview
@@ -192,21 +202,24 @@ public class RankingListActivity extends Activity {
 				position = surgeListViewPosition.caculateAbsolutePosition(hotListViewPosition.getRelativePosition());
 				offset = surgeListViewPosition.caculateOffset(position,false);
 				focusView.setArrayList(surgeArrayList);
-				if(surgeListViewPosition.getEndNumPosition() == listView_surge.getCount() - 1 && surgeListViewPosition.getStartNumPosition() != 0) {
-					listView_surge.setSelection(position);
-					focusView.focusViewChange(position, LEFT_MARGIN_SURGE, offset + TOP_MARGIN - 4);
-				}
-				else {
-					listView_surge.setSelectionFromTop(position,offset);
-					focusView.focusViewChange(position, LEFT_MARGIN_SURGE, offset + TOP_MARGIN);
-				}
-				//重绘surgeListview
-				hotArrayListAdapter.notifyDataSetChanged();
 				
-				View localView = listView_surge.getChildAt(position - listView_surge.getFirstVisiblePosition());
-				listViewChange.hideBackground((RelativeLayout) localView.findViewById(R.id.ranking_bg));
-				L.i("开始位置：" + listView_surge.getFirstVisiblePosition());
-				L.i("选择位置：" + listView_surge.getSelectedItemPosition());
+				if(!Util.listIsEmpty(surgeArrayList)) {
+					if(surgeListViewPosition.getEndNumPosition() == listView_surge.getCount() - 1 && surgeListViewPosition.getStartNumPosition() != 0) {
+						listView_surge.setSelection(position);
+						focusView.focusViewChange(position, LEFT_MARGIN_SURGE, offset + TOP_MARGIN - 4);
+					}
+					else {
+						listView_surge.setSelectionFromTop(position,offset);
+						focusView.focusViewChange(position, LEFT_MARGIN_SURGE, offset + TOP_MARGIN);
+					}
+					//重绘surgeListview
+					hotArrayListAdapter.notifyDataSetChanged();
+					
+					View localView = listView_surge.getChildAt(position - listView_surge.getFirstVisiblePosition());
+					listViewChange.hideBackground((RelativeLayout) localView.findViewById(R.id.ranking_bg));
+					L.i("开始位置：" + listView_surge.getFirstVisiblePosition());
+					L.i("选择位置：" + listView_surge.getSelectedItemPosition());
+				}
 			}
 			else if(currFocusSelect == FocusSelect.SURGE_LISTVIEW) {
 				//当前foucus在最右边，不做任何处理
@@ -302,6 +315,11 @@ public class RankingListActivity extends Activity {
 		if(position >= arrayList.size()) {
 			L.w("jumpToDetailActivity : position error!");
 			return ;
+		}
+		
+		if (!NetworkUtils.ISNET_CONNECT) {
+			DialogUtil.showShortToast(this, this.getString(R.string.net_notconnected));
+			return;
 		}
 		
 		Intent intent = new Intent(this, DetailActivity.class);

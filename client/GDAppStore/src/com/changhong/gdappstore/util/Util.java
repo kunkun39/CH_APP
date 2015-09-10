@@ -198,4 +198,17 @@ public class Util {
 			return num / 1000000 + "00万+";
 		}
 	}
+	
+	/**
+	 * 判断list是否为空
+	 * 
+	 * @param int
+	 * @return String
+	 */
+	public static boolean listIsEmpty(List list) {
+		if(list == null || list.isEmpty()) {
+			return true;
+		}
+		return false;
+	}
 }
