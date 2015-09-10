@@ -15,5 +15,7 @@
     <string name="str_hot">最热榜</string>
     <string name="str_surge">飙升榜</string>
     <string name="tv_search_tishi">只要输入应用首字母即可\n比如应用商城输入：YYSC即可成功搜索</string>
+    <string name="tishi">提示：</string>
+    <string name="dataloading">数据更新中，请稍等...</string>
 
 </resources>
