@@ -1,6 +1,5 @@
 package com.changhong.gdappstore.view;
 
-import android.R.integer;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -11,7 +10,11 @@ import android.util.AttributeSet;
 import android.widget.ImageButton;
 
 import com.changhong.gdappstore.R;
-
+/**
+ * 带文字的imageButton
+ * @author wangxiufeng
+ *
+ */
 public class TextImageButton extends ImageButton {
 	private String text = "";
 	private int textSize = 24;
