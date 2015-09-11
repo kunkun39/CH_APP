@@ -332,31 +332,31 @@ public class MainActivity extends BaseActivity {
 			int nativeVersion = getPackageManager().getPackageInfo(this.getPackageName(), 0).versionCode;
 			L.d("mainactivity readUpdate navVersion=" + nativeVersion + " serverVer " + MyApplication.SERVER_VERSION);
 			if (nativeVersion < MyApplication.SERVER_VERSION && !TextUtils.isEmpty(MyApplication.UPDATE_APKURL)) {
-				if (updateDialog != null && updateDialog.isShowing()) {
-					updateDialog.dismiss();
+				if (updateDialog != null && !updateDialog.isShowing()) {
+
+					updateDialog = DialogUtil.showMyAlertDialog(context, "提示：", "有新版本更新。", "马上更新", "下次再说",
+							new DialogBtnOnClickListener() {
+
+								@Override
+								public void onSubmit(DialogMessage dialogMessage) {
+
+									UpdateService updateService = new UpdateService(context, null, progressDialog);
+									AppDetail appDetail = new AppDetail();
+									appDetail.setApkFilePath(MyApplication.UPDATE_APKURL);
+									updateService.update(appDetail, false);
+									if (dialogMessage != null && dialogMessage.dialogInterface != null) {
+										dialogMessage.dialogInterface.dismiss();
+									}
+								}
+
+								@Override
+								public void onCancel(DialogMessage dialogMessage) {
+									if (dialogMessage != null && dialogMessage.dialogInterface != null) {
+										dialogMessage.dialogInterface.dismiss();
+									}
+								}
+							});
 				}
-				updateDialog = DialogUtil.showMyAlertDialog(context, "提示：", "有新版本更新。", "马上更新", "下次再说",
-						new DialogBtnOnClickListener() {
-
-							@Override
-							public void onSubmit(DialogMessage dialogMessage) {
-
-								UpdateService updateService = new UpdateService(context, null, progressDialog);
-								AppDetail appDetail = new AppDetail();
-								appDetail.setApkFilePath(MyApplication.UPDATE_APKURL);
-								updateService.update(appDetail, false);
-								if (dialogMessage != null && dialogMessage.dialogInterface != null) {
-									dialogMessage.dialogInterface.dismiss();
-								}
-							}
-
-							@Override
-							public void onCancel(DialogMessage dialogMessage) {
-								if (dialogMessage != null && dialogMessage.dialogInterface != null) {
-									dialogMessage.dialogInterface.dismiss();
-								}
-							}
-						});
 			}
 		} catch (NameNotFoundException e) {
 			e.printStackTrace();
