@@ -55,6 +55,8 @@ public class PostTitleView extends BaseRelativeLayout {
 	private TitleItemOnFocuesChangedListener titleItemOnFocuesChangedListener;
 	/** 标签点击监听器 */
 	private TitleItemOnClickListener titleItemOnClickListener;
+	/***/
+	private boolean ifFocuesWithSelected=true;
 
 	public PostTitleView(Context context) {
 		super(context);
@@ -210,6 +212,11 @@ public class PostTitleView extends BaseRelativeLayout {
 				if (titleItemOnClickListener != null) {
 					titleItemOnClickListener.onItemClick(textView, position);
 				}
+				textView.setSelected(true);
+				if (currentSelectedView != null && currentSelectedView != v) {
+					currentSelectedView.setSelected(false);
+				}
+				currentSelectedView = v;
 			}
 		});
 		textView.setOnFocusChangeListener(new OnFocusChangeListener() {
@@ -219,14 +226,16 @@ public class PostTitleView extends BaseRelativeLayout {
 				if (titleItemOnFocuesChangedListener != null) {
 					titleItemOnFocuesChangedListener.onItemFocuesChanged(v, hasFocus, position);
 				}
-				if (hasFocus) {
-					textView.setSelected(true);
-					if (currentSelectedView != null && currentSelectedView != v) {
-						currentSelectedView.setSelected(false);
+				if (ifFocuesWithSelected) {
+					if (hasFocus) {
+						textView.setSelected(true);
+						if (currentSelectedView != null && currentSelectedView != v) {
+							currentSelectedView.setSelected(false);
+						}
+						currentSelectedView = v;
+					} else {
+						textView.setSelected(!hasChildFocesed());
 					}
-					currentSelectedView = v;
-				} else {
-					textView.setSelected(!hasChildFocesed());
 				}
 			}
 		});
@@ -270,6 +279,15 @@ public class PostTitleView extends BaseRelativeLayout {
 	public View getCurrentSelectedView() {
 		return currentSelectedView;
 	}
+
+	public boolean isIfFocuesWithSelected() {
+		return ifFocuesWithSelected;
+	}
+
+	public void setIfFocuesWithSelected(boolean ifFocuesWithSelected) {
+		this.ifFocuesWithSelected = ifFocuesWithSelected;
+	}
+	
 
 	// private TextView getItemView(PostTitleModel model) {
 	// final TextView textView = new TextView(context);
