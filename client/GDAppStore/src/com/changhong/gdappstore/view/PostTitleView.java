@@ -55,8 +55,8 @@ public class PostTitleView extends BaseRelativeLayout {
 	private TitleItemOnFocuesChangedListener titleItemOnFocuesChangedListener;
 	/** 标签点击监听器 */
 	private TitleItemOnClickListener titleItemOnClickListener;
-	/***/
-	private boolean ifFocuesWithSelected=true;
+	/** 是否在获取焦点的同时设置为选中状态？ */
+	private boolean ifFocuesWithSelected = true;
 
 	public PostTitleView(Context context) {
 		super(context);
@@ -283,11 +283,13 @@ public class PostTitleView extends BaseRelativeLayout {
 	public boolean isIfFocuesWithSelected() {
 		return ifFocuesWithSelected;
 	}
-
+	/**
+	 * 是否在焦点同时选中
+	 * @param ifFocuesWithSelected true：焦点的同时设置为选中，false：焦点同时不设置为选中
+	 */
 	public void setIfFocuesWithSelected(boolean ifFocuesWithSelected) {
 		this.ifFocuesWithSelected = ifFocuesWithSelected;
 	}
-	
 
 	// private TextView getItemView(PostTitleModel model) {
 	// final TextView textView = new TextView(context);
