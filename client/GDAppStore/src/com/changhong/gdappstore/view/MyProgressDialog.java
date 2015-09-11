@@ -29,7 +29,7 @@ public class MyProgressDialog extends Dialog {
 	private int curprogress = 0;
 	// 创建一个数值格式化对象
 	private NumberFormat numberFormat;
-	//
+	/**是否需要将大小转换为M显示？（仅适用于将byte转换为M）*/
 	private boolean isUpdateFileSizeName=false;
 
 	public MyProgressDialog(Context context) {
@@ -61,10 +61,13 @@ public class MyProgressDialog extends Dialog {
 		param.height = (int) context.getResources().getDimension(R.dimen.dialog_height);
 		getWindow().setAttributes(param);
 		numberFormat = NumberFormat.getInstance();
-		// 设置精确到小数点后2位
+		// 设置精确到小数点后0位
 		numberFormat.setMaximumFractionDigits(0);
 	}
-
+	/**
+	 * 最大进度
+	 * @param max
+	 */
 	public void setMax(int max) {
 		this.max = max;
 		seekBar.setMax(max);
@@ -75,7 +78,9 @@ public class MyProgressDialog extends Dialog {
 		message.arg1 = progress;
 		handler.sendMessage(message);
 	}
-
+	/**
+	 * 进度更新handler，解决异步线程下载时候更新页面问题
+	 */
 	Handler handler = new Handler() {
 
 		@Override
@@ -107,10 +112,14 @@ public class MyProgressDialog extends Dialog {
 		}
 		seekBar.setProgress(progress);
 	}
-	
+	/**
+	 * 将byte单位转换为M单位显示
+	 * @param size
+	 * @return
+	 */
 	private String parseByteToM(float size) {
 		float returnSize=(float) 0.0;
-		returnSize=(float)size/(float)(1000*1000);
+		returnSize=(float)size/(float)(1024*1024);
 		DecimalFormat decimalFormat=new DecimalFormat("0.0");//构造方法的字符格式这里如果小数不足2位,会以0补足.
 		String p=decimalFormat.format(returnSize);
 		return p+"M";
