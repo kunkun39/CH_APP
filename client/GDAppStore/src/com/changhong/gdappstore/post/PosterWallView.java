@@ -7,6 +7,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.changhong.gdappstore.util.L;
 import com.post.view.base.BasePosterWallView;
 import com.post.view.listener.INeedPageChangeLisenter;
 
@@ -123,6 +124,7 @@ public class PosterWallView extends BasePosterWallView {
 					children.setNextFocusRightId(children.getId());// 最后一列按右焦点是否会移动
 				}
 			}
+			
 			children.setLayoutParams(layoutParams3);
 			items[i] = children;
 			layout_row.addView(children);
@@ -199,7 +201,7 @@ public class PosterWallView extends BasePosterWallView {
 					postSetting.getOnKeyListener().onKey(v, keyCode, event);
 					return true;// 最后一排按下返回TRUE
 				}
-				return postSetting.getOnKeyListener().onKey(v, keyCode, event);
+				
 			} else {
 				if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN && !postSetting.isLastRowFocusDown()
 						&& isLastRowInVisible(focusPos) && dataSize < items.length) {
@@ -209,17 +211,21 @@ public class PosterWallView extends BasePosterWallView {
 			// 处理横向滚动时候最后一列和第一列不能继续按
 			if (postSetting != null && postSetting.getOnKeyListener() != null) {
 				if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT && !postSetting.isLastClumnFocusRight()
-						&& focusPos == dataSize - 1) {
+						&& isLastClumnInVisible(focusPos)) {
 					postSetting.getOnKeyListener().onKey(v, keyCode, event);
 					return true;// 最后一排按下返回TRUE
 				}
 				return postSetting.getOnKeyListener().onKey(v, keyCode, event);
 			} else {
 				if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT && !postSetting.isLastClumnFocusRight()
-						&& focusPos == dataSize - 1) {
+						&& isLastClumnInVisible(focusPos)) {
 					return true;// 最后一排按下返回TRUE
 				}
 			}
+			if (postSetting.getOnKeyListener()!=null) {
+				return postSetting.getOnKeyListener().onKey(v, keyCode, event);
+			}
+			
 			// if (!postSetting.isVerticalScroll()) {
 			// int datapos = firstPosInDataList + focusPos;
 			// // 翻页时候returnTRUE 解决横向滚动时候焦点丢失问题
@@ -250,6 +256,22 @@ public class PosterWallView extends BasePosterWallView {
 		int clumn = postSetting.getPost_column();
 		int lastBegin = (dataSize % clumn == 0 ? (dataSize / clumn - 1) : dataSize / clumn) * clumn;
 		return position >= lastBegin;
+	}
+	/**
+	 * 是否是最后一行
+	 * 
+	 * @param position
+	 *            位置
+	 * @return
+	 */
+	private boolean isLastClumnInVisible(int position) {
+		int clumn = postSetting.getPost_column();
+		if ((position+1)%clumn==0 || position==dataSize-1) {
+			L.d("isLastClumnInVisible true "+clumn+" position "+position);
+			return true;
+		}
+		L.d("isLastClumnInVisible false "+clumn+" position "+position);
+		return false;
 	}
 
 	private OnFocusChangeListener onFocusChangeListener = new OnFocusChangeListener() {
