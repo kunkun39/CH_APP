@@ -16,9 +16,9 @@
     <dimen name="item_square1_margintop">5dp</dimen>
     <dimen name="item_square2_marginleft">8dp</dimen>
     <dimen name="item_big1_width">441.5dp</dimen>
-    <dimen name="item_big1_height">246dp</dimen>
+    <dimen name="item_big1_height">245dp</dimen>
     <dimen name="item_big2_width">216.5dp</dimen>
-    <dimen name="item_big2_height">120dp</dimen>
+    <dimen name="item_big2_height">119dp</dimen>
     <dimen name="item_first_margintop">35dp</dimen>
     <dimen name="txtsize_home_appname">18sp</dimen>
     <dimen name="txtsize_home_categoryname">22sp</dimen>

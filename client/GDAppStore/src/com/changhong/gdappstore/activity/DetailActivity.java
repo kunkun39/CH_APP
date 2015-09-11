@@ -49,16 +49,18 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	private ImageView iv_post, iv_icon;
 
 	private AppDetail appDetail;
-
+	/**数据更新提示对话框*/
 	private ProgressDialog updateAppPDialog;
-
+	/**下载进度提示对话框*/
 	private MyProgressDialog downloadPDialog;
-
+	/**下载进度提示下载功能*/
 	private UpdateService updateService;
 
 	private ScoreView scoreview;
 
 	int appId = -1;
+	/**下载量是否需要加1？用于处理下载成功后手动添加下载量，不再请求服务器获取*/
+	public static int detailLoadCount=0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +137,8 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 				updateAppPDialog.dismiss();
 				if (appDetail != null) {
 					tv_appname.setText(appDetail.getAppname());
-					tv_downloadcount.setText(appDetail.getDownload());
+					tv_downloadcount.setText(appDetail.getDownload()+"");
+					detailLoadCount=Integer.parseInt(appDetail.getDownload());
 					tv_size.setText(TextUtils.isEmpty(appDetail.getApkSize()) ? "" : appDetail.getApkSize() + " M");
 					tv_version.setText(appDetail.getVersion());
 					tv_introduce.setText(appDetail.getDescription());
@@ -184,6 +187,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		if (appDetail == null) {
 			return;
 		}
+		tv_downloadcount.setText(detailLoadCount+"");
 		// 是否已经安装
 		boolean isInstalled = Util.getNativeApp(context, appDetail.getPackageName()) != null;
 		bt_open.setVisibility(isInstalled ? VISIBLE : GONE);
