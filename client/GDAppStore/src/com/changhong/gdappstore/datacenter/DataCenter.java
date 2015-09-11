@@ -30,6 +30,12 @@ import com.changhong.gdappstore.util.L;
  * 
  */
 public class DataCenter {
+	
+	public static final int LOAD_CACHEDATA_SUCCESS = 1;
+	public static final int LOAD_CACHEDATA_FAIL = 2;
+	public static final int LOAD_CACHEDATA_NO_UPDATE = 3;
+	public static final int LOAD_SERVERDATA_SUCCESS = 4;
+	public static final int LOAD_SERVERDATA_FAIL = 5;
 
 	private static DataCenter dataCenter = null;
 
@@ -455,7 +461,7 @@ public class DataCenter {
 			String json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_RANKLIST);
 			result = Parse.parseRankingList(json);
 			if (result == true) {
-				objectListener.onComplete(result);
+				objectListener.onComplete(LOAD_CACHEDATA_SUCCESS);
 			}
 		}
 		
@@ -468,7 +474,7 @@ public class DataCenter {
 			String json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_RANKLIST);
 			result = Parse.parseRankingList(json);
 			if (result == true) {
-				objectListener.onComplete(result);
+				objectListener.onComplete(LOAD_CACHEDATA_NO_UPDATE);
 				return;// 在一定的时间段内使用缓存数据不用重复请求服务器。
 			}
 		}
@@ -484,7 +490,7 @@ public class DataCenter {
 					lastRequestRankListTime = System.currentTimeMillis();// 更改上次请求时间
 					CacheManager.putJsonFileCache(context, CacheManager.KEYJSON_RANKLIST, json);// 缓存json数据
 				} else {
-					L.d("datacenter-loadRankingList--server json is null,getting cache data");
+					L.d("datacenter-loadRankingList--server json is null");
 					// 没有请求到服务器数据使用缓存文件
 					return false;
 				}
@@ -494,7 +500,12 @@ public class DataCenter {
 
 			@Override
 			protected void onPostExecute(Boolean result) {
-				objectListener.onComplete(result);
+				if(result == true) {
+					objectListener.onComplete(LOAD_SERVERDATA_SUCCESS);
+				}
+				else {
+					objectListener.onComplete(LOAD_SERVERDATA_FAIL);
+				}
 			}
 
 		}.execute((Void[]) null);

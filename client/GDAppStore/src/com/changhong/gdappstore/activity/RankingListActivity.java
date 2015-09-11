@@ -302,18 +302,29 @@ public class RankingListActivity extends Activity {
 			@Override
 			public void onComplete(Object object) {
 				// TODO Auto-generated method stub
-				if((Boolean)object == true) {
+				boolean dismissDialog = false;
+				L.i("loadRankingList result : " + (Integer)object);
+				switch((Integer)object) {
+				case DataCenter.LOAD_CACHEDATA_SUCCESS :
 					handler.sendEmptyMessage(LOAD_RANKING_OK);
-				}
-				else {
+					break;
+				case DataCenter.LOAD_CACHEDATA_NO_UPDATE:
+					dismissDialog = true;
+					break;
+				case DataCenter.LOAD_SERVERDATA_SUCCESS:
+					handler.sendEmptyMessage(LOAD_RANKING_OK);
+					dismissDialog = true;
+				case DataCenter.LOAD_SERVERDATA_FAIL:
 					handler.sendEmptyMessage(LOAD_RANKING_FAIL);
+					dismissDialog = true;
 				}
-				if(dialog != null) {
+				
+				if(true == dismissDialog && dialog != null) {
 					dialog.dismiss();
 				}
 				
 			}
-		});
+		},true);
 	}
 	
 	private void jumpToDetailActivity(ArrayList<Ranking_Item> arrayList, int position) {
