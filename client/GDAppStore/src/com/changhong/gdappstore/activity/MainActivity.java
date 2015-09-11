@@ -296,14 +296,18 @@ public class MainActivity extends BaseActivity {
 			titleView.setSelectedItem(arg0);
 			if (!titleView.hasChildFocesed()) {// 非标签上面切换情况下，处理默认交代呢
 				if (currIndex == arg0 - 1) {// 从左往右翻页
-					if (pageViews.get(currIndex).currentFocuesId == R.id.jingping_item9) {
+					if (pageViews.get(currIndex).currentFocuesId == R.id.jingping_item12) {
 						curPageView.setCategoryItemFocuesByPos(3);// 最底层一排翻页让第下一页最低层第一个获取焦点
+					}else if (pageViews.get(currIndex).currentFocuesId == R.id.jingping_item6) {
+						curPageView.setCategoryItemFocuesByPos(1);
 					} else {
 						curPageView.setCategoryItemFocuesByPos(0);// 其它情况让第一个获取焦点
 					}
 				} else if (currIndex == arg0 + 1) {// 从右往左翻页
 					if (pageViews.get(currIndex).currentFocuesId == R.id.jingping_itema4) {
 						curPageView.setPostItemFocuesByPos(11);// 最底层一排翻页让第上一页最低层最后一个获取焦点
+					}else if (pageViews.get(currIndex).currentFocuesId == R.id.jingping_itema2||pageViews.get(currIndex).currentFocuesId == R.id.jingping_itema3) {
+						curPageView.setCategoryItemFocuesByPos(5);
 					} else {
 						curPageView.setPostItemFocuesByPos(4);// 其它情况让最后一列最上面一个获取焦点
 					}
