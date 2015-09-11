@@ -84,9 +84,9 @@ public class RankingListActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ranking_list);
+		dialog = DialogUtil.showCirculProDialog(this, getString(R.string.tishi), getString(R.string.dataloading), true);
 		initData();
 		initView();
-		dialog = DialogUtil.showCirculProDialog(this, getString(R.string.tishi), getString(R.string.dataloading), true);
 	}
 	
 	@Override
