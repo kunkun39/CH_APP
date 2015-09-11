@@ -17,6 +17,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.changhong.gdappstore.Config;
+import com.changhong.gdappstore.activity.DetailActivity;
 import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.model.AppDetail;
 import com.changhong.gdappstore.util.DialogUtil;
@@ -303,6 +304,7 @@ public class UpdateService {
 					// 提交下载统计
 					if (appDetail.getAppid()>0) {
 						DataCenter.getInstance().submitAppDownloadOK(appDetail.getAppid() + "",context);
+						DetailActivity.detailLoadCount++;
 					}
 					// 下载完成 安装
 					installApp();
