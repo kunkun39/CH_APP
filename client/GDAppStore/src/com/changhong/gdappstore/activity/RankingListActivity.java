@@ -308,7 +308,9 @@ public class RankingListActivity extends Activity {
 				else {
 					handler.sendEmptyMessage(LOAD_RANKING_FAIL);
 				}
-				dialog.dismiss();
+				if(dialog != null) {
+					dialog.dismiss();
+				}
 				
 			}
 		});
