@@ -13,6 +13,7 @@ import com.changhong.gdappstore.util.Util;
 import com.nostra13.universalimageloader.cache.disc.DiskCache;
 import com.nostra13.universalimageloader.cache.disc.impl.LimitedAgeDiskCache;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -68,12 +69,12 @@ public class MyApplication extends Application {
 	 * @param context
 	 */
 	public static void initImageLoader(Context context) {
-		int lruMemCachSize = 10 * 1024 * 1024;
-		int threadPoolSize = 5;
-		Bitmap.Config bmConfig = Bitmap.Config.ARGB_8888;
+//		int lruMemCachSize = 10 * 1024 * 1024;
+		int threadPoolSize = 4;
+		Bitmap.Config bmConfig = Bitmap.Config.ARGB_4444;
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context).discCacheSize(discCacheSize)
 				.tasksProcessingOrder(QueueProcessingType.FIFO).denyCacheImageMultipleSizesInMemory()
-				.memoryCache(new LruMemoryCache(lruMemCachSize)).threadPoolSize(threadPoolSize)
+				.memoryCache(new WeakMemoryCache()).threadPoolSize(threadPoolSize)
 				.discCacheFileNameGenerator(FileNameGeneratorHelper.getInstance()).threadPriority(Thread.NORM_PRIORITY)
 				.discCacheSize(discCacheSize).discCache(discCacheAware).build();
 		ImageLoader.getInstance().init(config);
