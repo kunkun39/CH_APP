@@ -86,8 +86,7 @@
             android:layout_width="@dimen/item_big1_width"
             android:layout_height="@dimen/item_big1_height"
             android:layout_alignLeft="@id/jingping_item4"
-            android:layout_below="@id/jingping_item4"
-            android:layout_marginTop="@dimen/item_square2_marginleft" />
+            android:layout_alignTop="@id/jingping_itema2" />
 
         <com.changhong.gdappstore.view.PostItemView
             android:id="@+id/jingping_item7"
