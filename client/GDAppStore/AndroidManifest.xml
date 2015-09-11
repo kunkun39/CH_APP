@@ -21,6 +21,7 @@
     <application
         android:name="com.changhong.gdappstore.MyApplication"
         android:allowBackup="true"
+        android:largeHeap="true"
         android:icon="@drawable/img_icon"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
