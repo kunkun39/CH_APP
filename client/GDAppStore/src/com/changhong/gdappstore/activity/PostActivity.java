@@ -113,6 +113,7 @@ public class PostActivity extends BaseActivity {
 
 			}
 		});
+		titleView.setIfFocuesWithSelected(false);
 		initPostView();
 	}
 
@@ -150,10 +151,12 @@ public class PostActivity extends BaseActivity {
 			titleView.initData(parentCategory, parentCategory.getCategoyChildren());
 			if (parentCategory.getId() == currentCategoryId) {
 				titleView.setFocusItem(0);// 选中全部
+				titleView.setSelectedItem(0);
 			} else if (parentCategory.getCategoyChildren() != null) {
 				for (int i = 0; i < parentCategory.getCategoyChildren().size(); i++) {
 					if (parentCategory.getCategoyChildren().get(i).getId() == currentCategoryId) {
 						titleView.setFocusItem(i + 1);// 选中当前item
+						titleView.setSelectedItem(i+1);
 					}
 				}
 			}
