@@ -42,7 +42,7 @@ import com.changhong.gdappstore.view.PostTitleView.TitleItemOnClickListener;
 import com.changhong.gdappstore.view.PostTitleView.TitleItemOnFocuesChangedListener;
 import com.changhong.gdappstore.view.YouXiView;
 import com.changhong.gdappstore.view.YuLeView;
-import com.changhong.gdappstore.view.ZhuanTiView;
+import com.changhong.gdappstore.view.ShenghuoView;
 
 /**
  * homepage
@@ -68,7 +68,7 @@ public class MainActivity extends BaseActivity {
 	/** 娱乐view */
 	private YuLeView view_yule;
 	/** 应用view */
-	private ZhuanTiView view_zhuanti;
+	private ShenghuoView view_zhuanti;
 	/** 游戏view */
 	private YouXiView view_youxi;
 	/** viewpager 翻页动画 */
@@ -98,7 +98,7 @@ public class MainActivity extends BaseActivity {
 		titleView.setTitleItemOnFocuesChangedListener(titleItemOnFocuesChangedListener);
 		// init page views
 		view_homepage = new HomePageView(context);
-		view_zhuanti = new ZhuanTiView(context);
+		view_zhuanti = new ShenghuoView(context);
 		view_youxi = new YouXiView(context);
 		view_yule = new YuLeView(context);
 		// init view pager
