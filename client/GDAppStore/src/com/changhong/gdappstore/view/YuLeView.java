@@ -63,7 +63,6 @@ public class YuLeView extends BasePageView implements OnFocusChangeListener, OnC
 			categoryItemViews[i].setClickable(true);
 			categoryItemViews[i].setOnClickListener(this);
 			categoryItemViews[i].setOnFocusChangeListener(this);
-			categoryItemViews[i].setNextFocusLeftId(categroyItemIds[i]);// 最左一排不能再按左。只是首页
 		}
 		categoryItemViews[0].setBackgroundResource(R.drawable.img_maincategory_bg1);
 		categoryItemViews[1].setBackgroundResource(R.drawable.img_maincategory_bg2);
@@ -166,10 +165,10 @@ public class YuLeView extends BasePageView implements OnFocusChangeListener, OnC
 				mlayout.height = tmplayout.height + bigHeight_add + (tmplayout.height / 15);
 			} else if (viewId == R.id.jingping_itema1 || viewId == R.id.jingping_itema2
 					|| viewId == R.id.jingping_itema3 || viewId == R.id.jingping_itema4) {
-				mlayout.leftMargin = tmplayout.leftMargin + horLeftMar_add - tmplayout.width / 20;
-				mlayout.topMargin = tmplayout.topMargin + horTopMar_add - tmplayout.height / 20;
-				mlayout.width = tmplayout.width + horWidth_add + (tmplayout.width / 10);
-				mlayout.height = tmplayout.height + horHeight_add + (tmplayout.height / 10);
+				mlayout.leftMargin = tmplayout.leftMargin + horLeftMar_add - tmplayout.width / 32;
+				mlayout.topMargin = tmplayout.topMargin + horTopMar_add - tmplayout.height / 25;
+				mlayout.width = tmplayout.width + horWidth_add + (tmplayout.width / 17);
+				mlayout.height = tmplayout.height + horHeight_add + (tmplayout.height / 18);
 			} else {
 				mlayout.leftMargin = tmplayout.leftMargin + smallLeftMar_add - tmplayout.width / 32;
 				mlayout.topMargin = tmplayout.topMargin + smallTopMar_add - tmplayout.height / 25;

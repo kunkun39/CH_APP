@@ -182,10 +182,10 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 				mlayout.width = tmplayout.width + bigWidth_add + (tmplayout.width / 18);
 				mlayout.height = tmplayout.height + bigHeight_add + (tmplayout.height / 15);
 			} else if(viewId == R.id.jingping_itema1 ||viewId == R.id.jingping_itema2 ||viewId == R.id.jingping_itema3 ||viewId == R.id.jingping_itema4){
-				mlayout.leftMargin = tmplayout.leftMargin + horLeftMar_add - tmplayout.width / 20;
-				mlayout.topMargin = tmplayout.topMargin + horTopMar_add - tmplayout.height / 20;
-				mlayout.width = tmplayout.width + horWidth_add + (tmplayout.width / 10);
-				mlayout.height = tmplayout.height + horHeight_add + (tmplayout.height / 10);
+				mlayout.leftMargin = tmplayout.leftMargin + horLeftMar_add - tmplayout.width / 32;
+				mlayout.topMargin = tmplayout.topMargin + horTopMar_add - tmplayout.height / 25;
+				mlayout.width = tmplayout.width + horWidth_add + (tmplayout.width / 17);
+				mlayout.height = tmplayout.height + horHeight_add + (tmplayout.height / 18);
 			} else {
 				mlayout.leftMargin = tmplayout.leftMargin + smallLeftMar_add - tmplayout.width / 32;
 				mlayout.topMargin = tmplayout.topMargin + smallTopMar_add - tmplayout.height / 25;
