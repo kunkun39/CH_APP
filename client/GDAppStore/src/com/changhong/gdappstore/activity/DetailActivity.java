@@ -126,7 +126,6 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	}
 
 	private void initData() {
-		scoreview.setScoreBy5Total(Util.getStarRandomInt());
 		updateService = new UpdateService(context, null, downloadPDialog);
 		updateAppPDialog.show();
 		DataCenter.getInstance().loadAppDetail(appId, new LoadObjectListener() {
@@ -136,6 +135,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 				appDetail = (AppDetail) object;
 				updateAppPDialog.dismiss();
 				if (appDetail != null) {
+					scoreview.setScoreBy5Total(Util.getStarRandomInt());
 					tv_appname.setText(appDetail.getAppname());
 					tv_downloadcount.setText(appDetail.getDownload()+"");
 					detailLoadCount=Integer.parseInt(appDetail.getDownload());
