@@ -314,9 +314,11 @@ public class RankingListActivity extends Activity {
 				case DataCenter.LOAD_SERVERDATA_SUCCESS:
 					handler.sendEmptyMessage(LOAD_RANKING_OK);
 					dismissDialog = true;
+					break;
 				case DataCenter.LOAD_SERVERDATA_FAIL:
 					handler.sendEmptyMessage(LOAD_RANKING_FAIL);
 					dismissDialog = true;
+					break;
 				}
 				
 				if(true == dismissDialog && dialog != null) {
