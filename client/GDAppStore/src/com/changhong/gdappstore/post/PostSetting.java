@@ -63,7 +63,8 @@ public class PostSetting {
 	private boolean isVerticalScroll = true;
 	/** 每页四周padding */
 	private int pagePaddingLeft = 0, pagePaddingRight = 0, pagePaddingBottom = 0, pagePaddingTop = 0;
-
+	/**是否显示倒影，暂时只支持静态图片*/
+	private boolean isShowShandow=false;
 	// 项目私用 //TODO 适用于不同的海报墙根据此参数来判断选择使用不同的item布局方式
 	private int posttype = 0;
 	public static final int TYPE_NORMAL = 0;
@@ -388,4 +389,13 @@ public class PostSetting {
 		this.pagePaddingTop = pagePaddingTop;
 	}
 
+	public boolean isShowShandow() {
+		return isShowShandow;
+	}
+
+	public void setShowShandow(boolean isShowShandow) {
+		this.isShowShandow = isShowShandow;
+	}
+
+	
 }

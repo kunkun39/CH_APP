@@ -3,7 +3,16 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" >
 
+    <ImageView
+        android:id="@+id/iv_postshandow"
+        android:layout_width="328dp"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:visibility="gone"
+        android:src="@drawable/img_postshandow" />
+
     <RelativeLayout
+        android:id="@+id/rl_postcontent"
         android:layout_width="328dp"
         android:layout_height="125dp"
         android:background="@drawable/bg_itempost" >

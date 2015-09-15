@@ -44,10 +44,6 @@ public class NativeAppActivity extends PostActivity {
 
 	private void initView() {
 		tv_name.setText("本地应用");
-		iv_shandow1.setVisibility(INVISIBLE);
-		iv_shandow2.setVisibility(INVISIBLE);
-		iv_shandow3.setVisibility(INVISIBLE);
-		iv_shandow4.setVisibility(INVISIBLE);
 		// 重新配置post设置
 		postSetting.setPosttype(PostSetting.TYPE_NATIVEAPP);
 		postSetting.setOnItemClickListener(nativeappPostItemOnclickListener);

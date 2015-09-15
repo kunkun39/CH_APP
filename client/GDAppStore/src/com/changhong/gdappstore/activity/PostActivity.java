@@ -56,8 +56,7 @@ public class PostActivity extends BaseActivity {
 	protected ImageView iv_search;
 	/** 当前应用列表 */
 	private List<Object> currentApps = new ArrayList<Object>();
-	/** 阴影图片 */
-	protected ImageView iv_shandow1, iv_shandow2, iv_shandow3, iv_shandow4;
+//	protected ImageView iv_shandow1, iv_shandow2, iv_shandow3, iv_shandow4;
 	/** 当前显示类别id **/
 	protected int curCategoryId = 0;
 
@@ -77,10 +76,6 @@ public class PostActivity extends BaseActivity {
 		postView = findView(R.id.postview);
 		titleView = findView(R.id.posttitleview);
 		tv_name = findView(R.id.tv_pagename);
-		iv_shandow1 = findView(R.id.iv_shandow1);
-		iv_shandow2 = findView(R.id.iv_shandow2);
-		iv_shandow3 = findView(R.id.iv_shandow3);
-		iv_shandow4 = findView(R.id.iv_shandow4);
 		tv_page = findView(R.id.tv_page);
 		iv_search = findView(R.id.iv_search);
 		loadDataProDialog = DialogUtil.showCirculProDialog(context, context.getString(R.string.tishi),
@@ -129,6 +124,7 @@ public class PostActivity extends BaseActivity {
 		postSetting.setFirstRowFocusUp(true);// 第一排是否允许焦点再往上
 		postSetting.setFirstClumnFocusLeft(false);
 		postSetting.setFristItemFocus(false);
+		postSetting.setShowShandow(true);
 		postSetting.setPosttype(PostSetting.TYPE_NORMAL);
 		// 如果需要海报墙使用自己的设置，要先调用设置设置方法，在调用设置数据
 		postView.init(postSetting);
@@ -180,10 +176,6 @@ public class PostActivity extends BaseActivity {
 			} else {
 				itemsize = 0;
 				postView.setVisibility(INVISIBLE);
-				iv_shandow1.setVisibility(INVISIBLE);
-				iv_shandow2.setVisibility(INVISIBLE);
-				iv_shandow3.setVisibility(INVISIBLE);
-				iv_shandow4.setVisibility(INVISIBLE);
 			}
 		}
 	};
@@ -218,7 +210,6 @@ public class PostActivity extends BaseActivity {
 		public void changePage(Boolean isnext, int curpage, int totalpage) {
 			// 翻页回调
 			tv_page.setText("当前显示第" + (totalpage <= 0 ? 0 : curpage) + "页;共" + totalpage + "页");
-			setShandowsVisible(curpage, totalpage);
 		}
 
 		@Override
@@ -234,25 +225,6 @@ public class PostActivity extends BaseActivity {
 		}
 	};
 
-	private void setShandowsVisible(int curPage, int totalPage) {
-		if (currentApps == null || curPage < 0 || totalPage < 0 || curPage > totalPage) {
-			return;
-		}
-		int size = currentApps.size();
-		if (curPage == totalPage) {
-			iv_shandow4.setVisibility(INVISIBLE);
-			int curItems = size - ((curPage - 1) * 9);// 本页有多少个item
-			iv_shandow1.setVisibility(curItems >= 7 ? VISIBLE : INVISIBLE);
-			iv_shandow2.setVisibility(curItems >= 8 ? VISIBLE : INVISIBLE);
-			iv_shandow3.setVisibility(curItems == 9 ? VISIBLE : INVISIBLE);
-		} else {
-			iv_shandow1.setVisibility(VISIBLE);
-			iv_shandow2.setVisibility(VISIBLE);
-			iv_shandow3.setVisibility(VISIBLE);
-			int nextItems = size - (curPage * 9);// 本页有多少个item
-			iv_shandow4.setVisibility(nextItems >= 7 ? VISIBLE : INVISIBLE);
-		}
-	}
 
 	private OnKeyListener postOnKeyListener = new OnKeyListener() {
 

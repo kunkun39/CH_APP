@@ -1,12 +1,14 @@
 package com.changhong.gdappstore.post;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.changhong.gdappstore.R;
@@ -23,6 +25,7 @@ public class PostItem extends BasePostItem {
 	private ImageView iv_appicon, iv_update;
 	private TextView tv_appname,tv_apksize;
 	private ScoreView scoreView;
+	public boolean isShandowView=false;
 
 	public PostItem(Context context) {
 		super(context);
@@ -65,6 +68,15 @@ public class PostItem extends BasePostItem {
 		tv_appname = (TextView) view.findViewById(R.id.tv_appname);
 		tv_apksize=(TextView)view.findViewById(R.id.tv_apksize);
 		scoreView=(ScoreView)view.findViewById(R.id.scoreview);
+		RelativeLayout rl_content=(RelativeLayout) view.findViewById(R.id.rl_postcontent);
+		ImageView iv_shandow=(ImageView) view.findViewById(R.id.iv_postshandow);
+		if (isShandowView) {
+			rl_content.setVisibility(GONE);
+			iv_shandow.setVisibility(VISIBLE);
+		}else {
+			rl_content.setVisibility(VISIBLE);
+			iv_shandow.setVisibility(GONE);
+		}
 	}
 	private void initSearchView() {
 		View view = LayoutInflater.from(context).inflate(R.layout.item_appsearch, null);

@@ -46,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/posttitleview"
-        android:layout_marginBottom="-80dp"
+        android:layout_marginBottom="-120dp"
         android:layout_marginLeft="110dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
@@ -65,50 +65,5 @@
         android:textColor="@color/white"
         android:textSize="18sp" />
 
-    <RelativeLayout
-        android:id="@+id/rl_postshandow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" >
-
-        <ImageView
-            android:id="@+id/iv_shandow1"
-            android:layout_width="@dimen/iv_shandow_width"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="125dp"
-            android:src="@drawable/img_postshandow"
-            android:visibility="invisible" />
-
-        <ImageView
-            android:id="@+id/iv_shandow2"
-            android:layout_width="@dimen/iv_shandow_width"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/iv_shandow1"
-            android:layout_marginLeft="@dimen/iv_shandow_marginleft"
-            android:layout_toRightOf="@id/iv_shandow1"
-            android:src="@drawable/img_postshandow"
-            android:visibility="invisible" />
-
-        <ImageView
-            android:id="@+id/iv_shandow3"
-            android:layout_width="@dimen/iv_shandow_width"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/iv_shandow1"
-            android:layout_marginLeft="@dimen/iv_shandow_marginleft"
-            android:layout_toRightOf="@id/iv_shandow2"
-            android:src="@drawable/img_postshandow"
-            android:visibility="invisible" />
-    </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/iv_shandow4"
-        android:layout_width="@dimen/iv_shandow_width"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="-00dp"
-        android:layout_marginRight="-274dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/img_postshandow"
-        android:visibility="invisible" />
 
 </RelativeLayout>

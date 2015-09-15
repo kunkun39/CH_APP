@@ -1,12 +1,18 @@
 package com.changhong.gdappstore.post;
 
+import java.util.List;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 
+import com.changhong.gdappstore.R;
+import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.L;
 import com.post.view.base.BasePosterWallView;
 import com.post.view.listener.INeedPageChangeLisenter;
@@ -14,6 +20,7 @@ import com.post.view.listener.INeedPageChangeLisenter;
 public class PosterWallView extends BasePosterWallView {
 	private PostSetting postSetting;// 海报墙配置
 	private PosterLayoutView posterLayoutView;
+	private PostItem[] shandowPostItems;
 
 	public PosterWallView(Context context) {
 		super(context);
@@ -71,7 +78,7 @@ public class PosterWallView extends BasePosterWallView {
 			layoutParams3.rightMargin = postSetting.getItemRightMargin();
 			layoutParams3.topMargin = postSetting.getItemTopMargin();
 			layoutParams3.bottomMargin = postSetting.getItemBottomMargin();
-			
+
 			PostItem children = new PostItem(context);
 			if (postSetting.isVerticalScroll()) {
 				if (postSetting.getNextFocuesLeftId() > 0 && i % postSetting.getPost_column() == 0) {
@@ -91,40 +98,39 @@ public class PosterWallView extends BasePosterWallView {
 			children.setOnFocusChangeListener(onFocusChangeListener);
 			if (postSetting.getItemFocusDrawableId() > 0) {
 				children.setBackgroundResource(postSetting.getItemFocusDrawableId());// TODO
-																						// 焦点selector
 			}
 			children.setOnKeyListener(onKeyListener);// 按键监听
 			children.setOnClickListener(onClickListener);// 点击事件
 			children.setOnLongClickListener(onLongClickListener);// 长按事件
 			if (i >= (postSetting.getPost_num_apage() - postSetting.getPost_column())) {
 				// 最后一排
-				layoutParams3.bottomMargin = postSetting.getItemBottomMargin()+postSetting.getPagePaddingBottom();
+				layoutParams3.bottomMargin = postSetting.getItemBottomMargin() + postSetting.getPagePaddingBottom();
 				if (!postSetting.isLastRowFocusDown()) {
 					children.setNextFocusDownId(children.getId());// 最后一排按下焦点是否会移动
 				}
 			}
 			if (i < postSetting.getPost_column()) {
 				// 第一排
-				layoutParams3.topMargin = postSetting.getItemTopMargin()+postSetting.getPagePaddingTop();
+				layoutParams3.topMargin = postSetting.getItemTopMargin() + postSetting.getPagePaddingTop();
 				if (!postSetting.isFirstRowFocusUp()) {
 					children.setNextFocusUpId(children.getId());// 第一排按上焦点是否会移动
 				}
 			}
 			if (i % postSetting.getPost_column() == 0) {
 				// 第一列
-				layoutParams3.leftMargin = postSetting.getItemLeftMargin()+postSetting.getPagePaddingLeft();
+				layoutParams3.leftMargin = postSetting.getItemLeftMargin() + postSetting.getPagePaddingLeft();
 				if (!postSetting.isFirstClumnFocusLeft()) {
 					children.setNextFocusLeftId(children.getId());// 第一列按左焦点是否会移动
 				}
 			}
 			if ((i + 1) % postSetting.getPost_column() == 0) {
 				// 最后第一列
-				layoutParams3.rightMargin=postSetting.getItemRightMargin()+postSetting.getPagePaddingRight();
+				layoutParams3.rightMargin = postSetting.getItemRightMargin() + postSetting.getPagePaddingRight();
 				if (!postSetting.isLastClumnFocusRight()) {
 					children.setNextFocusRightId(children.getId());// 最后一列按右焦点是否会移动
 				}
 			}
-			
+
 			children.setLayoutParams(layoutParams3);
 			items[i] = children;
 			layout_row.addView(children);
@@ -137,11 +143,55 @@ public class PosterWallView extends BasePosterWallView {
 					layout_row.setOrientation(LinearLayout.HORIZONTAL);
 				}
 			}
+			if (postSetting.isShowShandow() && (i + 1) == items.length) {
+				// 添加倒影view
+				LinearLayout.LayoutParams layoutParamsS = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+						LayoutParams.WRAP_CONTENT);
+				layoutParamsS.topMargin = -30;
+				LinearLayout layout_rowS = new LinearLayout(context);
+				layout_rowS.setFocusable(false);
+				layout_rowS.setLayoutParams(layoutParamsS);
+				layout_rowS.setOrientation(LinearLayout.HORIZONTAL);
+				shandowPostItems = new PostItem[postSetting.getPost_column()];
+				for (int j = 0; j < postSetting.getPost_column(); j++) {
+					PostItem childrenS = new PostItem(context);
+					childrenS.setVisibility(INVISIBLE);
+					childrenS.isShandowView = true;
+					childrenS.init(postSetting);
+					childrenS.setFocusable(false);
+					if (postSetting.getItemFocusDrawableId() > 0) {
+						childrenS.setBackgroundResource(postSetting.getItemFocusDrawableId());// TODO
+					}
+					childrenS.setLayoutParams(layoutParams3);
+					shandowPostItems[j] = childrenS;
+					layout_rowS.addView(childrenS);
+				}
+				layout_parent.addView(layout_rowS);
+			}
 		}
 		addView(layout_parent);
 	}
 
-
+	@Override
+	public void initData(List<Object> datas, int selectedPosition) {
+		super.initData(datas, selectedPosition);
+		int size = 0;
+		if (datas == null || (size = datas.size()) <= 0) {
+			size = 0;
+		}
+		for (int i = 0; i < shandowPostItems.length; i++) {
+			if (size == 0) {
+				shandowPostItems[i].setVisibility(INVISIBLE);
+			} else {
+				int last = size - postSetting.getPost_column() * 2;// 最后一排个数
+				if (last > i) {
+					shandowPostItems[i].setVisibility(VISIBLE);
+				} else {
+					shandowPostItems[i].setVisibility(INVISIBLE);
+				}
+			}
+		}
+	}
 
 	/**
 	 * 及时选中
@@ -165,7 +215,6 @@ public class PosterWallView extends BasePosterWallView {
 	// items[position].setFocuesType(PostItem.TYPE_SELECTED);
 	// invalidate();
 	// }
-
 
 	private OnKeyListener onKeyListener = new OnKeyListener() {
 
@@ -201,7 +250,7 @@ public class PosterWallView extends BasePosterWallView {
 					postSetting.getOnKeyListener().onKey(v, keyCode, event);
 					return true;// 最后一排按下返回TRUE
 				}
-				
+
 			} else {
 				if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN && !postSetting.isLastRowFocusDown()
 						&& isLastRowInVisible(focusPos) && dataSize < items.length) {
@@ -222,10 +271,10 @@ public class PosterWallView extends BasePosterWallView {
 					return true;// 最后一排按下返回TRUE
 				}
 			}
-			if (postSetting.getOnKeyListener()!=null) {
+			if (postSetting.getOnKeyListener() != null) {
 				return postSetting.getOnKeyListener().onKey(v, keyCode, event);
 			}
-			
+
 			// if (!postSetting.isVerticalScroll()) {
 			// int datapos = firstPosInDataList + focusPos;
 			// // 翻页时候returnTRUE 解决横向滚动时候焦点丢失问题
@@ -257,6 +306,7 @@ public class PosterWallView extends BasePosterWallView {
 		int lastBegin = (dataSize % clumn == 0 ? (dataSize / clumn - 1) : dataSize / clumn) * clumn;
 		return position >= lastBegin;
 	}
+
 	/**
 	 * 是否是最后一行
 	 * 
@@ -266,11 +316,11 @@ public class PosterWallView extends BasePosterWallView {
 	 */
 	private boolean isLastClumnInVisible(int position) {
 		int clumn = postSetting.getPost_column();
-		if ((position+1)%clumn==0 || position==dataSize-1) {
-			L.d("isLastClumnInVisible true "+clumn+" position "+position);
+		if ((position + 1) % clumn == 0 || position == dataSize - 1) {
+			L.d("isLastClumnInVisible true " + clumn + " position " + position);
 			return true;
 		}
-		L.d("isLastClumnInVisible false "+clumn+" position "+position);
+		L.d("isLastClumnInVisible false " + clumn + " position " + position);
 		return false;
 	}
 
@@ -310,6 +360,7 @@ public class PosterWallView extends BasePosterWallView {
 			return false;
 		}
 	};
+
 	public PosterLayoutView getPosterLayoutView() {
 		return posterLayoutView;
 	}
