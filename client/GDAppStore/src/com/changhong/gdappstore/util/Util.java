@@ -14,7 +14,6 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.changhong.gdappstore.model.NativeApp;
-import com.changhong.gdappstore.service.UpdateService;
 
 public class Util {
 	/**
@@ -190,12 +189,16 @@ public class Util {
 			return num + "";
 		} else if (num < 100000) {
 			// 1w~10w以下格式:x0000+ x为数字
-			return num / 10000 + "0000+";
+			return num / 10000 + "万+";
 		} else if (num < 1000000) {
 			// 10w~100w以下格式:x0万+ x为数字
 			return num / 100000 + "0万+";
-		} else {
+		} else if (num < 10000000) {
 			return num / 1000000 + "00万+";
+		} else if (num < 100000000) {
+			return num / 10000000 + "000万+";
+		} else {
+			return num / 100000000 + "亿+";
 		}
 	}
 	
