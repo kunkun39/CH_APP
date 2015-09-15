@@ -52,6 +52,7 @@ public class NativeAppActivity extends PostActivity {
 		postSetting.setFristItemFocus(true);
 		postSetting.setPost_column(5);
 		postSetting.setPost_row(3);
+		postSetting.setShowShandow(false);
 		postSetting.setVisibleClumn(1.1f);
 		postSetting.setMargins(15, 15, 0, 0);
 		postView.init(postSetting);
