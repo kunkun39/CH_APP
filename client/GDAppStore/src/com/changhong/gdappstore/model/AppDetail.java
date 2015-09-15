@@ -46,14 +46,6 @@ public class AppDetail extends App {
 		this.description = description;
 	}
 
-	public String getDownload() {
-		return download;
-	}
-
-	public void setDownload(String download) {
-		this.download = download;
-	}
-
 	public String getHost() {
 		return host;
 	}

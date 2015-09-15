@@ -70,6 +70,8 @@ public class Parse {
 	public final static String APP_APK_FILEPATH = "apk_fp";
 
 	public final static String APP_CATEGORY_ID = "cate_id";
+	
+	public final static String APP_SCORES = "scores";
 
 	/**
 	 * 解析栏目数据
@@ -300,6 +302,7 @@ public class Parse {
 			appDetail.setPackageName(object.getString(APP_PACKAGE).trim());
 			appDetail.setUpdateDate(object.getString(APP_UPDATE_DATE).trim());
 			appDetail.setCategoryId(object.getInt(APP_CATEGORY_ID));
+			appDetail.setScores(object.getInt(APP_SCORES));
 			if (object.has(APP_ICON_FILEPATH) && !TextUtils.isEmpty(object.getString(APP_ICON_FILEPATH))) {
 				appDetail.setIconFilePath(host + appKey + "/" + object.getString(APP_ICON_FILEPATH).trim());
 			}
@@ -396,6 +399,9 @@ public class Parse {
 			if (appobject.has(APP_VERSION_INT)) {
 				app.setVersionInt(appobject.getInt(APP_VERSION_INT));
 			}
+			if (appobject.has(APP_SCORES)) {
+				app.setScores(appobject.getInt(APP_SCORES));
+			}
 			if (appobject.has(APP_POSTER_FILEPATH) && !TextUtils.isEmpty(appobject.getString(APP_POSTER_FILEPATH))) {
 				app.setPosterFilePath(host + app.getAppkey() + "/" + appobject.getString(APP_POSTER_FILEPATH).trim());
 			}
@@ -474,6 +480,9 @@ public class Parse {
 				}
 				if (object.has(APP_SIZE)) {
 					ranking_Item.setAppSize(object.getString(APP_SIZE).trim());
+				}
+				if (object.has(APP_SCORES)) {
+					ranking_Item.setScores(object.getInt(APP_SCORES));
 				}
 				ranking_Item.setTopNum(i + 1);
 

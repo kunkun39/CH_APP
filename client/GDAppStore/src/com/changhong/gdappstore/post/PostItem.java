@@ -127,7 +127,7 @@ public class PostItem extends BasePostItem {
 		ImageLoadUtil.displayImgByonlyDiscCache(app.getIconFilePath(), iv_appicon);
 		tv_appname.setText(app.getAppname());
 		tv_apksize.setText(TextUtils.isEmpty(app.getApkSize())?"":app.getApkSize()+" M");
-		scoreView.setScoreBy5Total(Util.getStarRandomInt()); 
+		scoreView.setScoreBy10Total(app.getScores()); 
 	}
 
 	private void doNativeAppData(Object object) {

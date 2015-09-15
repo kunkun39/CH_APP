@@ -27,6 +27,8 @@ public class App {
 	protected String version;
 	// 应用包名
 	protected String packageName;
+	// 应用评分
+	protected int scores;
 
 	public App() {
 		super();
@@ -136,4 +138,13 @@ public class App {
 		this.iconFilePath = iconFilePath;
 	}
 
+	public int getScores() {
+		return scores;
+	}
+
+	public void setScores(int scores) {
+		this.scores = scores;
+	}
+
+	
 }

@@ -135,9 +135,9 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 				appDetail = (AppDetail) object;
 				updateAppPDialog.dismiss();
 				if (appDetail != null) {
-					scoreview.setScoreBy5Total(Util.getStarRandomInt());
+					scoreview.setScoreBy10Total(appDetail.getScores());
 					tv_appname.setText(appDetail.getAppname());
-					tv_downloadcount.setText(appDetail.getDownload()+"");
+					tv_downloadcount.setText(Util.intToStr(Integer.parseInt(appDetail.getDownload())));
 					detailLoadCount=Integer.parseInt(appDetail.getDownload());
 					tv_size.setText(TextUtils.isEmpty(appDetail.getApkSize()) ? "" : appDetail.getApkSize() + " M");
 					tv_version.setText(appDetail.getVersion());
@@ -187,7 +187,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		if (appDetail == null) {
 			return;
 		}
-		tv_downloadcount.setText(detailLoadCount+"");
+		tv_downloadcount.setText(Util.intToStr(detailLoadCount));
 		// 是否已经安装
 		boolean isInstalled = Util.getNativeApp(context, appDetail.getPackageName()) != null;
 		bt_open.setVisibility(isInstalled ? VISIBLE : GONE);

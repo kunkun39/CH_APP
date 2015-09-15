@@ -174,6 +174,7 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 			app.setApkSize(ranking_Item.getAppSize());
 			app.setAppkey(ranking_Item.getAppKey());
 			app.setAppname(ranking_Item.getAppName());
+			app.setScores(ranking_Item.getScores());
 			app.setDownload(ranking_Item.getDownload_num());
 			app.setIconFilePath(host + ranking_Item.getAppKey() + "/" + ranking_Item.getAppIconPath());
 			ranklist.add(app);
