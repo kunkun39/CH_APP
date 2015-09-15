@@ -179,6 +179,9 @@ public class PosterWallView extends BasePosterWallView {
 		if (datas == null || (size = datas.size()) <= 0) {
 			size = 0;
 		}
+		if (shandowPostItems==null) {
+			return;
+		}
 		for (int i = 0; i < shandowPostItems.length; i++) {
 			if (size == 0) {
 				shandowPostItems[i].setVisibility(INVISIBLE);
