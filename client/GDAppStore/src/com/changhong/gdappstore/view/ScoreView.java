@@ -53,25 +53,51 @@ public class ScoreView extends BaseRelativeLayout {
 	}
 
 	/**
-	 * 按照5颗星5分来计算，1分为半颗星
+	 * 按照5颗星5分来计算，1分为一颗星
 	 * 
 	 * @param score
 	 */
-	public void setScoreBy5Total(float score) {
+//	public void setScoreBy5Total(float score) {
+//		if (score < 0) {
+//			return;
+//		}
+//		int fullstar = (int) Math.floor(score);
+//		float decimal = score - fullstar;
+//		
+//		for (int i = 0; i < ll_scrollview.getChildCount(); i++) {
+//			ImageView imageView = (ImageView) ll_scrollview.getChildAt(i);
+//			if (imageView == null) {
+//				continue;
+//			}
+//			if ((i + 1) <= fullstar) {
+//				updateStarViewState(imageView, SCORE_FULL);
+//			} else if (decimal > 0 && i == fullstar) {
+//				updateStarViewState(imageView, SCORE_HALF);
+//			} else {
+//				updateStarViewState(imageView, SCORE_NONE);
+//			}
+//		}
+//		ll_scrollview.invalidate();
+//	}
+	/**
+	 * 按照5颗星10分来计算，1分为半颗星
+	 * 
+	 * @param score
+	 */
+	public void setScoreBy10Total(int score) {
 		if (score < 0) {
-			return;
+			score = 0;
 		}
-		int fullstar = (int) Math.floor(score);
-		float decimal = score - fullstar;
-		
+		int full = score / 2;
+		boolean hashalf = (score % 2) == 0;
 		for (int i = 0; i < ll_scrollview.getChildCount(); i++) {
 			ImageView imageView = (ImageView) ll_scrollview.getChildAt(i);
 			if (imageView == null) {
 				continue;
 			}
-			if ((i + 1) <= fullstar) {
+			if (i < full) {
 				updateStarViewState(imageView, SCORE_FULL);
-			} else if (decimal > 0 && i == fullstar) {
+			} else if (hashalf && i == full) {
 				updateStarViewState(imageView, SCORE_HALF);
 			} else {
 				updateStarViewState(imageView, SCORE_NONE);
