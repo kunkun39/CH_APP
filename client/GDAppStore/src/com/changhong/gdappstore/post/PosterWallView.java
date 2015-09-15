@@ -186,7 +186,7 @@ public class PosterWallView extends BasePosterWallView {
 			if (size == 0) {
 				shandowPostItems[i].setVisibility(INVISIBLE);
 			} else {
-				int last = size - postSetting.getPost_column() * 2;// 最后一排个数
+				int last = size - postSetting.getPost_column() * (postSetting.getPost_row()-1);// 最后一排个数
 				if (last > i) {
 					shandowPostItems[i].setVisibility(VISIBLE);
 				} else {
