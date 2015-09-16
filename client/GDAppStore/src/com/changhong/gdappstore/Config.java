@@ -13,9 +13,10 @@ public class Config {
 	public static final int REQUEST_RESTTIEM=3*60*1000;
 	/***************************** 网络请求配置项 ******************************************/
 	/** 请求链接超时 */
-	public static int CONNECTION_TIMEOUT = 5000;
+	public static int CONNECTION_TIMEOUT = 9000;
 	/** 服务器基础地址 **/
-	public static String BASEURL = "http://192.168.0.55:8080/appmarket/";
+//	public static String BASEURL = "http://192.168.0.55:8080/appmarket/";
+	public static String BASEURL = "http://www.ottserver.com:8081/appmarket/";
 	/** 获取分类地址 **/
 	public static String getCategoryUrl = BASEURL + "client/appcategories.html";
 	/** 获取页面数据地址 **/
