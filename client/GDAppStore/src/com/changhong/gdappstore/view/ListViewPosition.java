@@ -184,7 +184,8 @@ public class ListViewPosition {
 	public void resetParameter(int countNum) {
 		this.countNum = countNum;
 		
-		if(fullShowNum >= countNum) {
+		fullShowNum = layoutHeight / itemHeight;
+		if(fullShowNum >= countNum && countNum > 0) {
 			fullShowNum = countNum;
 			remainderHeight = 0;
 		}

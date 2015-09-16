@@ -248,21 +248,6 @@ public class RankingListActivity extends Activity {
 		listView_new.setVisibility(View.INVISIBLE);
 		listView_hot.setVisibility(View.INVISIBLE);
 		listView_surge.setVisibility(View.INVISIBLE);
-		listView_new.setOnScrollListener(new OnScrollListener() {
-			
-			@Override
-			public void onScrollStateChanged(AbsListView view, int scrollState) {
-				// TODO Auto-generated method stub
-				L.i("onScrollStateChanged scrollState : " + scrollState);
-			}
-			
-			@Override
-			public void onScroll(AbsListView view, int firstVisibleItem,
-					int visibleItemCount, int totalItemCount) {
-				// TODO Auto-generated method stub
-				L.i("onScroll firstVisibleItem :" + firstVisibleItem + "visibleItemCount : " + visibleItemCount + "totalItemCount : " + totalItemCount);
-			}
-		});
 		
 		((TextView)findViewById(R.id.ranking_list)).setText(getString(R.string.str_ranking_list));
 		mlayout = new RelativeLayout.LayoutParams(0, 0);

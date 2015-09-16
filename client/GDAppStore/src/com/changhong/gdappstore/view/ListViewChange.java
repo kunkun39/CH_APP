@@ -29,8 +29,8 @@ public class ListViewChange {
 	
 	public void hideBackground(View view) {
 		if(view != null) {
-			view.setBackgroundColor(0x00000000);
 			showBackground();
+			view.setBackgroundColor(0x00000000);
 			lastContentView = view;
 		}
 	}
