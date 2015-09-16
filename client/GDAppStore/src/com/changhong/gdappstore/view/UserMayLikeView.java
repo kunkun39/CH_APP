@@ -23,6 +23,8 @@ public class UserMayLikeView extends BasePageView implements OnFocusChangeListen
 	private OnFocusChangeListener onFocusChangeListener;
 	/** 焦点框view */
 	private ImageView ivFocues;
+	
+	private View curFocuesView;
 
 	public UserMayLikeView(Context context) {
 		super(context);
@@ -94,8 +96,8 @@ public class UserMayLikeView extends BasePageView implements OnFocusChangeListen
 		}
 		if (hasFocus) {
 			L.d(TAG + "jingpinview onfocueschange " + v.getId());
-			int viewId = v.getId();
 			currentFocuesId = v.getId();
+			curFocuesView=v;
 			RelativeLayout.LayoutParams mlayout = new RelativeLayout.LayoutParams(100, 100);
 			// RelativeLayout.LayoutParams tmplayout = (LayoutParams) v
 			// .getLayoutParams();
@@ -135,5 +137,15 @@ public class UserMayLikeView extends BasePageView implements OnFocusChangeListen
 	public void setOnFocusChangeListener(OnFocusChangeListener onFocusChangeListener) {
 		this.onFocusChangeListener = onFocusChangeListener;
 	}
+
+	public View getCurFocuesView() {
+		return curFocuesView;
+	}
+
+	public void setCurFocuesView(View curFocuesView) {
+		this.curFocuesView = curFocuesView;
+	}
+	
+	
 
 }
