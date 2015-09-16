@@ -38,7 +38,7 @@ public class NetChangeReceiver extends BroadcastReceiver {
 		String curClassName = Util.getTopActivity(context);
 		L.d("网络情况发生改变，isconnect= " + isconnect + " 当前class " + curClassName+" ipaddress is "+NetworkUtils.getIpAddress(context));
 //		String ipaddress=" ip地址是："+NetworkUtils.getIpAddress(context);
-		Toast.makeText(context, "网络" + (isconnect ? "已连接成功" : "已断开链接"), Toast.LENGTH_LONG).show();
+		Toast.makeText(context, "网络" + (isconnect ? "连接成功" : "连接已断开"), Toast.LENGTH_LONG).show();
 		if (listeners != null && listeners.size() > 0) {
 			for (int i = 0; i < listeners.size(); i++) {
 				listeners.get(i).onNetChange(isconnect);
