@@ -19,16 +19,17 @@ import com.changhong.gdappstore.database.DBManager;
 import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.AppDetail;
+import com.changhong.gdappstore.model.NativeApp;
 import com.changhong.gdappstore.net.LoadListener;
 import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
 import com.changhong.gdappstore.service.UpdateService;
 import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.DialogUtil.DialogBtnOnClickListener;
+import com.changhong.gdappstore.util.DialogUtil.DialogMessage;
 import com.changhong.gdappstore.util.ImageLoadUtil;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
-import com.changhong.gdappstore.util.DialogUtil.DialogMessage;
 import com.changhong.gdappstore.view.MyProgressDialog;
 import com.changhong.gdappstore.view.ScoreView;
 import com.changhong.gdappstore.view.UserMayLikeView;
@@ -50,18 +51,18 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	private ImageView iv_post, iv_icon;
 
 	private AppDetail appDetail;
-	/**数据更新提示对话框*/
+	/** 数据更新提示对话框 */
 	private ProgressDialog updateAppPDialog;
-	/**下载进度提示对话框*/
+	/** 下载进度提示对话框 */
 	private MyProgressDialog downloadPDialog;
-	/**下载进度提示下载功能*/
+	/** 下载进度提示下载功能 */
 	private UpdateService updateService;
 
 	private ScoreView scoreview;
 
 	int appId = -1;
-	/**下载量是否需要加1？用于处理下载成功后手动添加下载量，不再请求服务器获取*/
-	public static int detailLoadCount=0;
+	/** 下载量是否需要加1？用于处理下载成功后手动添加下载量，不再请求服务器获取 */
+	public static int detailLoadCount = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +101,8 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		downloadPDialog = new MyProgressDialog(context);
 		downloadPDialog.setUpdateFileSizeName(true);
 		downloadPDialog.dismiss();
-		updateAppPDialog=DialogUtil.showCirculProDialog(context, context.getString(R.string.tishi), context.getString(R.string.dataloading), true);
+		updateAppPDialog = DialogUtil.showCirculProDialog(context, context.getString(R.string.tishi),
+				context.getString(R.string.dataloading), true);
 		view_usermaylike.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -141,7 +143,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 					scoreview.setScoreBy10Total(appDetail.getScores());
 					tv_appname.setText(appDetail.getAppname());
 					tv_downloadcount.setText(Util.intToStr(Integer.parseInt(appDetail.getDownload())));
-					detailLoadCount=Integer.parseInt(appDetail.getDownload());
+					detailLoadCount = Integer.parseInt(appDetail.getDownload());
 					tv_size.setText(TextUtils.isEmpty(appDetail.getApkSize()) ? "" : appDetail.getApkSize() + " M");
 					tv_version.setText(appDetail.getVersion());
 					tv_introduce.setText(appDetail.getDescription());
@@ -155,7 +157,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 					}
 				}
 			}
-		},context);
+		}, context);
 
 	}
 
@@ -171,7 +173,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 						if (items != null && items.size() > 0) {
 							List<App> apps = new ArrayList<App>();
 							for (int i = 0; i < items.size(); i++) {
-								if (((App) items.get(i)).getAppid()!=appDetail.getAppid()) {
+								if (((App) items.get(i)).getAppid() != appDetail.getAppid()) {
 									apps.add(((App) items.get(i)));
 								}
 							}
@@ -192,7 +194,8 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		}
 		tv_downloadcount.setText(Util.intToStr(detailLoadCount));
 		// 是否已经安装
-		boolean isInstalled = Util.getNativeApp(context, appDetail.getPackageName()) != null;
+		NativeApp installed = Util.getNativeApp(context, appDetail.getPackageName());
+		boolean isInstalled = installed != null;
 		bt_open.setVisibility(isInstalled ? VISIBLE : GONE);
 		bt_dowload.setVisibility(isInstalled ? GONE : VISIBLE);
 		bt_update.setVisibility(isInstalled ? VISIBLE : GONE);
@@ -201,23 +204,19 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		} else {
 			bt_dowload.requestFocus();
 		}
-		App nativeApp = DBManager.getInstance(context).queryAppVersionById(appDetail.getAppid());
-		if (nativeApp != null) {
-			// 存在该应用
-			try {// 因为不能保证所有应用的versionname都能强制转行为float类型
-				int appdetailVersion = appDetail.getVersionInt();
-				int nativeVersion = nativeApp.getVersionInt();
-				L.d("checkversion--appdetail is " + appDetail.getVersionInt() + " nativeapp is "
-						+ nativeApp.getVersionInt());
-				bt_update.setVisibility((appdetailVersion > nativeVersion) ? VISIBLE : GONE);
-			} catch (Exception e) {
-				L.e("checkversion--error appdetail is " + appDetail.getVersionInt() + " nativeapp is "
-						+ nativeApp.getVersionInt());
-				e.printStackTrace();
-			}
+		App databaseApp = DBManager.getInstance(context).queryAppVersionById(appDetail.getAppid());
+		int appdetailVersion = appDetail.getVersionInt();
+		if (databaseApp != null) {// 数据库存在该应用
+			int databaseAppVersion = databaseApp.getVersionInt();
+			bt_update.setVisibility((appdetailVersion > databaseAppVersion) ? VISIBLE : GONE);
+			L.d("checkversion--appdetail is " + appdetailVersion + " databaseAppVersion is " + databaseAppVersion);
+		} else if (isInstalled) {// 数据库不存在再比较已安装apk版本号
+			int installedVersion = installed.getNativeVersionInt();
+			bt_update.setVisibility((appdetailVersion > installedVersion) ? VISIBLE : GONE);
+			L.d("checkversion--appdetail is " + appdetailVersion + " installedVersion is " + installedVersion);
 		} else {
-			//安装了但是没有保存到数据库
-			L.d("checkversion--appdetail isnot in database "+appDetail.getAppid());
+			// 安装了但是没有保存到数据库
+			L.d("checkversion--appdetail isnot in database and not installed" + appDetail.getAppid());
 		}
 	}
 
@@ -238,27 +237,28 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 			break;
 		}
 	}
+
 	private void showDownloadDialog(final boolean isDownload) {
-		String content="";
+		String content = "";
 		if (isDownload) {
-			content="确认下载应用？";
-		}else {
-			content="确认更新应用？";
+			content = "确认下载应用？";
+		} else {
+			content = "确认更新应用？";
 		}
 		DialogUtil.showMyAlertDialog(context, "提示：", content, "确  定", "取  消", new DialogBtnOnClickListener() {
-			
+
 			@Override
 			public void onSubmit(DialogMessage dialogMessage) {
 				downloadPDialog.setProgress(0);
 				updateService.update(appDetail, isDownload);
-				if (dialogMessage!=null && dialogMessage.dialogInterface!=null) {
+				if (dialogMessage != null && dialogMessage.dialogInterface != null) {
 					dialogMessage.dialogInterface.dismiss();
 				}
 			}
-			
+
 			@Override
 			public void onCancel(DialogMessage dialogMessage) {
-				if (dialogMessage!=null && dialogMessage.dialogInterface!=null) {
+				if (dialogMessage != null && dialogMessage.dialogInterface != null) {
 					dialogMessage.dialogInterface.dismiss();
 				}
 			}
