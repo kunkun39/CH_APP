@@ -26,6 +26,7 @@ import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.DialogUtil.DialogBtnOnClickListener;
 import com.changhong.gdappstore.util.ImageLoadUtil;
 import com.changhong.gdappstore.util.L;
+import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
 import com.changhong.gdappstore.util.DialogUtil.DialogMessage;
 import com.changhong.gdappstore.view.MyProgressDialog;
@@ -127,7 +128,9 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 
 	private void initData() {
 		updateService = new UpdateService(context, null, downloadPDialog);
-		updateAppPDialog.show();
+		if (NetworkUtils.ISNET_CONNECT) {
+			updateAppPDialog.show();
+		}
 		DataCenter.getInstance().loadAppDetail(appId, new LoadObjectListener() {
 
 			@Override
