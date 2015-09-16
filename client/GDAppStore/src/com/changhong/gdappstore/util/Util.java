@@ -169,6 +169,7 @@ public class Util {
 				NativeApp tmpInfo = new NativeApp();
 				tmpInfo.appname = packageInfo.applicationInfo.loadLabel(context.getPackageManager()).toString();
 				tmpInfo.appPackage = packageInfo.packageName;
+				tmpInfo.nativeVersionInt=packageInfo.versionCode;
 				tmpInfo.appIcon = packageInfo.applicationInfo.loadIcon(context.getPackageManager());
 				nativeApps.add(tmpInfo);
 				tmpInfo.appid = -1;
