@@ -34,6 +34,7 @@ import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.DialogUtil.DialogBtnOnClickListener;
 import com.changhong.gdappstore.util.DialogUtil.DialogMessage;
 import com.changhong.gdappstore.util.L;
+import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
 import com.changhong.gdappstore.view.HomePageView;
 import com.changhong.gdappstore.view.MyProgressDialog;
@@ -298,7 +299,7 @@ public class MainActivity extends BaseActivity {
 				if (currIndex == arg0 - 1) {// 从左往右翻页
 					if (pageViews.get(currIndex).currentFocuesId == R.id.jingping_item12) {
 						curPageView.setCategoryItemFocuesByPos(3);// 最底层一排翻页让第下一页最低层第一个获取焦点
-					}else if (pageViews.get(currIndex).currentFocuesId == R.id.jingping_item6) {
+					} else if (pageViews.get(currIndex).currentFocuesId == R.id.jingping_item6) {
 						curPageView.setCategoryItemFocuesByPos(1);
 					} else {
 						curPageView.setCategoryItemFocuesByPos(0);// 其它情况让第一个获取焦点
@@ -306,7 +307,8 @@ public class MainActivity extends BaseActivity {
 				} else if (currIndex == arg0 + 1) {// 从右往左翻页
 					if (pageViews.get(currIndex).currentFocuesId == R.id.jingping_itema4) {
 						curPageView.setPostItemFocuesByPos(11);// 最底层一排翻页让第上一页最低层最后一个获取焦点
-					}else if (pageViews.get(currIndex).currentFocuesId == R.id.jingping_itema2||pageViews.get(currIndex).currentFocuesId == R.id.jingping_itema3) {
+					} else if (pageViews.get(currIndex).currentFocuesId == R.id.jingping_itema2
+							|| pageViews.get(currIndex).currentFocuesId == R.id.jingping_itema3) {
 						curPageView.setCategoryItemFocuesByPos(5);
 					} else {
 						curPageView.setPostItemFocuesByPos(4);// 其它情况让最后一列最上面一个获取焦点
@@ -335,8 +337,9 @@ public class MainActivity extends BaseActivity {
 		try {
 			int nativeVersion = getPackageManager().getPackageInfo(this.getPackageName(), 0).versionCode;
 			L.d("mainactivity readUpdate navVersion=" + nativeVersion + " serverVer " + MyApplication.SERVER_VERSION);
-			if (nativeVersion < MyApplication.SERVER_VERSION && !TextUtils.isEmpty(MyApplication.UPDATE_APKURL)) {
-				if (updateDialog == null ||(updateDialog!=null && !updateDialog.isShowing())) {
+			if (NetworkUtils.isConnectInternet(context) && nativeVersion < MyApplication.SERVER_VERSION
+					&& !TextUtils.isEmpty(MyApplication.UPDATE_APKURL)) {
+				if (updateDialog == null || (updateDialog != null && !updateDialog.isShowing())) {
 
 					updateDialog = DialogUtil.showMyAlertDialog(context, "提示：", "有新版本更新。", "马上更新", "下次再说",
 							new DialogBtnOnClickListener() {
