@@ -2,6 +2,7 @@ package com.changhong.gdappstore.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
@@ -57,28 +58,28 @@ public class ScoreView extends BaseRelativeLayout {
 	 * 
 	 * @param score
 	 */
-//	public void setScoreBy5Total(float score) {
-//		if (score < 0) {
-//			return;
-//		}
-//		int fullstar = (int) Math.floor(score);
-//		float decimal = score - fullstar;
-//		
-//		for (int i = 0; i < ll_scrollview.getChildCount(); i++) {
-//			ImageView imageView = (ImageView) ll_scrollview.getChildAt(i);
-//			if (imageView == null) {
-//				continue;
-//			}
-//			if ((i + 1) <= fullstar) {
-//				updateStarViewState(imageView, SCORE_FULL);
-//			} else if (decimal > 0 && i == fullstar) {
-//				updateStarViewState(imageView, SCORE_HALF);
-//			} else {
-//				updateStarViewState(imageView, SCORE_NONE);
-//			}
-//		}
-//		ll_scrollview.invalidate();
-//	}
+	public void setScoreBy5Total(float score) {
+		if (score < 0) {
+			return;
+		}
+		int fullstar = (int) Math.floor(score);
+		float decimal = score - fullstar;
+		
+		for (int i = 0; i < ll_scrollview.getChildCount(); i++) {
+			ImageView imageView = (ImageView) ll_scrollview.getChildAt(i);
+			if (imageView == null) {
+				continue;
+			}
+			if ((i + 1) <= fullstar) {
+				updateStarViewState(imageView, SCORE_FULL);
+			} else if (decimal > 0 && i == fullstar) {
+				updateStarViewState(imageView, SCORE_HALF);
+			} else {
+				updateStarViewState(imageView, SCORE_NONE);
+			}
+		}
+		ll_scrollview.invalidate();
+	}
 	/**
 	 * 按照5颗星10分来计算，1分为半颗星
 	 * 
@@ -89,7 +90,7 @@ public class ScoreView extends BaseRelativeLayout {
 			score = 0;
 		}
 		int full = score / 2;
-		boolean hashalf = (score % 2) == 0;
+		boolean hashalf = (score % 2) != 0;
 		for (int i = 0; i < ll_scrollview.getChildCount(); i++) {
 			ImageView imageView = (ImageView) ll_scrollview.getChildAt(i);
 			if (imageView == null) {
