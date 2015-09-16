@@ -199,10 +199,14 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		bt_open.setVisibility(isInstalled ? VISIBLE : GONE);
 		bt_dowload.setVisibility(isInstalled ? GONE : VISIBLE);
 		bt_update.setVisibility(isInstalled ? VISIBLE : GONE);
-		if (isInstalled) {
-			bt_open.requestFocus();
-		} else {
-			bt_dowload.requestFocus();
+		if (view_usermaylike.getCurFocuesView()!=null) {
+			view_usermaylike.getCurFocuesView().requestFocus();
+		}else {
+			if (isInstalled) {
+				bt_open.requestFocus();
+			} else {
+				bt_dowload.requestFocus();
+			}
 		}
 		App databaseApp = DBManager.getInstance(context).queryAppVersionById(appDetail.getAppid());
 		int appdetailVersion = appDetail.getVersionInt();
