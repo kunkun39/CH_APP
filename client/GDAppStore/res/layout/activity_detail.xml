@@ -183,7 +183,7 @@
                 android:textColor="@color/detail_content_title_textcolor"
                 android:textSize="@dimen/detail_contenttextsize" />
 
-            <TextView
+            <com.changhong.gdappstore.view.JustifyTextView
                 android:id="@+id/tv_introduce"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

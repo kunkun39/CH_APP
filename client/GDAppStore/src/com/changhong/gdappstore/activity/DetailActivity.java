@@ -30,6 +30,7 @@ import com.changhong.gdappstore.util.ImageLoadUtil;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
+import com.changhong.gdappstore.view.JustifyTextView;
 import com.changhong.gdappstore.view.MyProgressDialog;
 import com.changhong.gdappstore.view.ScoreView;
 import com.changhong.gdappstore.view.UserMayLikeView;
@@ -46,8 +47,8 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	/** 用户喜欢 */
 	private UserMayLikeView view_usermaylike;
 	/** 应用文本介绍信息 */
-	private TextView tv_appname, tv_downloadcount, tv_size, tv_version, tv_updatetime, tv_introduce;
-
+	private TextView tv_appname, tv_downloadcount, tv_size, tv_version, tv_updatetime;
+	private JustifyTextView tv_introduce;
 	private ImageView iv_post, iv_icon;
 
 	private AppDetail appDetail;
