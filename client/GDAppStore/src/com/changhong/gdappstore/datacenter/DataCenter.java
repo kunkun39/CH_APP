@@ -172,7 +172,17 @@ public class DataCenter {
 				completeListener.onComplete();
 			}
 		}
-		loadPageApps(context, completeListener);
+		if (categories == null || categories.size() <=0 ) {
+			loadCategories(context, new LoadCompleteListener() {
+				
+				@Override
+				public void onComplete() {//没有栏目数据要先去获取栏目数据
+					loadPageApps(context, completeListener);
+				}
+			});
+		}else {
+			loadPageApps(context, completeListener);
+		}
 	}
 	/**
 	 * 加载一级页面推荐应用

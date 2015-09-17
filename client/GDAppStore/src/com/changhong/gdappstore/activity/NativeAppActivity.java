@@ -3,7 +3,6 @@ package com.changhong.gdappstore.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -124,11 +123,8 @@ public class NativeAppActivity extends PostActivity {
 		@Override
 		public void itemOnClick(BasePosterLayoutView arg0, View arg1, int arg2) {
 			NativeApp tmpInfo = (NativeApp) arg1.getTag();
-			if (tmpInfo.getAppid() > 0) {// 如果该应用来自于应用商城，进入详情
-				if (!NetworkUtils.ISNET_CONNECT) {
-					DialogUtil.showShortToast(context, context.getString(R.string.net_notconnected));
-					return;
-				}
+			if (tmpInfo.getAppid() > 0 && NetworkUtils.ISNET_CONNECT
+					&& tmpInfo.ServerVersionInt > tmpInfo.nativeVersionInt) {// 如果该应用来自于应用商城，进入详情
 				Intent intent = new Intent(NativeAppActivity.this, DetailActivity.class);
 				intent.putExtra(Config.KEY_APPID, tmpInfo.getAppid());
 				startActivity(intent);
