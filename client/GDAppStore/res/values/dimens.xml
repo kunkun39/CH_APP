@@ -12,7 +12,7 @@
     <dimen name="item_square1_width">158dp</dimen>
     <dimen name="item_square1_height">121dp</dimen>
     <dimen name="item_square2_width">142.2dp</dimen>
-    <dimen name="item_square2_height">118dp</dimen>
+    <dimen name="item_square2_height">121dp</dimen>
     <dimen name="item_square1_margintop">5dp</dimen>
     <dimen name="item_square2_marginleft">8dp</dimen>
     <dimen name="item_big1_width">441.5dp</dimen>
