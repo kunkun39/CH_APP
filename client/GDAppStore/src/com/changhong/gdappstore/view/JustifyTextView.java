@@ -1,7 +1,5 @@
 package com.changhong.gdappstore.view;
 
-import com.changhong.gdappstore.util.L;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -12,12 +10,14 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 
 /**
- * @author ccheng
- * @Date 3/18/14
+ * TextView自适应两边对齐
+ * @author wangxiufeng
+ *
  */
 public class JustifyTextView extends TextView {
-
+	/**每行字符的Y坐标*/
 	private int mLineY;
+	/**The raw measured width of this view*/
 	private int mViewWidth;
 	public static final String TWO_CHINESE_BLANK = "  ";
 
@@ -48,7 +48,7 @@ public class JustifyTextView extends TextView {
 
 		Paint.FontMetrics fm = paint.getFontMetrics();
 
-		int textHeight = (int) (Math.ceil(fm.descent - fm.ascent));
+		int textHeight = (int) (Math.ceil(fm.descent - fm.ascent));//字体高度
 		textHeight = (int) (textHeight * layout.getSpacingMultiplier() + layout.getSpacingAdd());
 
 		for (int i = 0; i < layout.getLineCount(); i++) {
