@@ -11,13 +11,14 @@ import android.widget.TextView;
 
 /**
  * TextView自适应两边对齐
+ * 
  * @author wangxiufeng
- *
+ * 
  */
 public class JustifyTextView extends TextView {
-	/**每行字符的Y坐标*/
+	/** 每行字符的Y坐标 */
 	private int mLineY;
-	/**The raw measured width of this view*/
+	/** The raw measured width of this view */
 	private int mViewWidth;
 	public static final String TWO_CHINESE_BLANK = "  ";
 
@@ -48,7 +49,7 @@ public class JustifyTextView extends TextView {
 
 		Paint.FontMetrics fm = paint.getFontMetrics();
 
-		int textHeight = (int) (Math.ceil(fm.descent - fm.ascent));//字体高度
+		int textHeight = (int) (Math.ceil(fm.descent - fm.ascent));// 字体高度
 		textHeight = (int) (textHeight * layout.getSpacingMultiplier() + layout.getSpacingAdd());
 
 		for (int i = 0; i < layout.getLineCount(); i++) {
@@ -79,6 +80,8 @@ public class JustifyTextView extends TextView {
 		int gapCount = line.length() - 1;
 		int i = 0;
 		if (line.length() > 2 && line.charAt(0) == 12288 && line.charAt(1) == 12288) {
+			// unicode为12288字符为全角空格，trim()无法去除，去除方法如下：str = str.replace((char)
+			// 12288, ' ');str=str.trim();
 			String substring = line.substring(0, 2);
 			float cw = StaticLayout.getDesiredWidth(substring, getPaint());
 			canvas.drawText(substring, x, mLineY, getPaint());
@@ -86,7 +89,7 @@ public class JustifyTextView extends TextView {
 			i += 2;
 		}
 
-		float d = (mViewWidth - lineWidth) / gapCount;
+		float d = (mViewWidth - lineWidth) / gapCount;//每个字符增加空白长度，已填充末尾空白满足左右对齐
 		for (; i < line.length(); i++) {
 			String c = String.valueOf(line.charAt(i));
 			float cw = StaticLayout.getDesiredWidth(c, getPaint());
