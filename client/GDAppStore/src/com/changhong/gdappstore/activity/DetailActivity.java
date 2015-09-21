@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseActivity;
-import com.changhong.gdappstore.database.DBManager;
 import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.AppDetail;
@@ -200,27 +199,31 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		bt_open.setVisibility(isInstalled ? VISIBLE : GONE);
 		bt_dowload.setVisibility(isInstalled ? GONE : VISIBLE);
 		bt_update.setVisibility(isInstalled ? VISIBLE : GONE);
-		if (view_usermaylike.getCurFocuesView()!=null) {
+		if (view_usermaylike.getCurFocuesView() != null) {
 			view_usermaylike.getCurFocuesView().requestFocus();
-		}else {
+		} else {
 			if (isInstalled) {
 				bt_open.requestFocus();
 			} else {
 				bt_dowload.requestFocus();
 			}
 		}
-		App databaseApp = DBManager.getInstance(context).queryAppVersionById(appDetail.getAppid());
 		int appdetailVersion = appDetail.getVersionInt();
-		if (databaseApp != null) {// 数据库存在该应用
-			int databaseAppVersion = databaseApp.getVersionInt();
-			bt_update.setVisibility((appdetailVersion > databaseAppVersion) ? VISIBLE : GONE);
-			L.d("checkversion--appdetail is " + appdetailVersion + " databaseAppVersion is " + databaseAppVersion);
-		} else if (isInstalled) {// 数据库不存在再比较已安装apk版本号
+		// App databaseApp =
+		// DBManager.getInstance(context).queryAppVersionById(appDetail.getAppid());
+		// if (databaseApp != null) {// 数据库存在该应用（取消数据库作用）
+		// int databaseAppVersion = databaseApp.getVersionInt();
+		// bt_update.setVisibility((appdetailVersion > databaseAppVersion) ?
+		// VISIBLE : GONE);
+		// L.d("checkversion--appdetail is " + appdetailVersion +
+		// " databaseAppVersion is " + databaseAppVersion);
+		// } else if (isInstalled) {// 数据库不存在再比较已安装apk版本号
+		if (isInstalled) {//比较本地已安装版本号
 			int installedVersion = installed.getNativeVersionInt();
 			bt_update.setVisibility((appdetailVersion > installedVersion) ? VISIBLE : GONE);
 			L.d("checkversion--appdetail is " + appdetailVersion + " installedVersion is " + installedVersion);
 		} else {
-			// 安装了但是没有保存到数据库
+			// 没有安装
 			L.d("checkversion--appdetail isnot in database and not installed" + appDetail.getAppid());
 		}
 	}

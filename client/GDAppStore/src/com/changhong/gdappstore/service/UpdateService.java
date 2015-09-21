@@ -1,11 +1,9 @@
 package com.changhong.gdappstore.service;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -76,7 +74,7 @@ public class UpdateService {
 			Toast.makeText(context, "当前正在下载更新，请耐心等待", Toast.LENGTH_SHORT).show();
 			return;
 		}
-		AppBroadcastReceiver.curAppDetail = appDetail;
+//		AppBroadcastReceiver.curAppDetail = appDetail;//TODO 取消数据库保存应用信息
 		if (handler == null) {
 			handler = new Handler() {
 				@Override

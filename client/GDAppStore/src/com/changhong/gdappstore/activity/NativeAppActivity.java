@@ -94,18 +94,18 @@ public class NativeAppActivity extends PostActivity {
 						}
 					}
 					// 设置本地数据库存储版本号
-					List<App> dataApps = DBManager.getInstance(context).queryAppVersions();
-					if (dataApps != null && dataApps.size() > 0) {
-						for (int i = 0; i < nativeApps.size(); i++) {
-							for (int j = 0; j < dataApps.size(); j++) {
-								App dataApp = (App) dataApps.get(j);
-								if (dataApp != null && nativeApps.get(i) != null
-										&& ((NativeApp) nativeApps.get(i)).getAppid() == dataApp.getAppid()) {
-									((NativeApp) nativeApps.get(i)).setNativeVersionInt(dataApp.getVersionInt());
-								}
-							}
-						}
-					}
+//					List<App> dataApps = DBManager.getInstance(context).queryAppVersions();
+//					if (dataApps != null && dataApps.size() > 0) {
+//						for (int i = 0; i < nativeApps.size(); i++) {
+//							for (int j = 0; j < dataApps.size(); j++) {
+//								App dataApp = (App) dataApps.get(j);
+//								if (dataApp != null && nativeApps.get(i) != null
+//										&& ((NativeApp) nativeApps.get(i)).getAppid() == dataApp.getAppid()) {
+//									((NativeApp) nativeApps.get(i)).setNativeVersionInt(dataApp.getVersionInt());
+//								}
+//							}
+//						}
+//					}
 					postView.refreshAllData(nativeApps, postSetting, nativeApps.size());
 					if (loadDataProDialog!=null && loadDataProDialog.isShowing()) {
 						loadDataProDialog.dismiss();
