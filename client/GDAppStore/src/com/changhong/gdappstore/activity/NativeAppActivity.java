@@ -1,9 +1,11 @@
 package com.changhong.gdappstore.activity;
 
+import java.lang.annotation.Retention;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -15,11 +17,13 @@ import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.NativeApp;
 import com.changhong.gdappstore.net.LoadListener.LoadListListener;
 import com.changhong.gdappstore.post.PostSetting;
+import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
 import com.post.view.base.BasePosterLayoutView;
 import com.post.view.listener.IPosteDateListener;
 import com.post.view.listener.Listener.IItemOnClickListener;
+import com.post.view.listener.Listener.IItemOnLongClickListener;
 
 /**
  * 本地应用页面,基础海报页面
@@ -45,7 +49,7 @@ public class NativeAppActivity extends PostActivity {
 		postSetting.setPosttype(PostSetting.TYPE_NATIVEAPP);
 		postSetting.setOnItemClickListener(nativeappPostItemOnclickListener);
 		postSetting.setiPosteDateListener(iPosteDateListener);
-		postSetting.setOnItemLongClickListener(null);
+		postSetting.setOnItemLongClickListener(onItemLongClickListener);
 		postSetting.setFristItemFocus(true);
 		postSetting.setPost_column(5);
 		postSetting.setPost_row(3);
@@ -129,6 +133,21 @@ public class NativeAppActivity extends PostActivity {
 			} else {// 启动该应用
 				Util.openAppByPackageName(context, tmpInfo.getAppPackage());
 			}
+		}
+	};
+	
+	private IItemOnLongClickListener onItemLongClickListener=new IItemOnLongClickListener() {
+		
+		@Override
+		public boolean itemOnLongClick(BasePosterLayoutView arg0, View arg1, int arg2) {
+			if (arg1.getTag() != null) {
+				NativeApp tmpInfo = (NativeApp) arg1.getTag();
+				Uri uri = Uri.parse("package:" + tmpInfo.appPackage);
+				Intent intent = new Intent(Intent.ACTION_DELETE, uri);
+				startActivity(intent);
+				return true;
+			}
+			return false;
 		}
 	};
 	private IPosteDateListener iPosteDateListener = new IPosteDateListener() {
