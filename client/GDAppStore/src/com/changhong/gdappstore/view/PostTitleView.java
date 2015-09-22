@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -74,6 +75,8 @@ public class PostTitleView extends BaseRelativeLayout {
 	}
 
 	private void init() {
+		HorizontalScrollView hsView=new HorizontalScrollView(context);
+		hsView.setHorizontalScrollBarEnabled(false);
 		ll_content = new LinearLayout(context);
 		ll_content.setOrientation(LinearLayout.HORIZONTAL);
 		ll_content.setFocusable(false);
@@ -82,7 +85,8 @@ public class PostTitleView extends BaseRelativeLayout {
 		layoutParams.rightMargin = 0;
 		layoutParams.gravity = Gravity.CENTER;
 		removeAllViews();
-		addView(ll_content);
+		hsView.addView(ll_content);
+		addView(hsView);
 	}
 
 	public void initData(Category parentCategory, List<Category> items) {

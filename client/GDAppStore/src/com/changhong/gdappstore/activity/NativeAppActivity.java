@@ -1,23 +1,29 @@
 package com.changhong.gdappstore.activity;
 
-import java.lang.annotation.Retention;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.changhong.gdappstore.Config;
-import com.changhong.gdappstore.database.DBManager;
+import com.changhong.gdappstore.R;
+import com.changhong.gdappstore.base.BaseActivity;
 import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.model.App;
+import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.model.NativeApp;
 import com.changhong.gdappstore.net.LoadListener.LoadListListener;
 import com.changhong.gdappstore.post.PostSetting;
-import com.changhong.gdappstore.util.L;
+import com.changhong.gdappstore.post.PosterLayoutView;
+import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
 import com.post.view.base.BasePosterLayoutView;
@@ -31,25 +37,62 @@ import com.post.view.listener.Listener.IItemOnLongClickListener;
  * @author wangxiufeng
  * 
  */
-public class NativeAppActivity extends PostActivity {
+public class NativeAppActivity extends BaseActivity {
 	/** 本地应用 */
 	private List<Object> nativeApps;
+	/** 海报墙view */
+	protected PosterLayoutView postView;
+	/** 海报墙配置项 */
+	protected PostSetting postSetting;
+	/** 标题view */
+	// protected PostTitleView titleView;
+	/** 数据处理中心 */
+	protected DataCenter dataCenter;
+	/** 父栏目，根据首页传过来的id确定 */
+	protected Category parentCategory = null;
+	/** 栏目名字 */
+	protected TextView tv_name, tv_page;
+	/** 搜索按钮 */
+	protected ImageView iv_search;
+	/** 当前显示类别id **/
+	protected int curCategoryId = 0;
 
-	
+	protected ProgressDialog loadDataProDialog;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_nativeapp);
 		initView();
 		initData();
 	}
 
 	private void initView() {
+		postView = findView(R.id.postview);
+		// titleView = findView(R.id.posttitleview);
+		tv_name = findView(R.id.tv_pagename);
 		tv_name.setText("本地应用");
+		tv_page = findView(R.id.tv_page);
+		iv_search = findView(R.id.iv_search);
+		loadDataProDialog = DialogUtil.showCirculProDialog(context, context.getString(R.string.tishi),
+				context.getString(R.string.dataloading), true);
+		iv_search.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(NativeAppActivity.this, SearchActivity.class));
+			}
+		});
+		initPostView();
+	}
+
+	private void initPostView() {
 		// 重新配置post设置
+		postSetting = new PostSetting(3, 3, R.drawable.selector_bg_postitem, iPosteDateListener, null,
+				nativeappPostItemOnclickListener, onItemLongClickListener, null);
 		postSetting.setPosttype(PostSetting.TYPE_NATIVEAPP);
-		postSetting.setOnItemClickListener(nativeappPostItemOnclickListener);
-		postSetting.setiPosteDateListener(iPosteDateListener);
-		postSetting.setOnItemLongClickListener(onItemLongClickListener);
+		postSetting.setVerticalScroll(false);
+		postSetting.setFirstRowFocusUp(true);
 		postSetting.setFristItemFocus(true);
 		postSetting.setPost_column(5);
 		postSetting.setPost_row(3);
@@ -57,15 +100,16 @@ public class NativeAppActivity extends PostActivity {
 		postSetting.setVisibleClumn(1.1f);
 		postSetting.setMargins(15, 15, 0, 0);
 		postView.init(postSetting);
-		if (loadDataProDialog!=null && loadDataProDialog.isShowing()) {
+		if (loadDataProDialog != null && loadDataProDialog.isShowing()) {
 			loadDataProDialog.dismiss();
 		}
+
 	}
 
 	private void initData() {
 		nativeApps = Util.getApp(context);
 		if (nativeApps != null) {
-			if (loadDataProDialog!=null && !loadDataProDialog.isShowing()) {
+			if (loadDataProDialog != null && !loadDataProDialog.isShowing()) {
 				loadDataProDialog.show();
 			}
 			postView.refreshAllData(nativeApps, postSetting, nativeApps.size());
@@ -98,24 +142,27 @@ public class NativeAppActivity extends PostActivity {
 						}
 					}
 					// 设置本地数据库存储版本号
-//					List<App> dataApps = DBManager.getInstance(context).queryAppVersions();
-//					if (dataApps != null && dataApps.size() > 0) {
-//						for (int i = 0; i < nativeApps.size(); i++) {
-//							for (int j = 0; j < dataApps.size(); j++) {
-//								App dataApp = (App) dataApps.get(j);
-//								if (dataApp != null && nativeApps.get(i) != null
-//										&& ((NativeApp) nativeApps.get(i)).getAppid() == dataApp.getAppid()) {
-//									((NativeApp) nativeApps.get(i)).setNativeVersionInt(dataApp.getVersionInt());
-//								}
-//							}
-//						}
-//					}
+					// List<App> dataApps =
+					// DBManager.getInstance(context).queryAppVersions();
+					// if (dataApps != null && dataApps.size() > 0) {
+					// for (int i = 0; i < nativeApps.size(); i++) {
+					// for (int j = 0; j < dataApps.size(); j++) {
+					// App dataApp = (App) dataApps.get(j);
+					// if (dataApp != null && nativeApps.get(i) != null
+					// && ((NativeApp) nativeApps.get(i)).getAppid() ==
+					// dataApp.getAppid()) {
+					// ((NativeApp)
+					// nativeApps.get(i)).setNativeVersionInt(dataApp.getVersionInt());
+					// }
+					// }
+					// }
+					// }
 					postView.refreshAllData(nativeApps, postSetting, nativeApps.size());
-					if (loadDataProDialog!=null && loadDataProDialog.isShowing()) {
+					if (loadDataProDialog != null && loadDataProDialog.isShowing()) {
 						loadDataProDialog.dismiss();
 					}
 				}
-			},context);
+			}, context);
 		}
 	}
 
@@ -135,9 +182,9 @@ public class NativeAppActivity extends PostActivity {
 			}
 		}
 	};
-	
-	private IItemOnLongClickListener onItemLongClickListener=new IItemOnLongClickListener() {
-		
+
+	private IItemOnLongClickListener onItemLongClickListener = new IItemOnLongClickListener() {
+
 		@Override
 		public boolean itemOnLongClick(BasePosterLayoutView arg0, View arg1, int arg2) {
 			if (arg1.getTag() != null) {
@@ -160,7 +207,7 @@ public class NativeAppActivity extends PostActivity {
 		@Override
 		public void changePage(Boolean isnext, int curpage, int totalpage) {
 			// 翻页回调
-			tv_page.setText("当前显示第"+(totalpage <= 0 ? 0 : curpage)+"页;共"+totalpage+"页");
+			tv_page.setText("当前显示第" + (totalpage <= 0 ? 0 : curpage) + "页;共" + totalpage + "页");
 		}
 
 		@Override

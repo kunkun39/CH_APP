@@ -87,6 +87,19 @@ public class PostActivity extends BaseActivity {
 				startActivity(new Intent(PostActivity.this, SearchActivity.class));
 			}
 		});
+		iv_search.setOnKeyListener(new OnKeyListener() {
+			
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				if (event.getAction()==KeyEvent.ACTION_DOWN && keyCode==KeyEvent.KEYCODE_DPAD_DOWN) {
+					if (titleView!=null && titleView.getCurrentSelectedView()!=null) {
+						titleView.getCurrentSelectedView().requestFocus();
+						return true;
+					}
+				}
+				return false;
+			}
+		});
 		titleView.setTitleItemOnClickListener(new TitleItemOnClickListener() {
 
 			@Override
