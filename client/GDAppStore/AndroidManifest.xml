@@ -35,12 +35,13 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
+            android:theme="@style/anim_zoom"
             android:launchMode="singleTask" />
-        <activity android:name=".activity.RankingListActivity" />
-        <activity android:name=".activity.SearchActivity" />
-        <activity android:name=".activity.PostActivity" />
-        <activity android:name=".activity.DetailActivity" />
-        <activity android:name=".activity.NativeAppActivity" />
+        <activity android:name=".activity.RankingListActivity" android:theme="@style/anim_zoom"/>
+        <activity android:name=".activity.SearchActivity" android:theme="@style/anim_zoom"/>
+        <activity android:name=".activity.PostActivity" android:theme="@style/anim_zoom"/>
+        <activity android:name=".activity.DetailActivity" android:theme="@style/anim_zoom"/>
+        <activity android:name=".activity.NativeAppActivity" android:theme="@style/anim_zoom"/>
 
         <receiver
             android:name="com.changhong.gdappstore.service.AppBroadcastReceiver"

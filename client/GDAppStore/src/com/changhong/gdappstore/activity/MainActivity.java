@@ -281,6 +281,7 @@ public class MainActivity extends BaseActivity {
 			intent.putExtra(Config.KEY_PARENT_CATEGORYID, categories.get(position).getId());
 			intent.putExtra(Config.KEY_CURRENT_CATEGORYID, categories.get(position).getId());
 			context.startActivity(intent);
+//			overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
 		}
 	};
 	/**
