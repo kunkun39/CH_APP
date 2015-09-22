@@ -24,4 +24,15 @@
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:background">@android:color/transparent</item>
     </style>
+    
+     <style name="anim_zoom" parent="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+        <item name="android:windowAnimationStyle">@style/zoom</item>
+    </style>
+
+    <style name="zoom" parent="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+        <item name="android:activityOpenEnterAnimation">@anim/zoomin</item>
+        <item name="android:activityOpenExitAnimation">@anim/zoomout</item>
+        <item name="android:activityCloseEnterAnimation">@anim/zoomin2</item>
+        <item name="android:activityCloseExitAnimation">@null</item>
+    </style>
 </resources>
