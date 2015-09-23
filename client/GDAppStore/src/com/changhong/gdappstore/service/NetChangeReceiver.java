@@ -1,13 +1,16 @@
 package com.changhong.gdappstore.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
+import com.changhong.gdappstore.service.AppBroadcastReceiver.AppChangeListener;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
@@ -19,9 +22,8 @@ import com.changhong.gdappstore.util.Util;
  * 
  */
 public class NetChangeReceiver extends BroadcastReceiver {
-	/** 网络情况改变回调监听器 */
-	public static List<NetChangeListener> listeners = new ArrayList<NetChangeReceiver.NetChangeListener>();
-
+	/** 网络情况改变回调监听器  key为context.getClass().getName()以防重复添加*/
+	public static Map<String, NetChangeListener> listeners=new HashMap<String, NetChangeReceiver.NetChangeListener>();
 	/**
 	 * 网络变化监听器
 	 * 
@@ -40,8 +42,8 @@ public class NetChangeReceiver extends BroadcastReceiver {
 //		String ipaddress=" ip地址是："+NetworkUtils.getIpAddress(context);
 		Toast.makeText(context, "网络" + (isconnect ? "连接成功" : "连接已断开"), Toast.LENGTH_LONG).show();
 		if (listeners != null && listeners.size() > 0) {
-			for (int i = 0; i < listeners.size(); i++) {
-				listeners.get(i).onNetChange(isconnect);
+			for (NetChangeListener listener:listeners.values()) {
+				listener.onNetChange(isconnect);
 			}
 		}
 	}

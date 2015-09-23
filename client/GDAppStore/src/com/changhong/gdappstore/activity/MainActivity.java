@@ -109,7 +109,7 @@ public class MainActivity extends BaseActivity {
 		viewPager.setCurrentItem(0);
 		viewPager.setAnimationCacheEnabled(true);
 		viewPager.setOnPageChangeListener(pageChangeListener);
-		NetChangeReceiver.listeners.add(new NetChangeListener() {
+		NetChangeReceiver.listeners.put(context.getClass().getName(),new NetChangeListener() {
 
 			@Override
 			public void onNetChange(boolean isconnect) {
