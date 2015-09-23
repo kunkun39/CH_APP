@@ -26,7 +26,7 @@
             android:layout_height="65dp"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@id/tv_pagename"
-            android:layout_marginRight="160dp"
+            android:layout_marginRight="154dp"
             android:background="@drawable/selector_bg_postitem"
             android:focusable="true"
             android:scaleType="fitXY"
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/posttitleview"
         android:layout_marginBottom="-120dp"
-        android:layout_marginLeft="110dp"
+        android:layout_marginLeft="100dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="10dp"
         android:visibility="visible" />
@@ -60,10 +60,21 @@
         android:layout_above="@id/postview"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="-10dp"
-        android:layout_marginRight="163dp"
+        android:layout_marginRight="171dp"
         android:focusable="false"
         android:text="当前显示第0页;共0页"
         android:textColor="@color/white"
+        android:textSize="18sp" />
+    <TextView
+        android:id="@+id/tv_tishi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="135dp"
+        android:focusable="false"
+        android:text="提示：长按可以卸载应用。"
+        android:textColor="#BFBFBF"
         android:textSize="18sp" />
 
 
