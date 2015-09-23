@@ -23,7 +23,10 @@ import com.changhong.gdappstore.model.NativeApp;
 import com.changhong.gdappstore.net.LoadListener.LoadListListener;
 import com.changhong.gdappstore.post.PostSetting;
 import com.changhong.gdappstore.post.PosterLayoutView;
+import com.changhong.gdappstore.service.AppBroadcastReceiver;
+import com.changhong.gdappstore.service.AppBroadcastReceiver.AppChangeListener;
 import com.changhong.gdappstore.util.DialogUtil;
+import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
 import com.post.view.base.BasePosterLayoutView;
@@ -58,6 +61,8 @@ public class NativeAppActivity extends BaseActivity {
 	protected int curCategoryId = 0;
 
 	protected ProgressDialog loadDataProDialog;
+
+	private static final int UNINSTALL_REQCODE = 11;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -141,22 +146,6 @@ public class NativeAppActivity extends BaseActivity {
 							}
 						}
 					}
-					// 设置本地数据库存储版本号
-					// List<App> dataApps =
-					// DBManager.getInstance(context).queryAppVersions();
-					// if (dataApps != null && dataApps.size() > 0) {
-					// for (int i = 0; i < nativeApps.size(); i++) {
-					// for (int j = 0; j < dataApps.size(); j++) {
-					// App dataApp = (App) dataApps.get(j);
-					// if (dataApp != null && nativeApps.get(i) != null
-					// && ((NativeApp) nativeApps.get(i)).getAppid() ==
-					// dataApp.getAppid()) {
-					// ((NativeApp)
-					// nativeApps.get(i)).setNativeVersionInt(dataApp.getVersionInt());
-					// }
-					// }
-					// }
-					// }
 					postView.refreshAllData(nativeApps, postSetting, nativeApps.size());
 					if (loadDataProDialog != null && loadDataProDialog.isShowing()) {
 						loadDataProDialog.dismiss();
@@ -164,7 +153,32 @@ public class NativeAppActivity extends BaseActivity {
 				}
 			}, context);
 		}
+		AppBroadcastReceiver.listeners.put(context.getClass().getName(), appChangeListener);
 	}
+
+	private AppChangeListener appChangeListener = new AppChangeListener() {
+
+		@Override
+		public void onAppChange(Intent intent) {
+			L.d("onappchange---intent.getAction() " + intent.getAction() + " TopActivity "
+					+ Util.getTopActivity(context) + "  " + context.getClass().getName());
+			if (intent != null && intent.getAction().equals("android.intent.action.PACKAGE_REMOVED")
+					&& nativeApps != null && nativeApps.size() > 0) {
+				String packageName = intent.getDataString();
+				if (packageName != null && packageName.startsWith("package:")) {
+					packageName = packageName.substring(packageName.indexOf(":") + 1, packageName.length());
+				}
+				for (int i = 0; i < nativeApps.size(); i++) {
+					L.d("onappchange---packageName " + packageName + "  " + ((NativeApp) nativeApps.get(i)).appPackage);
+					if (((NativeApp) nativeApps.get(i)).appPackage.equals(packageName)) {
+						nativeApps.remove(i);
+						break;
+					}
+				}
+				postView.refreshAllData(nativeApps, postSetting, nativeApps.size());
+			}
+		}
+	};
 
 	/** 海报墙点击监听 **/
 	private IItemOnClickListener nativeappPostItemOnclickListener = new IItemOnClickListener() {
@@ -191,12 +205,14 @@ public class NativeAppActivity extends BaseActivity {
 				NativeApp tmpInfo = (NativeApp) arg1.getTag();
 				Uri uri = Uri.parse("package:" + tmpInfo.appPackage);
 				Intent intent = new Intent(Intent.ACTION_DELETE, uri);
+				// startActivityForResult(intent, UNINSTALL_REQCODE);
 				startActivity(intent);
 				return true;
 			}
 			return false;
 		}
 	};
+
 	private IPosteDateListener iPosteDateListener = new IPosteDateListener() {
 
 		@Override
