@@ -4,7 +4,6 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/transparent" >
-
     <RelativeLayout
         android:id="@+id/rl_jingpin_categroys"
         android:layout_width="fill_parent"
@@ -53,90 +52,98 @@
             android:id="@+id/jingping_item2"
             android:layout_width="@dimen/item_big2_width"
             android:layout_height="@dimen/item_big2_height"
-            android:layout_alignLeft="@id/jingping_item1"
-            android:layout_alignTop="@id/jingping_itema3"
-            android:layout_below="@id/jingping_item1" />
+            android:layout_alignTop="@id/jingping_item1"
+            android:layout_below="@id/jingping_item1"
+            android:layout_marginLeft="@dimen/item_square2_marginleft"
+            android:layout_toRightOf="@id/jingping_item1" />
 
         <com.changhong.gdappstore.view.PostItemView
             android:id="@+id/jingping_item3"
             android:layout_width="@dimen/item_big2_width"
             android:layout_height="@dimen/item_big2_height"
-            android:layout_alignTop="@id/jingping_item2"
-            android:layout_marginLeft="@dimen/item_square2_marginleft"
-            android:layout_toRightOf="@id/jingping_item2" />
+            android:layout_alignLeft="@id/jingping_item2"
+            android:layout_below="@id/jingping_item2"
+            android:layout_marginTop="@dimen/item_square2_marginleft" />
 
         <com.changhong.gdappstore.view.PostItemView
             android:id="@+id/jingping_item4"
             android:layout_width="@dimen/item_big2_width"
             android:layout_height="@dimen/item_big2_height"
-            android:layout_alignTop="@id/jingping_item1"
-            android:layout_marginLeft="@dimen/item_square2_marginleft"
-            android:layout_toRightOf="@id/jingping_item1" />
+            android:layout_alignLeft="@id/jingping_item1"
+            android:layout_below="@id/jingping_item1"
+            android:layout_marginTop="@dimen/item_square2_marginleft" />
 
         <com.changhong.gdappstore.view.PostItemView
             android:id="@+id/jingping_item5"
             android:layout_width="@dimen/item_big2_width"
             android:layout_height="@dimen/item_big2_height"
-            android:layout_alignTop="@id/jingping_item4"
-            android:layout_marginLeft="@dimen/item_square2_marginleft"
-            android:layout_toRightOf="@id/jingping_item4" />
+            android:layout_alignLeft="@id/jingping_item4"
+            android:layout_below="@id/jingping_item4"
+            android:layout_marginTop="@dimen/item_square2_marginleft" />
 
         <com.changhong.gdappstore.view.PostItemView
             android:id="@+id/jingping_item6"
             android:layout_width="@dimen/item_big1_width"
             android:layout_height="@dimen/item_big1_height"
-            android:layout_alignLeft="@id/jingping_item4"
-            android:layout_alignTop="@id/jingping_itema2" />
+            android:layout_alignTop="@id/jingping_item4"
+            android:layout_marginLeft="@dimen/item_square2_marginleft"
+            android:layout_toRightOf="@id/jingping_item4" />
 
         <com.changhong.gdappstore.view.PostItemView
             android:id="@+id/jingping_item7"
             android:layout_width="@dimen/item_square2_width"
             android:layout_height="@dimen/item_square2_height"
-            android:layout_alignTop="@id/jingping_itema4"
+            android:layout_alignTop="@id/jingping_item2"
             android:layout_marginLeft="@dimen/item_square2_marginleft"
-            android:layout_toRightOf="@id/jingping_itema4" />
+            android:layout_toRightOf="@id/jingping_item2"
+            android:background="@drawable/img_mainapp_bg1" />
 
         <com.changhong.gdappstore.view.PostItemView
             android:id="@+id/jingping_item8"
             android:layout_width="@dimen/item_square2_width"
             android:layout_height="@dimen/item_square2_height"
-            android:layout_alignTop="@id/jingping_item7"
-            android:layout_marginLeft="@dimen/item_square2_marginleft"
-            android:layout_toRightOf="@id/jingping_item7" />
+            android:layout_alignLeft="@id/jingping_item7"
+            android:layout_below="@id/jingping_item7"
+            android:layout_marginTop="@dimen/item_square2_marginleft"
+            android:background="@drawable/img_mainapp_bg2" />
 
         <com.changhong.gdappstore.view.PostItemView
             android:id="@+id/jingping_item9"
             android:layout_width="@dimen/item_square2_width"
             android:layout_height="@dimen/item_square2_height"
-            android:layout_alignTop="@id/jingping_item8"
-            android:layout_marginLeft="@dimen/item_square2_marginleft"
-            android:layout_toRightOf="@id/jingping_item8"
-            layout="@layout/item_mainpost" />
+            android:layout_alignLeft="@id/jingping_item8"
+            android:layout_below="@id/jingping_item8"
+            android:layout_marginTop="@dimen/item_square2_marginleft"
+            layout="@layout/item_mainpost"
+            android:background="@drawable/img_mainapp_bg3" />
 
         <com.changhong.gdappstore.view.PostItemView
             android:id="@+id/jingping_item10"
             android:layout_width="@dimen/item_square2_width"
             android:layout_height="@dimen/item_square2_height"
-            android:layout_alignTop="@id/jingping_item9"
+            android:layout_alignTop="@id/jingping_item7"
             android:layout_marginLeft="@dimen/item_square2_marginleft"
-            android:layout_toRightOf="@id/jingping_item9"
-            layout="@layout/item_mainpost" />
+            android:layout_toRightOf="@id/jingping_item7"
+            layout="@layout/item_mainpost"
+            android:background="@drawable/img_mainapp_bg4" />
 
         <com.changhong.gdappstore.view.PostItemView
             android:id="@+id/jingping_item11"
             android:layout_width="@dimen/item_square2_width"
             android:layout_height="@dimen/item_square2_height"
-            android:layout_alignTop="@id/jingping_item10"
-            android:layout_marginLeft="@dimen/item_square2_marginleft"
-            android:layout_toRightOf="@id/jingping_item10" />
+            android:layout_alignLeft="@id/jingping_item10"
+            android:layout_below="@id/jingping_item10"
+            android:layout_marginTop="@dimen/item_square2_marginleft"
+            android:background="@drawable/img_mainapp_bg5" />
 
         <com.changhong.gdappstore.view.PostItemView
             android:id="@+id/jingping_item12"
             android:layout_width="@dimen/item_square2_width"
             android:layout_height="@dimen/item_square2_height"
-            android:layout_alignTop="@id/jingping_item11"
-            android:layout_marginLeft="@dimen/item_square2_marginleft"
-            android:layout_toRightOf="@id/jingping_item11" />
+            android:layout_alignLeft="@id/jingping_item11"
+            android:layout_below="@id/jingping_item11"
+            android:layout_marginTop="@dimen/item_square2_marginleft"
+            android:background="@drawable/img_mainapp_bg6" />
     </RelativeLayout>
 
     <ImageView
