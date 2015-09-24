@@ -119,8 +119,9 @@ public class ShenghuoView extends BasePageView implements OnFocusChangeListener,
 	public void setNextFocuesUpId(int id) {
 		categoryItemViews[0].setNextFocusUpId(id);
 		postItemViews[0].setNextFocusUpId(id);
-		postItemViews[3].setNextFocusUpId(id);
-		postItemViews[4].setNextFocusUpId(id);
+		postItemViews[1].setNextFocusUpId(id);
+		postItemViews[6].setNextFocusUpId(id);
+		postItemViews[9].setNextFocusUpId(id);
 	}
 
 	@Override
@@ -158,23 +159,23 @@ public class ShenghuoView extends BasePageView implements OnFocusChangeListener,
 			tmplayout.height = v.getHeight();
 			if (viewId == R.id.jingping_item1 || viewId == R.id.jingping_item6) {
 				// 大海报
-				mlayout.leftMargin = tmplayout.leftMargin + bigLeftMar_add - tmplayout.width / 20;
-				mlayout.topMargin = tmplayout.topMargin + bigTopMar_add - tmplayout.height / 20;
-				mlayout.width = tmplayout.width + bigWidth_add + (tmplayout.width / 18);
-				mlayout.height = tmplayout.height + bigHeight_add + (tmplayout.height / 15);
+				mlayout.leftMargin = (int) (tmplayout.leftMargin + bigLeftMar_add - tmplayout.width * 0.1);
+				mlayout.topMargin = (int) (tmplayout.topMargin + bigTopMar_add - tmplayout.height * 0.1);
+				mlayout.width = (int) (tmplayout.width + bigWidth_add + (tmplayout.width * 0.1));
+				mlayout.height = (int) (tmplayout.height + bigHeight_add + (tmplayout.height * 0.1));
 			} else if (viewId == R.id.jingping_itema1 || viewId == R.id.jingping_itema2
 					|| viewId == R.id.jingping_itema3 || viewId == R.id.jingping_itema4) {
-				mlayout.leftMargin = tmplayout.leftMargin + horLeftMar_add - tmplayout.width / 32;
-				mlayout.topMargin = tmplayout.topMargin + horTopMar_add - tmplayout.height / 25;
-				mlayout.width = tmplayout.width + horWidth_add + (tmplayout.width / 17);
-				mlayout.height = tmplayout.height + horHeight_add + (tmplayout.height / 18);
+				mlayout.leftMargin = (int) (tmplayout.leftMargin + horLeftMar_add - tmplayout.width * 0.1);
+				mlayout.topMargin = (int) (tmplayout.topMargin + horTopMar_add - tmplayout.height * 0.1);
+				mlayout.width = (int) (tmplayout.width + horWidth_add + (tmplayout.width * 0.1));
+				mlayout.height = (int) (tmplayout.height + horHeight_add + (tmplayout.height * 0.1));
 			} else {
-				mlayout.leftMargin = tmplayout.leftMargin + smallLeftMar_add - tmplayout.width / 32;
-				mlayout.topMargin = tmplayout.topMargin + smallTopMar_add - tmplayout.height / 25;
-				mlayout.width = tmplayout.width + smallWidth_add + (tmplayout.width / 16);
-				mlayout.height = tmplayout.height + smallHeight_add + (tmplayout.height / 16);
+				mlayout.leftMargin = (int) (tmplayout.leftMargin + smallLeftMar_add - tmplayout.width * 0.1);
+				mlayout.topMargin = (int) (tmplayout.topMargin + smallTopMar_add - tmplayout.height * 0.1);
+				mlayout.width = (int) (tmplayout.width + smallWidth_add + (tmplayout.width * 0.1));
+				mlayout.height = (int) (tmplayout.height + smallHeight_add + (tmplayout.width * 0.1));
 			}
-			ivFocues.setBackgroundResource(R.drawable.focues_post);
+			ivFocues.setBackgroundResource(R.drawable.img_focues_mainpost);
 			ivFocues.setLayoutParams(mlayout);
 			ivFocues.setVisibility(View.VISIBLE);
 
@@ -190,6 +191,7 @@ public class ShenghuoView extends BasePageView implements OnFocusChangeListener,
 			ivFocues.clearAnimation();
 			ivFocues.setVisibility(View.INVISIBLE);
 		}
+		((PostItemView) v).setItemSelected(hasFocus);
 		if (onFocusChangeListener != null) {
 			onFocusChangeListener.onFocusChange(v, hasFocus);
 		}

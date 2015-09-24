@@ -16,6 +16,7 @@ import com.changhong.gdappstore.base.BaseRelativeLayout;
 import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.model.PageApp;
+import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.ImageLoadUtil;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -31,8 +32,8 @@ import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 public class PostItemView extends BaseRelativeLayout {
 
 	private ImageView iv_post, iv_appicon, iv_categoryicon;
-	private TextView tv_postname, tv_appname;
-	private RelativeLayout rl_post, rl_app;
+	private TextView tv_postname, tv_appname,tv_categoryname;
+	private RelativeLayout rl_post, rl_app,rl_category;
 
 	public PostItemView(Context context) {
 		super(context);
@@ -54,10 +55,14 @@ public class PostItemView extends BaseRelativeLayout {
 		rl_post = findView(R.id.rl_postitem_bigpost);
 		iv_post = findView(R.id.iv_post);
 		tv_postname = findView(R.id.tv_postname);
+		
 		rl_app = findView(R.id.rl_postitem_apppost);
 		iv_appicon = findView(R.id.iv_appicon);
 		tv_appname = findView(R.id.tv_appname);
+		
+		rl_category=findView(R.id.rl_postitem_category);
 		iv_categoryicon = findView(R.id.iv_categoryicon);
+		tv_categoryname=findView(R.id.tv_categoryname);
 	}
 
 	/**
@@ -68,18 +73,17 @@ public class PostItemView extends BaseRelativeLayout {
 	 *            图片临时采用写死
 	 */
 	public void setCategoryData(Category category) {
-		rl_app.setVisibility(VISIBLE);
+		rl_app.setVisibility(INVISIBLE);
 		rl_post.setVisibility(INVISIBLE);
-		iv_appicon.setVisibility(GONE);
-		iv_categoryicon.setVisibility(VISIBLE);
+		rl_category.setVisibility(VISIBLE);
 		if (category == null) {
 			return;
 		}
 		if (!TextUtils.isEmpty(category.getIconFilePath())) {
 			ImageLoadUtil.displayImgByMemoryDiscCache(category.getIconFilePath(), iv_categoryicon);
 		}
-		tv_appname.setText(TextUtils.isEmpty(category.getName()) ? "" : category.getName());
-		tv_appname.setTextSize(context.getResources().getDimension(R.dimen.txtsize_home_categoryname));
+		tv_categoryname.setText(TextUtils.isEmpty(category.getName()) ? "" : category.getName());
+		tv_categoryname.setTextSize(context.getResources().getDimension(R.dimen.txtsize_home_categoryname));
 	}
 
 	/**
@@ -94,8 +98,7 @@ public class PostItemView extends BaseRelativeLayout {
 		if (ispost) {
 			iv_post.setImageResource(drawableid);
 		} else {
-			iv_appicon.setVisibility(GONE);
-			iv_categoryicon.setVisibility(VISIBLE);
+			rl_category.setVisibility(VISIBLE);
 			iv_categoryicon.setImageResource(drawableid);
 		}
 	}
@@ -112,9 +115,8 @@ public class PostItemView extends BaseRelativeLayout {
 		if (pageApp.getPosition() > 6) {
 			// 小海报图标
 			rl_app.setVisibility(VISIBLE);
+			rl_category.setVisibility(INVISIBLE);
 			rl_post.setVisibility(INVISIBLE);
-			iv_appicon.setVisibility(VISIBLE);
-			iv_categoryicon.setVisibility(GONE);
 			if (pageApp != null) {
 				ImageLoadUtil.displayImgByMemoryDiscCache(pageApp.getPosterFilePath(), iv_appicon);
 				tv_appname.setText(TextUtils.isEmpty(pageApp.getAppname()) ? "" : pageApp.getAppname());
@@ -123,16 +125,17 @@ public class PostItemView extends BaseRelativeLayout {
 		} else {
 			// 大海报图片
 			rl_app.setVisibility(INVISIBLE);
+			rl_category.setVisibility(INVISIBLE);
 			rl_post.setVisibility(VISIBLE);
 			rl_post.setBackgroundColor(Color.TRANSPARENT);
 			if (pageApp != null) {
-				DisplayImageOptions options = new DisplayImageOptions.Builder()
-						.displayer(new RoundedBitmapDisplayer(8)).bitmapConfig(Bitmap.Config.ARGB_8888)
-						.imageScaleType(ImageScaleType.IN_SAMPLE_INT).cacheInMemory(true)
-						.showImageForEmptyUri(R.drawable.img_normal_ver).showImageOnFail(R.drawable.img_normal_ver)
-						.cacheOnDisc(true).build();
-				MyApplication.imageLoader.displayImage(pageApp.getPosterFilePath(), iv_post, options);
-//				ImageLoadUtil.displayImgByMemoryDiscCache(pageApp.getPosterFilePath(), iv_post);
+//				DisplayImageOptions options = new DisplayImageOptions.Builder()
+//						.displayer(new RoundedBitmapDisplayer(8)).bitmapConfig(Bitmap.Config.ARGB_8888)
+//						.imageScaleType(ImageScaleType.IN_SAMPLE_INT).cacheInMemory(true)
+//						.showImageForEmptyUri(R.drawable.img_normal_ver).showImageOnFail(R.drawable.img_normal_ver)
+//						.cacheOnDisc(true).build();
+//				MyApplication.imageLoader.displayImage(pageApp.getPosterFilePath(), iv_post, options);
+				ImageLoadUtil.displayImgByMemoryDiscCache(pageApp.getPosterFilePath(), iv_post);
 				tv_postname.setText(TextUtils.isEmpty(pageApp.getAppname()) ? "" : pageApp.getAppname());
 				tv_postname.setVisibility(GONE);
 			}
@@ -150,9 +153,8 @@ public class PostItemView extends BaseRelativeLayout {
 		}
 		// 小海报图标
 		rl_app.setVisibility(VISIBLE);
+		rl_category.setVisibility(INVISIBLE);
 		rl_post.setVisibility(INVISIBLE);
-		iv_appicon.setVisibility(VISIBLE);
-		iv_categoryicon.setVisibility(GONE);
 		if (pageApp != null) {
 			ImageLoadUtil.displayImgByMemoryDiscCache(pageApp.getPosterFilePath(), iv_appicon);
 			tv_appname.setText(TextUtils.isEmpty(pageApp.getAppname()) ? "" : pageApp.getAppname());
@@ -160,12 +162,15 @@ public class PostItemView extends BaseRelativeLayout {
 		}
 	}
 
-	public void setSelected(boolean selected) {
-		if (tv_appname.getVisibility() == VISIBLE) {
+	public void setItemSelected(boolean selected) {
+		if (rl_app.getVisibility() == VISIBLE) {
 			tv_appname.setSelected(selected);
 		}
-		if (tv_postname.getVisibility() == VISIBLE) {
+		if (rl_post.getVisibility() == VISIBLE) {
 			tv_postname.setSelected(selected);
+		}
+		if (rl_category.getVisibility() == VISIBLE) {
+			tv_categoryname.setSelected(selected);
 		}
 	}
 }

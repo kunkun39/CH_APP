@@ -155,7 +155,7 @@ public class MainActivity extends BaseActivity {
 	 */
 	private void initData() {
 		categories = DataCenter.getInstance().getCategories();
-		titleView.setMargin(0, 30);
+		titleView.setMargin(0, 10);
 		if (!pageViews.contains(view_homepage)) {
 			pageViews.add(view_homepage);
 		}

@@ -41,9 +41,9 @@ public class BasePageView extends BaseRelativeLayout {
 	/** 当前焦点位置 */
 	public int currentFocuesId;
 
-	protected final int bigLeftMar_add = 3, bigTopMar_add = -6, bigWidth_add = 10, bigHeight_add = 18;
-	protected final int horLeftMar_add = -15, horTopMar_add = -15, horWidth_add = 24, horHeight_add = 26;
-	protected final int smallLeftMar_add = -15, smallTopMar_add = -15, smallWidth_add = 25, smallHeight_add = 27;
+	protected final int bigLeftMar_add =23, bigTopMar_add = 6, bigWidth_add = -10, bigHeight_add = 6;
+	protected final int horLeftMar_add = 10, horTopMar_add = -3, horWidth_add = 3, horHeight_add = 13;
+	protected final int smallLeftMar_add = 7, smallTopMar_add = 0, smallWidth_add = 2, smallHeight_add = 7;
 
 	public BasePageView(Context context) {
 		super(context);
