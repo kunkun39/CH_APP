@@ -20,6 +20,7 @@ import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.model.PageApp;
 import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.NetworkUtils;
+import com.changhong.gdappstore.util.Util;
 
 /**
  * 精品view
@@ -37,6 +38,8 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 	private ImageView ivFocues;
 
 	public boolean isRightItemFocused = false;
+	
+	private ImageView iv_shandow1,iv_shandow2,iv_shandow3,iv_shandow4,iv_shandow5;
 
 	public HomePageView(Context context) {
 		super(context);
@@ -76,6 +79,12 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 		categoryItemViews[1].setBackgroundResource(R.drawable.img_maincategory_bg2);
 		categoryItemViews[2].setBackgroundResource(R.drawable.img_maincategory_bg3);
 		categoryItemViews[3].setBackgroundResource(R.drawable.img_maincategory_bg4);
+		
+		iv_shandow1=findView(R.id.iv_shandow1);
+		iv_shandow2=findView(R.id.iv_shandow2);
+		iv_shandow3=findView(R.id.iv_shandow3);
+		iv_shandow4=findView(R.id.iv_shandow4);
+		iv_shandow5=findView(R.id.iv_shandow5);
 	}
 
 	public void initNativeData() {
@@ -211,6 +220,14 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 			ivFocues.setVisibility(View.INVISIBLE);
 		}
 		((PostItemView) v).setItemSelected(hasFocus);
+	}
+	
+	public void setShandows() {
+		iv_shandow1.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(categoryItemViews[3])));
+		iv_shandow2.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(postItemViews[4])));
+		iv_shandow3.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(postItemViews[5])));
+		iv_shandow4.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(postItemViews[8])));
+		iv_shandow5.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(postItemViews[11])));
 	}
 
 	public boolean isRightItemFocused() {

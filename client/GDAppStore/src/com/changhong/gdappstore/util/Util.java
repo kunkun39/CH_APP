@@ -10,7 +10,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.LinearGradient;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PaintFlagsDrawFilter;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Bitmap.Config;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.Shader.TileMode;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.View.MeasureSpec;
 import android.widget.Toast;
 
 import com.changhong.gdappstore.model.NativeApp;
@@ -49,13 +61,16 @@ public class Util {
 		int max = 5;
 		int min = 3;
 		Random random = new Random();
-//		float s = random.nextInt(max) % (max - min + 1) + min;
-		float s = random.nextInt(max - min+1) + min;
+		// float s = random.nextInt(max) % (max - min + 1) + min;
+		float s = random.nextInt(max - min + 1) + min;
 		return s;
 	}
+
 	/**
 	 * 只删除子文件，不删除父文件
-	 * @param path 父文件目录
+	 * 
+	 * @param path
+	 *            父文件目录
 	 */
 	public static void deleteFileChildrens(String path) {
 		File file = new File(path);
@@ -169,7 +184,7 @@ public class Util {
 				NativeApp tmpInfo = new NativeApp();
 				tmpInfo.appname = packageInfo.applicationInfo.loadLabel(context.getPackageManager()).toString();
 				tmpInfo.appPackage = packageInfo.packageName;
-				tmpInfo.nativeVersionInt=packageInfo.versionCode;
+				tmpInfo.nativeVersionInt = packageInfo.versionCode;
 				tmpInfo.appIcon = packageInfo.applicationInfo.loadIcon(context.getPackageManager());
 				nativeApps.add(tmpInfo);
 				tmpInfo.appid = -1;
@@ -202,7 +217,7 @@ public class Util {
 			return num / 100000000 + "亿+";
 		}
 	}
-	
+
 	/**
 	 * 判断list是否为空
 	 * 
@@ -210,9 +225,117 @@ public class Util {
 	 * @return String
 	 */
 	public static boolean listIsEmpty(List list) {
-		if(list == null || list.isEmpty()) {
+		if (list == null || list.isEmpty()) {
 			return true;
 		}
 		return false;
+	}
+
+	// public static Bitmap convertViewToBitmap(View view) {
+	// if (view==null) {
+	// L.d("view is null ");
+	// return null;
+	// }
+	// L.d("musicpostitemview--convertViewToBitmap "+view.getWidth()+" shandowh "+view.getHeight());
+	// view.setDrawingCacheEnabled(true);
+	// view.buildDrawingCache();
+	// Bitmap bmp = Bitmap.createBitmap(view.getDrawingCache());
+	// view.setDrawingCacheEnabled(false);
+	// return bmp;
+	// }
+	public static Bitmap convertViewToBitmap(View paramView) {
+		paramView.destroyDrawingCache();
+		paramView.measure(View.MeasureSpec.makeMeasureSpec(paramView.getWidth(), MeasureSpec.EXACTLY),
+				View.MeasureSpec.makeMeasureSpec(paramView.getHeight(), MeasureSpec.EXACTLY));
+		// paramView.layout(paramView.getLeft(), paramView.getTop(),
+		// paramView.getMeasuredWidth(),
+		// paramView.getMeasuredHeight());//会导致位置不对
+		paramView.buildDrawingCache();
+
+		return paramView.getDrawingCache();
+	}
+
+	public static Bitmap createImages(Context context, Bitmap bitmap) {
+		if (context == null || bitmap == null) {
+			DialogUtil.showShortToast(context, "bitmap is null ");
+			return null;
+		}
+		// 原图与倒影的间距1px
+		final int gapHeight = 1;
+
+		/* step1 采样方式解析原图并生成倒影 */
+		// 解析原图，生成原图Bitmap对象
+		Bitmap originalImage = bitmap;
+		int width = originalImage.getWidth();
+		int height = originalImage.getHeight();
+
+		// Y轴方向反向，实质就是X轴翻转
+		Matrix matrix = new Matrix();
+		matrix.setScale(1, -1);
+		// 且仅取原图下半部分创建倒影Bitmap对象
+		Bitmap reflectionImage = Bitmap.createBitmap(originalImage, 0, 3 * height / 5, width, 2 * height / 5, matrix,
+				false);
+
+		/* step2 绘制 */
+		// 创建一个可包含原图+间距+倒影的新图Bitmap对象
+		Bitmap bitmapWithReflection = Bitmap.createBitmap(width, 2 * height / 5, Config.ARGB_8888);
+		// 在新图Bitmap对象之上创建画布
+		Canvas canvas = new Canvas(bitmapWithReflection);
+		// 抗锯齿效果
+		canvas.setDrawFilter(new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG));
+		// 绘制原图
+		// canvas.drawBitmap(originalImage, 0, 0, null);
+		// 绘制间距
+		Paint gapPaint = new Paint();
+		gapPaint.setColor(0xFFCCCCCC);
+		// canvas.drawRect(0, height, width, height + gapHeight, gapPaint);
+		// 绘制倒影
+		canvas.drawBitmap(reflectionImage, 0, 0, null);
+
+		/* step3 渲染 */
+		// 创建一个线性渐变的渲染器用于渲染倒影
+		Paint paint = new Paint();
+		LinearGradient shader = new LinearGradient(0, 0, 0, 2 * height / 5, 0x55ffffff, 0x00ffffff, TileMode.CLAMP);
+		// 设置画笔渲染器
+		paint.setShader(shader);
+		// 设置图片混合模式
+		paint.setXfermode(new PorterDuffXfermode(Mode.DST_IN));
+		// 渲染倒影+间距
+		canvas.drawRect(0, 0, width, 2 * height / 5, paint);
+
+		// maps.put(resId, bitmapWithReflection);
+
+		/* step4 释放heap */
+		originalImage.recycle();
+		reflectionImage.recycle();
+		return bitmapWithReflection;
+	}
+
+	public static Bitmap createReflectedImages(Context context, Bitmap bitmap) {
+		final int reflectionGap = 4;// 原图与倒影之间的间隙
+		Bitmap originalImage = bitmap; // 获得图片资源
+		// 获得图片的长宽
+		int width = originalImage.getWidth();
+		int height = originalImage.getHeight();
+
+		Matrix matrix = new Matrix();
+		matrix.preScale(1, -1); // 实现图片的反转
+		Bitmap reflectionImage = Bitmap.createBitmap(originalImage, 0, height / 2, width, height / 2, matrix, false); // 创建反转后的图片Bitmap对象，图片高是原图的一半
+		Bitmap bitmapWithReflection = Bitmap.createBitmap(width, (height + height / 2), Config.ARGB_8888); // 创建标准的Bitmap对象，宽和原图一致，高是原图的1.5倍
+
+		Canvas canvas = new Canvas(bitmapWithReflection);
+		canvas.drawBitmap(originalImage, 0, 0, null); // 创建画布对象，将原图画于画布，起点是原点位置
+		Paint paint = new Paint();
+		canvas.drawRect(0, height, width, height + reflectionGap, paint);
+		canvas.drawBitmap(reflectionImage, 0, height + reflectionGap, null); // 将反转后的图片画到画布中
+
+		paint = new Paint();
+		LinearGradient shader = new LinearGradient(0, originalImage.getHeight(), 0, bitmapWithReflection.getHeight()
+				+ reflectionGap, 0x70ffffff, 0x00ffffff, TileMode.MIRROR);// 创建线性渐变LinearGradient对象
+		paint.setShader(shader); // 绘制
+		paint.setXfermode(new PorterDuffXfermode(Mode.DST_IN));// 倒影遮罩效果
+		canvas.drawRect(0, height, width, bitmapWithReflection.getHeight() + reflectionGap, paint); // 画布画出反转图片大小区域，然后把渐变效果加到其中，就出现了图片的倒影效果
+
+		return reflectionImage;
 	}
 }
