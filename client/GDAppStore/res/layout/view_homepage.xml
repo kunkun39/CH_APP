@@ -4,6 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/transparent" >
+
     <RelativeLayout
         android:id="@+id/rl_jingpin_categroys"
         android:layout_width="fill_parent"
@@ -144,6 +145,60 @@
             android:layout_below="@id/jingping_item11"
             android:layout_marginTop="@dimen/item_square2_marginleft"
             android:background="@drawable/img_mainapp_bg6" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_shandow"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="60dp"
+        android:gravity="center_horizontal"
+        android:layout_alignLeft="@id/rl_jingpin_categroys"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@id/rl_jingpin_categroys" >
+
+        <ImageView
+            android:id="@+id/iv_shandow1"
+            android:layout_width="@dimen/item_square1_width"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/img_normal_ver" />
+
+        <ImageView
+            android:id="@+id/iv_shandow2"
+            android:layout_width="@dimen/item_big2_width"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/item_square2_marginleft"
+            android:layout_toRightOf="@id/iv_shandow1"
+            android:scaleType="fitXY"
+            android:src="@drawable/img_normal_ver" />
+
+        <ImageView
+            android:id="@+id/iv_shandow3"
+            android:layout_width="@dimen/item_big1_width"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/item_square2_marginleft"
+            android:layout_toRightOf="@id/iv_shandow2"
+            android:scaleType="fitXY"
+            android:src="@drawable/img_normal_ver" />
+
+        <ImageView
+            android:id="@+id/iv_shandow4"
+            android:layout_width="@dimen/item_square2_width"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/item_square2_marginleft"
+            android:layout_toRightOf="@+id/iv_shandow3"
+            android:scaleType="fitXY"
+            android:src="@drawable/img_normal_ver" />
+
+        <ImageView
+            android:id="@+id/iv_shandow5"
+            android:layout_width="@dimen/item_square2_width"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/item_square2_marginleft"
+            android:layout_toRightOf="@+id/iv_shandow4"
+            android:scaleType="fitXY"
+            android:src="@drawable/img_normal_ver" />
     </RelativeLayout>
 
     <ImageView
