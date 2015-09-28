@@ -171,7 +171,7 @@
         android:layout_alignLeft="@id/rl_jingpin_categroys"
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@id/rl_jingpin_categroys"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="65dp"
         android:gravity="center_horizontal" >
 
         <ImageView

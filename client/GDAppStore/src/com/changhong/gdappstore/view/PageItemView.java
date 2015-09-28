@@ -16,6 +16,7 @@ import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.model.PageApp;
 import com.changhong.gdappstore.util.ImageLoadUtil;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 /**
  * 推荐位海报
@@ -112,7 +113,7 @@ public class PageItemView extends BaseRelativeLayout {
 	 * 
 	 * @param category
 	 */
-	public void setPageAppData(PageApp pageApp) {
+	public void setPageAppData(PageApp pageApp, ImageLoadingListener imageLoadingListener) {
 		if (pageApp == null) {
 			return;
 		}
@@ -122,7 +123,7 @@ public class PageItemView extends BaseRelativeLayout {
 			rl_category.setVisibility(INVISIBLE);
 			rl_post.setVisibility(INVISIBLE);
 			if (pageApp != null) {
-				ImageLoadUtil.displayImgByMemoryDiscCache(pageApp.getPosterFilePath(), iv_appicon);
+				ImageLoadUtil.displayImgByMemoryDiscCache(pageApp.getPosterFilePath(), iv_appicon,imageLoadingListener);
 				tv_appname.setText(TextUtils.isEmpty(pageApp.getAppname()) ? "" : pageApp.getAppname());
 				tv_appname.setTextSize(context.getResources().getDimension(R.dimen.txtsize_home_appname));
 			}
@@ -139,7 +140,7 @@ public class PageItemView extends BaseRelativeLayout {
 //						.showImageForEmptyUri(R.drawable.img_normal_ver).showImageOnFail(R.drawable.img_normal_ver)
 //						.cacheOnDisc(true).build();
 //				MyApplication.imageLoader.displayImage(pageApp.getPosterFilePath(), iv_post, options);
-				ImageLoadUtil.displayImgByMemoryDiscCache(pageApp.getPosterFilePath(), iv_post);
+				ImageLoadUtil.displayImgByMemoryDiscCache(pageApp.getPosterFilePath(), iv_post,imageLoadingListener);
 				tv_postname.setText(TextUtils.isEmpty(pageApp.getAppname()) ? "" : pageApp.getAppname());
 			}
 		}

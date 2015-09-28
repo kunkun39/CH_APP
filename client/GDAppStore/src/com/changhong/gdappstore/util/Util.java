@@ -257,7 +257,7 @@ public class Util {
 
 	public static Bitmap createImages(Context context, Bitmap bitmap) {
 		if (context == null || bitmap == null) {
-			DialogUtil.showShortToast(context, "bitmap is null ");
+			L.d("Util createImages---bitmap is null ");
 			return null;
 		}
 		// 原图与倒影的间距1px

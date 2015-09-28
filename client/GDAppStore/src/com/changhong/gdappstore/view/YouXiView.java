@@ -1,6 +1,7 @@
 package com.changhong.gdappstore.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,9 @@ import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BasePageView;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.model.PageApp;
+import com.changhong.gdappstore.util.Util;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 /**
  * 游戏页面view
@@ -29,6 +33,8 @@ public class YouXiView extends BasePageView implements OnFocusChangeListener, On
 	private ImageView ivFocues;
 	/** 是否第一列或者最后一列获取焦点 */
 	public boolean isLeftFocues = false;
+	
+	private ImageView iv_shandow1,iv_shandow2,iv_shandow3,iv_shandow4,iv_shandow5;
 
 	public YouXiView(Context context) {
 		super(context);
@@ -67,6 +73,12 @@ public class YouXiView extends BasePageView implements OnFocusChangeListener, On
 		categoryItemViews[1].setBackgroundResource(R.drawable.img_maincategory_bg2);
 		categoryItemViews[2].setBackgroundResource(R.drawable.img_maincategory_bg3);
 		categoryItemViews[3].setBackgroundResource(R.drawable.img_maincategory_bg4);
+		
+		iv_shandow1=findView(R.id.iv_shandow1);
+		iv_shandow2=findView(R.id.iv_shandow2);
+		iv_shandow3=findView(R.id.iv_shandow3);
+		iv_shandow4=findView(R.id.iv_shandow4);
+		iv_shandow5=findView(R.id.iv_shandow5);
 	}
 
 	public void initData(final Category category) {
@@ -95,7 +107,11 @@ public class YouXiView extends BasePageView implements OnFocusChangeListener, On
 			final PageApp pageApp = category.getCategoryPageApps().get(i);
 			int position = pageApp.getPosition();
 			if (position <= postItemCount) {
-				postItemViews[(position - 1)].setPageAppData(pageApp);
+				if (position==5||position==6||position==9||position==12) {
+					postItemViews[(position - 1)].setPageAppData(pageApp,imageLoadingListener);
+				}else {
+					postItemViews[(position - 1)].setPageAppData(pageApp,null);
+				}
 				postItemViews[(position - 1)].setOnClickListener(new OnClickListener() {
 
 					@Override
@@ -190,5 +206,37 @@ public class YouXiView extends BasePageView implements OnFocusChangeListener, On
 			onFocusChangeListener.onFocusChange(v, hasFocus);
 		}
 	}
+	
+	public void setShandows() {
+		iv_shandow1.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(categoryItemViews[3])));
+		iv_shandow2.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(postItemViews[4])));
+		iv_shandow3.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(postItemViews[5])));
+		iv_shandow4.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(postItemViews[8])));
+		iv_shandow5.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(postItemViews[11])));
+	}
+	private ImageLoadingListener imageLoadingListener =new ImageLoadingListener() {
+		
+		@Override
+		public void onLoadingStarted(String imageUri, View view) {
+			
+		}
+		
+		@Override
+		public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+			setShandows();
+		}
+		
+		@Override
+		public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+			setShandows();
+			
+		}
+		
+		@Override
+		public void onLoadingCancelled(String imageUri, View view) {
+			// TODO Auto-generated method stub
+			
+		}
+	};
 
 }

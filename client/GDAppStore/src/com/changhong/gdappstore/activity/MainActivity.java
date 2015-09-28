@@ -108,6 +108,7 @@ public class MainActivity extends BaseActivity {
 		viewPager.setAdapter(viewPagerAdapter);
 		viewPager.setCurrentItem(0);
 		viewPager.setAnimationCacheEnabled(true);
+		viewPager.setOffscreenPageLimit(6);
 		viewPager.setOnPageChangeListener(pageChangeListener);
 		NetChangeReceiver.listeners.put(context.getClass().getName(),new NetChangeListener() {
 
@@ -251,7 +252,7 @@ public class MainActivity extends BaseActivity {
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
-		view_homepage.setShandows();
+//		view_homepage.setShandows();
 	}
 
 	/**

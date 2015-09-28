@@ -2,6 +2,7 @@ package com.changhong.gdappstore.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,8 @@ import com.changhong.gdappstore.model.PageApp;
 import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 /**
  * 精品view
@@ -107,7 +110,11 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 			final PageApp pageApp = category.getCategoryPageApps().get(i);
 			int position = pageApp.getPosition();
 			if (position <= postItemCount) {
-				postItemViews[(position - 1)].setPageAppData(pageApp);
+				if (position==5||position==6||position==9||position==12) {
+					postItemViews[(position - 1)].setPageAppData(pageApp,imageLoadingListener);
+				}else {
+					postItemViews[(position - 1)].setPageAppData(pageApp,null);
+				}
 				postItemViews[(position - 1)].setOnClickListener(new OnClickListener() {
 
 					@Override
@@ -229,6 +236,30 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 		iv_shandow4.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(postItemViews[8])));
 		iv_shandow5.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(postItemViews[11])));
 	}
+	
+	private ImageLoadingListener imageLoadingListener =new ImageLoadingListener() {
+		
+		@Override
+		public void onLoadingStarted(String imageUri, View view) {
+			
+		}
+		
+		@Override
+		public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+			setShandows();
+		}
+		
+		@Override
+		public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+			setShandows();
+		}
+		
+		@Override
+		public void onLoadingCancelled(String imageUri, View view) {
+			// TODO Auto-generated method stub
+			
+		}
+	};
 
 	public boolean isRightItemFocused() {
 		return isRightItemFocused;
