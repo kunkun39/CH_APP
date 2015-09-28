@@ -192,7 +192,7 @@ public class YuLeView extends BasePageView implements OnFocusChangeListener, OnC
 			ivFocues.clearAnimation();
 			ivFocues.setVisibility(View.INVISIBLE);
 		}
-		((PostItemView) v).setItemSelected(hasFocus);
+		((PageItemView) v).setItemSelected(hasFocus);
 		if (onFocusChangeListener != null) {
 			onFocusChangeListener.onFocusChange(v, hasFocus);
 		}

@@ -23,21 +23,19 @@
         <TextView
             android:id="@+id/tv_postname"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_alignParentBottom="true"
             android:background="@color/black_half50"
             android:focusable="false"
             android:gravity="center"
             android:marqueeRepeatLimit="marquee_forever"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:paddingLeft="0dp"
-            android:paddingRight="0dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:singleLine="true"
-            android:text="海报测试文本"
+            android:text=""
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="@dimen/txtsize_home_appname" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -76,9 +74,9 @@
             android:paddingRight="12dp"
             android:paddingBottom="3dp"
             android:singleLine="true"
-            android:text="未配置"
+            android:text=""
             android:textColor="@color/white"
-            android:textSize="22sp" />
+            android:textSize="@dimen/txtsize_home_appname" />
     </RelativeLayout>
      <RelativeLayout
         android:id="@+id/rl_postitem_category"
@@ -114,7 +112,7 @@
             android:gravity="right"
             android:marqueeRepeatLimit="marquee_forever"
             android:singleLine="true"
-            android:text="未配置"
+            android:text=""
             android:textColor="@color/white"
             android:textSize="22sp" />
     </RelativeLayout>

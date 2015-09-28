@@ -13,7 +13,6 @@ import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BasePageView;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.model.PageApp;
-import com.changhong.gdappstore.util.L;
 
 /**
  * 应用页面view
@@ -191,7 +190,7 @@ public class ShenghuoView extends BasePageView implements OnFocusChangeListener,
 			ivFocues.clearAnimation();
 			ivFocues.setVisibility(View.INVISIBLE);
 		}
-		((PostItemView) v).setItemSelected(hasFocus);
+		((PageItemView) v).setItemSelected(hasFocus);
 		if (onFocusChangeListener != null) {
 			onFocusChangeListener.onFocusChange(v, hasFocus);
 		}

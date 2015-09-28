@@ -185,7 +185,7 @@ public class YouXiView extends BasePageView implements OnFocusChangeListener, On
 			ivFocues.clearAnimation();
 			ivFocues.setVisibility(View.INVISIBLE);
 		}
-		((PostItemView) v).setItemSelected(hasFocus);
+		((PageItemView) v).setItemSelected(hasFocus);
 		if (onFocusChangeListener != null) {
 			onFocusChangeListener.onFocusChange(v, hasFocus);
 		}

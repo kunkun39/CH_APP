@@ -52,7 +52,7 @@ public class UserMayLikeView extends BasePageView implements OnFocusChangeListen
 		postItemIds[5] = R.id.usermaylike_item5;
 		postItemIds[6] = R.id.usermaylike_item6;
 		postItemIds[7] = R.id.usermaylike_item7;
-		postItemViews = new PostItemView[postItemCount];
+		postItemViews = new PageItemView[postItemCount];
 		View rootView = LayoutInflater.from(context).inflate(R.layout.view_usermaylike, this);
 		ivFocues = findView(R.id.iv_detail_focues);
 		ivFocues.setVisibility(INVISIBLE);
@@ -119,14 +119,14 @@ public class UserMayLikeView extends BasePageView implements OnFocusChangeListen
 			ivFocues.startAnimation(animationbig);
 			v.bringToFront();
 			ivFocues.bringToFront();
-			((PostItemView) v).setSelected(true);
+			((PageItemView) v).setSelected(true);
 		} else {
 			v.startAnimation(animationsmall);
 			ivFocues.startAnimation(animationsmall);
 			v.clearAnimation();
 			ivFocues.clearAnimation();
 			ivFocues.setVisibility(View.INVISIBLE);
-			((PostItemView) v).setSelected(false);
+			((PageItemView) v).setSelected(false);
 		}
 	}
 

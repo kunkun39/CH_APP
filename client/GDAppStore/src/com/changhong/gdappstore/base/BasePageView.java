@@ -13,7 +13,7 @@ import com.changhong.gdappstore.activity.DetailActivity;
 import com.changhong.gdappstore.activity.PostActivity;
 import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.NetworkUtils;
-import com.changhong.gdappstore.view.PostItemView;
+import com.changhong.gdappstore.view.PageItemView;
 
 /**
  * 基类pageView
@@ -33,9 +33,9 @@ public class BasePageView extends BaseRelativeLayout {
 	/** 应用推荐位个数 */
 	protected  int postItemCount = 12;
 	/** 应用推荐位view */
-	protected PostItemView[] postItemViews = new PostItemView[postItemCount];
+	protected PageItemView[] postItemViews = new PageItemView[postItemCount];
 	/** 栏目推荐位view */
-	protected PostItemView[] categoryItemViews = new PostItemView[4];
+	protected PageItemView[] categoryItemViews = new PageItemView[4];
 	/** 焦点缩放动画 */
 	protected Animation animationbig, animationsmall;
 	/** 当前焦点位置 */

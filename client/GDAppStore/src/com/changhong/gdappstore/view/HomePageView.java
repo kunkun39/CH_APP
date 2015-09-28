@@ -219,7 +219,7 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 			ivFocues.clearAnimation();
 			ivFocues.setVisibility(View.INVISIBLE);
 		}
-		((PostItemView) v).setItemSelected(hasFocus);
+		((PageItemView) v).setItemSelected(hasFocus);
 	}
 	
 	public void setShandows() {

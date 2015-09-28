@@ -247,6 +247,12 @@ public class MainActivity extends BaseActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 	}
+	
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		view_homepage.setShandows();
+	}
 
 	/**
 	 * 初始化动画

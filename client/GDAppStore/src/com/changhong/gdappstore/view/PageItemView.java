@@ -1,7 +1,7 @@
 package com.changhong.gdappstore.view;
 
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -10,18 +10,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.changhong.gdappstore.MyApplication;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseRelativeLayout;
 import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.model.PageApp;
-import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.ImageLoadUtil;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
-import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 
 /**
  * 推荐位海报
@@ -29,28 +23,30 @@ import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
  * @author wangxiufeng
  * 
  */
-public class PostItemView extends BaseRelativeLayout {
+public class PageItemView extends BaseRelativeLayout {
 
 	private ImageView iv_post, iv_appicon, iv_categoryicon;
 	private TextView tv_postname, tv_appname,tv_categoryname;
 	private RelativeLayout rl_post, rl_app,rl_category;
+	/**推荐位类型，默认应用为0，海报为1，栏目为2**/
+	private int itemtype=0;
 
-	public PostItemView(Context context) {
+	public PageItemView(Context context) {
 		super(context);
-		initView();
+		initView(null);
 	}
 
-	public PostItemView(Context context, AttributeSet attrs) {
+	public PageItemView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		initView();
+		initView(attrs);
 	}
 
-	public PostItemView(Context context, AttributeSet attrs, int defStyle) {
+	public PageItemView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		initView();
+		initView(attrs);
 	}
 
-	protected void initView() {
+	protected void initView(AttributeSet attrs) {
 		LayoutInflater.from(context).inflate(R.layout.item_mainpost, this);
 		rl_post = findView(R.id.rl_postitem_bigpost);
 		iv_post = findView(R.id.iv_post);
@@ -63,6 +59,14 @@ public class PostItemView extends BaseRelativeLayout {
 		rl_category=findView(R.id.rl_postitem_category);
 		iv_categoryicon = findView(R.id.iv_categoryicon);
 		tv_categoryname=findView(R.id.tv_categoryname);
+		
+		if (attrs != null) {
+			TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.PageItem);
+			itemtype = typedArray.getInt(R.styleable.PageItem_itemtype, 0);
+		}
+		rl_app.setVisibility(itemtype==0?VISIBLE:INVISIBLE);
+		rl_post.setVisibility(itemtype==1?VISIBLE:INVISIBLE);
+		rl_category.setVisibility(itemtype==2?VISIBLE:INVISIBLE);
 	}
 
 	/**
@@ -137,7 +141,6 @@ public class PostItemView extends BaseRelativeLayout {
 //				MyApplication.imageLoader.displayImage(pageApp.getPosterFilePath(), iv_post, options);
 				ImageLoadUtil.displayImgByMemoryDiscCache(pageApp.getPosterFilePath(), iv_post);
 				tv_postname.setText(TextUtils.isEmpty(pageApp.getAppname()) ? "" : pageApp.getAppname());
-				tv_postname.setVisibility(GONE);
 			}
 		}
 	}
