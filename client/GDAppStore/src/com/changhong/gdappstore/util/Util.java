@@ -255,14 +255,16 @@ public class Util {
 		return paramView.getDrawingCache();
 	}
 
-	public static Bitmap createImages(Context context, Bitmap bitmap) {
+	public static Bitmap createImages(Context context, Bitmap bitmap, float heightProportion) {
 		if (context == null || bitmap == null) {
 			L.d("Util createImages---bitmap is null ");
 			return null;
 		}
+		if (heightProportion < 0 || heightProportion > 1) {
+			heightProportion = 0.4f;
+		}
 		// 原图与倒影的间距1px
-		final int gapHeight = 1;
-
+		// final int gapHeight = 1;
 		/* step1 采样方式解析原图并生成倒影 */
 		// 解析原图，生成原图Bitmap对象
 		Bitmap originalImage = bitmap;
@@ -273,12 +275,12 @@ public class Util {
 		Matrix matrix = new Matrix();
 		matrix.setScale(1, -1);
 		// 且仅取原图下半部分创建倒影Bitmap对象
-		Bitmap reflectionImage = Bitmap.createBitmap(originalImage, 0, 3 * height / 5, width, 2 * height / 5, matrix,
-				false);
+		Bitmap reflectionImage = Bitmap.createBitmap(originalImage, 0, (int) ((1 - heightProportion) * height), width,
+				(int) (heightProportion * height), matrix, false);
 
 		/* step2 绘制 */
 		// 创建一个可包含原图+间距+倒影的新图Bitmap对象
-		Bitmap bitmapWithReflection = Bitmap.createBitmap(width, 2 * height / 5, Config.ARGB_8888);
+		Bitmap bitmapWithReflection = Bitmap.createBitmap(width, (int) (heightProportion * height), Config.ARGB_8888);
 		// 在新图Bitmap对象之上创建画布
 		Canvas canvas = new Canvas(bitmapWithReflection);
 		// 抗锯齿效果
@@ -295,13 +297,14 @@ public class Util {
 		/* step3 渲染 */
 		// 创建一个线性渐变的渲染器用于渲染倒影
 		Paint paint = new Paint();
-		LinearGradient shader = new LinearGradient(0, 0, 0, 2 * height / 5, 0x55ffffff, 0x00ffffff, TileMode.CLAMP);
+		LinearGradient shader = new LinearGradient(0, 0, 0, (int) (heightProportion * height), 0x55ffffff, 0x00ffffff,
+				TileMode.CLAMP);
 		// 设置画笔渲染器
 		paint.setShader(shader);
 		// 设置图片混合模式
 		paint.setXfermode(new PorterDuffXfermode(Mode.DST_IN));
 		// 渲染倒影+间距
-		canvas.drawRect(0, 0, width, 2 * height / 5, paint);
+		canvas.drawRect(0, 0, width, (int) (heightProportion * height), paint);
 
 		// maps.put(resId, bitmapWithReflection);
 

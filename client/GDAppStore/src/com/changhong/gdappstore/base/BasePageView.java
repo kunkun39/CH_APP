@@ -40,6 +40,8 @@ public class BasePageView extends BaseRelativeLayout {
 	protected Animation animationbig, animationsmall;
 	/** 当前焦点位置 */
 	public int currentFocuesId;
+	
+	protected float shandowProportion1=0.6f,shandowProportion2=0.4f;
 
 	protected final int bigLeftMar_add =23, bigTopMar_add = 6, bigWidth_add = -10, bigHeight_add = 6;
 	protected final int horLeftMar_add = 10, horTopMar_add = -3, horWidth_add = 3, horHeight_add = 13;

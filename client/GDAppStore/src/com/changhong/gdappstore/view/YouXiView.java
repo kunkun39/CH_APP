@@ -208,11 +208,11 @@ public class YouXiView extends BasePageView implements OnFocusChangeListener, On
 	}
 	
 	public void setShandows() {
-		iv_shandow1.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(categoryItemViews[3])));
-		iv_shandow2.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(postItemViews[4])));
-		iv_shandow3.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(postItemViews[5])));
-		iv_shandow4.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(postItemViews[8])));
-		iv_shandow5.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(postItemViews[11])));
+		iv_shandow1.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(categoryItemViews[3]),shandowProportion1));
+		iv_shandow2.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(postItemViews[4]),shandowProportion1));
+		iv_shandow3.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(postItemViews[5]),shandowProportion2));
+		iv_shandow4.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(postItemViews[8]),shandowProportion2));
+		iv_shandow5.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(postItemViews[11]),shandowProportion2));
 	}
 	private ImageLoadingListener imageLoadingListener =new ImageLoadingListener() {
 		
