@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/black_half50"
+            android:background="@color/black_half80"
             android:focusable="false"
             android:gravity="center"
             android:marqueeRepeatLimit="marquee_forever"
@@ -33,6 +33,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:singleLine="true"
+            android:visibility="invisible"
             android:text=""
             android:textColor="@color/white"
             android:textSize="@dimen/txtsize_home_appname" />

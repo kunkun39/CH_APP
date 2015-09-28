@@ -48,7 +48,7 @@ public class PageItemView extends BaseRelativeLayout {
 	}
 
 	protected void initView(AttributeSet attrs) {
-		LayoutInflater.from(context).inflate(R.layout.item_mainpost, this);
+		LayoutInflater.from(context).inflate(R.layout.item_page, this);
 		rl_post = findView(R.id.rl_postitem_bigpost);
 		iv_post = findView(R.id.iv_post);
 		tv_postname = findView(R.id.tv_postname);
@@ -171,6 +171,7 @@ public class PageItemView extends BaseRelativeLayout {
 			tv_appname.setSelected(selected);
 		}
 		if (rl_post.getVisibility() == VISIBLE) {
+			tv_postname.setVisibility(selected?VISIBLE:INVISIBLE);
 			tv_postname.setSelected(selected);
 		}
 		if (rl_category.getVisibility() == VISIBLE) {

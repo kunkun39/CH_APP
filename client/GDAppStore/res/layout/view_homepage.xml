@@ -128,7 +128,7 @@
             android:layout_alignLeft="@id/jingping_item8"
             android:layout_below="@id/jingping_item8"
             android:layout_marginTop="@dimen/item_square2_marginleft"
-            layout="@layout/item_mainpost"
+            layout="@layout/item_page"
             PageItem:itemtype="app"
             android:background="@drawable/img_mainapp_bg3" />
 
@@ -139,7 +139,7 @@
             android:layout_alignTop="@id/jingping_item7"
             android:layout_marginLeft="@dimen/item_square2_marginleft"
             android:layout_toRightOf="@id/jingping_item7"
-            layout="@layout/item_mainpost"
+            layout="@layout/item_page"
             PageItem:itemtype="app"
             android:background="@drawable/img_mainapp_bg4" />
 
