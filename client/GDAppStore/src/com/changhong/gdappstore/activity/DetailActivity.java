@@ -42,7 +42,7 @@ import com.changhong.gdappstore.view.UserMayLikeView;
  */
 public class DetailActivity extends BaseActivity implements OnFocusChangeListener, OnClickListener {
 	/** 下载按钮 */
-	private ImageView bt_dowload, bt_update, bt_open;
+	private ImageView bt_dowload, bt_update, bt_open,iv_recommend;
 	/** 用户喜欢 */
 	private UserMayLikeView view_usermaylike;
 	/** 应用文本介绍信息 */
@@ -98,6 +98,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		tv_updatetime = findView(R.id.tv_updatetime);
 		tv_introduce = findView(R.id.tv_introduce);
 		scoreview = findView(R.id.scoreview_detail);
+		iv_recommend = findView(R.id.iv_recommend);
 		downloadPDialog = new MyProgressDialog(context);
 		downloadPDialog.setUpdateFileSizeName(true);
 		downloadPDialog.dismiss();
@@ -148,6 +149,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 					tv_version.setText(appDetail.getVersion());
 					tv_introduce.setText(appDetail.getDescription());
 					tv_updatetime.setText(appDetail.getUpdateDate());
+					iv_recommend.setVisibility(appDetail.isRecommend()?VISIBLE:INVISIBLE);
 					ImageLoadUtil.displayImgByNoCache(appDetail.getIconFilePath(), iv_icon);
 					ImageLoadUtil.displayImgByNoCache(appDetail.getPosterFilePath(), iv_post);
 					updateBtnState();

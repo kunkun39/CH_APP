@@ -70,8 +70,10 @@ public class Parse {
 	public final static String APP_APK_FILEPATH = "apk_fp";
 
 	public final static String APP_CATEGORY_ID = "cate_id";
-	
+
 	public final static String APP_SCORES = "scores";
+
+	public final static String APP_RECOMMEND = "recommend";
 
 	/**
 	 * 解析栏目数据
@@ -195,9 +197,9 @@ public class Parse {
 					}
 				}
 			}
-//			for (int i = 0; i < dataCenter.getCategories().size(); i++) {
-//				L.d("parse pageapps--" + dataCenter.getCategories().get(i));
-//			}
+			// for (int i = 0; i < dataCenter.getCategories().size(); i++) {
+			// L.d("parse pageapps--" + dataCenter.getCategories().get(i));
+			// }
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -230,7 +232,24 @@ public class Parse {
 			e.printStackTrace();
 		}
 
-		return apps;
+		return sortAppByRecommend(apps);
+	}
+
+	private static List<Object> sortAppByRecommend(List<Object> apps) {
+		// 将推荐标识的放在前面
+		List<Object> sortapps = new ArrayList<Object>();
+		if (apps==null) {
+			return sortapps;
+		}
+		for (int i = 0; i < apps.size(); i++) {
+			App app = (App) apps.get(i);
+			if (app.isRecommend()) {
+				sortapps.add(0, app);
+			} else {
+				sortapps.add(app);
+			}
+		}
+		return sortapps;
 	}
 
 	/**
@@ -243,7 +262,7 @@ public class Parse {
 		List<Object> apps = new ArrayList<Object>();
 
 		if (TextUtils.isEmpty(categoryAppJson)) {
-			L.w("returned by categoryAppJson is empty when parseCategoryApp");
+			L.w("returned by categoryAppJson is empty when parseRecommendApp");
 			return apps;
 		}
 		try {
@@ -253,30 +272,14 @@ public class Parse {
 			for (int i = 0; i < array.length(); i++) {
 				App app = new App();
 				JSONObject appobject = array.getJSONObject(i);
-				if (appobject.has(APP_ID)) {
-					app.setAppid(appobject.getInt(APP_ID));
-				}
-				if (appobject.has(APP_PACKAGE)) {
-					app.setPackageName(appobject.getString(APP_PACKAGE).trim());
-				}
-				if (appobject.has(APP_KEY)) {
-					app.setAppkey(appobject.getString(APP_KEY).trim());
-				}
-				if (appobject.has(APP_NAME)) {
-					app.setAppname(appobject.getString(APP_NAME).trim());
-				}
-				if (appobject.has(APP_DOWNLOAD)) {
-				}
-				if (appobject.has(APP_ICON_FILEPATH) && !TextUtils.isEmpty(appobject.getString(APP_ICON_FILEPATH))) {
-					app.setPosterFilePath(host + app.getAppkey() + "/" + appobject.getString(APP_ICON_FILEPATH).trim());
-				}
+				parseApp(appobject, app, host);
 				apps.add(app);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 
-		return apps;
+		return sortAppByRecommend(apps);
 	}
 
 	public static AppDetail parseAppDetail(String appdetailJson) {
@@ -303,6 +306,7 @@ public class Parse {
 			appDetail.setUpdateDate(object.getString(APP_UPDATE_DATE).trim());
 			appDetail.setCategoryId(object.getInt(APP_CATEGORY_ID));
 			appDetail.setScores(object.getInt(APP_SCORES));
+			appDetail.setRecommend(object.getBoolean(APP_RECOMMEND));
 			if (object.has(APP_ICON_FILEPATH) && !TextUtils.isEmpty(object.getString(APP_ICON_FILEPATH))) {
 				appDetail.setIconFilePath(host + appKey + "/" + object.getString(APP_ICON_FILEPATH).trim());
 			}
@@ -343,7 +347,7 @@ public class Parse {
 			e.printStackTrace();
 		}
 
-		return apps;
+		return sortAppByRecommend(apps);
 	}
 
 	/**
@@ -356,7 +360,7 @@ public class Parse {
 		List<Object> apps = new ArrayList<Object>();
 
 		if (TextUtils.isEmpty(appVersionsJson)) {
-			L.w("returned by categoryAppJson is empty when parseCategoryApp");
+			L.w("returned by categoryAppJson is empty when parseAppVersions");
 			return apps;
 		}
 		try {
@@ -401,6 +405,9 @@ public class Parse {
 			}
 			if (appobject.has(APP_SCORES)) {
 				app.setScores(appobject.getInt(APP_SCORES));
+			}
+			if (appobject.has(APP_RECOMMEND)) {
+				app.setRecommend(appobject.getBoolean(APP_RECOMMEND));
 			}
 			if (appobject.has(APP_POSTER_FILEPATH) && !TextUtils.isEmpty(appobject.getString(APP_POSTER_FILEPATH))) {
 				app.setPosterFilePath(host + app.getAppkey() + "/" + appobject.getString(APP_POSTER_FILEPATH).trim());

@@ -1,7 +1,6 @@
 package com.changhong.gdappstore.post;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -15,17 +14,15 @@ import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.NativeApp;
 import com.changhong.gdappstore.util.ImageLoadUtil;
-import com.changhong.gdappstore.util.L;
-import com.changhong.gdappstore.util.Util;
 import com.changhong.gdappstore.view.ScoreView;
 import com.post.view.base.BasePostItem;
 
 public class PostItem extends BasePostItem {
 	private PostSetting postSetting;
-	private ImageView iv_appicon, iv_update;
-	private TextView tv_appname,tv_apksize;
+	private ImageView iv_appicon, iv_update, iv_recommend;
+	private TextView tv_appname, tv_apksize;
 	private ScoreView scoreView;
-	public boolean isShandowView=false;
+	public boolean isShandowView = false;
 
 	public PostItem(Context context) {
 		super(context);
@@ -65,26 +62,29 @@ public class PostItem extends BasePostItem {
 		View view = LayoutInflater.from(context).inflate(R.layout.item_apppost, null);
 		addView(view);
 		iv_appicon = (ImageView) view.findViewById(R.id.iv_appicon);
+		iv_recommend = (ImageView) view.findViewById(R.id.iv_recommend);
 		tv_appname = (TextView) view.findViewById(R.id.tv_appname);
-		tv_apksize=(TextView)view.findViewById(R.id.tv_apksize);
-		scoreView=(ScoreView)view.findViewById(R.id.scoreview);
-		RelativeLayout rl_content=(RelativeLayout) view.findViewById(R.id.rl_postcontent);
-		ImageView iv_shandow=(ImageView) view.findViewById(R.id.iv_postshandow);
+		tv_apksize = (TextView) view.findViewById(R.id.tv_apksize);
+		scoreView = (ScoreView) view.findViewById(R.id.scoreview);
+		RelativeLayout rl_content = (RelativeLayout) view.findViewById(R.id.rl_postcontent);
+		ImageView iv_shandow = (ImageView) view.findViewById(R.id.iv_postshandow);
 		if (isShandowView) {
 			rl_content.setVisibility(GONE);
 			iv_shandow.setVisibility(VISIBLE);
-		}else {
+		} else {
 			rl_content.setVisibility(VISIBLE);
 			iv_shandow.setVisibility(GONE);
 		}
 	}
+
 	private void initSearchView() {
 		View view = LayoutInflater.from(context).inflate(R.layout.item_appsearch, null);
 		addView(view);
 		iv_appicon = (ImageView) view.findViewById(R.id.iv_appicon);
+		iv_recommend = (ImageView) view.findViewById(R.id.iv_recommend);
 		tv_appname = (TextView) view.findViewById(R.id.tv_appname);
-		tv_apksize=(TextView)view.findViewById(R.id.tv_apksize);
-		scoreView=(ScoreView)view.findViewById(R.id.scoreview);
+		tv_apksize = (TextView) view.findViewById(R.id.tv_apksize);
+		scoreView = (ScoreView) view.findViewById(R.id.scoreview);
 	}
 
 	private void initNativeAppView() {
@@ -126,8 +126,11 @@ public class PostItem extends BasePostItem {
 		}
 		ImageLoadUtil.displayImgByonlyDiscCache(app.getIconFilePath(), iv_appicon);
 		tv_appname.setText(app.getAppname());
-		tv_apksize.setText(TextUtils.isEmpty(app.getApkSize())?"":app.getApkSize()+" M");
-		scoreView.setScoreBy10Total(app.getScores()); 
+		tv_apksize.setText(TextUtils.isEmpty(app.getApkSize()) ? "" : app.getApkSize() + " M");
+		scoreView.setScoreBy10Total(app.getScores());
+		if (iv_recommend != null) {
+			iv_recommend.setVisibility(app.isRecommend() ? VISIBLE : INVISIBLE);
+		}
 	}
 
 	private void doNativeAppData(Object object) {
@@ -162,7 +165,7 @@ public class PostItem extends BasePostItem {
 		case PostSetting.TYPE_NATIVEAPP:
 		case PostSetting.TYPE_SEARCHAPP:
 			doScalse(hasfocues);
-			if (tv_appname!=null) {
+			if (tv_appname != null) {
 				tv_appname.setSelected(hasfocues);
 			}
 			break;

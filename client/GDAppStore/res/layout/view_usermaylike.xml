@@ -8,67 +8,76 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <com.changhong.gdappstore.view.PostItemView
+        <com.changhong.gdappstore.view.PageItemView
             android:id="@+id/usermaylike_item0"
+            android:layout_width="@dimen/item_usermaylike_width"
+            android:layout_height="@dimen/item_usermaylike_height"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="30dp"
-            android:layout_width="@dimen/item_usermaylike_width"
-            android:layout_height="@dimen/item_usermaylike_height" />
+            android:background="@drawable/bg_mainpost" />
 
-        <com.changhong.gdappstore.view.PostItemView
+        <com.changhong.gdappstore.view.PageItemView
             android:id="@+id/usermaylike_item1"
             android:layout_width="@dimen/item_usermaylike_width"
             android:layout_height="@dimen/item_usermaylike_height"
             android:layout_alignTop="@id/usermaylike_item0"
             android:layout_marginLeft="@dimen/guessyoulike_item_marginleft"
-            android:layout_toRightOf="@id/usermaylike_item0" />
+            android:layout_toRightOf="@id/usermaylike_item0"
+            android:background="@drawable/bg_mainpost" />
 
-        <com.changhong.gdappstore.view.PostItemView
+        <com.changhong.gdappstore.view.PageItemView
             android:id="@+id/usermaylike_item2"
             android:layout_width="@dimen/item_usermaylike_width"
             android:layout_height="@dimen/item_usermaylike_height"
             android:layout_alignTop="@id/usermaylike_item0"
             android:layout_marginLeft="@dimen/guessyoulike_item_marginleft"
-            android:layout_toRightOf="@id/usermaylike_item1" />
+            android:layout_toRightOf="@id/usermaylike_item1"
+            android:background="@drawable/bg_mainpost" />
 
-        <com.changhong.gdappstore.view.PostItemView
+        <com.changhong.gdappstore.view.PageItemView
             android:id="@+id/usermaylike_item3"
             android:layout_width="@dimen/item_usermaylike_width"
             android:layout_height="@dimen/item_usermaylike_height"
             android:layout_alignTop="@id/usermaylike_item0"
             android:layout_marginLeft="@dimen/guessyoulike_item_marginleft"
-            android:layout_toRightOf="@id/usermaylike_item2" />
+            android:layout_toRightOf="@id/usermaylike_item2"
+            android:background="@drawable/bg_mainpost" />
 
-        <com.changhong.gdappstore.view.PostItemView
+        <com.changhong.gdappstore.view.PageItemView
             android:id="@+id/usermaylike_item4"
             android:layout_width="@dimen/item_usermaylike_width"
             android:layout_height="@dimen/item_usermaylike_height"
             android:layout_alignTop="@id/usermaylike_item0"
             android:layout_marginLeft="@dimen/guessyoulike_item_marginleft"
-            android:layout_toRightOf="@id/usermaylike_item3" />
+            android:layout_toRightOf="@id/usermaylike_item3"
+            android:background="@drawable/bg_mainpost" />
 
-        <com.changhong.gdappstore.view.PostItemView
+        <com.changhong.gdappstore.view.PageItemView
             android:id="@+id/usermaylike_item5"
             android:layout_width="@dimen/item_usermaylike_width"
             android:layout_height="@dimen/item_usermaylike_height"
             android:layout_alignTop="@id/usermaylike_item0"
             android:layout_marginLeft="@dimen/guessyoulike_item_marginleft"
-            android:layout_toRightOf="@id/usermaylike_item4" />
+            android:layout_toRightOf="@id/usermaylike_item4"
+            android:background="@drawable/bg_mainpost" />
 
-        <com.changhong.gdappstore.view.PostItemView
+        <com.changhong.gdappstore.view.PageItemView
             android:id="@+id/usermaylike_item6"
             android:layout_width="@dimen/item_usermaylike_width"
             android:layout_height="@dimen/item_usermaylike_height"
             android:layout_alignTop="@id/usermaylike_item0"
             android:layout_marginLeft="@dimen/guessyoulike_item_marginleft"
-            android:layout_toRightOf="@id/usermaylike_item5" />
-        <com.changhong.gdappstore.view.PostItemView
+            android:layout_toRightOf="@id/usermaylike_item5"
+            android:background="@drawable/bg_mainpost" />
+
+        <com.changhong.gdappstore.view.PageItemView
             android:id="@+id/usermaylike_item7"
             android:layout_width="@dimen/item_usermaylike_width"
             android:layout_height="@dimen/item_usermaylike_height"
             android:layout_alignTop="@id/usermaylike_item0"
             android:layout_marginLeft="@dimen/guessyoulike_item_marginleft"
-            android:layout_toRightOf="@id/usermaylike_item6" />
+            android:layout_toRightOf="@id/usermaylike_item6"
+            android:background="@drawable/bg_mainpost" />
     </RelativeLayout>
 
     <ImageView

@@ -29,13 +29,15 @@ public class App {
 	protected String packageName;
 	// 应用评分
 	protected int scores;
+	// 是否是推荐应用
+	protected boolean isRecommend;
 
 	public App() {
 		super();
 	}
 
 	public App(int appid, String appkey, String appname, String apkSize, String download, String posterFilePath,
-			String iconFilePath, int versionInt, String version, String packageName) {
+			String iconFilePath, int versionInt, String version, String packageName, int scores, boolean isRecommend) {
 		super();
 		this.appid = appid;
 		this.appkey = appkey;
@@ -47,15 +49,16 @@ public class App {
 		this.versionInt = versionInt;
 		this.version = version;
 		this.packageName = packageName;
+		this.scores = scores;
+		this.isRecommend = isRecommend;
 	}
-
-
 
 	@Override
 	public String toString() {
 		return "App [appid=" + appid + ", appkey=" + appkey + ", appname=" + appname + ", apkSize=" + apkSize
 				+ ", download=" + download + ", posterFilePath=" + posterFilePath + ", iconFilePath=" + iconFilePath
-				+ ", versionInt=" + versionInt + ", version=" + version + ", packageName=" + packageName + "]";
+				+ ", versionInt=" + versionInt + ", version=" + version + ", packageName=" + packageName + ", scores="
+				+ scores + ", isRecommend=" + isRecommend + "]";
 	}
 
 	public int getAppid() {
@@ -144,6 +147,14 @@ public class App {
 
 	public void setScores(int scores) {
 		this.scores = scores;
+	}
+
+	public boolean isRecommend() {
+		return isRecommend;
+	}
+
+	public void setRecommend(boolean isRecommend) {
+		this.isRecommend = isRecommend;
 	}
 
 	

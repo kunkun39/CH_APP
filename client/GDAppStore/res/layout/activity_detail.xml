@@ -26,6 +26,18 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/img_normal_square" />
 
+            <ImageView
+                android:id="@+id/iv_recommend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/img_recommend"
+                android:visibility="invisible" />
+
             <TextView
                 android:id="@+id/tv_appname"
                 android:layout_width="wrap_content"
@@ -40,8 +52,8 @@
                 android:id="@+id/scoreview_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_appname"
                 android:layout_alignLeft="@id/tv_appname"
+                android:layout_below="@id/tv_appname"
                 android:layout_marginTop="10dp" />
 
             <LinearLayout
@@ -111,8 +123,6 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/detail_contenttextsize" />
 
-                
-
                 <TextView
                     android:id="@+id/tv_version_title"
                     android:layout_width="wrap_content"
@@ -154,7 +164,7 @@
                     android:text="00-00-00"
                     android:textColor="@color/white"
                     android:textSize="@dimen/detail_contenttextsize" />
-                
+
                 <TextView
                     android:id="@+id/tv_appsize_title"
                     android:layout_width="wrap_content"
@@ -188,9 +198,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_introduce_title"
+                android:ellipsize="end"
                 android:maxLines="5"
                 android:text=""
-                android:ellipsize="end"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
         </RelativeLayout>

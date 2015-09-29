@@ -26,7 +26,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
  */
 public class PageItemView extends BaseRelativeLayout {
 
-	private ImageView iv_post, iv_appicon, iv_categoryicon;
+	private ImageView iv_post, iv_appicon, iv_categoryicon,iv_recommend;
 	private TextView tv_postname, tv_appname,tv_categoryname;
 	private RelativeLayout rl_post, rl_app,rl_category;
 	/**推荐位类型，默认应用为0，海报为1，栏目为2**/
@@ -56,6 +56,7 @@ public class PageItemView extends BaseRelativeLayout {
 		rl_app = findView(R.id.rl_postitem_apppost);
 		iv_appicon = findView(R.id.iv_appicon);
 		tv_appname = findView(R.id.tv_appname);
+		iv_recommend = findView(R.id.iv_recommend);
 		
 		rl_category=findView(R.id.rl_postitem_category);
 		iv_categoryicon = findView(R.id.iv_categoryicon);
@@ -151,17 +152,18 @@ public class PageItemView extends BaseRelativeLayout {
 	 * 
 	 * @param category
 	 */
-	public void setAppData(App pageApp) {
-		if (pageApp == null) {
+	public void setAppData(App app) {
+		if (app == null) {
 			return;
 		}
 		// 小海报图标
 		rl_app.setVisibility(VISIBLE);
 		rl_category.setVisibility(INVISIBLE);
 		rl_post.setVisibility(INVISIBLE);
-		if (pageApp != null) {
-			ImageLoadUtil.displayImgByMemoryDiscCache(pageApp.getPosterFilePath(), iv_appicon);
-			tv_appname.setText(TextUtils.isEmpty(pageApp.getAppname()) ? "" : pageApp.getAppname());
+		iv_recommend.setVisibility(app.isRecommend()?VISIBLE:INVISIBLE);
+		if (app != null) {
+			ImageLoadUtil.displayImgByMemoryDiscCache(app.getIconFilePath(), iv_appicon);
+			tv_appname.setText(TextUtils.isEmpty(app.getAppname()) ? "" : app.getAppname());
 			tv_appname.setTextSize(context.getResources().getDimension(R.dimen.txtsize_home_appname));
 		}
 	}
