@@ -1,6 +1,6 @@
 package com.changhong.gdappstore.activity;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import android.app.Dialog;
@@ -41,9 +41,6 @@ import com.changhong.gdappstore.view.MyProgressDialog;
 import com.changhong.gdappstore.view.PostTitleView;
 import com.changhong.gdappstore.view.PostTitleView.TitleItemOnClickListener;
 import com.changhong.gdappstore.view.PostTitleView.TitleItemOnFocuesChangedListener;
-import com.changhong.gdappstore.view.YouXiView;
-import com.changhong.gdappstore.view.YuLeView;
-import com.changhong.gdappstore.view.ShenghuoView;
 
 /**
  * homepage
@@ -62,16 +59,6 @@ public class MainActivity extends BaseActivity {
 	private ViewPager viewPager;
 	/** viewpager适配器 */
 	private MainViewPagerAdapter viewPagerAdapter;
-	/** 每页view */
-	private List<BasePageView> pageViews = new ArrayList<BasePageView>();
-	/** 首页view */
-	private HomePageView view_homepage;
-	/** 娱乐view */
-	private YuLeView view_yule;
-	/** 应用view */
-	private ShenghuoView view_zhuanti;
-	/** 游戏view */
-	private YouXiView view_youxi;
 	/** viewpager 翻页动画 */
 	private Animation anim_rightin, anim_leftin;
 	/** viewpager 当前选中标签页 */
@@ -82,6 +69,8 @@ public class MainActivity extends BaseActivity {
 	private ImageView iv_setting;
 	/** 下载进度条 */
 	private MyProgressDialog progressDialog;
+
+	private HomePageView[] homePages = new HomePageView[4];
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -98,19 +87,18 @@ public class MainActivity extends BaseActivity {
 		titleView.setTitleItemOnClickListener(titleItemOnClickListener);
 		titleView.setTitleItemOnFocuesChangedListener(titleItemOnFocuesChangedListener);
 		// init page views
-		view_homepage = new HomePageView(context);
-		view_zhuanti = new ShenghuoView(context);
-		view_youxi = new YouXiView(context);
-		view_yule = new YuLeView(context);
+		for (int i = 0; i < homePages.length; i++) {
+			homePages[i] = new HomePageView(context);
+		}
 		// init view pager
 		viewPager = findView(R.id.viewpager);
-		viewPagerAdapter = new MainViewPagerAdapter(pageViews);
+		viewPagerAdapter = new MainViewPagerAdapter(Arrays.asList(homePages));
 		viewPager.setAdapter(viewPagerAdapter);
 		viewPager.setCurrentItem(0);
 		viewPager.setAnimationCacheEnabled(true);
 		viewPager.setOffscreenPageLimit(6);
 		viewPager.setOnPageChangeListener(pageChangeListener);
-		NetChangeReceiver.listeners.put(context.getClass().getName(),new NetChangeListener() {
+		NetChangeReceiver.listeners.put(context.getClass().getName(), new NetChangeListener() {
 
 			@Override
 			public void onNetChange(boolean isconnect) {
@@ -157,10 +145,7 @@ public class MainActivity extends BaseActivity {
 	private void initData() {
 		categories = DataCenter.getInstance().getCategories();
 		titleView.setMargin(0, 10);
-		if (!pageViews.contains(view_homepage)) {
-			pageViews.add(view_homepage);
-		}
-		view_homepage.initNativeData();
+		homePages[0].initNativeData();
 		if (categories != null) {
 			for (int i = 0; i < categories.size(); i++) {
 				L.d("mainactivity initdata category is " + categories.get(i));
@@ -173,33 +158,13 @@ public class MainActivity extends BaseActivity {
 
 			// 目前是初始化默认数据
 			for (int i = 0; i < categories.size(); i++) {
-				if (i == 0) {
-					view_homepage.initData(categories.get(0));
-					view_homepage.setNextFocuesUpId(titleView.getItemTextViewAt(0).getId());
-				} else if (i == 1) {
-					view_yule.initData(categories.get(1));
-					view_yule.setNextFocuesUpId(titleView.getItemTextViewAt(1).getId());
-					if (!pageViews.contains(view_yule)) {
-						pageViews.add(view_yule);
-					}
-				} else if (i == 2) {
-					view_youxi.initData(categories.get(2));
-					view_youxi.setNextFocuesUpId(titleView.getItemTextViewAt(2).getId());
-					if (!pageViews.contains(view_youxi)) {
-						pageViews.add(view_youxi);
-					}
-				} else if (i == 3) {
-					view_zhuanti.initData(categories.get(3));
-					view_zhuanti.setNextFocuesUpId(titleView.getItemTextViewAt(3).getId());
-					if (!pageViews.contains(view_zhuanti)) {
-						pageViews.add(view_zhuanti);
-					}
-				}
+				homePages[i].initData(categories.get(i));
+				homePages[i].setNextFocuesUpId(titleView.getItemTextViewAt(i).getId());
 			}
 		} else {
 			L.d("mainactivity initdata category is null");
 		}
-		viewPagerAdapter.updateList(pageViews);
+		viewPagerAdapter.updateList(Arrays.asList(homePages));
 		titleView.setFocusItem(0);
 		checkUpdate();
 	}
@@ -210,6 +175,17 @@ public class MainActivity extends BaseActivity {
 		case KeyEvent.KEYCODE_DPAD_LEFT:
 			break;
 		case KeyEvent.KEYCODE_DPAD_RIGHT:
+			break;
+		case KeyEvent.KEYCODE_DPAD_DOWN:
+			//标签按下选择第一个位置
+			int titleFocusPos = titleView.getFocuesPosition();
+			if (titleFocusPos >= 0 && viewPager.getCurrentItem() == titleFocusPos && titleFocusPos < homePages.length
+					&& homePages[titleFocusPos] != null) {
+				if (homePages[titleFocusPos].getCategoryItemViews()[0] != null) {
+					homePages[titleFocusPos].getCategoryItemViews()[0].requestFocus();
+					return true;
+				}
+			}
 			break;
 		case KeyEvent.KEYCODE_BACK:
 			if (event.getAction() == KeyEvent.ACTION_DOWN) {
@@ -248,11 +224,11 @@ public class MainActivity extends BaseActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 	}
-	
+
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
-//		view_homepage.setShandows();
+		// view_homepage.setShandows();
 	}
 
 	/**
@@ -288,7 +264,7 @@ public class MainActivity extends BaseActivity {
 			intent.putExtra(Config.KEY_PARENT_CATEGORYID, categories.get(position).getId());
 			intent.putExtra(Config.KEY_CURRENT_CATEGORYID, categories.get(position).getId());
 			context.startActivity(intent);
-//			overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
+			// overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
 		}
 	};
 	/**
@@ -298,25 +274,25 @@ public class MainActivity extends BaseActivity {
 
 		@Override
 		public void onPageSelected(int arg0) {
-			if (arg0 < 0 || arg0 > pageViews.size() || pageViews.get(arg0) == null) {
+			if (arg0 < 0 || arg0 > homePages.length || homePages[arg0] == null) {
 				return;
 			}
-			BasePageView curPageView = pageViews.get(arg0);
+			BasePageView curPageView = homePages[arg0];
 			titleView.setSelectedItem(arg0);
-			if (!titleView.hasChildFocesed()) {// 非标签上面切换情况下，处理默认交代呢
+			if (!titleView.hasChildFocuesed()) {// 非标签上面切换情况下，处理默认交代呢
 				if (currIndex == arg0 - 1) {// 从左往右翻页
-					if (pageViews.get(currIndex).currentFocuesId == R.id.jingping_item12) {
+					if (homePages[currIndex].currentFocuesId == R.id.homepage_item12) {
 						curPageView.setCategoryItemFocuesByPos(3);// 最底层一排翻页让第下一页最低层第一个获取焦点
-					} else if (pageViews.get(currIndex).currentFocuesId == R.id.jingping_item11) {
+					} else if (homePages[currIndex].currentFocuesId == R.id.homepage_item11) {
 						curPageView.setCategoryItemFocuesByPos(1);
 					} else {
 						curPageView.setCategoryItemFocuesByPos(0);// 其它情况让第一个获取焦点
 					}
 				} else if (currIndex == arg0 + 1) {// 从右往左翻页
-					if (pageViews.get(currIndex).currentFocuesId == R.id.jingping_itema4) {
+					if (homePages[currIndex].currentFocuesId == R.id.homepage_itema4) {
 						curPageView.setPostItemFocuesByPos(11);// 最底层一排翻页让第上一页最低层最后一个获取焦点
-					} else if (pageViews.get(currIndex).currentFocuesId == R.id.jingping_itema2
-							|| pageViews.get(currIndex).currentFocuesId == R.id.jingping_itema3) {
+					} else if (homePages[currIndex].currentFocuesId == R.id.homepage_itema2
+							|| homePages[currIndex].currentFocuesId == R.id.homepage_itema3) {
 						curPageView.setCategoryItemFocuesByPos(10);
 					} else {
 						curPageView.setPostItemFocuesByPos(9);// 其它情况让最后一列最上面一个获取焦点

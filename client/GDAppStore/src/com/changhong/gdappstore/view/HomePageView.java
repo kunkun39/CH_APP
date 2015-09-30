@@ -61,7 +61,7 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 
 	protected void initView() {
 		View rootView = LayoutInflater.from(context).inflate(R.layout.view_homepage, this);
-		ivFocues = findView(R.id.iv_jingpin_focues);
+		ivFocues = findView(R.id.iv_homepage_focues);
 		ivFocues.setVisibility(INVISIBLE);
 		for (int i = 0; i < postItemCount; i++) {
 			postItemViews[i] = findView(postItemIds[i]);
@@ -102,7 +102,25 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 		categoryItemViews[3].setDrawableIconPost(false, R.drawable.icon_nessary);
 	}
 
-	public void initData(Category category) {
+	public void initData(final Category category) {
+		if (category.getCategoyChildren() != null) {
+			// 初始化左边4个子栏目数据，最多4个
+			int size = category.getCategoyChildren().size();
+			for (int i = 0; i < (size <= 4 ? size : 4); i++) {
+				final Category childCategory = category.getCategoyChildren().get(i);
+				categoryItemViews[i].setCategoryData(childCategory);
+				categoryItemViews[i].setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						if (onClickListener != null) {
+							onClickListener.onClick(v);
+						}
+						jumpToPostActivity(category.getId(), childCategory.getId());
+					}
+				});
+			}
+		}
 		if (category.getCategoryPageApps() == null) {
 			return;
 		}
@@ -148,16 +166,16 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 		if (onClickListener != null) {
 			onClickListener.onClick(v);
 		}
-		if (v.getId() == R.id.jingping_itema3) {
+		if (v.getId() == R.id.homepage_itema3) {
 			context.startActivity(new Intent(context, NativeAppActivity.class));
 			return;
 		}
 		if (NetworkUtils.ISNET_CONNECT) {
-			if (v.getId() == R.id.jingping_itema1) {
+			if (v.getId() == R.id.homepage_itema1) {
 				context.startActivity(new Intent(context, SearchActivity.class));
-			} else if (v.getId() == R.id.jingping_itema2) {
+			} else if (v.getId() == R.id.homepage_itema2) {
 				context.startActivity(new Intent(context, RankingListActivity.class));
-			} else if (v.getId() == R.id.jingping_itema4) {
+			} else if (v.getId() == R.id.homepage_itema4) {
 				DataCenter dataCenter = DataCenter.getInstance();
 				if (dataCenter.getCategoryById(12) != null) {
 					jumpToPostActivity(dataCenter.getCategoryById(12).getParentId(), dataCenter.getCategoryById(12)
@@ -179,7 +197,7 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 		if (hasFocus) {
 			int viewId = v.getId();
 			currentFocuesId = v.getId();
-			if (viewId == R.id.jingping_item5 || viewId == R.id.jingping_item6 || viewId == R.id.jingping_item12) {
+			if (viewId == R.id.homepage_item5 || viewId == R.id.homepage_item6 || viewId == R.id.homepage_item12) {
 				isRightItemFocused = true;
 			} else {
 				isRightItemFocused = false;
@@ -193,14 +211,14 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 			tmplayout.topMargin = v.getTop();
 			tmplayout.width = v.getWidth();
 			tmplayout.height = v.getHeight();
-			if (viewId == R.id.jingping_item1 || viewId == R.id.jingping_item6) {
+			if (viewId == R.id.homepage_item1 || viewId == R.id.homepage_item6) {
 				// 大海报
 				mlayout.leftMargin = (int) (tmplayout.leftMargin + bigLeftMar_add - tmplayout.width * 0.1);
 				mlayout.topMargin = (int) (tmplayout.topMargin + bigTopMar_add - tmplayout.height * 0.1);
 				mlayout.width = (int) (tmplayout.width + bigWidth_add + (tmplayout.width * 0.1));
 				mlayout.height = (int) (tmplayout.height + bigHeight_add + (tmplayout.height * 0.1));
-			} else if (viewId == R.id.jingping_itema1 || viewId == R.id.jingping_itema2
-					|| viewId == R.id.jingping_itema3 || viewId == R.id.jingping_itema4) {
+			} else if (viewId == R.id.homepage_itema1 || viewId == R.id.homepage_itema2
+					|| viewId == R.id.homepage_itema3 || viewId == R.id.homepage_itema4) {
 				mlayout.leftMargin = (int) (tmplayout.leftMargin + horLeftMar_add - tmplayout.width * 0.1);
 				mlayout.topMargin = (int) (tmplayout.topMargin + horTopMar_add - tmplayout.height * 0.1);
 				mlayout.width = (int) (tmplayout.width + horWidth_add + (tmplayout.width * 0.1));

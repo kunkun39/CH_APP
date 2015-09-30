@@ -24,12 +24,12 @@ import com.changhong.gdappstore.view.PageItemView;
 public class BasePageView extends BaseRelativeLayout {
 
 	/** 应用推荐位ID */
-	protected int[] postItemIds = { R.id.jingping_item1, R.id.jingping_item2, R.id.jingping_item3, R.id.jingping_item4,
-			R.id.jingping_item5, R.id.jingping_item6, R.id.jingping_item7, R.id.jingping_item8, R.id.jingping_item9,
-			R.id.jingping_item10, R.id.jingping_item11, R.id.jingping_item12 };
+	protected int[] postItemIds = { R.id.homepage_item1, R.id.homepage_item2, R.id.homepage_item3, R.id.homepage_item4,
+			R.id.homepage_item5, R.id.homepage_item6, R.id.homepage_item7, R.id.homepage_item8, R.id.homepage_item9,
+			R.id.homepage_item10, R.id.homepage_item11, R.id.homepage_item12 };
 	/** 栏目推荐位ID */
-	protected int[] categroyItemIds = { R.id.jingping_itema1, R.id.jingping_itema2, R.id.jingping_itema3,
-			R.id.jingping_itema4 };
+	protected int[] categroyItemIds = { R.id.homepage_itema1, R.id.homepage_itema2, R.id.homepage_itema3,
+			R.id.homepage_itema4 };
 	/** 应用推荐位个数 */
 	protected  int postItemCount = 12;
 	/** 应用推荐位view */
@@ -133,4 +133,13 @@ public class BasePageView extends BaseRelativeLayout {
 		context.startActivity(intent);
 	}
 
+	public int[] getCategroyItemIds() {
+		return categroyItemIds;
+	}
+
+	public PageItemView[] getCategoryItemViews() {
+		return categoryItemViews;
+	}
+
+	
 }

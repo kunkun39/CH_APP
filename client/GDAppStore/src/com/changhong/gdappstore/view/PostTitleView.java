@@ -75,7 +75,7 @@ public class PostTitleView extends BaseRelativeLayout {
 	}
 
 	private void init() {
-		HorizontalScrollView hsView=new HorizontalScrollView(context);
+		HorizontalScrollView hsView = new HorizontalScrollView(context);
 		hsView.setHorizontalScrollBarEnabled(false);
 		ll_content = new LinearLayout(context);
 		ll_content.setOrientation(LinearLayout.HORIZONTAL);
@@ -161,7 +161,7 @@ public class PostTitleView extends BaseRelativeLayout {
 			if (currentSelectedView != null && currentSelectedView != list_textViews.get(position)) {
 				currentSelectedView.setSelected(false);
 			}
-			L.d("setFocusItem--pos==" + position + " " + hasChildFocesed());
+			L.d("setFocusItem--pos==" + position + " " + hasChildFocuesed());
 			currentSelectedView = list_textViews.get(position);
 		}
 	}
@@ -238,7 +238,7 @@ public class PostTitleView extends BaseRelativeLayout {
 						}
 						currentSelectedView = v;
 					} else {
-						textView.setSelected(!hasChildFocesed());
+						textView.setSelected(!hasChildFocuesed());
 					}
 				}
 			}
@@ -251,13 +251,22 @@ public class PostTitleView extends BaseRelativeLayout {
 	 * 
 	 * @return
 	 */
-	public boolean hasChildFocesed() {
+	public boolean hasChildFocuesed() {
+		return getFocuesPosition() >= 0;
+	}
+
+	/**
+	 * 当前焦点位置
+	 * 
+	 * @return
+	 */
+	public int getFocuesPosition() {
 		for (int i = 0; i < list_textViews.size(); i++) {
 			if (list_textViews.get(i).isFocused()) {
-				return true;
+				return i;
 			}
 		}
-		return false;
+		return -1;
 	}
 
 	public TitleItemOnFocuesChangedListener getTitleItemOnFocuesChangedListener() {
@@ -287,9 +296,12 @@ public class PostTitleView extends BaseRelativeLayout {
 	public boolean isIfFocuesWithSelected() {
 		return ifFocuesWithSelected;
 	}
+
 	/**
 	 * 是否在焦点同时选中
-	 * @param ifFocuesWithSelected true：焦点的同时设置为选中，false：焦点同时不设置为选中
+	 * 
+	 * @param ifFocuesWithSelected
+	 *            true：焦点的同时设置为选中，false：焦点同时不设置为选中
 	 */
 	public void setIfFocuesWithSelected(boolean ifFocuesWithSelected) {
 		this.ifFocuesWithSelected = ifFocuesWithSelected;

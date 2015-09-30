@@ -3,12 +3,12 @@ package com.changhong.gdappstore.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.changhong.gdappstore.base.BasePageView;
-
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.changhong.gdappstore.view.HomePageView;
 /**
  * 首页viewpageradapter
  * @author wangxiufeng
@@ -16,16 +16,16 @@ import android.view.ViewGroup;
  */
 public class MainViewPagerAdapter extends PagerAdapter {
 
-	private List<BasePageView> pageViews = new ArrayList<BasePageView>();
+	private List<HomePageView> pageViews = new ArrayList<HomePageView>();
 
 	public MainViewPagerAdapter() {
 	}
 
-	public MainViewPagerAdapter(List<BasePageView> pageViews) {
+	public MainViewPagerAdapter(List<HomePageView> pageViews) {
 		this.pageViews = pageViews;
 	}
 
-	public void updateList(List<BasePageView> pageViews) {
+	public void updateList(List<HomePageView> pageViews) {
 		this.pageViews = pageViews;
 		notifyDataSetChanged();
 	}
