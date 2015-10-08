@@ -30,7 +30,7 @@ import com.changhong.gdappstore.util.L;
  * 
  */
 public class DataCenter {
-	
+
 	public static final int LOAD_CACHEDATA_SUCCESS = 1;
 	public static final int LOAD_CACHEDATA_FAIL = 2;
 	public static final int LOAD_CACHEDATA_NO_UPDATE = 3;
@@ -86,29 +86,36 @@ public class DataCenter {
 			}
 		});
 	}
+
 	/**
-	 *  请求解析栏目分类和每页应用数据
+	 * 请求解析栏目分类和每页应用数据
+	 * 
 	 * @param context
 	 * @param completeListener
-	 * @param getCacheData 是否预加载本地缓存
+	 * @param getCacheData
+	 *            是否预加载本地缓存
 	 */
-	public void loadCategoryAndPageData(final Context context, final LoadCompleteListener completeListener,boolean getCacheData) {
+	public void loadCategoryAndPageData(final Context context, final LoadCompleteListener completeListener,
+			final boolean getCacheData) {
 		loadCategories(context, new LoadCompleteListener() {
-			
+
 			@Override
 			public void onComplete() {
-				loadPageApps(context, completeListener,true);
+				loadPageApps(context, completeListener, getCacheData);
 			}
-		},true);
+		}, getCacheData);
 	}
+
 	/**
 	 * 加载栏目分类数据
+	 * 
 	 * @param context
 	 * @param completeListener
-	 * @param getCacheData 是否预加载本地缓存
+	 * @param getCacheData
+	 *            是否预加载本地缓存
 	 */
-	public void loadCategories(final Context context, final LoadCompleteListener completeListener,boolean getCacheData) {
-		if (getCacheData&&Config.ISCACHEABLE) {
+	public void loadCategories(final Context context, final LoadCompleteListener completeListener, boolean getCacheData) {
+		if (getCacheData && Config.ISCACHEABLE) {
 			String json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_CATEGORIES);
 			categories = Parse.parseCategory(json);
 			if (categories != null && categories.size() > 0 && completeListener != null) {
@@ -117,8 +124,10 @@ public class DataCenter {
 		}
 		loadCategories(context, completeListener);
 	}
+
 	/**
 	 * 加载栏目分类数据
+	 * 
 	 * @param context
 	 * @param completeListener
 	 */
@@ -135,7 +144,8 @@ public class DataCenter {
 
 			@Override
 			protected Object doInBackground(Object... params) {
-				String json = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(Config.getCategoryUrl,context),context);
+				String json = HttpRequestUtil.getEntityString(
+						HttpRequestUtil.doGetRequest(Config.getCategoryUrl, context), context);
 				if (!TextUtils.isEmpty(json)) {
 					lastRequestCategoriesTime = System.currentTimeMillis();// 更改上次请求时间
 					CacheManager.putJsonFileCache(context, CacheManager.KEYJSON_CATEGORIES, json);// 缓存json数据
@@ -158,11 +168,14 @@ public class DataCenter {
 
 		}.execute("");
 	}
+
 	/**
 	 * 加载一级页面推荐应用
+	 * 
 	 * @param context
 	 * @param completeListener
-	 * @param getCacheData 是否预加载本地缓存
+	 * @param getCacheData
+	 *            是否预加载本地缓存
 	 */
 	public void loadPageApps(final Context context, final LoadCompleteListener completeListener, boolean getCacheData) {
 		if (getCacheData && Config.ISCACHEABLE) {
@@ -172,20 +185,22 @@ public class DataCenter {
 				completeListener.onComplete();
 			}
 		}
-		if (categories == null || categories.size() <=0 ) {
+		if (categories == null || categories.size() <= 0) {
 			loadCategories(context, new LoadCompleteListener() {
-				
+
 				@Override
-				public void onComplete() {//没有栏目数据要先去获取栏目数据
+				public void onComplete() {// 没有栏目数据要先去获取栏目数据
 					loadPageApps(context, completeListener);
 				}
 			});
-		}else {
+		} else {
 			loadPageApps(context, completeListener);
 		}
 	}
+
 	/**
 	 * 加载一级页面推荐应用
+	 * 
 	 * @param context
 	 * @param completeListener
 	 */
@@ -202,7 +217,8 @@ public class DataCenter {
 
 			@Override
 			protected Object doInBackground(Object... params) {
-				String json = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(Config.getPagesUrl,context),context);
+				String json = HttpRequestUtil.getEntityString(
+						HttpRequestUtil.doGetRequest(Config.getPagesUrl, context), context);
 				if (!TextUtils.isEmpty(json)) {
 					lastRequestPageAppsTime = System.currentTimeMillis();// 更改上次请求时间
 					CacheManager.putJsonFileCache(context, CacheManager.KEYJSON_PAGEAPPS, json);// 缓存json数据
@@ -248,7 +264,8 @@ public class DataCenter {
 			protected Object doInBackground(Object... params) {
 				// 缓存中没有就去服务器请求
 				String url = Config.getCategoryAppsUrl + "?categoryId=" + categoryId;
-				String jsonString = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(url,context),context);
+				String jsonString = HttpRequestUtil
+						.getEntityString(HttpRequestUtil.doGetRequest(url, context), context);
 				if (!TextUtils.isEmpty(jsonString)) {
 					lastRequestAppsByCategoryId.put(categoryId, System.currentTimeMillis());
 					CacheManager.putJsonFileCache(context, CacheManager.KEYJSON_CATEGORYAPPS + categoryId, jsonString);
@@ -276,14 +293,15 @@ public class DataCenter {
 	 *            应用id
 	 * @param completeListener
 	 */
-	public void loadAppDetail(final int appId, final LoadObjectListener loadObjectListener,final Context context) {
+	public void loadAppDetail(final int appId, final LoadObjectListener loadObjectListener, final Context context) {
 		new AsyncTask<Object, Object, Object>() {
 
 			@Override
 			protected Object doInBackground(Object... params) {
 				// 缓存中没有就去服务器请求
 				String url = Config.getAppDetailUrl + "?appId=" + appId;
-				String jsonString = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(url,context),context);
+				String jsonString = HttpRequestUtil
+						.getEntityString(HttpRequestUtil.doGetRequest(url, context), context);
 				AppDetail appDetail = Parse.parseAppDetail(jsonString);
 				return appDetail;
 			}
@@ -305,13 +323,14 @@ public class DataCenter {
 	 * @param keywords
 	 * @param loadListListener
 	 */
-	public void loadAppSearch(final String keywords, final LoadListListener loadListListener,final Context context) {
+	public void loadAppSearch(final String keywords, final LoadListListener loadListListener, final Context context) {
 		new AsyncTask<Object, Object, Object>() {
 
 			@Override
 			protected Object doInBackground(Object... params) {
 				String url = Config.getAppSearchUrl + "?keywords=" + keywords;
-				String jsonString = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(url,context),context);
+				String jsonString = HttpRequestUtil
+						.getEntityString(HttpRequestUtil.doGetRequest(url, context), context);
 				List<Object> categoryApps = Parse.parseSearchApps(jsonString);
 				return categoryApps;
 			}
@@ -333,7 +352,8 @@ public class DataCenter {
 	 *            需要检测应用的包名
 	 * @param loadListListener
 	 */
-	public void loadAppsUpdateData(final List<String> packages, final LoadListListener loadListListener,final Context context) {
+	public void loadAppsUpdateData(final List<String> packages, final LoadListListener loadListListener,
+			final Context context) {
 		new AsyncTask<Object, Object, Object>() {
 
 			@Override
@@ -346,7 +366,8 @@ public class DataCenter {
 				for (int i = 0; i < packages.size(); i++) {
 					paramList.add(new BasicNameValuePair("appPackages", packages.get(i)));
 				}
-				String jsonString = HttpRequestUtil.getEntityString(HttpRequestUtil.doPostRequest(url, paramList,context),context);
+				String jsonString = HttpRequestUtil.getEntityString(
+						HttpRequestUtil.doPostRequest(url, paramList, context), context);
 				List<Object> apps = Parse.parseSearchApps(jsonString);
 				return apps;
 			}
@@ -384,7 +405,8 @@ public class DataCenter {
 			protected Object doInBackground(Object... params) {
 				// 缓存中没有就去服务器请求
 				String url = Config.getDetailRecommendUrl + "?categoryId=" + categoryId;
-				String jsonString = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(url,context),context);
+				String jsonString = HttpRequestUtil
+						.getEntityString(HttpRequestUtil.doGetRequest(url, context), context);
 				if (!TextUtils.isEmpty(jsonString)) {
 					lastRequestRecommendApps.put(categoryId, System.currentTimeMillis());
 					CacheManager.putJsonFileCache(context, CacheManager.KEYJSON_RECOMMENDAPPS + categoryId, jsonString);
@@ -412,13 +434,13 @@ public class DataCenter {
 	 * @param appId
 	 *            appid信息
 	 */
-	public void submitAppDownloadOK(final String appId,final Context context) {
+	public void submitAppDownloadOK(final String appId, final Context context) {
 		new Thread(new Runnable() {
 
 			@Override
 			public void run() {
 				String url = Config.putAppDownloadOK + "?" + "appId=" + appId + "&boxMac=" + MyApplication.deviceMac;
-				HttpRequestUtil.doGetRequest(url,context);
+				HttpRequestUtil.doGetRequest(url, context);
 			}
 		}).start();
 	}
@@ -465,18 +487,20 @@ public class DataCenter {
 		}
 		return null;
 	}
-	public void loadRankingList(final Context context, final LoadObjectListener objectListener,boolean getCacheData) {
+
+	public void loadRankingList(final Context context, final LoadObjectListener objectListener, boolean getCacheData) {
 		boolean result;
-		if(getCacheData && Config.ISCACHEABLE) {
+		if (getCacheData && Config.ISCACHEABLE) {
 			String json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_RANKLIST);
 			result = Parse.parseRankingList(json);
 			if (result == true) {
 				objectListener.onComplete(LOAD_CACHEDATA_SUCCESS);
 			}
 		}
-		
-		loadRankingList(context,objectListener);
+
+		loadRankingList(context, objectListener);
 	}
+
 	public void loadRankingList(final Context context, final LoadObjectListener objectListener) {
 		boolean result;
 		if (Config.ISCACHEABLE && (System.currentTimeMillis() - lastRequestRankListTime) < Config.REQUEST_RESTTIEM
@@ -495,7 +519,8 @@ public class DataCenter {
 			@Override
 			protected Boolean doInBackground(Void... params) {
 				// TODO Auto-generated method stub
-				String json = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(Config.getAppRankListUrl,context),context);
+				String json = HttpRequestUtil.getEntityString(
+						HttpRequestUtil.doGetRequest(Config.getAppRankListUrl, context), context);
 				if (!TextUtils.isEmpty(json)) {
 					lastRequestRankListTime = System.currentTimeMillis();// 更改上次请求时间
 					CacheManager.putJsonFileCache(context, CacheManager.KEYJSON_RANKLIST, json);// 缓存json数据
@@ -510,10 +535,9 @@ public class DataCenter {
 
 			@Override
 			protected void onPostExecute(Boolean result) {
-				if(result == true) {
+				if (result == true) {
 					objectListener.onComplete(LOAD_SERVERDATA_SUCCESS);
-				}
-				else {
+				} else {
 					objectListener.onComplete(LOAD_SERVERDATA_FAIL);
 				}
 			}

@@ -130,7 +130,7 @@ public class MainActivity extends BaseActivity {
 	}
 
 	private void initOnCreateData() {
-		DataCenter.getInstance().loadPageApps(context, new LoadCompleteListener() {
+		DataCenter.getInstance().loadCategoryAndPageData(context, new LoadCompleteListener() {
 
 			@Override
 			public void onComplete() {
@@ -144,7 +144,7 @@ public class MainActivity extends BaseActivity {
 	 */
 	private void initData() {
 		categories = DataCenter.getInstance().getCategories();
-		titleView.setMargin(0, 10);
+		titleView.setMargin(0, 0);
 		((HomePageView) homePages[0]).initNativeData();
 		if (categories != null) {
 			for (int i = 0; i < categories.size(); i++) {

@@ -28,10 +28,11 @@ public class LoadingActivity extends BaseActivity {
 	private boolean animationEnd = false;
 	/** 数据是否加载完成 */
 	private boolean dataCompleted = false;
-
+	long time1=0;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		time1=System.currentTimeMillis();
 		setContentView(R.layout.activity_loading);
 		initView();
 		loadData();
@@ -40,7 +41,7 @@ public class LoadingActivity extends BaseActivity {
 	private void initView() {
 		L.d("widthpx==" + context.getResources().getDisplayMetrics().density);
 		L.d("widthpx==" + screenWidth + " " + screenHeight);
-
+		L.d("111111111111  "+(System.currentTimeMillis()-time1));
 		ivLoading = findView(R.id.iv_loading);
 		alphaAnimation = new AlphaAnimation(0.4f, 1f);
 		alphaAnimation.setDuration(AnimDuration);
@@ -60,6 +61,7 @@ public class LoadingActivity extends BaseActivity {
 				animationEnd = true;
 				if (dataCompleted) {
 					jumpToMain();
+					L.d("111111111113  "+(System.currentTimeMillis()-time1));
 				}
 			}
 		});
@@ -67,17 +69,17 @@ public class LoadingActivity extends BaseActivity {
 	}
 
 	private void loadData() {
-		DataCenter dataCenter = DataCenter.getInstance();
-		dataCenter.loadCategories(context, new LoadCompleteListener() {
-
-			@Override
-			public void onComplete() {
+//		DataCenter dataCenter = DataCenter.getInstance();
+//		dataCenter.loadCategories(context, new LoadCompleteListener() {
+//
+//			@Override
+//			public void onComplete() {
 				dataCompleted = true;
 				if (animationEnd) {
 					jumpToMain();
 				}
-			}
-		});
+//			}
+//		});
 	}
 
 	private void jumpToMain() {
