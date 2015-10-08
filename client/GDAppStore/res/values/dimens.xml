@@ -22,6 +22,12 @@
     <dimen name="item_first_margintop">35dp</dimen>
     <dimen name="txtsize_home_appname">18sp</dimen>
     <dimen name="txtsize_home_categoryname">22sp</dimen>
+     <!-- 一级页面 “其它”页面 -->
+    <dimen name="item_otc_width1">288dp</dimen>
+    <dimen name="item_otc_height1">201dp</dimen>
+    <dimen name="item_otc_width2">131dp</dimen>
+    <dimen name="item_otc_height2">201dp</dimen>
+    <dimen name="item_otc_margintop">8dp</dimen>
 
     <!-- 搜索页面 -->
     <dimen name="bt_search_width">112.4dp</dimen>

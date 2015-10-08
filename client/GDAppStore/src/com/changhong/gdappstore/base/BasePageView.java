@@ -100,8 +100,8 @@ public class BasePageView extends BaseRelativeLayout {
 	 *            子栏目id
 	 */
 	protected void jumpToPostActivity(int parentCategoryId, int currentCategoryId) {
-		if (currentCategoryId < 0) {
-			DialogUtil.showShortToast(context, "当前分类未配置");
+		if (currentCategoryId <= 0) {
+			DialogUtil.showShortToast(context, context.getResources().getString(R.string.no_categorydata));
 			return;
 		}
 		if (!NetworkUtils.ISNET_CONNECT) {
@@ -121,7 +121,7 @@ public class BasePageView extends BaseRelativeLayout {
 	 */
 	protected void jumpToDetailActivity(int appid) {
 		if (appid < 0) {
-			Toast.makeText(context, "当前应用未配置", Toast.LENGTH_SHORT).show();
+			DialogUtil.showShortToast(context,context.getResources().getString(R.string.no_appdata));
 			return;
 		}
 		if (!NetworkUtils.ISNET_CONNECT) {

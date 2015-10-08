@@ -38,6 +38,7 @@ import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
 import com.changhong.gdappstore.view.HomePageView;
 import com.changhong.gdappstore.view.MyProgressDialog;
+import com.changhong.gdappstore.view.OtherCategoryView;
 import com.changhong.gdappstore.view.PostTitleView;
 import com.changhong.gdappstore.view.PostTitleView.TitleItemOnClickListener;
 import com.changhong.gdappstore.view.PostTitleView.TitleItemOnFocuesChangedListener;
@@ -70,7 +71,7 @@ public class MainActivity extends BaseActivity {
 	/** 下载进度条 */
 	private MyProgressDialog progressDialog;
 
-	private HomePageView[] homePages = new HomePageView[4];
+	private BasePageView[] homePages = new BasePageView[Config.showCatPageSize + 2];
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -87,9 +88,10 @@ public class MainActivity extends BaseActivity {
 		titleView.setTitleItemOnClickListener(titleItemOnClickListener);
 		titleView.setTitleItemOnFocuesChangedListener(titleItemOnFocuesChangedListener);
 		// init page views
-		for (int i = 0; i < homePages.length; i++) {
-			homePages[i] = new HomePageView(context);
+		for (int i = 0; i < homePages.length - 1; i++) {
+			homePages[i] = new HomePageView(context);// 首页娱乐游戏应用
 		}
+		homePages[homePages.length - 1] = new OtherCategoryView(context);// 其它
 		// init view pager
 		viewPager = findView(R.id.viewpager);
 		viewPagerAdapter = new MainViewPagerAdapter(Arrays.asList(homePages));
@@ -145,21 +147,26 @@ public class MainActivity extends BaseActivity {
 	private void initData() {
 		categories = DataCenter.getInstance().getCategories();
 		titleView.setMargin(0, 10);
-		homePages[0].initNativeData();
+		((HomePageView) homePages[0]).initNativeData();
 		if (categories != null) {
-			for (int i = 0; i < categories.size(); i++) {
-				L.d("mainactivity initdata category is " + categories.get(i));
-				if (i > 3) {
-					categories.remove(i);// TODO 第一阶段只显示4个标签，
-					i--;
-				}
-			}
+			// for (int i = 0; i < categories.size(); i++) {
+			// if (i > 3) {
+			// categories.remove(i);// TODO 第一阶段只显示4个标签，
+			// i--;
+			// }
+			// }
 			titleView.initData(categories);
-
+			int categorieSize = categories.size();
 			// 目前是初始化默认数据
-			for (int i = 0; i < categories.size(); i++) {
-				homePages[i].initData(categories.get(i));
-				homePages[i].setNextFocuesUpId(titleView.getItemTextViewAt(i).getId());
+			for (int i = 0; i < (categorieSize > Config.showCatPageSize ? categorieSize - 1 : categorieSize); i++) {
+				((HomePageView) homePages[i]).initData(categories.get(i));
+				((HomePageView) homePages[i]).setNextFocuesUpId(titleView.getItemTextViewAt(i).getId());
+			}
+			if (categorieSize > Config.showCatPageSize) {
+				// 最后一个是其它页面
+				((OtherCategoryView) homePages[categories.size() - 1]).initData(categories.get(categories.size() - 1));
+				((OtherCategoryView) homePages[categories.size() - 1]).setNextFocuesUpId(titleView.getItemTextViewAt(
+						categories.size() - 1).getId());
 			}
 		} else {
 			L.d("mainactivity initdata category is null");
@@ -177,13 +184,20 @@ public class MainActivity extends BaseActivity {
 		case KeyEvent.KEYCODE_DPAD_RIGHT:
 			break;
 		case KeyEvent.KEYCODE_DPAD_DOWN:
-			//标签按下选择第一个位置
+			// 标签按下选择第一个位置
 			int titleFocusPos = titleView.getFocuesPosition();
 			if (titleFocusPos >= 0 && viewPager.getCurrentItem() == titleFocusPos && titleFocusPos < homePages.length
 					&& homePages[titleFocusPos] != null) {
-				if (homePages[titleFocusPos].getCategoryItemViews()[0] != null) {
-					homePages[titleFocusPos].getCategoryItemViews()[0].requestFocus();
-					return true;
+				if (hasOtherPage() && titleFocusPos == categories.size() - 1) {
+					if (((OtherCategoryView) homePages[titleFocusPos]).getOtcItemViews()[0] != null) {
+						((OtherCategoryView) homePages[titleFocusPos]).getOtcItemViews()[0].requestFocus();
+						return true;
+					}
+				} else {
+					if (homePages[titleFocusPos].getCategoryItemViews()[0] != null) {
+						homePages[titleFocusPos].getCategoryItemViews()[0].requestFocus();
+						return true;
+					}
 				}
 			}
 			break;
@@ -208,6 +222,10 @@ public class MainActivity extends BaseActivity {
 			break;
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+
+	private boolean hasOtherPage() {
+		return categories == null ? false : categories.size() > Config.showCatPageSize;
 	}
 
 	@Override
@@ -280,22 +298,42 @@ public class MainActivity extends BaseActivity {
 			BasePageView curPageView = homePages[arg0];
 			titleView.setSelectedItem(arg0);
 			if (!titleView.hasChildFocuesed()) {// 非标签上面切换情况下，处理默认交代呢
-				if (currIndex == arg0 - 1) {// 从左往右翻页
-					if (homePages[currIndex].currentFocuesId == R.id.homepage_item12) {
-						curPageView.setCategoryItemFocuesByPos(3);// 最底层一排翻页让第下一页最低层第一个获取焦点
-					} else if (homePages[currIndex].currentFocuesId == R.id.homepage_item11) {
-						curPageView.setCategoryItemFocuesByPos(1);
-					} else {
-						curPageView.setCategoryItemFocuesByPos(0);// 其它情况让第一个获取焦点
+				if (categories.size() > Config.showCatPageSize && arg0 == categories.size() - 1) {
+					// 当前页面是其它页面
+					if (currIndex == arg0 - 1) {// 从左往右翻页
+						if (homePages[currIndex].currentFocuesId == R.id.homepage_item12) {
+							((OtherCategoryView) curPageView).setOtcItemFocuesByPos(1);// 最底层一排翻页让第下一页最低层第一个获取焦点
+						} else {
+							((OtherCategoryView) curPageView).setOtcItemFocuesByPos(0);// 其它情况让第一个获取焦点
+						}
 					}
-				} else if (currIndex == arg0 + 1) {// 从右往左翻页
-					if (homePages[currIndex].currentFocuesId == R.id.homepage_itema4) {
-						curPageView.setPostItemFocuesByPos(11);// 最底层一排翻页让第上一页最低层最后一个获取焦点
-					} else if (homePages[currIndex].currentFocuesId == R.id.homepage_itema2
-							|| homePages[currIndex].currentFocuesId == R.id.homepage_itema3) {
-						curPageView.setCategoryItemFocuesByPos(10);
-					} else {
-						curPageView.setPostItemFocuesByPos(9);// 其它情况让最后一列最上面一个获取焦点
+				} else if (categories.size() > Config.showCatPageSize && arg0 == categories.size() - 2) {
+					// 当前页面是其它页面的上一个页面
+					if (currIndex == arg0 + 1) {// 从右往左翻页
+						if (homePages[currIndex].currentFocuesId == R.id.othercat_item2) {
+							curPageView.setPostItemFocuesByPos(11);// 最底层一排翻页让第上一页最低层最后一个获取焦点
+						} else {
+							curPageView.setPostItemFocuesByPos(9);// 其它情况让最后一列最上面一个获取焦点
+						}
+					}
+				} else {
+					if (currIndex == arg0 - 1) {// 从左往右翻页
+						if (homePages[currIndex].currentFocuesId == R.id.homepage_item12) {
+							curPageView.setCategoryItemFocuesByPos(3);// 最底层一排翻页让第下一页最低层第一个获取焦点
+						} else if (homePages[currIndex].currentFocuesId == R.id.homepage_item11) {
+							curPageView.setCategoryItemFocuesByPos(1);
+						} else {
+							curPageView.setCategoryItemFocuesByPos(0);// 其它情况让第一个获取焦点
+						}
+					} else if (currIndex == arg0 + 1) {// 从右往左翻页
+						if (homePages[currIndex].currentFocuesId == R.id.homepage_itema4) {
+							curPageView.setPostItemFocuesByPos(11);// 最底层一排翻页让第上一页最低层最后一个获取焦点
+						} else if (homePages[currIndex].currentFocuesId == R.id.homepage_itema2
+								|| homePages[currIndex].currentFocuesId == R.id.homepage_itema3) {
+							curPageView.setCategoryItemFocuesByPos(10);
+						} else {
+							curPageView.setPostItemFocuesByPos(9);// 其它情况让最后一列最上面一个获取焦点
+						}
 					}
 				}
 			}

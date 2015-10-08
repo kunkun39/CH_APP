@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.text.TextUtils;
 
+import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.MyApplication;
 import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.AppDetail;
@@ -133,7 +134,7 @@ public class Parse {
 				}
 			}
 			// TODO 将首页手动添加为第一个
-			categories.add(0, new Category(0, -1, "首页", "", new ArrayList<Category>(), new ArrayList<PageApp>()));
+			categories.add(0, new Category(0, -1, Config.HOMEPAGE, "", new ArrayList<Category>(), new ArrayList<PageApp>()));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

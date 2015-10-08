@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.activity.NativeAppActivity;
@@ -41,8 +42,8 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 	private ImageView ivFocues;
 
 	public boolean isRightItemFocused = false;
-	
-	private ImageView iv_shandow1,iv_shandow2,iv_shandow3,iv_shandow4,iv_shandow5;
+
+	private ImageView iv_shandow1, iv_shandow2, iv_shandow3, iv_shandow4, iv_shandow5;
 
 	public HomePageView(Context context) {
 		super(context);
@@ -82,12 +83,12 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 		categoryItemViews[1].setBackgroundResource(R.drawable.img_maincategory_bg2);
 		categoryItemViews[2].setBackgroundResource(R.drawable.img_maincategory_bg3);
 		categoryItemViews[3].setBackgroundResource(R.drawable.img_maincategory_bg4);
-		
-		iv_shandow1=findView(R.id.iv_shandow1);
-		iv_shandow2=findView(R.id.iv_shandow2);
-		iv_shandow3=findView(R.id.iv_shandow3);
-		iv_shandow4=findView(R.id.iv_shandow4);
-		iv_shandow5=findView(R.id.iv_shandow5);
+
+		iv_shandow1 = findView(R.id.iv_shandow1);
+		iv_shandow2 = findView(R.id.iv_shandow2);
+		iv_shandow3 = findView(R.id.iv_shandow3);
+		iv_shandow4 = findView(R.id.iv_shandow4);
+		iv_shandow5 = findView(R.id.iv_shandow5);
 	}
 
 	public void initNativeData() {
@@ -124,26 +125,41 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 		if (category.getCategoryPageApps() == null) {
 			return;
 		}
-		for (int i = 0; i < category.getCategoryPageApps().size(); i++) {
-			final PageApp pageApp = category.getCategoryPageApps().get(i);
-			int position = pageApp.getPosition();
-			if (position <= postItemCount) {
-				if (position==5||position==6||position==9||position==12) {
-					postItemViews[(position - 1)].setPageAppData(pageApp,imageLoadingListener);
-				}else {
-					postItemViews[(position - 1)].setPageAppData(pageApp,null);
+		int size = category.getCategoryPageApps().size();
+		for (int i = 0; i < postItemCount; i++) {
+			if (i < size) {
+				final PageApp pageApp = category.getCategoryPageApps().get(i);
+				int position = pageApp.getPosition();
+				if (position <= postItemCount) {
+					if (position == 5 || position == 6 || position == 9 || position == 12) {
+						postItemViews[(position - 1)].setPageAppData(pageApp, imageLoadingListener);
+					} else {
+						postItemViews[(position - 1)].setPageAppData(pageApp, null);
+					}
+					postItemViews[(position - 1)].setOnClickListener(new OnClickListener() {
+
+						@Override
+						public void onClick(View v) {
+							if (onClickListener != null) {
+								onClickListener.onClick(v);
+							}
+							jumpToDetailActivity(pageApp.getAppid());
+						}
+					});
 				}
-				postItemViews[(position - 1)].setOnClickListener(new OnClickListener() {
+			} else {
+				postItemViews[i].setOnClickListener(new OnClickListener() {
 
 					@Override
 					public void onClick(View v) {
 						if (onClickListener != null) {
 							onClickListener.onClick(v);
 						}
-						jumpToDetailActivity(pageApp.getAppid());
+						DialogUtil.showShortToast(context, context.getResources().getString(R.string.no_appdata));
 					}
 				});
 			}
+
 		}
 	}
 
@@ -246,36 +262,40 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 		}
 		((PageItemView) v).setItemSelected(hasFocus);
 	}
-	
+
 	public void setShandows() {
-		iv_shandow1.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(categoryItemViews[3]),shandowProportion1));
-		iv_shandow2.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(postItemViews[4]),shandowProportion1));
-		iv_shandow3.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(postItemViews[5]),shandowProportion2));
-		iv_shandow4.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(postItemViews[8]),shandowProportion2));
-		iv_shandow5.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(postItemViews[11]),shandowProportion2));
+		iv_shandow1.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(categoryItemViews[3]),
+				shandowProportion1));
+		iv_shandow2.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(postItemViews[4]),
+				shandowProportion1));
+		iv_shandow3.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(postItemViews[5]),
+				shandowProportion2));
+		iv_shandow4.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(postItemViews[8]),
+				shandowProportion2));
+		iv_shandow5.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(postItemViews[11]),
+				shandowProportion2));
 	}
-	
-	private ImageLoadingListener imageLoadingListener =new ImageLoadingListener() {
-		
+
+	private ImageLoadingListener imageLoadingListener = new ImageLoadingListener() {
+
 		@Override
 		public void onLoadingStarted(String imageUri, View view) {
-			
+
 		}
-		
+
 		@Override
 		public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
 			setShandows();
 		}
-		
+
 		@Override
 		public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
 			setShandows();
 		}
-		
+
 		@Override
 		public void onLoadingCancelled(String imageUri, View view) {
-			// TODO Auto-generated method stub
-			
+
 		}
 	};
 

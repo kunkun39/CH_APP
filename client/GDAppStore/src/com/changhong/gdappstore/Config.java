@@ -7,16 +7,17 @@ package com.changhong.gdappstore;
  * 
  */
 public class Config {
-	/**是否允许缓存。只有调试所有情况下都请求接口时候才改为false*/
+	/** 是否允许缓存。只有调试所有情况下都请求接口时候才改为false */
 	public static final boolean ISCACHEABLE = true;
-	/**请求暂停时间，在这个时间内不能连续请求*/
-	public static final int REQUEST_RESTTIEM=3*60*1000;
+	/** 请求暂停时间，在这个时间内不能连续请求 */
+	public static final int REQUEST_RESTTIEM = 3 * 60 * 1000;
 	/***************************** 网络请求配置项 ******************************************/
 	/** 请求链接超时 */
 	public static int CONNECTION_TIMEOUT = 9000;
 	/** 服务器基础地址 **/
 	public static String BASEURL = "http://192.168.0.55:8080/appmarket/";
-//	public static String BASEURL = "http://www.ottserver.com:8081/appmarket/";
+	// public static String BASEURL =
+	// "http://www.ottserver.com:8081/appmarket/";
 	/** 获取分类地址 **/
 	public static String getCategoryUrl = BASEURL + "client/appcategories.html";
 	/** 获取页面数据地址 **/
@@ -33,7 +34,7 @@ public class Config {
 	public static String getAppVersionsUrl = BASEURL + "client/appversions.html";
 	/** app下载成功后提交统计 **/
 	public static String putAppDownloadOK = BASEURL + "/client/appdownload.html";
-	/**获取详情推荐位推荐数据*/
+	/** 获取详情推荐位推荐数据 */
 	public static String getDetailRecommendUrl = BASEURL + "client/appdetailsrecommend.html";
 
 	/**
@@ -48,4 +49,13 @@ public class Config {
 	public static final String KEY_PARENT_CATEGORYID = "parentcategoryid";
 	/** 当前栏目id **/
 	public static final String KEY_CURRENT_CATEGORYID = "currentcategoryid";
+	/**
+	 * 
+	 * 
+	 * 
+	 */
+	/***************************** 网络请求配置项 ******************************************/
+	public static final String HOMEPAGE = "首页";
+	/**在首页显示几个栏目的页面**/
+	public static final int showCatPageSize = 3;
 }

@@ -8,6 +8,8 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.changhong.gdappstore.base.BasePageView;
+import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.view.HomePageView;
 /**
  * 首页viewpageradapter
@@ -16,17 +18,33 @@ import com.changhong.gdappstore.view.HomePageView;
  */
 public class MainViewPagerAdapter extends PagerAdapter {
 
-	private List<HomePageView> pageViews = new ArrayList<HomePageView>();
+	private List<BasePageView> pageViews = new ArrayList<BasePageView>();
 
 	public MainViewPagerAdapter() {
 	}
 
-	public MainViewPagerAdapter(List<HomePageView> pageViews) {
-		this.pageViews = pageViews;
+	public MainViewPagerAdapter(List<BasePageView> pageViews) {
+		setPageViews(pageViews);
 	}
 
-	public void updateList(List<HomePageView> pageViews) {
-		this.pageViews = pageViews;
+	public void updateList(List<BasePageView> pageViews) {
+		setPageViews(pageViews);
+	}
+	
+	private void setPageViews(List<BasePageView> pageViews) {
+		if (pageViews==null || pageViews.size()==0) {
+			this.pageViews=pageViews;
+			notifyDataSetChanged();
+			return;
+		}
+		for (int i = 0; i < pageViews.size(); i++) {
+			if (pageViews.get(i)==null) {
+				L.d("MainViewPagerAdapter there is a null pageView pos is "+i+" size is "+pageViews.size() );
+				pageViews.remove(i);
+				i--;
+			}
+		}
+		this.pageViews=pageViews;
 		notifyDataSetChanged();
 	}
 
