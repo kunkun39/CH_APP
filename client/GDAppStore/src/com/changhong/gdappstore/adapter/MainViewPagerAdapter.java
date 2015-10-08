@@ -37,14 +37,14 @@ public class MainViewPagerAdapter extends PagerAdapter {
 			notifyDataSetChanged();
 			return;
 		}
-		for (int i = 0; i < pageViews.size(); i++) {
-			if (pageViews.get(i)==null) {
+		this.pageViews=new ArrayList<BasePageView>(pageViews);
+		for (int i = 0; i < this.pageViews.size(); i++) {
+			if (this.pageViews.get(i)==null) {
 				L.d("MainViewPagerAdapter there is a null pageView pos is "+i+" size is "+pageViews.size() );
-				pageViews.remove(i);
+				this.pageViews.remove(i);
 				i--;
 			}
 		}
-		this.pageViews=pageViews;
 		notifyDataSetChanged();
 	}
 

@@ -71,7 +71,9 @@ public class MainActivity extends BaseActivity {
 	/** 下载进度条 */
 	private MyProgressDialog progressDialog;
 
-	private BasePageView[] homePages = new BasePageView[Config.showCatPageSize + 2];
+	private static final int PAGESIZE = Config.showCatPageSize + 1;
+
+	private BasePageView[] homePages = new BasePageView[PAGESIZE];
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -87,11 +89,7 @@ public class MainActivity extends BaseActivity {
 		titleView = findView(R.id.titleview);
 		titleView.setTitleItemOnClickListener(titleItemOnClickListener);
 		titleView.setTitleItemOnFocuesChangedListener(titleItemOnFocuesChangedListener);
-		// init page views
-		for (int i = 0; i < homePages.length - 1; i++) {
-			homePages[i] = new HomePageView(context);// 首页娱乐游戏应用
-		}
-		homePages[homePages.length - 1] = new OtherCategoryView(context);// 其它
+		homePages[0] = new HomePageView(context);// 首页娱乐游戏应用
 		// init view pager
 		viewPager = findView(R.id.viewpager);
 		viewPagerAdapter = new MainViewPagerAdapter(Arrays.asList(homePages));
@@ -149,24 +147,32 @@ public class MainActivity extends BaseActivity {
 		titleView.setMargin(0, 10);
 		((HomePageView) homePages[0]).initNativeData();
 		if (categories != null) {
-			// for (int i = 0; i < categories.size(); i++) {
-			// if (i > 3) {
-			// categories.remove(i);// TODO 第一阶段只显示4个标签，
-			// i--;
-			// }
-			// }
+			for (int i = 0; i < categories.size(); i++) {
+				if (i > Config.showCatPageSize) {
+					categories.remove(i);// TODO 第一阶段只显示4个标签，
+					i--;
+				}
+			}
 			titleView.initData(categories);
 			int categorieSize = categories.size();
 			// 目前是初始化默认数据
-			for (int i = 0; i < (categorieSize > Config.showCatPageSize ? categorieSize - 1 : categorieSize); i++) {
-				((HomePageView) homePages[i]).initData(categories.get(i));
-				((HomePageView) homePages[i]).setNextFocuesUpId(titleView.getItemTextViewAt(i).getId());
+			for (int i = 0; i < PAGESIZE - 1; i++) {
+				if (categories.size() > i) {
+					if (homePages[i] == null) {
+						homePages[i] = new HomePageView(context);
+					}
+					((HomePageView) homePages[i]).initData(categories.get(i));
+					((HomePageView) homePages[i]).setNextFocuesUpId(titleView.getItemTextViewAt(i).getId());
+				}
 			}
-			if (categorieSize > Config.showCatPageSize) {
+			if (hasOtherPage()) {
 				// 最后一个是其它页面
-				((OtherCategoryView) homePages[categories.size() - 1]).initData(categories.get(categories.size() - 1));
-				((OtherCategoryView) homePages[categories.size() - 1]).setNextFocuesUpId(titleView.getItemTextViewAt(
-						categories.size() - 1).getId());
+				if (homePages[PAGESIZE - 1] == null) {
+					homePages[PAGESIZE - 1] = new OtherCategoryView(context);
+				}
+				((OtherCategoryView) homePages[PAGESIZE - 1]).initData(categories.get(categorieSize - 1));
+				((OtherCategoryView) homePages[PAGESIZE - 1]).setNextFocuesUpId(titleView.getItemTextViewAt(
+						categorieSize - 1).getId());
 			}
 		} else {
 			L.d("mainactivity initdata category is null");
@@ -298,7 +304,7 @@ public class MainActivity extends BaseActivity {
 			BasePageView curPageView = homePages[arg0];
 			titleView.setSelectedItem(arg0);
 			if (!titleView.hasChildFocuesed()) {// 非标签上面切换情况下，处理默认交代呢
-				if (categories.size() > Config.showCatPageSize && arg0 == categories.size() - 1) {
+				if (hasOtherPage() && arg0 == categories.size() - 1) {
 					// 当前页面是其它页面
 					if (currIndex == arg0 - 1) {// 从左往右翻页
 						if (homePages[currIndex].currentFocuesId == R.id.homepage_item12) {
@@ -307,7 +313,7 @@ public class MainActivity extends BaseActivity {
 							((OtherCategoryView) curPageView).setOtcItemFocuesByPos(0);// 其它情况让第一个获取焦点
 						}
 					}
-				} else if (categories.size() > Config.showCatPageSize && arg0 == categories.size() - 2) {
+				} else if (hasOtherPage() && arg0 == PAGESIZE - 2) {
 					// 当前页面是其它页面的上一个页面
 					if (currIndex == arg0 + 1) {// 从右往左翻页
 						if (homePages[currIndex].currentFocuesId == R.id.othercat_item2) {

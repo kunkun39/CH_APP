@@ -113,6 +113,7 @@ public class OtherCategoryView extends BasePageView implements OnFocusChangeList
 
 			}
 		}
+		setShandows();
 	}
 
 	@Override

@@ -57,5 +57,5 @@ public class Config {
 	/***************************** 网络请求配置项 ******************************************/
 	public static final String HOMEPAGE = "首页";
 	/**在首页显示几个栏目的页面**/
-	public static final int showCatPageSize = 3;
+	public static final int showCatPageSize = 4;
 }
