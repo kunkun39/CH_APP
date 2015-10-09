@@ -189,9 +189,9 @@ public class OtherCategoryView extends BasePageView implements OnFocusChangeList
 			tmplayout.height = v.getHeight();
 			if (viewId == R.id.othercat_item4 || viewId == R.id.othercat_item5 || viewId == R.id.othercat_item8
 					|| viewId == R.id.othercat_item9) {
-				mlayout.leftMargin = (int) (tmplayout.leftMargin + 7 - tmplayout.width * 0.1);
+				mlayout.leftMargin = (int) (tmplayout.leftMargin + 2 - tmplayout.width * 0.1);
 				mlayout.topMargin = (int) (tmplayout.topMargin + 5 - tmplayout.height * 0.1);
-				mlayout.width = (int) (tmplayout.width + 2 + (tmplayout.width * 0.1));
+				mlayout.width = (int) (tmplayout.width + 8 + (tmplayout.width * 0.1));
 				mlayout.height = (int) (tmplayout.height + 7 + (tmplayout.height * 0.1));
 			} else {
 				mlayout.leftMargin = (int) (tmplayout.leftMargin + 14 - tmplayout.width * 0.1);
