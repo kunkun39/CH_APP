@@ -48,20 +48,6 @@ public class PageItemView extends BaseRelativeLayout {
 	}
 
 	protected void initView(AttributeSet attrs) {
-//		LayoutInflater.from(context).inflate(R.layout.item_page, this);
-//		rl_post = findView(R.id.rl_postitem_bigpost);
-//		iv_post = findView(R.id.iv_post);
-//		tv_postname = findView(R.id.tv_postname);
-//		
-//		rl_app = findView(R.id.rl_postitem_apppost);
-//		iv_appicon = findView(R.id.iv_appicon);
-//		tv_appname = findView(R.id.tv_appname);
-//		iv_recommend = findView(R.id.iv_recommend);
-//		
-//		rl_category=findView(R.id.rl_postitem_category);
-//		iv_categoryicon = findView(R.id.iv_categoryicon);
-//		tv_categoryname=findView(R.id.tv_categoryname);
-//		
 		if (attrs != null) {
 			TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.PageItem);
 			itemtype = typedArray.getInt(R.styleable.PageItem_itemtype, 0);
@@ -69,26 +55,20 @@ public class PageItemView extends BaseRelativeLayout {
 		if (itemtype==1) {
 			LayoutInflater.from(context).inflate(R.layout.item_page_bigpost, this);
 			rl_post = findView(R.id.rl_postitem_bigpost);
-			rl_post.setVisibility(VISIBLE);
 			iv_post = findView(R.id.iv_post);
 			tv_postname = findView(R.id.tv_postname);
 		}else if (itemtype==2) {
 			LayoutInflater.from(context).inflate(R.layout.item_page_category, this);
 			rl_category=findView(R.id.rl_postitem_category);
-			rl_category.setVisibility(VISIBLE);
 			iv_categoryicon = findView(R.id.iv_categoryicon);
 			tv_categoryname=findView(R.id.tv_categoryname);
 		}else {
 			LayoutInflater.from(context).inflate(R.layout.item_page_post, this);
 			rl_app = findView(R.id.rl_postitem_apppost);
-			rl_app.setVisibility(VISIBLE);
 			iv_appicon = findView(R.id.iv_appicon);
 			tv_appname = findView(R.id.tv_appname);
 			iv_recommend = findView(R.id.iv_recommend);
 		}
-//		rl_app.setVisibility(itemtype==0?VISIBLE:INVISIBLE);
-//		rl_post.setVisibility(itemtype==1?VISIBLE:INVISIBLE);
-//		rl_category.setVisibility(itemtype==2?VISIBLE:INVISIBLE);
 	}
 
 	/**
@@ -99,9 +79,6 @@ public class PageItemView extends BaseRelativeLayout {
 	 *            图片临时采用写死
 	 */
 	public void setCategoryData(Category category) {
-//		rl_app.setVisibility(INVISIBLE);
-//		rl_post.setVisibility(INVISIBLE);
-//		rl_category.setVisibility(VISIBLE);
 		if (rl_category==null ||category == null) {
 			return;
 		}
@@ -140,9 +117,6 @@ public class PageItemView extends BaseRelativeLayout {
 		}
 		if (pageApp.getPosition() > 6) {
 			// 小海报图标
-//			rl_app.setVisibility(VISIBLE);
-//			rl_category.setVisibility(INVISIBLE);
-//			rl_post.setVisibility(INVISIBLE);
 			if (pageApp != null) {
 				ImageLoadUtil.displayImgByMemoryDiscCache(pageApp.getPosterFilePath(), iv_appicon,imageLoadingListener);
 				tv_appname.setText(TextUtils.isEmpty(pageApp.getAppname()) ? "" : pageApp.getAppname());
@@ -150,9 +124,6 @@ public class PageItemView extends BaseRelativeLayout {
 			}
 		} else {
 			// 大海报图片
-//			rl_app.setVisibility(INVISIBLE);
-//			rl_category.setVisibility(INVISIBLE);
-//			rl_post.setVisibility(VISIBLE);
 			rl_post.setBackgroundColor(Color.TRANSPARENT);
 			if (pageApp != null) {
 //				DisplayImageOptions options = new DisplayImageOptions.Builder()
@@ -177,9 +148,6 @@ public class PageItemView extends BaseRelativeLayout {
 			return;
 		}
 		// 小海报图标
-//		rl_app.setVisibility(VISIBLE);
-//		rl_category.setVisibility(INVISIBLE);
-//		rl_post.setVisibility(INVISIBLE);
 		iv_recommend.setVisibility(app.isRecommend()?VISIBLE:INVISIBLE);
 		if (app != null) {
 			ImageLoadUtil.displayImgByMemoryDiscCache(app.getIconFilePath(), iv_appicon);

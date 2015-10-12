@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_centerInParent="true"
-    android:paddingTop="10dp"
-    android:visibility="visible" >
+    android:paddingTop="10dp" >
 
     <ImageView
         android:id="@+id/iv_appicon"
@@ -16,8 +15,7 @@
         android:layout_marginBottom="5dp"
         android:adjustViewBounds="true"
         android:focusable="false"
-        android:scaleType="fitXY"
-        android:src="@drawable/img_normal_square" />
+        android:scaleType="fitXY" />
 
     <TextView
         android:id="@+id/tv_appname"
