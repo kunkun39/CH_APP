@@ -9,8 +9,7 @@ import android.widget.ImageView;
 
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseActivity;
-import com.changhong.gdappstore.datacenter.DataCenter;
-import com.changhong.gdappstore.net.LoadListener.LoadCompleteListener;
+import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.L;
 
 /**
@@ -21,7 +20,7 @@ import com.changhong.gdappstore.util.L;
  */
 public class LoadingActivity extends BaseActivity {
 	/** 动画执行时间 */
-	private final int AnimDuration = 3000;
+	private final int AnimDuration = 2000;
 	private ImageView ivLoading;
 	private AlphaAnimation alphaAnimation;
 	/** 动画是否加载完成 */
@@ -58,6 +57,7 @@ public class LoadingActivity extends BaseActivity {
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
+//				DialogUtil.showShortToast(context, "动画完成");
 				animationEnd = true;
 				if (dataCompleted) {
 					jumpToMain();

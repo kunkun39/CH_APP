@@ -1,12 +1,14 @@
 package com.changhong.gdappstore.activity;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.TextUtils;
@@ -46,10 +48,6 @@ import com.changhong.gdappstore.view.PostTitleView.TitleItemOnFocuesChangedListe
 /**
  * homepage
  * 
- * There are four tabs in this activity,so there are four item pages add to
- * ViewPager in this activity. Change the tab focus the item will be changed by
- * animation.
- * 
  * @author wangxiufeng
  * 
  */
@@ -74,6 +72,8 @@ public class MainActivity extends BaseActivity {
 	private static final int PAGESIZE = Config.showCatPageSize + 1;
 
 	private BasePageView[] homePages = new BasePageView[PAGESIZE];
+	
+	private static boolean isShowedUpdateDialog=false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +81,7 @@ public class MainActivity extends BaseActivity {
 		L.d("mainactivity on create ");
 		setContentView(R.layout.activity_main);
 		initView();
-		initOnCreateData();
+
 	}
 
 	private void initView() {
@@ -90,14 +90,7 @@ public class MainActivity extends BaseActivity {
 		titleView.setTitleItemOnClickListener(titleItemOnClickListener);
 		titleView.setTitleItemOnFocuesChangedListener(titleItemOnFocuesChangedListener);
 		homePages[0] = new HomePageView(context);// 首页娱乐游戏应用
-		// init view pager
-		viewPager = findView(R.id.viewpager);
-		viewPagerAdapter = new MainViewPagerAdapter(Arrays.asList(homePages));
-		viewPager.setAdapter(viewPagerAdapter);
-		viewPager.setCurrentItem(0);
-		viewPager.setAnimationCacheEnabled(true);
-		viewPager.setOffscreenPageLimit(6);
-		viewPager.setOnPageChangeListener(pageChangeListener);
+
 		NetChangeReceiver.listeners.put(context.getClass().getName(), new NetChangeListener() {
 
 			@Override
@@ -127,6 +120,17 @@ public class MainActivity extends BaseActivity {
 		progressDialog = new MyProgressDialog(context);
 		progressDialog.setUpdateFileSizeName(true);
 		progressDialog.dismiss();
+
+		// init view pager
+		viewPager = findView(R.id.viewpager);
+		viewPagerAdapter = new MainViewPagerAdapter(getHomePageList(homePages));
+
+		viewPager.setCurrentItem(0);
+		viewPager.setAnimationCacheEnabled(true);
+		viewPager.setOffscreenPageLimit(6);
+		viewPager.setOnPageChangeListener(pageChangeListener);
+		viewPager.setAdapter(viewPagerAdapter);
+		handler.sendEmptyMessageDelayed(0, 100);
 	}
 
 	private void initOnCreateData() {
@@ -177,10 +181,34 @@ public class MainActivity extends BaseActivity {
 		} else {
 			L.d("mainactivity initdata category is null");
 		}
-		viewPagerAdapter.updateList(Arrays.asList(homePages));
+//		viewPagerAdapter.updateList(Arrays.asList(homePages));
+		viewPagerAdapter.updateList(getHomePageList(homePages));
 		titleView.setFocusItem(0);
 		checkUpdate();
 	}
+	
+	private List<View> getHomePageList(BasePageView[] basePageViews) {
+		List<View> views=new ArrayList<View>();
+		if (basePageViews==null || basePageViews.length==0) {
+			return views;
+		}
+		for (int i = 0; i < basePageViews.length; i++) {
+			if (basePageViews[i]!=null) {
+				views.add(basePageViews[i]);
+			}
+		}
+		return views;
+	}
+
+	Handler handler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+//			 viewPager.setAdapter(viewPagerAdapter);
+			initOnCreateData();
+		}
+	};
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -366,9 +394,9 @@ public class MainActivity extends BaseActivity {
 			int nativeVersion = getPackageManager().getPackageInfo(this.getPackageName(), 0).versionCode;
 			L.d("mainactivity readUpdate navVersion=" + nativeVersion + " serverVer " + MyApplication.SERVER_VERSION);
 			if (NetworkUtils.isConnectInternet(context) && nativeVersion < MyApplication.SERVER_VERSION
-					&& !TextUtils.isEmpty(MyApplication.UPDATE_APKURL)) {
-				if (updateDialog == null || (updateDialog != null && !updateDialog.isShowing())) {
-
+					&& !TextUtils.isEmpty(MyApplication.UPDATE_APKURL)&&!isShowedUpdateDialog ) {
+				if ( updateDialog == null || (updateDialog != null && !updateDialog.isShowing())) {
+					isShowedUpdateDialog=true;
 					updateDialog = DialogUtil.showMyAlertDialog(context, "提示：", "有新版本更新。", "马上更新", "下次再说",
 							new DialogBtnOnClickListener() {
 

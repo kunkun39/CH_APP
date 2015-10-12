@@ -7,10 +7,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.changhong.gdappstore.base.BasePageView;
-import com.changhong.gdappstore.util.L;
-import com.changhong.gdappstore.view.HomePageView;
 /**
  * 首页viewpageradapter
  * @author wangxiufeng
@@ -18,35 +14,38 @@ import com.changhong.gdappstore.view.HomePageView;
  */
 public class MainViewPagerAdapter extends PagerAdapter {
 
-	private List<BasePageView> pageViews = new ArrayList<BasePageView>();
+	private List<View> pageViews = new ArrayList<View>();
 
 	public MainViewPagerAdapter() {
 	}
 
-	public MainViewPagerAdapter(List<BasePageView> pageViews) {
-		setPageViews(pageViews);
+	public MainViewPagerAdapter(List<View> pageViews) {
+//		setPageViews(pageViews);
+		this.pageViews=pageViews;
 	}
 
-	public void updateList(List<BasePageView> pageViews) {
-		setPageViews(pageViews);
-	}
-	
-	private void setPageViews(List<BasePageView> pageViews) {
-		if (pageViews==null || pageViews.size()==0) {
-			this.pageViews=pageViews;
-			notifyDataSetChanged();
-			return;
-		}
-		this.pageViews=new ArrayList<BasePageView>(pageViews);
-		for (int i = 0; i < this.pageViews.size(); i++) {
-			if (this.pageViews.get(i)==null) {
-				L.d("MainViewPagerAdapter there is a null pageView pos is "+i+" size is "+pageViews.size() );
-				this.pageViews.remove(i);
-				i--;
-			}
-		}
+	public void updateList(List<View> pageViews) {
+//		setPageViews(pageViews);
+		this.pageViews=pageViews;
 		notifyDataSetChanged();
 	}
+	
+//	private void setPageViews(List<View> pageViews) {
+//		if (pageViews==null || pageViews.size()==0) {
+//			this.pageViews=pageViews;
+//			notifyDataSetChanged();
+//			return;
+//		}
+//		this.pageViews=new ArrayList<View>(pageViews);//Arrays.asList(homePages)得到的List和List不一样
+//		for (int i = 0; i < this.pageViews.size(); i++) {
+//			if (this.pageViews.get(i)==null) {
+//				L.d("MainViewPagerAdapter there is a null pageView pos is "+i+" size is "+pageViews.size() );
+//				this.pageViews.remove(i);
+//				i--;
+//			}
+//		}
+//		notifyDataSetChanged();
+//	}
 
 	@Override
 	public int getCount() {
