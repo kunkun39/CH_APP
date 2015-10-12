@@ -118,7 +118,11 @@ public class PageItemView extends BaseRelativeLayout {
 		if (pageApp.getPosition() > 6) {
 			// 小海报图标
 			if (pageApp != null) {
-				ImageLoadUtil.displayImgByMemoryDiscCache(pageApp.getPosterFilePath(), iv_appicon,imageLoadingListener);
+				if (!TextUtils.isEmpty(pageApp.getPosterFilePath())) {
+					ImageLoadUtil.displayImgByMemoryDiscCache(pageApp.getPosterFilePath(), iv_appicon,imageLoadingListener);
+				}else if(imageLoadingListener!=null){
+					imageLoadingListener.onLoadingFailed("", iv_appicon, null);
+				}
 				tv_appname.setText(TextUtils.isEmpty(pageApp.getAppname()) ? "" : pageApp.getAppname());
 				tv_appname.setTextSize(context.getResources().getDimension(R.dimen.txtsize_home_appname));
 			}
@@ -132,7 +136,11 @@ public class PageItemView extends BaseRelativeLayout {
 //						.showImageForEmptyUri(R.drawable.img_normal_ver).showImageOnFail(R.drawable.img_normal_ver)
 //						.cacheOnDisc(true).build();
 //				MyApplication.imageLoader.displayImage(pageApp.getPosterFilePath(), iv_post, options);
-				ImageLoadUtil.displayImgByMemoryDiscCache(pageApp.getPosterFilePath(), iv_post,imageLoadingListener);
+				if (!TextUtils.isEmpty(pageApp.getPosterFilePath())) {
+					ImageLoadUtil.displayImgByMemoryDiscCache(pageApp.getPosterFilePath(), iv_post,imageLoadingListener);
+				}else if(imageLoadingListener!=null){
+					imageLoadingListener.onLoadingFailed("", iv_appicon, null);
+				}
 				tv_postname.setText(TextUtils.isEmpty(pageApp.getAppname()) ? "" : pageApp.getAppname());
 			}
 		}
