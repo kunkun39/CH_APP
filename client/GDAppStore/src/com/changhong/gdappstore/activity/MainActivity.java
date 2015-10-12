@@ -130,8 +130,9 @@ public class MainActivity extends BaseActivity {
 		viewPager.setOffscreenPageLimit(6);
 		viewPager.setOnPageChangeListener(pageChangeListener);
 		viewPager.setAdapter(viewPagerAdapter);
-		((HomePageView) homePages[0]).initNativeData();//非必要代码，只是在加载数据前显示出来以免页面空虚
-		handler.sendEmptyMessageDelayed(11, 10);// 解决跳转时候上个页面停留太久
+//		((HomePageView) homePages[0]).initNativeData();//非必要代码，只是在加载数据前显示出来以免页面空虚
+//		handler.sendEmptyMessageDelayed(11, 10);// 解决跳转时候上个页面停留太久
+		initOnCreateData();
 	}
 
 	Handler handler = new Handler() {
@@ -150,6 +151,7 @@ public class MainActivity extends BaseActivity {
 	};
 
 	private void initOnCreateData() {
+		L.d("initdata initOnCreateData----");
 		new Thread(new Runnable() {// 解决跳转时候上个页面停留太久
 
 					@Override
@@ -158,13 +160,13 @@ public class MainActivity extends BaseActivity {
 
 							@Override
 							public void onComplete() {
+								L.d("initdata onComplete----");
 								handler.sendEmptyMessage(12);
 							}
 						}, true);
 					}
 				}).start();
 	}
-
 	/**
 	 * 初始化数据
 	 */

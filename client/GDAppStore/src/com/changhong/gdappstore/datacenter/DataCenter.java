@@ -17,6 +17,7 @@ import com.changhong.gdappstore.MyApplication;
 import com.changhong.gdappstore.model.AppDetail;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.net.HttpRequestUtil;
+import com.changhong.gdappstore.net.LoadListener;
 import com.changhong.gdappstore.net.LoadListener.LoadCompleteListener;
 import com.changhong.gdappstore.net.LoadListener.LoadListListener;
 import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
@@ -36,6 +37,9 @@ public class DataCenter {
 	public static final int LOAD_CACHEDATA_NO_UPDATE = 3;
 	public static final int LOAD_SERVERDATA_SUCCESS = 4;
 	public static final int LOAD_SERVERDATA_FAIL = 5;
+	
+	public static final int LOAD_BY_CACHE = 51;
+	public static final int LOAD_BY_SERVER = 52;
 
 	private static DataCenter dataCenter = null;
 
@@ -78,10 +82,10 @@ public class DataCenter {
 	 * @param completeListener
 	 */
 	public void loadCategoryAndPageData(final Context context, final LoadCompleteListener completeListener) {
-		loadCategories(context, new LoadCompleteListener() {
-
+		loadCategories(context, new LoadObjectListener() {
+			
 			@Override
-			public void onComplete() {
+			public void onComplete(Object object) {
 				loadPageApps(context, completeListener);
 			}
 		});
@@ -97,11 +101,11 @@ public class DataCenter {
 	 */
 	public void loadCategoryAndPageData(final Context context, final LoadCompleteListener completeListener,
 			final boolean getCacheData) {
-		loadCategories(context, new LoadCompleteListener() {
-
+		loadCategories(context, new LoadObjectListener() {
 			@Override
-			public void onComplete() {
-				loadPageApps(context, completeListener, getCacheData);
+			public void onComplete(Object object) {
+				//如果栏目是请求的服务器，那么页面应用就不加载缓存了，因为如果要加载缓存在栏目加载缓存时候就已经加载过缓存了
+				loadPageApps(context, completeListener, !object.equals(LOAD_BY_SERVER), object);
 			}
 		}, getCacheData);
 	}
@@ -114,12 +118,12 @@ public class DataCenter {
 	 * @param getCacheData
 	 *            是否预加载本地缓存
 	 */
-	public void loadCategories(final Context context, final LoadCompleteListener completeListener, boolean getCacheData) {
+	public void loadCategories(final Context context, final LoadObjectListener completeListener, boolean getCacheData) {
 		if (getCacheData && Config.ISCACHEABLE) {
 			String json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_CATEGORIES);
 			categories = Parse.parseCategory(json);
 			if (categories != null && categories.size() > 0 && completeListener != null) {
-				completeListener.onComplete();
+				completeListener.onComplete(LOAD_BY_CACHE);
 			}
 		}
 		loadCategories(context, completeListener);
@@ -131,12 +135,12 @@ public class DataCenter {
 	 * @param context
 	 * @param completeListener
 	 */
-	public void loadCategories(final Context context, final LoadCompleteListener completeListener) {
+	public void loadCategories(final Context context, final LoadObjectListener completeListener) {
 		if (Config.ISCACHEABLE && (System.currentTimeMillis() - lastRequestCategoriesTime) < Config.REQUEST_RESTTIEM) {
 			String json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_CATEGORIES);
 			categories = Parse.parseCategory(json);
 			if (categories != null && categories.size() > 0 && completeListener != null) {
-				completeListener.onComplete();
+				completeListener.onComplete(LOAD_BY_CACHE);
 				return;// 在一定的时间段内使用缓存数据不用重复请求服务器。
 			}
 		}
@@ -161,7 +165,7 @@ public class DataCenter {
 			@Override
 			protected void onPostExecute(Object result) {
 				if (completeListener != null) {
-					completeListener.onComplete();// 请求操作完毕
+					completeListener.onComplete(LOAD_BY_SERVER);// 请求操作完毕
 				}
 				super.onPostExecute(result);
 			}
@@ -177,19 +181,22 @@ public class DataCenter {
 	 * @param getCacheData
 	 *            是否预加载本地缓存
 	 */
-	public void loadPageApps(final Context context, final LoadCompleteListener completeListener, boolean getCacheData) {
+	public void loadPageApps(final Context context, final LoadCompleteListener completeListener, boolean getCacheData,Object object) {
 		if (getCacheData && Config.ISCACHEABLE) {
 			String json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_PAGEAPPS);
 			Parse.parsePageApps(json);
 			if (categories != null && categories.size() > 0 && completeListener != null) {
 				completeListener.onComplete();
+				if (object.equals(LOAD_BY_CACHE)) {
+					return;//如果栏目是只拿的缓存数据，那么页面还是只拿缓存应用
+				}
 			}
 		}
 		if (categories == null || categories.size() <= 0) {
-			loadCategories(context, new LoadCompleteListener() {
+			loadCategories(context, new LoadObjectListener() {
 
 				@Override
-				public void onComplete() {// 没有栏目数据要先去获取栏目数据
+				public void onComplete(Object object) {
 					loadPageApps(context, completeListener);
 				}
 			});
