@@ -72,8 +72,8 @@ public class MainActivity extends BaseActivity {
 	private static final int PAGESIZE = Config.showCatPageSize + 1;
 
 	private BasePageView[] homePages = new BasePageView[PAGESIZE];
-	
-	private static boolean isShowedUpdateDialog=false;
+
+	private static boolean isShowedUpdateDialog = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -130,17 +130,39 @@ public class MainActivity extends BaseActivity {
 		viewPager.setOffscreenPageLimit(6);
 		viewPager.setOnPageChangeListener(pageChangeListener);
 		viewPager.setAdapter(viewPagerAdapter);
-		handler.sendEmptyMessageDelayed(0, 100);
+		((HomePageView) homePages[0]).initNativeData();//非必要代码，只是在加载数据前显示出来以免页面空虚
+		handler.sendEmptyMessageDelayed(11, 10);// 解决跳转时候上个页面停留太久
 	}
 
-	private void initOnCreateData() {
-		DataCenter.getInstance().loadCategoryAndPageData(context, new LoadCompleteListener() {
+	Handler handler = new Handler() {
 
-			@Override
-			public void onComplete() {
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			// viewPager.setAdapter(viewPagerAdapter);
+			if (msg.what == 11) {
+				initOnCreateData();
+			} else if (msg.what == 12) {
 				initData();
 			}
-		}, true);
+
+		}
+	};
+
+	private void initOnCreateData() {
+		new Thread(new Runnable() {// 解决跳转时候上个页面停留太久
+
+					@Override
+					public void run() {
+						DataCenter.getInstance().loadCategoryAndPageData(context, new LoadCompleteListener() {
+
+							@Override
+							public void onComplete() {
+								handler.sendEmptyMessage(12);
+							}
+						}, true);
+					}
+				}).start();
 	}
 
 	/**
@@ -181,34 +203,24 @@ public class MainActivity extends BaseActivity {
 		} else {
 			L.d("mainactivity initdata category is null");
 		}
-//		viewPagerAdapter.updateList(Arrays.asList(homePages));
+		// viewPagerAdapter.updateList(Arrays.asList(homePages));
 		viewPagerAdapter.updateList(getHomePageList(homePages));
 		titleView.setFocusItem(0);
 		checkUpdate();
 	}
-	
+
 	private List<View> getHomePageList(BasePageView[] basePageViews) {
-		List<View> views=new ArrayList<View>();
-		if (basePageViews==null || basePageViews.length==0) {
+		List<View> views = new ArrayList<View>();
+		if (basePageViews == null || basePageViews.length == 0) {
 			return views;
 		}
 		for (int i = 0; i < basePageViews.length; i++) {
-			if (basePageViews[i]!=null) {
+			if (basePageViews[i] != null) {
 				views.add(basePageViews[i]);
 			}
 		}
 		return views;
 	}
-
-	Handler handler = new Handler() {
-
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-//			 viewPager.setAdapter(viewPagerAdapter);
-			initOnCreateData();
-		}
-	};
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -394,9 +406,9 @@ public class MainActivity extends BaseActivity {
 			int nativeVersion = getPackageManager().getPackageInfo(this.getPackageName(), 0).versionCode;
 			L.d("mainactivity readUpdate navVersion=" + nativeVersion + " serverVer " + MyApplication.SERVER_VERSION);
 			if (NetworkUtils.isConnectInternet(context) && nativeVersion < MyApplication.SERVER_VERSION
-					&& !TextUtils.isEmpty(MyApplication.UPDATE_APKURL)&&!isShowedUpdateDialog ) {
-				if ( updateDialog == null || (updateDialog != null && !updateDialog.isShowing())) {
-					isShowedUpdateDialog=true;
+					&& !TextUtils.isEmpty(MyApplication.UPDATE_APKURL) && !isShowedUpdateDialog) {
+				if (updateDialog == null || (updateDialog != null && !updateDialog.isShowing())) {
+					isShowedUpdateDialog = true;
 					updateDialog = DialogUtil.showMyAlertDialog(context, "提示：", "有新版本更新。", "马上更新", "下次再说",
 							new DialogBtnOnClickListener() {
 
