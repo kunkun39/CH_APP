@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_main" >
 
     <RelativeLayout
         android:id="@+id/rl_synch_content"
@@ -23,7 +24,8 @@
             android:layout_marginLeft="30dp"
             android:layout_toRightOf="@id/bt_backup"
             android:text="恢复" />
-        <Button
+
+        <Button
             android:id="@+id/bt_manage"
             android:layout_width="70dp"
             android:layout_height="70dp"
