@@ -43,6 +43,7 @@
         <activity android:name=".activity.PostActivity" android:theme="@style/anim_zoom"/>
         <activity android:name=".activity.DetailActivity" android:theme="@style/anim_zoom"/>
         <activity android:name=".activity.NativeAppActivity" android:theme="@style/anim_zoom"/>
+        <activity android:name=".activity.SynchronousActivity" android:theme="@style/anim_zoom"/>
 
         <receiver
             android:name="com.changhong.gdappstore.service.AppBroadcastReceiver"
