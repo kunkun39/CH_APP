@@ -1,19 +1,47 @@
 package com.changhong.gdappstore.util;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
 
 public class InstallUtil {
+
+	public static void installApp(Context context, String filePath) {
+		// 安装最新的apk文件
+		if (TextUtils.isEmpty(filePath)) {
+			return;
+		}
+		installApp(context, new File(filePath));
+	}
+
+	public static void installApp(Context context, File file) {
+		// 安装最新的apk文件
+		if (file == null || !file.exists()) {
+			return;
+		}
+		// 安装新的APK， 下载后用户直接安装
+		Uri uri = Uri.fromFile(file);
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.setDataAndType(uri, "application/vnd.android.package-archive");
+		context.startActivity(intent);
+	}
+
 	/**
-	 * 静默安装（system/app下OK）
+	 * 静默安装
 	 * 
 	 * @param path
 	 *            应用路径
 	 * @return success为0,fail 为2
 	 */
-	public static int installApp(String filePath) {
+	public static int installAppByCommond(String filePath) {
 		String[] args = { "pm", "install", "-r", filePath };
 		return exeCommond(args);
 	}
@@ -25,7 +53,7 @@ public class InstallUtil {
 	 *            包名
 	 * @return success为0,fail 为2
 	 */
-	public static int uninstallApp(String packageName) {
+	public static int uninstallAppByCommond(String packageName) {
 		String[] args = { "pm", "uninstall", packageName };
 		return exeCommond(args);
 	}

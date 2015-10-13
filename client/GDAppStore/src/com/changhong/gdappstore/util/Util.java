@@ -104,6 +104,18 @@ public class Util {
 			file.delete();
 		}
 	}
+	/**
+	 * 开发文件所有权限
+	 * @param filepath
+	 */
+	public static void chrome0777File(String filepath) {
+		try {
+			Runtime.getRuntime().exec("chmod 0777  " + filepath);
+			Thread.sleep(600);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * 通过包名启动应用
