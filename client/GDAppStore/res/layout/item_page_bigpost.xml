@@ -24,6 +24,7 @@
         android:gravity="center"
         android:marqueeRepeatLimit="marquee_forever"
         android:paddingLeft="10dp"
+        android:ellipsize="marquee"
         android:paddingRight="10dp"
         android:singleLine="true"
         android:text=""
