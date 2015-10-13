@@ -19,6 +19,7 @@ import com.changhong.gdappstore.activity.DetailActivity;
 import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.model.AppDetail;
 import com.changhong.gdappstore.util.DialogUtil;
+import com.changhong.gdappstore.util.InstallUtil;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
@@ -326,27 +327,13 @@ public class UpdateService {
 	}
 
 	private void installApp() {
-
 		// 安装最新的apk文件
 		if (!updateFile.exists()) {
 			return;
 		}
-
-		try {
-			L.d("updateFile=="+updateFile.getAbsolutePath().toString());
-			Runtime.getRuntime().exec("chmod 0777  " + baseUpdatePath);
-			Runtime.getRuntime().exec("chmod 0777  " + updateFile.getAbsolutePath().toString());
-			Thread.sleep(600);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		// 安装新的APK， 下载后用户直接安装
-		Uri uri = Uri.fromFile(updateFile);
-		Intent intent = new Intent(Intent.ACTION_VIEW);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		intent.setDataAndType(uri, "application/vnd.android.package-archive");
-		context.startActivity(intent);
+		Util.chrome0777File(baseUpdatePath);
+		Util.chrome0777File(updateFile.getAbsolutePath().toString());
+		InstallUtil.installApp(context, updateFile);
 	}
 
 }
