@@ -44,7 +44,7 @@
         <activity android:name=".activity.DetailActivity" android:theme="@style/anim_zoom"/>
         <activity android:name=".activity.NativeAppActivity" android:theme="@style/anim_zoom"/>
         <activity android:name=".activity.SynchronousActivity" android:theme="@style/anim_zoom"/>
-
+		<service android:name="com.changhong.gdappstore.service.SilentInstallService"></service>
         <receiver
             android:name="com.changhong.gdappstore.service.AppBroadcastReceiver"
             android:label="@string/app_name" >
