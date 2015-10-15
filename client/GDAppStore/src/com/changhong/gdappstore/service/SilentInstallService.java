@@ -89,14 +89,12 @@ public class SilentInstallService extends Service {
 				}
 			}).start();
 			try {
-				long t1 = System.currentTimeMillis();
 				Thread.sleep(5000);
 				silentInstallPos++;
 				if (silentInstallPos >= installApps.size()) {
 					stopSelf();
 					return;
 				}
-				L.d(TAG + " time==" + (System.currentTimeMillis() - t1));
 				App app = (App) installApps.get(silentInstallPos);
 				String apkLoadUrl = app.getPosterFilePath();// 临时使用海报图片路径变量代替apk下载路径变量
 				String apkname = apkLoadUrl.substring(apkLoadUrl.lastIndexOf("/") + 1, apkLoadUrl.length()).trim();
