@@ -36,6 +36,8 @@ public class Config {
 	public static String putAppDownloadOK = BASEURL + "/client/appdownload.html";
 	/** 获取详情推荐位推荐数据 */
 	public static String getDetailRecommendUrl = BASEURL + "client/appdetailsrecommend.html";
+	/** 获取静默安装静默卸载数据 */
+	public static String getSilentInstallUrl = BASEURL + "client/appmust.html";
 
 	/**
 	 * 
