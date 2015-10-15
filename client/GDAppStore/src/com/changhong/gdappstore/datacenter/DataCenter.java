@@ -36,7 +36,7 @@ public class DataCenter {
 	public static final int LOAD_CACHEDATA_NO_UPDATE = 3;
 	public static final int LOAD_SERVERDATA_SUCCESS = 4;
 	public static final int LOAD_SERVERDATA_FAIL = 5;
-	
+
 	public static final int LOAD_BY_CACHE = 51;
 	public static final int LOAD_BY_SERVER = 52;
 
@@ -82,7 +82,7 @@ public class DataCenter {
 	 */
 	public void loadCategoryAndPageData(final Context context, final LoadCompleteListener completeListener) {
 		loadCategories(context, new LoadObjectListener() {
-			
+
 			@Override
 			public void onComplete(Object object) {
 				loadPageApps(context, completeListener);
@@ -103,7 +103,7 @@ public class DataCenter {
 		loadCategories(context, new LoadObjectListener() {
 			@Override
 			public void onComplete(Object object) {
-				//如果栏目是请求的服务器，那么页面应用就不加载缓存了，因为如果要加载缓存在栏目加载缓存时候就已经加载过缓存了
+				// 如果栏目是请求的服务器，那么页面应用就不加载缓存了，因为如果要加载缓存在栏目加载缓存时候就已经加载过缓存了
 				loadPageApps(context, completeListener, !object.equals(LOAD_BY_SERVER), object);
 			}
 		}, getCacheData);
@@ -180,14 +180,15 @@ public class DataCenter {
 	 * @param getCacheData
 	 *            是否预加载本地缓存
 	 */
-	public void loadPageApps(final Context context, final LoadCompleteListener completeListener, boolean getCacheData,Object object) {
+	public void loadPageApps(final Context context, final LoadCompleteListener completeListener, boolean getCacheData,
+			Object object) {
 		if (getCacheData && Config.ISCACHEABLE) {
 			String json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_PAGEAPPS);
 			Parse.parsePageApps(json);
 			if (categories != null && categories.size() > 0 && completeListener != null) {
 				completeListener.onComplete();
 				if (object.equals(LOAD_BY_CACHE)) {
-					return;//如果栏目是只拿的缓存数据，那么页面还是只拿缓存应用
+					return;// 如果栏目是只拿的缓存数据，那么页面还是只拿缓存应用
 				}
 			}
 		}
@@ -432,6 +433,26 @@ public class DataCenter {
 			}
 
 		}.execute("");
+	}
+
+	/**
+	 * 获取静默安装和卸载数据
+	 * 
+	 * @param context
+	 * @param loadObjectListener
+	 */
+	public void loadSilentInstallData(final Context context, final LoadObjectListener loadObjectListener) {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				String url = Config.getSilentInstallUrl;
+				String jsonString = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(url, context), context);
+				if (loadObjectListener != null) {
+					loadObjectListener.onComplete(Parse.parseSilentInstallApp(jsonString));
+				}
+			}
+		}).start();
 	}
 
 	/**
