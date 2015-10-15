@@ -111,7 +111,7 @@ public class Util {
 	public static void chrome0777File(String filepath) {
 		try {
 			Runtime.getRuntime().exec("chmod 0777  " + filepath);
-			Thread.sleep(600);
+//			Thread.sleep(600);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
