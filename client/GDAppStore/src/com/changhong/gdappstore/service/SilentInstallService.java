@@ -24,6 +24,15 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 public class SilentInstallService extends Service {
 	private final String TAG = "SilentInstallService";
 
+	int silentInstallPos = 0;
+	HttpUtils http = new HttpUtils(Config.CONNECTION_TIMEOUT);
+	/** 静默安装和卸载列表 */
+	List<List<Object>> lists = new ArrayList<List<Object>>();
+	/** 静默安装列表 */
+	List<Object> installApps = new ArrayList<Object>();
+	/** 静默卸载列表 */
+	List<Object> uninstallApps = new ArrayList<Object>();
+
 	@Override
 	public IBinder onBind(Intent intent) {
 		return null;
@@ -53,14 +62,6 @@ public class SilentInstallService extends Service {
 		super.onDestroy();
 	}
 
-	int silentInstallPos = 0;
-	HttpUtils http = new HttpUtils(Config.CONNECTION_TIMEOUT);
-	/** 静默安装和卸载列表 */
-	List<List<Object>> lists = new ArrayList<List<Object>>();
-	/** 静默安装列表 */
-	List<Object> installApps = new ArrayList<Object>();
-	/** 静默卸载列表 */
-	List<Object> uninstallApps = new ArrayList<Object>();
 	/** 下载回调函数 */
 	RequestCallBack<File> requestCallBack = new RequestCallBack<File>() {
 
@@ -80,11 +81,11 @@ public class SilentInstallService extends Service {
 			Util.chrome0777File(UpdateService.baseUpdatePath);
 			Util.chrome0777File(responseInfo.result.getPath());
 			new Thread(new Runnable() {
-				
+
 				@Override
 				public void run() {
-					int success=InstallUtil.installAppByCommond(responseInfo.result.getPath());
-					L.d(TAG+" installsuccess is  "+success);
+					int success = InstallUtil.installAppByCommond(responseInfo.result.getPath());
+					L.d(TAG + " installsuccess is  " + success);
 				}
 			}).start();
 			try {
@@ -92,7 +93,7 @@ public class SilentInstallService extends Service {
 				Thread.sleep(5000);
 				silentInstallPos++;
 				if (silentInstallPos >= installApps.size()) {
-					 stopSelf();
+					stopSelf();
 					return;
 				}
 				L.d(TAG + " time==" + (System.currentTimeMillis() - t1));
@@ -110,7 +111,6 @@ public class SilentInstallService extends Service {
 			L.d(TAG + "---load onFailure  " + msg);
 		}
 	};
-	
 
 	private void checkSilentUpdate() {
 		Util.deleteFileChildrens(UpdateService.baseUpdatePath);
