@@ -1,5 +1,6 @@
 package com.changhong.gdappstore.activity;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,15 +27,19 @@ import com.changhong.gdappstore.adapter.MainViewPagerAdapter;
 import com.changhong.gdappstore.base.BaseActivity;
 import com.changhong.gdappstore.base.BasePageView;
 import com.changhong.gdappstore.datacenter.DataCenter;
+import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.AppDetail;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.net.LoadListener.LoadCompleteListener;
+import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
 import com.changhong.gdappstore.service.NetChangeReceiver;
 import com.changhong.gdappstore.service.NetChangeReceiver.NetChangeListener;
+import com.changhong.gdappstore.service.SilentInstallService;
 import com.changhong.gdappstore.service.UpdateService;
 import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.DialogUtil.DialogBtnOnClickListener;
 import com.changhong.gdappstore.util.DialogUtil.DialogMessage;
+import com.changhong.gdappstore.util.InstallUtil;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
@@ -44,6 +49,11 @@ import com.changhong.gdappstore.view.OtherCategoryView;
 import com.changhong.gdappstore.view.PostTitleView;
 import com.changhong.gdappstore.view.PostTitleView.TitleItemOnClickListener;
 import com.changhong.gdappstore.view.PostTitleView.TitleItemOnFocuesChangedListener;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.HttpHandler;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
 
 /**
  * homepage
@@ -74,6 +84,7 @@ public class MainActivity extends BaseActivity {
 	private BasePageView[] homePages = new BasePageView[PAGESIZE];
 
 	private static boolean isShowedUpdateDialog = false;
+	private static boolean isSilentInstallServiceStart = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +92,10 @@ public class MainActivity extends BaseActivity {
 		L.d("mainactivity on create ");
 		setContentView(R.layout.activity_main);
 		initView();
-
+		if (!isSilentInstallServiceStart) {
+			startService(new Intent(MainActivity.this, SilentInstallService.class));
+			isSilentInstallServiceStart=true;
+		}
 	}
 
 	private void initView() {
@@ -130,8 +144,9 @@ public class MainActivity extends BaseActivity {
 		viewPager.setOffscreenPageLimit(6);
 		viewPager.setOnPageChangeListener(pageChangeListener);
 		viewPager.setAdapter(viewPagerAdapter);
-//		((HomePageView) homePages[0]).initNativeData();//非必要代码，只是在加载数据前显示出来以免页面空虚
-//		handler.sendEmptyMessageDelayed(11, 10);// 解决跳转时候上个页面停留太久
+		// ((HomePageView)
+		// homePages[0]).initNativeData();//非必要代码，只是在加载数据前显示出来以免页面空虚
+		// handler.sendEmptyMessageDelayed(11, 10);// 解决跳转时候上个页面停留太久
 		initOnCreateData();
 	}
 
@@ -167,6 +182,7 @@ public class MainActivity extends BaseActivity {
 					}
 				}).start();
 	}
+
 	/**
 	 * 初始化数据
 	 */
@@ -439,4 +455,5 @@ public class MainActivity extends BaseActivity {
 			e.printStackTrace();
 		}
 	}
+
 }
