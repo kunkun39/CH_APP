@@ -134,7 +134,8 @@ public class Parse {
 				}
 			}
 			// TODO 将首页手动添加为第一个
-			categories.add(0, new Category(0, -1, Config.HOMEPAGE, "", new ArrayList<Category>(), new ArrayList<PageApp>()));
+			categories.add(0, new Category(0, -1, Config.HOMEPAGE, "", new ArrayList<Category>(),
+					new ArrayList<PageApp>()));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -239,7 +240,7 @@ public class Parse {
 	private static List<Object> sortAppByRecommend(List<Object> apps) {
 		// 将推荐标识的放在前面
 		List<Object> sortapps = new ArrayList<Object>();
-		if (apps==null) {
+		if (apps == null) {
 			return sortapps;
 		}
 		for (int i = 0; i < apps.size(); i++) {
@@ -281,6 +282,58 @@ public class Parse {
 		}
 
 		return sortAppByRecommend(apps);
+	}
+
+	/**
+	 * 解析静默安装静默卸载应用
+	 * 
+	 * @param categoryAppJson
+	 * @return
+	 */
+	public static List<List<Object>> parseSilentInstallApp(String categoryAppJson) {
+		List<List<Object>> apps=new ArrayList<List<Object>>();
+		List<Object> silentInstallApps = new ArrayList<Object>();
+		List<Object> silentUnInstallApps = new ArrayList<Object>();
+		apps.add(silentInstallApps);//安装列表
+		apps.add(silentUnInstallApps);//卸载列表
+		if (TextUtils.isEmpty(categoryAppJson)) {
+			L.w("returned by categoryAppJson is empty when parseRecommendApp");
+			return apps;
+		}
+		try {
+			JSONObject object = new JSONObject(categoryAppJson);
+			String host = object.getString(HOST).trim();
+			JSONArray array = object.getJSONArray(VALUES);
+			for (int i = 0; i < array.length(); i++) {
+				App app = new App();
+				JSONObject appobject = array.getJSONObject(i);
+				if (appobject.has(APP_ID)) {
+					app.setAppid(appobject.getInt(APP_ID));
+				}
+				if (appobject.has(APP_PACKAGE)) {
+					app.setPackageName(appobject.getString(APP_PACKAGE).trim());
+				}
+				if (appobject.has(APP_KEY)) {
+					app.setAppkey(appobject.getString(APP_KEY).trim());
+				}
+				if (appobject.has(APP_VERSION_INT)) {
+					app.setVersionInt(appobject.getInt(APP_VERSION_INT));
+				}
+				if (appobject.has(APP_APK_FILEPATH) && !TextUtils.isEmpty(appobject.getString(APP_APK_FILEPATH))) {
+					app.setPosterFilePath(host + app.getAppkey() + "/" + appobject.getString(APP_APK_FILEPATH).trim());
+					//TODO 使用海报图片路径代替apk路径
+				}
+				boolean install = appobject.getBoolean("install");
+				if (install) {
+					silentInstallApps.add(app);
+				} else {
+					silentUnInstallApps.add(app);
+				}
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return apps;
 	}
 
 	public static AppDetail parseAppDetail(String appdetailJson) {
