@@ -242,6 +242,24 @@ public class Util {
 		}
 		return false;
 	}
+	
+	/**
+	 * 去除list里面的空值。
+	 * @param list
+	 * @return
+	 */
+	public static <T> List<T> clearListNullItem(List<T> list) {
+		if (listIsEmpty(list)) {
+			return list;
+		}
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i) == null) {
+				list.remove(i);//去除空值
+				i--;
+			}
+		}
+		return list;
+	}
 
 	// public static Bitmap convertViewToBitmap(View view) {
 	// if (view==null) {
