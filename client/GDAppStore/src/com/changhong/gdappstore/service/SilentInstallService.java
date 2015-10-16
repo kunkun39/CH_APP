@@ -21,7 +21,11 @@ import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
-
+/**
+ * 静默安装和静默卸载service
+ * @author wangxiufeng
+ *
+ */
 public class SilentInstallService extends Service {
 	private final String TAG = "SilentInstallService";
 
