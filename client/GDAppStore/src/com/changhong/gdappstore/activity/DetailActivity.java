@@ -149,7 +149,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 					tv_version.setText(appDetail.getVersion());
 					tv_introduce.setText(appDetail.getDescription());
 					tv_updatetime.setText(appDetail.getUpdateDate());
-					iv_recommend.setVisibility(appDetail.isRecommend()?VISIBLE:INVISIBLE);
+//					iv_recommend.setVisibility(appDetail.isRecommend()?VISIBLE:INVISIBLE);
 					ImageLoadUtil.displayImgByNoCache(appDetail.getIconFilePath(), iv_icon);
 					ImageLoadUtil.displayImgByNoCache(appDetail.getPosterFilePath(), iv_post);
 					updateBtnState();
