@@ -7,7 +7,7 @@
     <LinearLayout
         android:id="@+id/ll_title"
         android:layout_width="match_parent"
-        android:layout_height="69dp"
+        android:layout_height="@dimen/ll_title_height"
         android:background="@drawable/bg_maintitle" >
 
         <ImageView
@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="@dimen/iv_logo_marginleft"
             android:src="@drawable/img_logo" />
     </LinearLayout>
 

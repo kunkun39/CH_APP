@@ -2,11 +2,8 @@
 <resources>
 
     <!-- 标题 -->
-    <dimen name="title_btn_width">115dp</dimen>
-    <dimen name="title_btn_height">47dp</dimen>
-    <dimen name="title_paddingbottom">15dp</dimen>
-    <dimen name="title_btn_marginleft">40dp</dimen>
-    <dimen name="title_btn_textsize">28sp</dimen>
+    <dimen name="ll_title_height">69dp</dimen>
+    <dimen name="iv_logo_marginleft">30dp</dimen>
 
     <!-- 一级页面推荐位 -->
     <dimen name="item_square1_width">240dp</dimen>
