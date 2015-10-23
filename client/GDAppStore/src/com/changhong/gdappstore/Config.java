@@ -38,6 +38,8 @@ public class Config {
 	public static String getDetailRecommendUrl = BASEURL + "client/appdetailsrecommend.html";
 	/** 获取静默安装静默卸载数据 */
 	public static String getSilentInstallUrl = BASEURL + "client/appmust.html";
+	/** 获取开机画面图片信息 */
+	public static String getBootADUrl = BASEURL + "client/bootadvertise.html";
 
 	/**
 	 * 
@@ -60,4 +62,8 @@ public class Config {
 	public static final String HOMEPAGE = "首页";
 	/**在首页显示几个栏目的页面**/
 	public static final int showCatPageSize = 4;
+	/**默认和apk一样的开机广告图片*/
+	public final static String INITIAL = "initial.png";
+	/**广告图片地址获取key*/
+	public final static String KEY_BOOTADIMG = "bootadimg";
 }

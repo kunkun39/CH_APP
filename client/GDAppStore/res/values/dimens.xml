@@ -19,7 +19,7 @@
     <dimen name="item_first_margintop">35dp</dimen>
     <dimen name="txtsize_home_appname">18sp</dimen>
     <dimen name="txtsize_home_categoryname">22sp</dimen>
-     <!-- 一级页面 “其它”页面 -->
+    <!-- 一级页面 “其它”页面 -->
     <dimen name="item_otc_width1">288dp</dimen>
     <dimen name="item_otc_height1">201dp</dimen>
     <dimen name="item_otc_width2">131dp</dimen>
@@ -61,5 +61,11 @@
     <dimen name="dialog_width">588dp</dimen>
     <dimen name="dialog_height">229dp</dimen>
     <dimen name="iv_dialog_title_margintop">-5dp</dimen>
+
+    <!-- 云同步首页 -->
+    <dimen name="tv_synch_home_suggest_margintop">330dp</dimen>
+    <dimen name="tv_synch_home_suggest_textsize">22sp</dimen>
+    <dimen name="iv_synch_home_itemwidth">310dp</dimen>
+    <dimen name="rl_synch_home_marginleft">-9dp</dimen>
 
 </resources>
