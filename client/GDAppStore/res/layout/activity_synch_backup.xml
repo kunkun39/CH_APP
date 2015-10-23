@@ -27,6 +27,41 @@
         android:text="云同步"
         android:textColor="@color/white"
         android:textSize="28dp" />
-    
-    
-</RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_backup_batch"
+        android:layout_width="284dp"
+        android:layout_height="422dp"
+        android:layout_marginLeft="57dp"
+        android:layout_marginTop="185dp" >
+
+        <ImageView
+            android:layout_width="254dp"
+            android:layout_height="412dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/bg_batch_btnbg" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="90dp"
+            android:background="@drawable/img_batch" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="240dp"
+            android:text="按菜单键批量备份"
+            android:textColor="@color/white"
+            android:textSize="24dp" />
+        <Button
+            android:id="@+id/bt_batch"
+            android:layout_width="match_parent"
+            android:layout_height="103dp"
+            android:background="@drawable/selector_square_focues"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+</RelativeLayout>
