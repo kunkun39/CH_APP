@@ -21,7 +21,9 @@ import com.changhong.gdappstore.net.LoadListener.LoadCompleteListener;
 import com.changhong.gdappstore.net.LoadListener.LoadListListener;
 import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
 import com.changhong.gdappstore.service.CacheManager;
+import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.L;
+import com.changhong.gdappstore.util.SharedPreferencesUtil;
 
 /**
  * 数据中心类
@@ -450,6 +452,32 @@ public class DataCenter {
 				String jsonString = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(url, context), context);
 				if (loadObjectListener != null) {
 					loadObjectListener.onComplete(Parse.parseSilentInstallApp(jsonString));
+				}
+			}
+		}).start();
+	}
+	/**
+	 * 下载广告图片
+	 * @param context
+	 * @param loadObjectListener
+	 */
+	public void loadBootADData(final Context context, final LoadObjectListener loadObjectListener) {
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				String url = Config.getBootADUrl;
+				String jsonString = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(url, context), context);
+				String bootADUrl=Parse.parseBootAD(jsonString);
+				
+				if (!TextUtils.isEmpty(bootADUrl)) {
+					if (bootADUrl.endsWith(Config.INITIAL)) {//和apk默认广告图片一样
+						bootADUrl="";
+					}
+					SharedPreferencesUtil.putJsonCache(context, Config.KEY_BOOTADIMG, bootADUrl);
+				}
+				if (loadObjectListener != null) {
+				   loadObjectListener.onComplete(bootADUrl);
 				}
 			}
 		}).start();

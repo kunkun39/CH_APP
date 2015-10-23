@@ -27,6 +27,8 @@ import com.changhong.gdappstore.util.Util;
  * 
  */
 public class Parse {
+	
+	/**************************************************************************/
 	public final static String HOST = "host";
 	public final static String VALUES = "values";
 	/**
@@ -334,6 +336,27 @@ public class Parse {
 			e.printStackTrace();
 		}
 		return apps;
+	}
+	/**
+	 * 解析广告数据
+	 * @param bootADJson
+	 * @return
+	 */
+	public static String parseBootAD(String bootADJson) {
+		if (TextUtils.isEmpty(bootADJson)) {
+			L.w("returned by appdetailJson is empty when bootADJson");
+			return "";
+		}
+		String bootADUrl="";
+		try {
+			JSONObject object=new JSONObject(bootADJson);
+			String host=object.getString(HOST);
+			String bootImg=object.getString("boot_img");
+			bootADUrl=host+bootImg;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return bootADUrl;
 	}
 
 	public static AppDetail parseAppDetail(String appdetailJson) {
