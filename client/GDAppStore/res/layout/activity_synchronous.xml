@@ -160,7 +160,7 @@
             android:id="@+id/iv_sync_shandow1"
             android:layout_width="@dimen/iv_synch_home_itemwidth"
             android:layout_height="94dp"
-            android:background="@drawable/img_shandow_backup" />
+            android:src="@drawable/img_shandow_backup" />
 
         <ImageView
             android:id="@+id/iv_sync_shandow2"
@@ -169,7 +169,7 @@
             android:layout_alignTop="@id/iv_sync_shandow1"
             android:layout_marginLeft="22dp"
             android:layout_toRightOf="@id/iv_sync_shandow1"
-            android:background="@drawable/img_shandow_recover" />
+            android:src="@drawable/img_shandow_recover" />
 
         <ImageView
             android:id="@+id/iv_sync_shandow3"
@@ -178,7 +178,7 @@
             android:layout_alignTop="@id/iv_sync_shandow1"
             android:layout_marginLeft="22dp"
             android:layout_toRightOf="@id/iv_sync_shandow2"
-            android:background="@drawable/img_shandow_manage" />
+            android:src="@drawable/img_shandow_manage" />
     </RelativeLayout>
 
 </RelativeLayout>
