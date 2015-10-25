@@ -72,18 +72,16 @@
     <GridView
         android:id="@+id/gridview"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/rl_backup_batch"
+        android:layout_height="410dp"
         android:layout_alignTop="@id/rl_backup_batch"
         android:layout_marginLeft="-20dp"
         android:layout_marginRight="52dp"
         android:layout_toRightOf="@id/rl_backup_batch"
-        android:columnWidth="250dp"
         android:horizontalSpacing="10dp"
         android:listSelector="@drawable/selector_square_focues"
         android:numColumns="3"
         android:scrollbars="none"
-        android:verticalSpacing="10dp" >
+        android:verticalSpacing="15dp" >
     </GridView>
 
 </RelativeLayout>
