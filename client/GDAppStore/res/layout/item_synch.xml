@@ -53,5 +53,22 @@
             android:textColor="@color/black"
             android:textSize="16dp" />
     </RelativeLayout>
-
+	<ImageView 
+	    android:id="@+id/iv_isbackup"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentTop="true"
+	    android:layout_alignParentRight="true"
+	    android:visibility="invisible"
+	    android:src="@drawable/img_batched"
+	    />
+	<ImageView 
+	    android:id="@+id/iv_check"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentTop="true"
+	    android:layout_alignParentRight="true"
+	    android:visibility="invisible"
+	    android:src="@drawable/img_check"
+	    />
 </RelativeLayout>

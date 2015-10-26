@@ -61,21 +61,21 @@
             android:id="@+id/bt_batch"
             android:layout_width="match_parent"
             android:layout_height="98dp"
-            android:text="批量备份"
-            android:textColor="@color/white"
-            android:textSize="28dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/selector_square_focues" />
+            android:background="@drawable/selector_square_focues"
+            android:text="批量备份"
+            android:textColor="@color/white"
+            android:textSize="28dp" />
     </RelativeLayout>
 
     <GridView
         android:id="@+id/gridview"
         android:layout_width="wrap_content"
         android:layout_height="420dp"
-        android:layout_marginTop="185dp"
         android:layout_marginLeft="-20dp"
         android:layout_marginRight="40dp"
+        android:layout_marginTop="185dp"
         android:layout_toRightOf="@id/rl_backup_batch"
         android:horizontalSpacing="10dp"
         android:listSelector="@drawable/selector_square_focues"
@@ -83,43 +83,48 @@
         android:scrollbars="none"
         android:verticalSpacing="15dp" >
     </GridView>
-	<ImageView 
-	    android:id="@+id/iv_shandow_batch"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_below="@id/rl_backup_batch"
-	    android:layout_alignLeft="@id/rl_backup_batch"
-	    android:layout_alignRight="@id/rl_backup_batch"
-	    android:paddingLeft="12.5dp"
-	    android:paddingRight="12.5dp"
-	    android:src="@drawable/img_shandow_batch"
-	    android:layout_marginTop="-10dp"
-	    />
-	<ImageView 
-	    android:id="@+id/iv_shandow_item1"
-	    android:layout_width="242dp"
-	    android:layout_height="wrap_content"
-	    android:layout_toRightOf="@id/iv_shandow_batch"
-	    android:layout_alignTop="@id/iv_shandow_batch"
-	    android:layout_marginLeft="-4dp"
-	    android:src="@drawable/img_shandow_griditem"
-	    />
-	<ImageView 
-	    android:id="@+id/iv_shandow_item2"
-	    android:layout_width="242dp"
-	    android:layout_height="wrap_content"
-	    android:layout_toRightOf="@id/iv_shandow_item1"
-	    android:layout_alignTop="@id/iv_shandow_item1"
-	    android:layout_marginLeft="10dp"
-	    android:src="@drawable/img_shandow_griditem"
-	    />
-	<ImageView 
-	    android:id="@+id/iv_shandow_item3"
-	    android:layout_width="242dp"
-	    android:layout_height="wrap_content"
-	    android:layout_toRightOf="@id/iv_shandow_item2"
-	    android:layout_alignTop="@id/iv_shandow_item2"
-	    android:layout_marginLeft="10dp"
-	    android:src="@drawable/img_shandow_griditem"
-	    />
+
+    <ImageView
+        android:id="@+id/iv_shandow_batch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/rl_backup_batch"
+        android:layout_alignRight="@id/rl_backup_batch"
+        android:layout_below="@id/rl_backup_batch"
+        android:layout_marginTop="-10dp"
+        android:paddingLeft="12.5dp"
+        android:paddingRight="12.5dp"
+        android:src="@drawable/img_shandow_batch" />
+
+    <ImageView
+        android:id="@+id/iv_shandow_item1"
+        android:layout_width="309dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/iv_shandow_batch"
+        android:layout_marginLeft="-5dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@id/iv_shandow_batch"
+        android:scaleType="fitXY"
+        android:src="@drawable/img_shandow_griditem" />
+
+    <ImageView
+        android:id="@+id/iv_shandow_item2"
+        android:layout_width="309dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/iv_shandow_item1"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/iv_shandow_item1"
+        android:scaleType="fitXY"
+        android:src="@drawable/img_shandow_griditem" />
+
+    <ImageView
+        android:id="@+id/iv_shandow_item3"
+        android:layout_width="309dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/iv_shandow_item2"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/iv_shandow_item2"
+        android:scaleType="fitXY"
+        android:src="@drawable/img_shandow_griditem" />
+
 </RelativeLayout>
