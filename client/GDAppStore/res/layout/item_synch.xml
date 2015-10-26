@@ -27,7 +27,7 @@
             android:layout_marginRight="10dp"
             android:ellipsize="marquee"
             android:singleLine="true"
-            android:text="应用名字"
+            android:text=""
             android:textColor="@color/white"
             android:textSize="22dp" />
 
@@ -54,13 +54,13 @@
             android:textSize="16dp" />
     </RelativeLayout>
 	<ImageView 
-	    android:id="@+id/iv_isbackup"
+	    android:id="@+id/iv_synchtype"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_alignParentTop="true"
 	    android:layout_alignParentRight="true"
 	    android:visibility="invisible"
-	    android:src="@drawable/img_batched"
+	    android:src="@drawable/img_backuped"
 	    />
 	<ImageView 
 	    android:id="@+id/iv_check"
