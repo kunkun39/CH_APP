@@ -30,13 +30,13 @@
 
     <RelativeLayout
         android:id="@+id/rl_backup_batch"
-        android:layout_width="284dp"
+        android:layout_width="234dp"
         android:layout_height="422dp"
-        android:layout_marginLeft="52dp"
+        android:layout_marginLeft="42dp"
         android:layout_marginTop="185dp" >
 
         <ImageView
-            android:layout_width="254dp"
+            android:layout_width="214dp"
             android:layout_height="412dp"
             android:layout_centerHorizontal="true"
             android:background="@drawable/bg_batch_btnbg" />
@@ -72,10 +72,10 @@
     <GridView
         android:id="@+id/gridview"
         android:layout_width="wrap_content"
-        android:layout_height="410dp"
+        android:layout_height="420dp"
         android:layout_alignTop="@id/rl_backup_batch"
         android:layout_marginLeft="-20dp"
-        android:layout_marginRight="52dp"
+        android:layout_marginRight="40dp"
         android:layout_toRightOf="@id/rl_backup_batch"
         android:horizontalSpacing="10dp"
         android:listSelector="@drawable/selector_square_focues"

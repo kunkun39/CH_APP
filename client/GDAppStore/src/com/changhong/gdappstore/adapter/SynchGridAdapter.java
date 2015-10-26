@@ -50,7 +50,7 @@ public class SynchGridAdapter extends BaseAdapter {
 		ViewHolder viewHolder;
 		if (convertView==null) {
 			viewHolder =new ViewHolder();
-			convertView=LayoutInflater.from(context).inflate(R.layout.item_synch, null);
+			convertView=LayoutInflater.from(context).inflate(R.layout.item_synch, parent,false);
 			viewHolder.iv_icon=(ImageView) convertView.findViewById(R.id.iv_icon);
 			viewHolder.tv_name=(TextView)convertView.findViewById(R.id.tv_appname);
 			viewHolder.tv_version=(TextView)convertView.findViewById(R.id.tv_version);
