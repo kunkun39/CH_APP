@@ -22,7 +22,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="110dp"
+        android:layout_marginLeft="50dp"
         android:layout_marginTop="90dp"
         android:text="云同步"
         android:textColor="@color/white"
@@ -83,5 +83,43 @@
         android:scrollbars="none"
         android:verticalSpacing="15dp" >
     </GridView>
-
+	<ImageView 
+	    android:id="@+id/iv_shandow_batch"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@id/rl_backup_batch"
+	    android:layout_alignLeft="@id/rl_backup_batch"
+	    android:layout_alignRight="@id/rl_backup_batch"
+	    android:paddingLeft="12.5dp"
+	    android:paddingRight="12.5dp"
+	    android:src="@drawable/img_shandow_batch"
+	    android:layout_marginTop="-10dp"
+	    />
+	<ImageView 
+	    android:id="@+id/iv_shandow_item1"
+	    android:layout_width="242dp"
+	    android:layout_height="wrap_content"
+	    android:layout_toRightOf="@id/iv_shandow_batch"
+	    android:layout_alignTop="@id/iv_shandow_batch"
+	    android:layout_marginLeft="-4dp"
+	    android:src="@drawable/img_shandow_griditem"
+	    />
+	<ImageView 
+	    android:id="@+id/iv_shandow_item2"
+	    android:layout_width="242dp"
+	    android:layout_height="wrap_content"
+	    android:layout_toRightOf="@id/iv_shandow_item1"
+	    android:layout_alignTop="@id/iv_shandow_item1"
+	    android:layout_marginLeft="10dp"
+	    android:src="@drawable/img_shandow_griditem"
+	    />
+	<ImageView 
+	    android:id="@+id/iv_shandow_item3"
+	    android:layout_width="242dp"
+	    android:layout_height="wrap_content"
+	    android:layout_toRightOf="@id/iv_shandow_item2"
+	    android:layout_alignTop="@id/iv_shandow_item2"
+	    android:layout_marginLeft="10dp"
+	    android:src="@drawable/img_shandow_griditem"
+	    />
 </RelativeLayout>

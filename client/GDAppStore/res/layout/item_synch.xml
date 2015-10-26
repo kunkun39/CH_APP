@@ -37,6 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/tv_appname"
             android:layout_below="@id/tv_appname"
+            android:layout_marginTop="10dp"
             android:text="最新版本："
             android:textColor="@color/black"
             android:textSize="16dp" />
