@@ -14,6 +14,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.adapter.SynchGridAdapter;
@@ -24,10 +25,15 @@ import com.changhong.gdappstore.util.L;
 
 public class SynchBackUpActivity extends BaseActivity implements OnClickListener, OnKeyListener {
 
+	private static final String DOBATCH = "批量备份";
+	private static final String SUBMIT_BACKUP = "确认备份";
 	private GridView gridView;
 	private SynchGridAdapter adapter;
 	private Button bt_batch;
-	private ImageView iv_shandow_item2, iv_shandow_item3;
+	private ImageView iv_shandow_item2, iv_shandow_item3, iv_batch_icon;
+	private TextView tv_batch_suggest, tv_num_checked, tv_ge;
+	/** 批量操作时候选择的item个数 */
+	private int curCheckedItem = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +48,21 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 		iv_shandow_item2 = findView(R.id.iv_shandow_item2);
 		iv_shandow_item3 = findView(R.id.iv_shandow_item3);
 
+		adapter = new SynchGridAdapter(context, null);
 		gridView.setOnItemSelectedListener(itemSelectedListener);
 		gridView.setOnItemClickListener(onItemClickListener);
-		adapter = new SynchGridAdapter(context, null);
+		gridView.setOnKeyListener(this);
 		gridView.setAdapter(adapter);
+
 		bt_batch = findView(R.id.bt_batch);
 		bt_batch.setOnKeyListener(this);
-		gridView.setOnKeyListener(this);
 		bt_batch.setOnClickListener(this);
+		bt_batch.requestFocus();
+
+		tv_batch_suggest = findView(R.id.tv_batch_suggest);
+		tv_num_checked = findView(R.id.tv_num_checked);
+		iv_batch_icon = findView(R.id.iv_batch_icon);
+		tv_ge = findView(R.id.tv_ge);
 	}
 
 	private void initData() {
@@ -61,7 +74,7 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 			app.setSynchType(Type.NORMAL);
 			items.add(app);
 		}
-		adapter.setBatch(true);
+		adapter.setBatch(false);
 		adapter.updateList(items);
 	}
 
@@ -70,11 +83,62 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 		switch (v.getId()) {
 		case R.id.bt_batch:
 			// 批量备份
-
+			doBatchOnClick();
 			break;
 
 		default:
 			break;
+		}
+	}
+
+	/**
+	 * 批量操作按钮点击事件响应
+	 */
+	private void doBatchOnClick() {
+		if (bt_batch.getText().toString().equals(SUBMIT_BACKUP)) {
+			// 已经是批量操作了，执行批量提交
+			// TODO 提交数据
+
+			bt_batch.setText(DOBATCH);
+			tv_batch_suggest.setText("按菜单键批量备份");
+			iv_batch_icon.setVisibility(VISIBLE);
+			tv_num_checked.setVisibility(INVISIBLE);
+			tv_ge.setVisibility(INVISIBLE);
+			adapter.setBatch(false);
+		} else {
+			// 从正常操作转向批量操作
+			bt_batch.setText("确认备份");
+			tv_batch_suggest.setText("已经选择");
+			iv_batch_icon.setVisibility(INVISIBLE);
+			refreshCheckedItemCount();
+			refreshCheckedItemText();
+			adapter.setBatch(true);
+		}
+	}
+
+	/**
+	 * 批量操作时候，刷新选中的个数
+	 */
+	private void refreshCheckedItemText() {
+		tv_num_checked.setVisibility(VISIBLE);
+		tv_ge.setVisibility(VISIBLE);
+		tv_num_checked.setText(curCheckedItem + "");
+	}
+	/**
+	 * 刷新批量操作时候的选择个数
+	 */
+	private void refreshCheckedItemCount() {
+		curCheckedItem=0;
+		List<SynchApp> items=adapter.getItems();
+		if (items!=null) {
+			for (int i = 0; i < items.size(); i++) {
+				if (items.get(i).isChecked()) {
+					curCheckedItem++;
+				}
+			}
+		}
+		if (tv_num_checked.getVisibility()==VISIBLE) {
+			refreshCheckedItemText();
 		}
 	}
 
@@ -107,21 +171,23 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 		}
 		return false;
 	}
-	
-	OnItemClickListener onItemClickListener=new OnItemClickListener() {
+
+	OnItemClickListener onItemClickListener = new OnItemClickListener() {
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			if (adapter.isBatch()) {
-				//批量操作
-				SynchApp app=(SynchApp) adapter.getItem(position);
-				if (app!=null) {
+				// 批量操作
+				SynchApp app = (SynchApp) adapter.getItem(position);
+				if (app != null) {
+					curCheckedItem = app.isChecked() ? curCheckedItem - 1 : curCheckedItem + 1;
+					refreshCheckedItemText();
 					app.setChecked(!app.isChecked());
 					adapter.notifyDataSetChanged();
 				}
-			}else {
-				//普通操作
-				
+			} else {
+				// 普通操作
+
 			}
 		}
 	};

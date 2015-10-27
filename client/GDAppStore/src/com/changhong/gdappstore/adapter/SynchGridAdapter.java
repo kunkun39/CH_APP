@@ -40,6 +40,10 @@ public class SynchGridAdapter extends BaseAdapter {
 		this.isBatch = isbatch;
 		notifyDataSetChanged();
 	}
+	
+	public List<SynchApp> getItems() {
+		return items;
+	}
 
 	@Override
 	public int getCount() {
@@ -115,7 +119,10 @@ public class SynchGridAdapter extends BaseAdapter {
 	public boolean isBatch() {
 		return isBatch;
 	}
-
+	/**
+	 * 转向批量操作，会调用notifyDataSetChanged();
+	 * @param isBatch
+	 */
 	public void setBatch(boolean isBatch) {
 		this.isBatch = isBatch;
 		notifyDataSetChanged();
