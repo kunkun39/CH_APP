@@ -151,7 +151,7 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 			postBackUp(ids);
 		} else {
 			// 从正常操作转向批量操作
-			bt_batch.setText("确认备份");
+			bt_batch.setText(SUBMIT_BACKUP);
 			tv_batch_suggest.setText("已经选择");
 			iv_batch_icon.setVisibility(INVISIBLE);
 			refreshCheckedItemCount();
@@ -263,7 +263,7 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			SynchApp app = (SynchApp) adapter.getItem(position);
-			if (adapter.isBatch()) {
+			if (adapter.isBatch() && app.getSynchType() != Type.BACKUPED) {
 				// 批量操作
 
 				if (app != null) {

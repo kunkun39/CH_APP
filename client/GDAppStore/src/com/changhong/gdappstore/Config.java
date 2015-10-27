@@ -45,7 +45,7 @@ public class Config {
 	/**请求备份*/
 	public static String postBackup = BASEURL + "client/requestBackupApp.html";
 	/**获取已备份应用列表*/
-	public static String getBackupApp = BASEURL + "client/getBackupApp.html";
+	public static String getBackupApps = BASEURL + "client/getBackupApp.html";
 	/**删除已备份应用*/
 	public static String deleteBackupApp = BASEURL + "client/deleteBackupApp.html";
 

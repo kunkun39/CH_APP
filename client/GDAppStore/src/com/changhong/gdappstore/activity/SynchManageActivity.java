@@ -1,21 +1,19 @@
 package com.changhong.gdappstore.activity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.adapter.SynchGridAdapter;
@@ -31,8 +29,8 @@ import com.changhong.gdappstore.util.Util;
 
 public class SynchManageActivity extends BaseActivity implements OnClickListener, OnKeyListener {
 
-	private static final String DOBATCH = "批量备份";
-	private static final String SUBMIT_BACKUP = "确认备份";
+	private static final String DOBATCH = "批量删除";
+	private static final String SUBMIT_DELETE = "确认删除";
 	private GridView gridView;
 	private SynchGridAdapter adapter;
 	private Button bt_batch;
@@ -74,15 +72,7 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 
 	private void initData() {
 		adapter.setBatch(false);
-		List<String> packages = new ArrayList<String>();
-		// 获取本地已安装应用的报名
-		final List<Object> nativeApps = Util.getApp(context);
-		for (int i = 0; i < nativeApps.size(); i++) {
-			if (nativeApps.get(i) != null && !TextUtils.isEmpty(((NativeApp) nativeApps.get(i)).getAppPackage())) {
-				packages.add(((NativeApp) nativeApps.get(i)).getAppPackage());
-			}
-		}
-		DataCenter.getInstance().checkBackUpApp(packages, context, new LoadObjectListener() {
+		DataCenter.getInstance().loadBackUpApps(context, new LoadObjectListener() {
 
 			@Override
 			public void onComplete(Object object) {
@@ -97,14 +87,14 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 					iv_shandow_item3.setVisibility(VISIBLE);
 				}
 				if (items != null) {
+					List<Object> nativeApps = Util.getApp(context);
 					for (int i = 0; i < items.size(); i++) {
 						SynchApp synchApp = items.get(i);
 						for (int j = 0; j < nativeApps.size(); j++) {
 							NativeApp nativeApp = (NativeApp) nativeApps.get(j);
 							if (synchApp.getPackageName().equals(nativeApp.appPackage)) {
-								synchApp.setAppname(nativeApp.appname);
 								synchApp.setAppIcon(nativeApp.appIcon);
-								synchApp.setVersionInt(nativeApp.nativeVersionInt);
+								synchApp.setSynchType(Type.RECOVERED);
 							}
 						}
 					}
@@ -135,7 +125,7 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 			DialogUtil.showShortToast(context, "没有应用存在，无法执行批量操作！");
 			return;
 		}
-		if (bt_batch.getText().toString().equals(SUBMIT_BACKUP)) {
+		if (bt_batch.getText().toString().equals(SUBMIT_DELETE)) {
 			// 已经是批量操作了，执行批量提交
 			String ids = "";
 			for (int i = 0; i < adapter.getCount(); i++) {
@@ -148,10 +138,10 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 					}
 				}
 			}
-			postBackUp(ids);
+			deleteBackUp(ids);
 		} else {
 			// 从正常操作转向批量操作
-			bt_batch.setText("确认备份");
+			bt_batch.setText(SUBMIT_DELETE);
 			tv_batch_suggest.setText("已经选择");
 			iv_batch_icon.setVisibility(INVISIBLE);
 			refreshCheckedItemCount();
@@ -195,8 +185,8 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 	 * @param isbatch
 	 *            是否是批量操作
 	 */
-	private void postBackUp(String ids) {
-		DataCenter.getInstance().postBackup(ids, context, new LoadObjectListener() {
+	private void deleteBackUp(String ids) {
+		DataCenter.getInstance().deleteBackup(ids, context, new LoadObjectListener() {
 
 			@Override
 			public void onComplete(Object object) {
@@ -213,15 +203,15 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 					}
 				}
 				if (adapter.isBatch()) {
-					// 批量提交
+					// 批量删除
 					bt_batch.setText(DOBATCH);
-					tv_batch_suggest.setText("按菜单键批量备份");
+					tv_batch_suggest.setText("按菜单键批量删除");
 					iv_batch_icon.setVisibility(VISIBLE);
 					tv_num_checked.setVisibility(INVISIBLE);
 					tv_ge.setVisibility(INVISIBLE);
 					adapter.updateList(items, false);
 				} else {
-					// 普通提交
+					// 普通删除
 					adapter.updateList(items);
 				}
 			}
@@ -265,16 +255,15 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 			SynchApp app = (SynchApp) adapter.getItem(position);
 			if (adapter.isBatch()) {
 				// 批量操作
-
 				if (app != null) {
 					curCheckedItem = app.isChecked() ? curCheckedItem - 1 : curCheckedItem + 1;
 					refreshCheckedItemText();
 					app.setChecked(!app.isChecked());
 					adapter.notifyDataSetChanged();
 				}
-			} else if (app.getSynchType() != Type.BACKUPED) {
+			} else {
 				// 普通操作
-				postBackUp(app.getAppid() + "");
+				deleteBackUp(app.getAppid() + "");
 			}
 		}
 	};

@@ -461,6 +461,67 @@ public class DataCenter {
 			}
 		}.execute("");
 	}
+	/**
+	 * 删除备份
+	 * @param appIds 需要备份应用id列表，用,隔开
+	 * @param context
+	 * @param loadObjectListener
+	 */
+	public void deleteBackup(final String appIds, final Context context,
+			final LoadObjectListener loadObjectListener) {
+		new AsyncTask<Object, Object, Object>() {
+			
+			@Override
+			protected Object doInBackground(Object... params) {
+				String url = Config.postBackup;
+				if (TextUtils.isEmpty(appIds)) {
+					return null;
+				}
+				List<NameValuePair> paramList = new ArrayList<NameValuePair>();
+				paramList.add(new BasicNameValuePair("boxMac", MyApplication.deviceMac));
+				paramList.add(new BasicNameValuePair("appIds", appIds));
+				String jsonString = HttpRequestUtil.getEntityString(
+						HttpRequestUtil.doPostRequest(url, paramList, context), context);
+				List<Integer> ids = Parse.parseDeleteBackUpApps(jsonString);
+				return ids;
+			}
+			
+			@Override
+			protected void onPostExecute(Object result) {
+				if (loadObjectListener != null) {
+					loadObjectListener.onComplete(result);
+				}
+				super.onPostExecute(result);
+			}
+		}.execute("");
+	}
+	/**
+	 * 获取已备份app
+	 * @param context
+	 * @param loadObjectListener
+	 */
+	public void loadBackUpApps(final Context context,
+			final LoadObjectListener loadObjectListener) {
+		new AsyncTask<Object, Object, Object>() {
+			
+			@Override
+			protected Object doInBackground(Object... params) {
+				String url = Config.getBackupApps+"?" +"boxMac=" + MyApplication.deviceMac;
+				String jsonString = HttpRequestUtil.getEntityString(
+						HttpRequestUtil.doGetRequest(url, context),context);
+				List<SynchApp> ids = Parse.parseGetBackUpApps(jsonString);
+				return ids;
+			}
+			
+			@Override
+			protected void onPostExecute(Object result) {
+				if (loadObjectListener != null) {
+					loadObjectListener.onComplete(result);
+				}
+				super.onPostExecute(result);
+			}
+		}.execute("");
+	}
 
 	/**
 	 * 获取详情页面推荐应用

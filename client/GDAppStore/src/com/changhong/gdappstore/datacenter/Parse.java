@@ -515,6 +515,60 @@ public class Parse {
 		}
 		return successIds;
 	}
+	/**
+	 * 解析备份成功数据
+	 */
+	public static List<Integer> parseDeleteBackUpApps(String json) {
+		List<Integer> successIds=new ArrayList<Integer>();
+		if (TextUtils.isEmpty(json)) {
+			L.w("returned by json is empty when parsePostBackUpApps");
+			return successIds;
+		}
+		try {
+			JSONObject object = new JSONObject(json);
+			JSONArray array = object.getJSONArray("deletebackupapps");
+			for (int i = 0; i < array.length(); i++) {
+				JSONObject idobject = array.getJSONObject(i);
+				successIds.add(idobject.getInt(APP_ID));
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return successIds;
+	}
+	/**
+	 * 解析备份成功数据
+	 */
+	public static List<SynchApp> parseGetBackUpApps(String json) {
+		List<SynchApp> apps=new ArrayList<SynchApp>();
+		if (TextUtils.isEmpty(json)) {
+			L.w("returned by json is empty when parseGetBackUpApps");
+			return apps;
+		}
+		try {
+			JSONObject object = new JSONObject(json);
+			String host = object.getString(HOST).trim();
+			JSONArray array = object.getJSONArray("getbackupapps");
+			for (int i = 0; i < array.length(); i++) {
+				SynchApp app = new SynchApp();
+				JSONObject appobject = array.getJSONObject(i);
+				app.setAppkey(appobject.getString(APP_KEY).trim());
+				app.setAppid(appobject.getInt(APP_ID));
+				app.setAppname(appobject.getString(APP_NAME).trim());
+				app.setPackageName(appobject.getString(APP_PACKAGE).trim());
+				app.setScores(appobject.getInt(APP_SCORES));
+				app.setApkSize(appobject.getString(APP_SIZE).trim());
+				app.setApkFilePath(host + app.getAppkey() + "/" + appobject.getString(APP_APK_FILEPATH).trim());
+				if (appobject.has(APP_ICON_FILEPATH) && !TextUtils.isEmpty(appobject.getString(APP_ICON_FILEPATH))) {
+					app.setIconFilePath(host + app.getAppkey() + "/" + appobject.getString(APP_ICON_FILEPATH).trim());
+				}
+				apps.add(app);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return apps;
+	}
 
 	private static void parseApp(JSONObject appobject, App app, String host) {
 		try {
