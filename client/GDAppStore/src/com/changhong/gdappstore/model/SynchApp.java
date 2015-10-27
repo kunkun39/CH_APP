@@ -15,7 +15,9 @@ public class SynchApp extends App {
 	private Type synchType = Type.NORMAL;
 	/** 应用图标,有本地图标时候使用 */
 	private Drawable appIcon;
-	
+	// 应用apk下载地址
+	private String apkFilePath;
+
 	public enum Type {
 		NORMAL, BACKUPED, RECOVERED;
 	}
@@ -44,5 +46,12 @@ public class SynchApp extends App {
 		this.appIcon = appIcon;
 	}
 
-	
+	public String getApkFilePath() {
+		return apkFilePath;
+	}
+
+	public void setApkFilePath(String apkFilePath) {
+		this.apkFilePath = apkFilePath;
+	}
+
 }
