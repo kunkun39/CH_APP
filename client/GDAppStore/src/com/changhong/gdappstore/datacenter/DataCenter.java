@@ -16,6 +16,7 @@ import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.MyApplication;
 import com.changhong.gdappstore.model.AppDetail;
 import com.changhong.gdappstore.model.Category;
+import com.changhong.gdappstore.model.SynchApp;
 import com.changhong.gdappstore.net.HttpRequestUtil;
 import com.changhong.gdappstore.net.LoadListener.LoadCompleteListener;
 import com.changhong.gdappstore.net.LoadListener.LoadListListener;
@@ -385,6 +386,76 @@ public class DataCenter {
 			protected void onPostExecute(Object result) {
 				if (loadListListener != null) {
 					loadListListener.onComplete((List<Object>) result);
+				}
+				super.onPostExecute(result);
+			}
+		}.execute("");
+	}
+	/**
+	 * 检测本地应用属于我们市场应用，并且检测哪些应用已备份
+	 * @param packages
+	 * @param context
+	 * @param loadObjectListener
+	 */
+	public void checkBackUpApp(final List<String> packages, final Context context,
+			final LoadObjectListener loadObjectListener) {
+		new AsyncTask<Object, Object, Object>() {
+
+			@Override
+			protected Object doInBackground(Object... params) {
+				String url = Config.checkBackUpApp;
+				if (packages == null || packages.size() == 0) {
+					return null;
+				}
+				List<NameValuePair> paramList = new ArrayList<NameValuePair>();
+				paramList.add(new BasicNameValuePair("boxMac", MyApplication.deviceMac));
+				for (int i = 0; i < packages.size(); i++) {
+					paramList.add(new BasicNameValuePair("appPackages", packages.get(i)));
+				}
+				String jsonString = HttpRequestUtil.getEntityString(
+						HttpRequestUtil.doPostRequest(url, paramList, context), context);
+				List<SynchApp> apps = Parse.parseBackUpApps(jsonString);
+				return apps;
+			}
+
+			@Override
+			protected void onPostExecute(Object result) {
+				if (loadObjectListener != null) {
+					loadObjectListener.onComplete(result);
+				}
+				super.onPostExecute(result);
+			}
+		}.execute("");
+	}
+	/**
+	 * 提交备份
+	 * @param appIds 需要备份应用id列表，用,隔开
+	 * @param context
+	 * @param loadObjectListener
+	 */
+	public void postBackup(final String appIds, final Context context,
+			final LoadObjectListener loadObjectListener) {
+		new AsyncTask<Object, Object, Object>() {
+			
+			@Override
+			protected Object doInBackground(Object... params) {
+				String url = Config.postBackup;
+				if (TextUtils.isEmpty(appIds)) {
+					return null;
+				}
+				List<NameValuePair> paramList = new ArrayList<NameValuePair>();
+				paramList.add(new BasicNameValuePair("boxMac", MyApplication.deviceMac));
+				paramList.add(new BasicNameValuePair("appIds", appIds));
+				String jsonString = HttpRequestUtil.getEntityString(
+						HttpRequestUtil.doPostRequest(url, paramList, context), context);
+				List<Integer> ids = Parse.parsePostBackUpApps(jsonString);
+				return ids;
+			}
+			
+			@Override
+			protected void onPostExecute(Object result) {
+				if (loadObjectListener != null) {
+					loadObjectListener.onComplete(result);
 				}
 				super.onPostExecute(result);
 			}

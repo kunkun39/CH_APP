@@ -16,6 +16,7 @@ import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.model.SynchApp;
 import com.changhong.gdappstore.model.SynchApp.Type;
 import com.changhong.gdappstore.util.ImageLoadUtil;
+import com.changhong.gdappstore.view.ScoreView;
 
 public class SynchGridAdapter extends BaseAdapter {
 
@@ -40,7 +41,7 @@ public class SynchGridAdapter extends BaseAdapter {
 		this.isBatch = isbatch;
 		notifyDataSetChanged();
 	}
-	
+
 	public List<SynchApp> getItems() {
 		return items;
 	}
@@ -70,7 +71,8 @@ public class SynchGridAdapter extends BaseAdapter {
 			viewHolder.iv_check = (ImageView) convertView.findViewById(R.id.iv_check);
 			viewHolder.iv_synchtype = (ImageView) convertView.findViewById(R.id.iv_synchtype);
 			viewHolder.tv_name = (TextView) convertView.findViewById(R.id.tv_appname);
-			viewHolder.tv_version = (TextView) convertView.findViewById(R.id.tv_version);
+			viewHolder.tv_size = (TextView) convertView.findViewById(R.id.tv_size);
+			viewHolder.scoreView=(ScoreView)convertView.findViewById(R.id.view_score);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
@@ -78,38 +80,39 @@ public class SynchGridAdapter extends BaseAdapter {
 		// **************************赋值部分*****************************
 		SynchApp app = items.get(position);
 		if (app != null) {
-			viewHolder.tv_name.setText(app.getAppname()+"");
-			viewHolder.tv_version.setText(app.getVersionInt()+"");
-			//批量操作选中图标
-			if (isBatch && app.getSynchType()==Type.NORMAL) {
+			viewHolder.tv_name.setText(app.getAppname() + "");
+			viewHolder.tv_size.setText(app.getApkSize() + "M");
+			viewHolder.scoreView.setScoreBy10Total(app.getScores());
+			// 批量操作选中图标
+			if (isBatch && app.getSynchType() == Type.NORMAL) {
 				viewHolder.iv_check.setVisibility(View.VISIBLE);
 				viewHolder.iv_check.setImageResource(app.isChecked() ? R.drawable.img_checked : R.drawable.img_check);
-			}else {
+			} else {
 				viewHolder.iv_check.setVisibility(View.INVISIBLE);
 			}
-			//已备份或者已恢复图标
-			if (app.getSynchType()==Type.BACKUPED) {
+			// 已备份或者已恢复图标
+			if (app.getSynchType() == Type.BACKUPED) {
 				viewHolder.iv_synchtype.setVisibility(View.VISIBLE);
 				viewHolder.iv_synchtype.setImageResource(R.drawable.img_backuped);
-			}else if (app.getSynchType()==Type.RECOVERED) {
+			} else if (app.getSynchType() == Type.RECOVERED) {
 				viewHolder.iv_synchtype.setVisibility(View.VISIBLE);
 				viewHolder.iv_synchtype.setImageResource(R.drawable.img_recovered);
-			}else {
+			} else {
 				viewHolder.iv_synchtype.setVisibility(View.INVISIBLE);
 			}
-			//应用icon
-			if (app.appIcon!=null) {
-				viewHolder.iv_icon.setImageDrawable(app.appIcon);
-			}else if (!TextUtils.isEmpty(app.getIconFilePath())) {
+			// 应用icon
+			if (app.getAppIcon() != null) {
+				viewHolder.iv_icon.setImageDrawable(app.getAppIcon());
+			} else if (!TextUtils.isEmpty(app.getIconFilePath())) {
 				ImageLoadUtil.displayImgByonlyDiscCache(app.getIconFilePath(), viewHolder.iv_icon);
-			}else {
+			} else {
 				viewHolder.iv_icon.setImageResource(0);
 			}
-		}else {
+		} else {
 			viewHolder.iv_check.setVisibility(View.INVISIBLE);
 			viewHolder.iv_synchtype.setVisibility(View.INVISIBLE);
 			viewHolder.tv_name.setText("");
-			viewHolder.tv_version.setText("");
+			viewHolder.tv_size.setText("");
 			viewHolder.iv_icon.setImageResource(0);
 		}
 
@@ -119,8 +122,10 @@ public class SynchGridAdapter extends BaseAdapter {
 	public boolean isBatch() {
 		return isBatch;
 	}
+
 	/**
 	 * 转向批量操作，会调用notifyDataSetChanged();
+	 * 
 	 * @param isBatch
 	 */
 	public void setBatch(boolean isBatch) {
@@ -133,7 +138,8 @@ public class SynchGridAdapter extends BaseAdapter {
 		public ImageView iv_check;
 		public ImageView iv_synchtype;
 		public TextView tv_name;
-		public TextView tv_version;
+		public TextView tv_size;
+		public ScoreView scoreView;
 	}
 
 }

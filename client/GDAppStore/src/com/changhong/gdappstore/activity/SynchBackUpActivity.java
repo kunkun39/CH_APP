@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,9 +20,14 @@ import android.widget.TextView;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.adapter.SynchGridAdapter;
 import com.changhong.gdappstore.base.BaseActivity;
+import com.changhong.gdappstore.datacenter.DataCenter;
+import com.changhong.gdappstore.model.NativeApp;
 import com.changhong.gdappstore.model.SynchApp;
 import com.changhong.gdappstore.model.SynchApp.Type;
+import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
+import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.L;
+import com.changhong.gdappstore.util.Util;
 
 public class SynchBackUpActivity extends BaseActivity implements OnClickListener, OnKeyListener {
 
@@ -30,7 +36,7 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 	private GridView gridView;
 	private SynchGridAdapter adapter;
 	private Button bt_batch;
-	private ImageView iv_shandow_item2, iv_shandow_item3, iv_batch_icon;
+	private ImageView iv_shandow_item1, iv_shandow_item2, iv_shandow_item3, iv_batch_icon;
 	private TextView tv_batch_suggest, tv_num_checked, tv_ge;
 	/** 批量操作时候选择的item个数 */
 	private int curCheckedItem = 0;
@@ -45,6 +51,7 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 
 	private void initView() {
 		gridView = findView(R.id.gridview);
+		iv_shandow_item1 = findView(R.id.iv_shandow_item1);
 		iv_shandow_item2 = findView(R.id.iv_shandow_item2);
 		iv_shandow_item3 = findView(R.id.iv_shandow_item3);
 
@@ -66,16 +73,45 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 	}
 
 	private void initData() {
-		List<SynchApp> items = new ArrayList<SynchApp>();
-		for (int i = 0; i < 49; i++) {
-			SynchApp app = new SynchApp();
-			app.setVersionInt(i + 1);
-			app.setChecked(false);
-			app.setSynchType(Type.NORMAL);
-			items.add(app);
-		}
 		adapter.setBatch(false);
-		adapter.updateList(items);
+		List<String> packages = new ArrayList<String>();
+		// 获取本地已安装应用的报名
+		final List<Object> nativeApps = Util.getApp(context);
+		for (int i = 0; i < nativeApps.size(); i++) {
+			if (nativeApps.get(i) != null && !TextUtils.isEmpty(((NativeApp) nativeApps.get(i)).getAppPackage())) {
+				packages.add(((NativeApp) nativeApps.get(i)).getAppPackage());
+			}
+		}
+		DataCenter.getInstance().checkBackUpApp(packages, context, new LoadObjectListener() {
+
+			@Override
+			public void onComplete(Object object) {
+				List<SynchApp> items = (List<SynchApp>) object;
+				if (items.size() > 6) {
+					iv_shandow_item1.setVisibility(VISIBLE);
+				}
+				if (items.size() > 7) {
+					iv_shandow_item2.setVisibility(VISIBLE);
+				}
+				if (items.size() > 8) {
+					iv_shandow_item3.setVisibility(VISIBLE);
+				}
+				if (items != null) {
+					for (int i = 0; i < items.size(); i++) {
+						SynchApp synchApp = items.get(i);
+						for (int j = 0; j < nativeApps.size(); j++) {
+							NativeApp nativeApp = (NativeApp) nativeApps.get(j);
+							if (synchApp.getPackageName().equals(nativeApp.appPackage)) {
+								synchApp.setAppname(nativeApp.appname);
+								synchApp.setAppIcon(nativeApp.appIcon);
+								synchApp.setVersionInt(nativeApp.nativeVersionInt);
+							}
+						}
+					}
+				}
+				adapter.updateList(items);
+			}
+		});
 	}
 
 	@Override
@@ -95,16 +131,24 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 	 * 批量操作按钮点击事件响应
 	 */
 	private void doBatchOnClick() {
+		if (adapter.getCount() == 0) {
+			DialogUtil.showShortToast(context, "没有应用存在，无法执行批量操作！");
+			return;
+		}
 		if (bt_batch.getText().toString().equals(SUBMIT_BACKUP)) {
 			// 已经是批量操作了，执行批量提交
-			// TODO 提交数据
-
-			bt_batch.setText(DOBATCH);
-			tv_batch_suggest.setText("按菜单键批量备份");
-			iv_batch_icon.setVisibility(VISIBLE);
-			tv_num_checked.setVisibility(INVISIBLE);
-			tv_ge.setVisibility(INVISIBLE);
-			adapter.setBatch(false);
+			String ids = "";
+			for (int i = 0; i < adapter.getCount(); i++) {
+				SynchApp app = (SynchApp) adapter.getItem(i);
+				if (app.isChecked()) {
+					if (ids.equals("")) {
+						ids = ids + app.getAppid();
+					} else {
+						ids = ids + "," + app.getAppid();
+					}
+				}
+			}
+			postBackUp(ids);
 		} else {
 			// 从正常操作转向批量操作
 			bt_batch.setText("确认备份");
@@ -124,22 +168,64 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 		tv_ge.setVisibility(VISIBLE);
 		tv_num_checked.setText(curCheckedItem + "");
 	}
+
 	/**
 	 * 刷新批量操作时候的选择个数
 	 */
 	private void refreshCheckedItemCount() {
-		curCheckedItem=0;
-		List<SynchApp> items=adapter.getItems();
-		if (items!=null) {
+		curCheckedItem = 0;
+		List<SynchApp> items = adapter.getItems();
+		if (items != null) {
 			for (int i = 0; i < items.size(); i++) {
 				if (items.get(i).isChecked()) {
 					curCheckedItem++;
 				}
 			}
 		}
-		if (tv_num_checked.getVisibility()==VISIBLE) {
+		if (tv_num_checked.getVisibility() == VISIBLE) {
 			refreshCheckedItemText();
 		}
+	}
+
+	/**
+	 * 请求备份
+	 * 
+	 * @param ids
+	 *            需要备份应用的id列表，中间用逗号隔开
+	 * @param isbatch
+	 *            是否是批量操作
+	 */
+	private void postBackUp(String ids) {
+		DataCenter.getInstance().postBackup(ids, context, new LoadObjectListener() {
+
+			@Override
+			public void onComplete(Object object) {
+				List<Integer> successIds = (List<Integer>) object;
+				List<SynchApp> items = adapter.getItems();
+				if (successIds != null && items != null) {
+					for (int i = 0; i < items.size(); i++) {
+						for (int j = 0; j < successIds.size(); j++) {
+							if (items.get(i).getAppid() == successIds.get(j).intValue()) {
+								items.get(i).setSynchType(Type.BACKUPED);
+								items.get(i).setChecked(false);
+							}
+						}
+					}
+				}
+				if (adapter.isBatch()) {
+					// 批量提交
+					bt_batch.setText(DOBATCH);
+					tv_batch_suggest.setText("按菜单键批量备份");
+					iv_batch_icon.setVisibility(VISIBLE);
+					tv_num_checked.setVisibility(INVISIBLE);
+					tv_ge.setVisibility(INVISIBLE);
+					adapter.updateList(items, false);
+				} else {
+					// 普通提交
+					adapter.updateList(items);
+				}
+			}
+		});
 	}
 
 	@Override
@@ -157,7 +243,7 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 				// 处理最后一排不能按下，不然焦点会跑到批量操作上面去
 				int itemCount = adapter.getCount();
 				int curSelectPos = gridView.getSelectedItemPosition();
-				if (itemCount > 0) {
+				if (itemCount > 6) {
 					int lastRowCount = itemCount % 3;
 					if (curSelectPos >= (itemCount - lastRowCount)) {
 						return true;
@@ -176,18 +262,19 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			SynchApp app = (SynchApp) adapter.getItem(position);
 			if (adapter.isBatch()) {
 				// 批量操作
-				SynchApp app = (SynchApp) adapter.getItem(position);
+
 				if (app != null) {
 					curCheckedItem = app.isChecked() ? curCheckedItem - 1 : curCheckedItem + 1;
 					refreshCheckedItemText();
 					app.setChecked(!app.isChecked());
 					adapter.notifyDataSetChanged();
 				}
-			} else {
+			} else if (app.getSynchType() != Type.BACKUPED) {
 				// 普通操作
-
+				postBackUp(app.getAppid() + "");
 			}
 		}
 	};
@@ -199,22 +286,28 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 			{
 				// 处理最后一排不满3个时候，倒影显示问题
 				int firstVisiblePos = gridView.getFirstVisiblePosition();
-				int lastRowCount = adapter.getCount() % 3;
-				L.d("onItemSelected firstvisible=" + firstVisiblePos + " " + (adapter.getCount() - (lastRowCount + 6)));
-				if (firstVisiblePos >= (adapter.getCount() - (lastRowCount + 6))) {
-					if (lastRowCount == 1) {
-						iv_shandow_item2.setVisibility(INVISIBLE);
-						iv_shandow_item3.setVisibility(INVISIBLE);
-					} else if (lastRowCount == 2) {
-						iv_shandow_item2.setVisibility(VISIBLE);
-						iv_shandow_item3.setVisibility(INVISIBLE);
-					} else {
+				int itemCount = adapter.getCount();
+				if (itemCount > 6) {
+					// 有第三排时候才显示倒影
+					int lastRowCount = itemCount % 3;
+					L.d("onItemSelected firstvisible=" + firstVisiblePos + " " + (itemCount - (lastRowCount + 6)));
+					if (firstVisiblePos >= (itemCount - (lastRowCount + 6))) {
+						iv_shandow_item1.setVisibility(VISIBLE);
+						if (lastRowCount == 1) {
+							iv_shandow_item2.setVisibility(INVISIBLE);
+							iv_shandow_item3.setVisibility(INVISIBLE);
+						} else if (lastRowCount == 2) {
+							iv_shandow_item2.setVisibility(VISIBLE);
+							iv_shandow_item3.setVisibility(INVISIBLE);
+						} else {
+							iv_shandow_item2.setVisibility(VISIBLE);
+							iv_shandow_item3.setVisibility(VISIBLE);
+						}
+					} else if (itemCount > 6) {
+						iv_shandow_item1.setVisibility(VISIBLE);
 						iv_shandow_item2.setVisibility(VISIBLE);
 						iv_shandow_item3.setVisibility(VISIBLE);
 					}
-				} else {
-					iv_shandow_item2.setVisibility(VISIBLE);
-					iv_shandow_item3.setVisibility(VISIBLE);
 				}
 			}
 		}

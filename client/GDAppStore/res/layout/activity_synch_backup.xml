@@ -132,7 +132,8 @@
         android:layout_marginTop="8dp"
         android:layout_toRightOf="@id/iv_shandow_batch"
         android:scaleType="fitXY"
-        android:src="@drawable/img_shandow_griditem" />
+        android:src="@drawable/img_shandow_griditem"
+        android:visibility="invisible" />
 
     <ImageView
         android:id="@+id/iv_shandow_item2"
@@ -142,7 +143,8 @@
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/iv_shandow_item1"
         android:scaleType="fitXY"
-        android:src="@drawable/img_shandow_griditem" />
+        android:src="@drawable/img_shandow_griditem"
+        android:visibility="invisible" />
 
     <ImageView
         android:id="@+id/iv_shandow_item3"
@@ -152,6 +154,7 @@
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/iv_shandow_item2"
         android:scaleType="fitXY"
-        android:src="@drawable/img_shandow_griditem" />
+        android:src="@drawable/img_shandow_griditem"
+        android:visibility="invisible" />
 
 </RelativeLayout>

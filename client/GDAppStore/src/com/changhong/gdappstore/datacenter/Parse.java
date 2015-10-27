@@ -17,6 +17,8 @@ import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.model.PageApp;
 import com.changhong.gdappstore.model.RankingData;
 import com.changhong.gdappstore.model.Ranking_Item;
+import com.changhong.gdappstore.model.SynchApp;
+import com.changhong.gdappstore.model.SynchApp.Type;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.Util;
 
@@ -455,6 +457,63 @@ public class Parse {
 		}
 
 		return apps;
+	}
+	/**
+	 * 检测属于我们应用市场app以及已经备份app
+	 * @param json
+	 * @return
+	 */
+	public static List<SynchApp> parseBackUpApps(String json) {
+		List<SynchApp> apps = new ArrayList<SynchApp>();
+
+		if (TextUtils.isEmpty(json)) {
+			L.w("returned by json is empty when parseBackUpApps");
+			return apps;
+		}
+		try {
+			JSONObject object = new JSONObject(json);
+			JSONArray array = object.getJSONArray("checkbackupapps");
+			for (int i = 0; i < array.length(); i++) {
+				SynchApp app = new SynchApp();
+				JSONObject appobject = array.getJSONObject(i);
+				app.setAppid(appobject.getInt(APP_ID));
+				app.setScores(appobject.getInt(APP_SCORES));
+				app.setApkSize(appobject.getString(APP_SIZE).trim());
+				app.setPackageName(appobject.getString(APP_PACKAGE).trim());
+				int isbacked=appobject.getInt("is_backup");
+				if (isbacked==1) {
+					app.setSynchType(Type.BACKUPED);
+				}else {
+					app.setSynchType(Type.NORMAL);
+				}
+				apps.add(app);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		return apps;
+	}
+	/**
+	 * 解析备份成功数据
+	 */
+	public static List<Integer> parsePostBackUpApps(String json) {
+		List<Integer> successIds=new ArrayList<Integer>();
+		if (TextUtils.isEmpty(json)) {
+			L.w("returned by json is empty when parsePostBackUpApps");
+			return successIds;
+		}
+		try {
+			JSONObject object = new JSONObject(json);
+			JSONArray array = object.getJSONArray("requestbackupapps");
+			for (int i = 0; i < array.length(); i++) {
+				JSONObject idobject = array.getJSONObject(i);
+				successIds.add(idobject.getInt(APP_ID));
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return successIds;
 	}
 
 	private static void parseApp(JSONObject appobject, App app, String host) {
