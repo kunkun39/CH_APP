@@ -14,8 +14,8 @@ public class SynchApp extends App {
 	/** 是否已经备份 */
 	private Type synchType = Type.NORMAL;
 	/** 应用图标,有本地图标时候使用 */
-	public Drawable appIcon;
-
+	private Drawable appIcon;
+	
 	public enum Type {
 		NORMAL, BACKUPED, RECOVERED;
 	}
@@ -36,4 +36,13 @@ public class SynchApp extends App {
 		this.synchType = synchType;
 	}
 
+	public Drawable getAppIcon() {
+		return appIcon;
+	}
+
+	public void setAppIcon(Drawable appIcon) {
+		this.appIcon = appIcon;
+	}
+
+	
 }
