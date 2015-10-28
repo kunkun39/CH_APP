@@ -63,6 +63,7 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 		bt_batch.setOnKeyListener(this);
 		bt_batch.setOnClickListener(this);
 		bt_batch.requestFocus();
+		bt_batch.setText(DOBATCH);
 
 		tv_batch_suggest = findView(R.id.tv_batch_suggest);
 		tv_num_checked = findView(R.id.tv_num_checked);
@@ -93,10 +94,11 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 						for (int j = 0; j < nativeApps.size(); j++) {
 							NativeApp nativeApp = (NativeApp) nativeApps.get(j);
 							if (synchApp.getPackageName().equals(nativeApp.appPackage)) {
+								// 设置本地图标，减少服务器下载图标网络请求
 								synchApp.setAppIcon(nativeApp.appIcon);
-								synchApp.setSynchType(Type.RECOVERED);
 							}
 						}
+						synchApp.setSynchType(Type.NORMAL);// 改成普通状态，管理页面不显示应用状态
 					}
 				}
 				adapter.updateList(items);
@@ -196,8 +198,9 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 					for (int i = 0; i < items.size(); i++) {
 						for (int j = 0; j < successIds.size(); j++) {
 							if (items.get(i).getAppid() == successIds.get(j).intValue()) {
-								items.get(i).setSynchType(Type.BACKUPED);
-								items.get(i).setChecked(false);
+								items.remove(i);
+								i--;
+								break;
 							}
 						}
 					}
@@ -214,6 +217,7 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 					// 普通删除
 					adapter.updateList(items);
 				}
+				refreshShandowVisible();
 			}
 		});
 	}
@@ -272,33 +276,8 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-			{
-				// 处理最后一排不满3个时候，倒影显示问题
-				int firstVisiblePos = gridView.getFirstVisiblePosition();
-				int itemCount = adapter.getCount();
-				if (itemCount > 6) {
-					// 有第三排时候才显示倒影
-					int lastRowCount = itemCount % 3;
-					L.d("onItemSelected firstvisible=" + firstVisiblePos + " " + (itemCount - (lastRowCount + 6)));
-					if (firstVisiblePos >= (itemCount - (lastRowCount + 6))) {
-						iv_shandow_item1.setVisibility(VISIBLE);
-						if (lastRowCount == 1) {
-							iv_shandow_item2.setVisibility(INVISIBLE);
-							iv_shandow_item3.setVisibility(INVISIBLE);
-						} else if (lastRowCount == 2) {
-							iv_shandow_item2.setVisibility(VISIBLE);
-							iv_shandow_item3.setVisibility(INVISIBLE);
-						} else {
-							iv_shandow_item2.setVisibility(VISIBLE);
-							iv_shandow_item3.setVisibility(VISIBLE);
-						}
-					} else if (itemCount > 6) {
-						iv_shandow_item1.setVisibility(VISIBLE);
-						iv_shandow_item2.setVisibility(VISIBLE);
-						iv_shandow_item3.setVisibility(VISIBLE);
-					}
-				}
-			}
+
+			refreshShandowVisible();
 		}
 
 		@Override
@@ -306,4 +285,38 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 
 		}
 	};
+	/**
+	 * 刷新倒影
+	 */
+	private void refreshShandowVisible() {
+		// 处理最后一排不满3个时候，倒影显示问题
+		int firstVisiblePos = gridView.getFirstVisiblePosition();
+		int itemCount = adapter.getCount();
+		if (itemCount > 6) {
+			// 有第三排时候才显示倒影
+			int lastRowCount = itemCount % 3;
+			L.d("onItemSelected firstvisible=" + firstVisiblePos + " " + (itemCount - (lastRowCount + 6)));
+			if (firstVisiblePos >= (itemCount - (lastRowCount + 6))) {
+				iv_shandow_item1.setVisibility(VISIBLE);
+				if (lastRowCount == 1) {
+					iv_shandow_item2.setVisibility(INVISIBLE);
+					iv_shandow_item3.setVisibility(INVISIBLE);
+				} else if (lastRowCount == 2) {
+					iv_shandow_item2.setVisibility(VISIBLE);
+					iv_shandow_item3.setVisibility(INVISIBLE);
+				} else {
+					iv_shandow_item2.setVisibility(VISIBLE);
+					iv_shandow_item3.setVisibility(VISIBLE);
+				}
+			} else if (itemCount > 6) {
+				iv_shandow_item1.setVisibility(VISIBLE);
+				iv_shandow_item2.setVisibility(VISIBLE);
+				iv_shandow_item3.setVisibility(VISIBLE);
+			}
+		}else {
+			iv_shandow_item1.setVisibility(INVISIBLE);
+			iv_shandow_item2.setVisibility(INVISIBLE);
+			iv_shandow_item3.setVisibility(INVISIBLE);
+		}
+	}
 }

@@ -473,7 +473,7 @@ public class DataCenter {
 			
 			@Override
 			protected Object doInBackground(Object... params) {
-				String url = Config.postBackup;
+				String url = Config.deleteBackupApp;
 				if (TextUtils.isEmpty(appIds)) {
 					return null;
 				}

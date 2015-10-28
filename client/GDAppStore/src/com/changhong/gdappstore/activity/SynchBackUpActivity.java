@@ -283,33 +283,8 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-			{
-				// 处理最后一排不满3个时候，倒影显示问题
-				int firstVisiblePos = gridView.getFirstVisiblePosition();
-				int itemCount = adapter.getCount();
-				if (itemCount > 6) {
-					// 有第三排时候才显示倒影
-					int lastRowCount = itemCount % 3;
-					L.d("onItemSelected firstvisible=" + firstVisiblePos + " " + (itemCount - (lastRowCount + 6)));
-					if (firstVisiblePos >= (itemCount - (lastRowCount + 6))) {
-						iv_shandow_item1.setVisibility(VISIBLE);
-						if (lastRowCount == 1) {
-							iv_shandow_item2.setVisibility(INVISIBLE);
-							iv_shandow_item3.setVisibility(INVISIBLE);
-						} else if (lastRowCount == 2) {
-							iv_shandow_item2.setVisibility(VISIBLE);
-							iv_shandow_item3.setVisibility(INVISIBLE);
-						} else {
-							iv_shandow_item2.setVisibility(VISIBLE);
-							iv_shandow_item3.setVisibility(VISIBLE);
-						}
-					} else if (itemCount > 6) {
-						iv_shandow_item1.setVisibility(VISIBLE);
-						iv_shandow_item2.setVisibility(VISIBLE);
-						iv_shandow_item3.setVisibility(VISIBLE);
-					}
-				}
-			}
+
+			refreshShandowVisible();
 		}
 
 		@Override
@@ -317,4 +292,38 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 
 		}
 	};
+	/**
+	 * 刷新倒影
+	 */
+	private void refreshShandowVisible() {
+		// 处理最后一排不满3个时候，倒影显示问题
+		int firstVisiblePos = gridView.getFirstVisiblePosition();
+		int itemCount = adapter.getCount();
+		if (itemCount > 6) {
+			// 有第三排时候才显示倒影
+			int lastRowCount = itemCount % 3;
+			L.d("onItemSelected firstvisible=" + firstVisiblePos + " " + (itemCount - (lastRowCount + 6)));
+			if (firstVisiblePos >= (itemCount - (lastRowCount + 6))) {
+				iv_shandow_item1.setVisibility(VISIBLE);
+				if (lastRowCount == 1) {
+					iv_shandow_item2.setVisibility(INVISIBLE);
+					iv_shandow_item3.setVisibility(INVISIBLE);
+				} else if (lastRowCount == 2) {
+					iv_shandow_item2.setVisibility(VISIBLE);
+					iv_shandow_item3.setVisibility(INVISIBLE);
+				} else {
+					iv_shandow_item2.setVisibility(VISIBLE);
+					iv_shandow_item3.setVisibility(VISIBLE);
+				}
+			} else if (itemCount > 6) {
+				iv_shandow_item1.setVisibility(VISIBLE);
+				iv_shandow_item2.setVisibility(VISIBLE);
+				iv_shandow_item3.setVisibility(VISIBLE);
+			}
+		}else {
+			iv_shandow_item1.setVisibility(INVISIBLE);
+			iv_shandow_item2.setVisibility(INVISIBLE);
+			iv_shandow_item3.setVisibility(INVISIBLE);
+		}
+	}
 }
