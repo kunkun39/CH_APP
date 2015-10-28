@@ -49,6 +49,7 @@ public class HttpRequestUtil {
 	public static String getEntityString(HttpEntity httpEntity,Context context) {
 		String jsonString = "";
 		if (httpEntity == null) {
+			L.d("getEntityString return null by httpEntity is null ");
 			return null;
 		}
 		try {
