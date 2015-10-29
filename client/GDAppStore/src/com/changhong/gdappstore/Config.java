@@ -11,6 +11,8 @@ public class Config {
 	public static final boolean ISCACHEABLE = true;
 	/** 请求暂停时间，在这个时间内不能连续请求 */
 	public static final int REQUEST_RESTTIEM = 3 * 60 * 1000;
+	/** 存放下载apk文件目录 */
+	public static final String baseUpdatePath = "/data/data/com.changhong.gdappstore/loadapp";
 	/***************************** 网络请求配置项 ******************************************/
 	/** 请求链接超时 */
 	public static int CONNECTION_TIMEOUT = 9000;

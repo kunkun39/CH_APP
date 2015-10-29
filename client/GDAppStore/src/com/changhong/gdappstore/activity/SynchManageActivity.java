@@ -24,8 +24,10 @@ import com.changhong.gdappstore.model.SynchApp;
 import com.changhong.gdappstore.model.SynchApp.Type;
 import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
 import com.changhong.gdappstore.util.DialogUtil;
+import com.changhong.gdappstore.util.DialogUtil.DialogBtnOnClickListener;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.Util;
+import com.changhong.gdappstore.util.DialogUtil.DialogMessage;
 
 public class SynchManageActivity extends BaseActivity implements OnClickListener, OnKeyListener {
 
@@ -110,7 +112,7 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.bt_batch:
-			// 批量备份
+			// 批量操作
 			doBatchOnClick();
 			break;
 
@@ -180,46 +182,61 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 	}
 
 	/**
-	 * 请求备份
+	 * 请求删除
 	 * 
 	 * @param ids
-	 *            需要备份应用的id列表，中间用逗号隔开
-	 * @param isbatch
-	 *            是否是批量操作
+	 *            需要删除应用的id列表，中间用逗号隔开
 	 */
-	private void deleteBackUp(String ids) {
-		DataCenter.getInstance().deleteBackup(ids, context, new LoadObjectListener() {
+	private void deleteBackUp(final String ids) {
+		DialogUtil.showMyAlertDialog(context, "提示：", "确认删除备份应用？", "确  认", "取  消", new DialogBtnOnClickListener() {
 
 			@Override
-			public void onComplete(Object object) {
-				List<Integer> successIds = (List<Integer>) object;
-				List<SynchApp> items = adapter.getItems();
-				if (successIds != null && items != null) {
-					for (int i = 0; i < items.size(); i++) {
-						for (int j = 0; j < successIds.size(); j++) {
-							if (items.get(i).getAppid() == successIds.get(j).intValue()) {
-								items.remove(i);
-								i--;
-								break;
+			public void onSubmit(DialogMessage dialogMessage) {
+				DataCenter.getInstance().deleteBackup(ids, context, new LoadObjectListener() {
+
+					@Override
+					public void onComplete(Object object) {
+						List<Integer> successIds = (List<Integer>) object;
+						List<SynchApp> items = adapter.getItems();
+						if (successIds != null && items != null) {
+							for (int i = 0; i < items.size(); i++) {
+								for (int j = 0; j < successIds.size(); j++) {
+									if (items.get(i).getAppid() == successIds.get(j).intValue()) {
+										items.remove(i);
+										i--;
+										break;
+									}
+								}
 							}
 						}
+						if (adapter.isBatch()) {
+							// 批量删除
+							bt_batch.setText(DOBATCH);
+							tv_batch_suggest.setText("按菜单键批量删除");
+							iv_batch_icon.setVisibility(VISIBLE);
+							tv_num_checked.setVisibility(INVISIBLE);
+							tv_ge.setVisibility(INVISIBLE);
+							adapter.updateList(items, false);
+						} else {
+							// 普通删除
+							adapter.updateList(items);
+						}
+						refreshShandowVisible();
 					}
+				});
+				if (dialogMessage != null && dialogMessage.dialogInterface != null) {
+					dialogMessage.dialogInterface.dismiss();
 				}
-				if (adapter.isBatch()) {
-					// 批量删除
-					bt_batch.setText(DOBATCH);
-					tv_batch_suggest.setText("按菜单键批量删除");
-					iv_batch_icon.setVisibility(VISIBLE);
-					tv_num_checked.setVisibility(INVISIBLE);
-					tv_ge.setVisibility(INVISIBLE);
-					adapter.updateList(items, false);
-				} else {
-					// 普通删除
-					adapter.updateList(items);
+			}
+
+			@Override
+			public void onCancel(DialogMessage dialogMessage) {
+				if (dialogMessage != null && dialogMessage.dialogInterface != null) {
+					dialogMessage.dialogInterface.dismiss();
 				}
-				refreshShandowVisible();
 			}
 		});
+
 	}
 
 	@Override
@@ -285,6 +302,7 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 
 		}
 	};
+
 	/**
 	 * 刷新倒影
 	 */
@@ -313,7 +331,7 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 				iv_shandow_item2.setVisibility(VISIBLE);
 				iv_shandow_item3.setVisibility(VISIBLE);
 			}
-		}else {
+		} else {
 			iv_shandow_item1.setVisibility(INVISIBLE);
 			iv_shandow_item2.setVisibility(INVISIBLE);
 			iv_shandow_item3.setVisibility(INVISIBLE);

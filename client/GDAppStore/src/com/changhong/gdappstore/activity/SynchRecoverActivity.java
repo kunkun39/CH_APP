@@ -1,7 +1,10 @@
 package com.changhong.gdappstore.activity;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -15,6 +18,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.adapter.SynchGridAdapter;
 import com.changhong.gdappstore.base.BaseActivity;
@@ -23,12 +27,22 @@ import com.changhong.gdappstore.model.NativeApp;
 import com.changhong.gdappstore.model.SynchApp;
 import com.changhong.gdappstore.model.SynchApp.Type;
 import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
+import com.changhong.gdappstore.service.AppBroadcastReceiver;
+import com.changhong.gdappstore.service.AppBroadcastReceiver.AppChangeListener;
 import com.changhong.gdappstore.util.DialogUtil;
+import com.changhong.gdappstore.util.InstallUtil;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.Util;
+import com.changhong.gdappstore.view.MyProgressDialog;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.HttpHandler;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
 
 public class SynchRecoverActivity extends BaseActivity implements OnClickListener, OnKeyListener {
 
+	private static final String TAG = "SynchRecoverActivity";
 	private static final String DOBATCH = "批量恢复";
 	private static final String SUBMIT_RECOVER = "确认恢复";
 	private GridView gridView;
@@ -38,6 +52,13 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 	private TextView tv_batch_suggest, tv_num_checked, tv_ge;
 	/** 批量操作时候选择的item个数 */
 	private int curCheckedItem = 0;
+
+	private MyProgressDialog downloadPDialog;
+
+	private HttpUtils http = new HttpUtils(Config.CONNECTION_TIMEOUT);
+
+	private List<SynchApp> downloadApps;
+	private int curDownLoadPos = -1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +85,17 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 		bt_batch.setOnClickListener(this);
 		bt_batch.requestFocus();
 		bt_batch.setText(DOBATCH);
-		
+
 		tv_batch_suggest = findView(R.id.tv_batch_suggest);
 		tv_num_checked = findView(R.id.tv_num_checked);
 		iv_batch_icon = findView(R.id.iv_batch_icon);
 		tv_ge = findView(R.id.tv_ge);
+
+		downloadPDialog = new MyProgressDialog(context);
+		downloadPDialog.setUpdateFileSizeName(true);
+		downloadPDialog.dismiss();
+
+		AppBroadcastReceiver.listeners.put(context.getClass().getName(), appChangeListener);
 	}
 
 	private void initData() {
@@ -128,18 +155,14 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 		}
 		if (bt_batch.getText().toString().equals(SUBMIT_RECOVER)) {
 			// 已经是批量操作了，执行批量提交
-			String ids = "";
+			List<SynchApp> apps = new ArrayList<SynchApp>();
 			for (int i = 0; i < adapter.getCount(); i++) {
 				SynchApp app = (SynchApp) adapter.getItem(i);
 				if (app.isChecked()) {
-					if (ids.equals("")) {
-						ids = ids + app.getAppid();
-					} else {
-						ids = ids + "," + app.getAppid();
-					}
+					apps.add(app);
 				}
 			}
-			postBackUp(ids);
+			downloadApps(apps);
 		} else {
 			// 从正常操作转向批量操作
 			bt_batch.setText(SUBMIT_RECOVER);
@@ -179,45 +202,105 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 	}
 
 	/**
-	 * 请求备份
+	 * 下载应用
 	 * 
-	 * @param ids
-	 *            需要备份应用的id列表，中间用逗号隔开
-	 * @param isbatch
-	 *            是否是批量操作
+	 * @param downloadApps
 	 */
-	private void postBackUp(String ids) {
-		DataCenter.getInstance().postBackup(ids, context, new LoadObjectListener() {
+	private void downloadApps(List<SynchApp> downloadApps) {
+		// if (adapter.isBatch()) {
+		// // 批量提交
+		bt_batch.setText(DOBATCH);
+		tv_batch_suggest.setText("按菜单键批量恢复");
+		iv_batch_icon.setVisibility(VISIBLE);
+		tv_num_checked.setVisibility(INVISIBLE);
+		tv_ge.setVisibility(INVISIBLE);
+		adapter.setBatch(false);
+		// // adapter.updateList(items, false);
+		// } else {
+		// // 普通提交
+		// // adapter.updateList(items);
+		// }
+		if (downloadApps == null || downloadApps.size() <= 0) {
+			this.downloadApps = null;
+			return;
+		}
+		this.downloadApps = downloadApps;
+		curDownLoadPos = -1;
+		doDownLoad();
+	}
+
+	private void doDownLoad() {
+		if (downloadApps == null || (curDownLoadPos + 1) >= downloadApps.size()) {
+			downloadPDialog.dismiss();
+			return;
+		}
+		downloadPDialog.show();
+		curDownLoadPos++;
+		SynchApp app = downloadApps.get(curDownLoadPos);
+		String apkLoadUrl = app.getApkFilePath();
+		String apkname = apkLoadUrl.substring(apkLoadUrl.lastIndexOf("/") + 1, apkLoadUrl.length()).trim();
+		http.download(apkLoadUrl, Config.baseUpdatePath + "/" + apkname, true, true, new RequestCallBack<File>() {
 
 			@Override
-			public void onComplete(Object object) {
-				List<Integer> successIds = (List<Integer>) object;
-				List<SynchApp> items = adapter.getItems();
-				if (successIds != null && items != null) {
-					for (int i = 0; i < items.size(); i++) {
-						for (int j = 0; j < successIds.size(); j++) {
-							if (items.get(i).getAppid() == successIds.get(j).intValue()) {
-								items.get(i).setSynchType(Type.BACKUPED);
-								items.get(i).setChecked(false);
-							}
-						}
+			public void onStart() {
+				L.d(TAG + " onstart load " + getRequestUrl());
+			}
+
+			@Override
+			public void onLoading(long total, long current, boolean isUploading) {
+				L.d(TAG + " onloading " + current + "  " + total + " ");
+				downloadPDialog.setMax((int) total);
+				downloadPDialog.setProgress((int) current);
+				super.onLoading(total, current, isUploading);
+			}
+
+			@Override
+			public void onSuccess(final ResponseInfo<File> responseInfo) {
+				L.d(TAG + "---responseinfo  " + responseInfo.result.getPath());
+				Util.chrome0777File(Config.baseUpdatePath);
+				Util.chrome0777File(responseInfo.result.getPath());
+				new Thread(new Runnable() {
+
+					@Override
+					public void run() {// 安装
+						InstallUtil.installApp(context, responseInfo.result.getPath());
 					}
-				}
-				if (adapter.isBatch()) {
-					// 批量提交
-					bt_batch.setText(DOBATCH);
-					tv_batch_suggest.setText("按菜单键批量恢复");
-					iv_batch_icon.setVisibility(VISIBLE);
-					tv_num_checked.setVisibility(INVISIBLE);
-					tv_ge.setVisibility(INVISIBLE);
-					adapter.updateList(items, false);
-				} else {
-					// 普通提交
-					adapter.updateList(items);
-				}
+				}).start();
+				doDownLoad();// 下载下一个
+			}
+
+			@Override
+			public void onFailure(HttpException paramHttpException, String msg) {
+				L.d(TAG + "---load onFailure  " + msg);
+				doDownLoad();// 下载下一个
 			}
 		});
 	}
+
+	AppChangeListener appChangeListener = new AppChangeListener() {
+
+		@Override
+		public void onAppChange(Intent intent) {
+			//
+			if (intent.getAction().equals("android.intent.action.PACKAGE_ADDED")) {
+				String packageName = intent.getDataString();
+				if (packageName != null && packageName.startsWith("package:")) {
+					packageName = packageName.substring(packageName.indexOf(":") + 1, packageName.length());
+					boolean hasRecovered = false;
+					for (int i = 0; i < adapter.getCount(); i++) {
+						SynchApp app = (SynchApp) adapter.getItem(i);
+						if (app.getPackageName().equals(packageName)) {
+							app.setSynchType(Type.RECOVERED);
+							hasRecovered = true;
+						}
+					}
+					if (hasRecovered) {
+						adapter.notifyDataSetChanged();
+					}
+				}
+			}
+		}
+	};
 
 	@Override
 	public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -265,7 +348,9 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 				}
 			} else if (app.getSynchType() != Type.RECOVERED) {
 				// 普通操作
-				postBackUp(app.getAppid() + "");
+				List<SynchApp> apps = new ArrayList<SynchApp>();
+				apps.add(app);
+				downloadApps(apps);
 			}
 		}
 	};
@@ -312,11 +397,17 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 				iv_shandow_item2.setVisibility(VISIBLE);
 				iv_shandow_item3.setVisibility(VISIBLE);
 			}
-		}else {
+		} else {
 			iv_shandow_item1.setVisibility(INVISIBLE);
 			iv_shandow_item2.setVisibility(INVISIBLE);
 			iv_shandow_item3.setVisibility(INVISIBLE);
 		}
 
+	}
+	@Override
+	protected void onDestroy() {
+		L.d(TAG+" ondestroy ");
+		AppBroadcastReceiver.listeners.remove(context.getClass().getName());
+		super.onDestroy();
 	}
 }
