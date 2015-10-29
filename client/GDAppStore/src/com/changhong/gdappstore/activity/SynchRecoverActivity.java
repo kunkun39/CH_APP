@@ -28,10 +28,12 @@ import com.changhong.gdappstore.model.SynchApp;
 import com.changhong.gdappstore.model.SynchApp.Type;
 import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
 import com.changhong.gdappstore.service.AppBroadcastReceiver;
+import com.changhong.gdappstore.service.DownLoadManager;
 import com.changhong.gdappstore.service.AppBroadcastReceiver.AppChangeListener;
 import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.InstallUtil;
 import com.changhong.gdappstore.util.L;
+import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
 import com.changhong.gdappstore.view.MyProgressDialog;
 import com.lidroid.xutils.HttpUtils;
@@ -54,8 +56,6 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 	private int curCheckedItem = 0;
 
 	private MyProgressDialog downloadPDialog;
-
-	private HttpUtils http = new HttpUtils(Config.CONNECTION_TIMEOUT);
 
 	private List<SynchApp> downloadApps;
 	private int curDownLoadPos = -1;
@@ -234,47 +234,56 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 			downloadPDialog.dismiss();
 			return;
 		}
-		downloadPDialog.show();
+		if (!NetworkUtils.ISNET_CONNECT) {
+			DialogUtil.showLongToast(context, "下载取消，网络未连接！");
+			downloadPDialog.dismiss();
+			return;
+		}
 		curDownLoadPos++;
 		SynchApp app = downloadApps.get(curDownLoadPos);
+		
+		downloadPDialog.show();
+		downloadPDialog.setProgress(0);
+		downloadPDialog.setMax(0);
+		downloadPDialog.setMyTitle("正在下载："+app.getAppname());
+		
 		String apkLoadUrl = app.getApkFilePath();
-		String apkname = apkLoadUrl.substring(apkLoadUrl.lastIndexOf("/") + 1, apkLoadUrl.length()).trim();
-		http.download(apkLoadUrl, Config.baseUpdatePath + "/" + apkname, true, true, new RequestCallBack<File>() {
-
-			@Override
-			public void onStart() {
-				L.d(TAG + " onstart load " + getRequestUrl());
-			}
-
-			@Override
-			public void onLoading(long total, long current, boolean isUploading) {
-				L.d(TAG + " onloading " + current + "  " + total + " ");
-				downloadPDialog.setMax((int) total);
-				downloadPDialog.setProgress((int) current);
-				super.onLoading(total, current, isUploading);
-			}
-
-			@Override
-			public void onSuccess(final ResponseInfo<File> responseInfo) {
-				L.d(TAG + "---responseinfo  " + responseInfo.result.getPath());
-				Util.chrome0777File(Config.baseUpdatePath);
-				Util.chrome0777File(responseInfo.result.getPath());
-				new Thread(new Runnable() {
+		final String apkname = apkLoadUrl.substring(apkLoadUrl.lastIndexOf("/") + 1, apkLoadUrl.length()).trim();
+		DownLoadManager.putFileDownLoad(apkLoadUrl, app.getPackageName(), Config.baseXutilDownPath + "/" + apkname, false,
+				true, new RequestCallBack<File>() {
+					@Override
+					public void onLoading(long total, long current, boolean isUploading) {
+						downloadPDialog.setMax((int) total);
+						downloadPDialog.setProgress((int) current);
+						super.onLoading(total, current, isUploading);
+					}
 
 					@Override
-					public void run() {// 安装
-						InstallUtil.installApp(context, responseInfo.result.getPath());
-					}
-				}).start();
-				doDownLoad();// 下载下一个
-			}
+					public void onSuccess(final ResponseInfo<File> responseInfo) {
+						Util.chrome0777File(Config.baseXutilDownPath);
+						Util.chrome0777File(responseInfo.result.getPath());
+						new Thread(new Runnable() {
 
-			@Override
-			public void onFailure(HttpException paramHttpException, String msg) {
-				L.d(TAG + "---load onFailure  " + msg);
-				doDownLoad();// 下载下一个
-			}
-		});
+							@Override
+							public void run() {// 安装
+								InstallUtil.installApp(context, responseInfo.result.getPath());
+							}
+						}).start();
+						doDownLoad();// 下载下一个
+					}
+
+					@Override
+					public void onFailure(HttpException paramHttpException, String msg) {
+						if (!NetworkUtils.ISNET_CONNECT) {
+							DialogUtil.showLongToast(context, "下载取消，网络未连接！");
+						}else if (msg.contains("ConnectTimeoutException")) {
+							DialogUtil.showLongToast(context, "下载失败，服务器连接超时！");
+						}else {
+							DialogUtil.showLongToast(context, "下载发生异常！");
+						}
+						doDownLoad();// 下载下一个
+					}
+				});
 	}
 
 	AppChangeListener appChangeListener = new AppChangeListener() {
@@ -404,9 +413,10 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 		}
 
 	}
+
 	@Override
 	protected void onDestroy() {
-		L.d(TAG+" ondestroy ");
+		L.d(TAG + " ondestroy ");
 		AppBroadcastReceiver.listeners.remove(context.getClass().getName());
 		super.onDestroy();
 	}

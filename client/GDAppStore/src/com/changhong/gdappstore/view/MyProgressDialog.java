@@ -124,6 +124,13 @@ public class MyProgressDialog extends Dialog {
 		String p=decimalFormat.format(returnSize);
 		return p+"M";
 	}
+	/**
+	 * 设置对话框标题
+	 * @param title
+	 */
+	public void setMyTitle(String title) {
+		tv_title.setText(title);
+	}
 
 	public boolean isUpdateFileSizeName() {
 		return isUpdateFileSizeName;

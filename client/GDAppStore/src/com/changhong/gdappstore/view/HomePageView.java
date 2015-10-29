@@ -97,11 +97,11 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 		categoryItemViews[0].setCategoryData(new Category(-10, -10, "搜索"));
 		categoryItemViews[1].setCategoryData(new Category(-10, -10, "排行榜"));
 		categoryItemViews[2].setCategoryData(new Category(-10, -10, "本地应用"));
-		categoryItemViews[3].setCategoryData(new Category(-10, -10, "装机必备"));
+		categoryItemViews[3].setCategoryData(new Category(-10, -10, "云同步"));
 		categoryItemViews[0].setDrawableIconPost(false, R.drawable.icon_search);
 		categoryItemViews[1].setDrawableIconPost(false, R.drawable.icon_ranklist);
 		categoryItemViews[2].setDrawableIconPost(false, R.drawable.icon_nativeapp);
-		categoryItemViews[3].setDrawableIconPost(false, R.drawable.icon_nessary);
+		categoryItemViews[3].setDrawableIconPost(false, R.drawable.icon_synch);
 	}
 
 	public void initData(final Category category) {

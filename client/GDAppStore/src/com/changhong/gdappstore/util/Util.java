@@ -74,6 +74,9 @@ public class Util {
 	 */
 	public static void deleteFileChildrens(String path) {
 		File file = new File(path);
+		if (file==null || !file.exists()) {
+			return;
+		}
 		if (file != null && file.isDirectory() && file.listFiles().length > 0) {
 			for (int i = 0; i < file.listFiles().length; i++) {
 				Util.deleteFile(file.listFiles()[i].getAbsolutePath());
@@ -91,6 +94,9 @@ public class Util {
 			return;
 		}
 		File file = new File(path);
+		if (file==null || !file.exists()) {
+			return;
+		}
 		if (file.isDirectory() && file.listFiles().length > 0) {
 			for (int i = 0; i < file.listFiles().length; i++) {
 				File childFile = file.listFiles()[i];
