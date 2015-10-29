@@ -19,9 +19,8 @@ public class Config {
 	/** 请求链接超时 */
 	public static int CONNECTION_TIMEOUT = 9000;
 	/** 服务器基础地址 **/
-//	public static String BASEURL = "http://192.168.0.55:8080/appmarket/";
-	 public static String BASEURL =
-	 "http://www.ottserver.com:8081/appmarket/";
+	// public static String BASEURL = "http://192.168.0.55:8080/appmarket/";
+	public static String BASEURL = "http://www.ottserver.com:8081/appmarket/";
 	/** 获取分类地址 **/
 	public static String getCategoryUrl = BASEURL + "client/appcategories.html";
 	/** 获取页面数据地址 **/
@@ -44,13 +43,13 @@ public class Config {
 	public static String getSilentInstallUrl = BASEURL + "client/appmust.html";
 	/** 获取开机画面图片信息 */
 	public static String getBootADUrl = BASEURL + "client/bootadvertise.html";
-	/**检测哪些应用是我们应用市场的，并且返回是否已备份*/
+	/** 检测哪些应用是我们应用市场的，并且返回是否已备份 */
 	public static String checkBackUpApp = BASEURL + "client/checkbackupapp.html";
-	/**请求备份*/
+	/** 请求备份 */
 	public static String postBackup = BASEURL + "client/requestBackupApp.html";
-	/**获取已备份应用列表*/
+	/** 获取已备份应用列表 */
 	public static String getBackupApps = BASEURL + "client/getBackupApp.html";
-	/**删除已备份应用*/
+	/** 删除已备份应用 */
 	public static String deleteBackupApp = BASEURL + "client/deleteBackupApp.html";
 
 	/**
@@ -72,10 +71,10 @@ public class Config {
 	 */
 	/***************************** 网络请求配置项 ******************************************/
 	public static final String HOMEPAGE = "首页";
-	/**在首页显示几个栏目的页面**/
+	/** 在首页显示几个栏目的页面 **/
 	public static final int showCatPageSize = 4;
-	/**默认和apk一样的开机广告图片*/
+	/** 默认和apk一样的开机广告图片 */
 	public final static String INITIAL = "initial.png";
-	/**广告图片地址获取key*/
+	/** 广告图片地址获取key */
 	public final static String KEY_BOOTADIMG = "bootadimg";
 }
