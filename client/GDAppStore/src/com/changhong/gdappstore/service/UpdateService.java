@@ -44,8 +44,6 @@ public class UpdateService {
 	public static boolean THREAD_ONE_FINISHED = true;
 	public static boolean THREAD_TWO_FINISHED = true;
 	public static boolean THREAD_DOWNLOAD_EXCEPTION = false;
-	/** 存放下载apk文件目录 */
-	public static final String baseUpdatePath = "/data/data/com.changhong.gdappstore/loadapp";
 	/** 下载apk存放文件夹 */
 	private File updateFile;
 	private AppDetail appDetail;
@@ -113,11 +111,11 @@ public class UpdateService {
 		this.appDetail = appDetail;
 		String apkname = appDetail.getApkFilePath().substring(appDetail.getApkFilePath().lastIndexOf("/"),
 				appDetail.getApkFilePath().length()).trim();
-		File baseFile = new File(baseUpdatePath);
+		File baseFile = new File(Config.baseUpdatePath);
 		if (baseFile == null || !baseFile.exists() || !baseFile.isDirectory()) {
 			baseFile.mkdirs();
 		}
-		updateFile = new File(baseUpdatePath + apkname);
+		updateFile = new File(Config.baseUpdatePath + apkname);
 		/**
 		 * 根据下载的文件和上次的异常来判断走升级那个流程
 		 */
@@ -129,7 +127,7 @@ public class UpdateService {
 		} else {
 			
 		}
-		Util.deleteFileChildrens(baseUpdatePath);
+		Util.deleteFileChildrens(Config.baseUpdatePath);
 		/**
 		 * 本地文件不存在，从服务器获得更新流程
 		 */
@@ -329,7 +327,7 @@ public class UpdateService {
 		if (!updateFile.exists()) {
 			return;
 		}
-		Util.chrome0777File(baseUpdatePath);
+		Util.chrome0777File(Config.baseUpdatePath);
 		Util.chrome0777File(updateFile.getAbsolutePath().toString());
 		InstallUtil.installApp(context, updateFile);
 	}

@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.Util;
 
@@ -37,7 +38,7 @@ public class AppBroadcastReceiver extends BroadcastReceiver {
 			String packageName = intent.getDataString();
 			L.d("AppBroadcastReceiver--installed packageName=" + packageName+" ");
 			//  删除安装包
-			Util.deleteFileChildrens(UpdateService.baseUpdatePath);
+			Util.deleteFileChildrens(Config.baseUpdatePath);
 			
 			if (packageName!=null&&packageName.startsWith("package:")) {
 				packageName=packageName.substring(packageName.indexOf(":")+1, packageName.length());

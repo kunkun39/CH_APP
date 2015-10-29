@@ -71,7 +71,7 @@ public class SilentInstallService extends Service {
 		@Override
 		public void onSuccess(final ResponseInfo<File> responseInfo) {
 			L.d(TAG + "---responseinfo  " + responseInfo.result.getPath());
-			Util.chrome0777File(UpdateService.baseUpdatePath);
+			Util.chrome0777File(Config.baseUpdatePath);
 			Util.chrome0777File(responseInfo.result.getPath());
 			new Thread(new Runnable() {
 
@@ -96,7 +96,7 @@ public class SilentInstallService extends Service {
 	 * 请求静默安装和静默卸载数据
 	 */
 	private void loadSilentInstallAppList() {
-		Util.deleteFileChildrens(UpdateService.baseUpdatePath);
+		Util.deleteFileChildrens(Config.baseUpdatePath);
 		silentInstallPos = -1;
 		DataCenter.getInstance().loadSilentInstallData(getApplicationContext(), new LoadObjectListener() {
 
@@ -172,7 +172,7 @@ public class SilentInstallService extends Service {
 													// 临时使用海报图片路径变量代替apk下载路径变量
 		String apkname = apkLoadUrl.substring(apkLoadUrl.lastIndexOf("/") + 1, apkLoadUrl.length()).trim();
 		L.d(TAG + " downloadapp pos=" + silentInstallPos);
-		HttpHandler handler = http.download(apkLoadUrl, UpdateService.baseUpdatePath + "/" + apkname, true, // 如果目标文件存在，接着未完成的部分继续下载。服务器不支持RANGE时将从新下载。
+		HttpHandler handler = http.download(apkLoadUrl, Config.baseUpdatePath + "/" + apkname, true, // 如果目标文件存在，接着未完成的部分继续下载。服务器不支持RANGE时将从新下载。
 				true, // 如果从请求返回信息中获取到文件名，下载完成后自动重命名。
 				requestCallBack);
 	}
