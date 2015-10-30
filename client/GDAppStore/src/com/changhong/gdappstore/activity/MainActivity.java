@@ -186,7 +186,7 @@ public class MainActivity extends BaseActivity {
 		if (categories != null) {
 			for (int i = 0; i < categories.size(); i++) {
 				if (i > Config.showCatPageSize) {
-					categories.remove(i);// TODO 第一阶段只显示4个标签，
+					categories.remove(i);
 					i--;
 				}
 			}
