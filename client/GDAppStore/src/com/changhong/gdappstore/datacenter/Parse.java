@@ -19,6 +19,7 @@ import com.changhong.gdappstore.model.RankingData;
 import com.changhong.gdappstore.model.Ranking_Item;
 import com.changhong.gdappstore.model.SynchApp;
 import com.changhong.gdappstore.model.SynchApp.Type;
+import com.changhong.gdappstore.util.DesUtils;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.Util;
 
@@ -97,9 +98,12 @@ public class Parse {
 			String host = "";
 			if (categoryObject.has(HOST)) {
 				host = categoryObject.getString(HOST).trim();
+				L.d("parsecategory host befor=="+host);
+				host=DesUtils.getDesString(host);
+				L.d("parsecategory host after=="+host);
 			}
 			if (categoryObject.has("client_url")) {
-				MyApplication.UPDATE_APKURL = categoryObject.getString("client_url").trim();
+				MyApplication.UPDATE_APKURL = DesUtils.getDesString(categoryObject.getString("client_url").trim());
 			}
 			if (categoryObject.has("client_v")) {
 				MyApplication.SERVER_VERSION = categoryObject.getInt("client_v");
@@ -164,6 +168,7 @@ public class Parse {
 		try {
 			JSONObject object = new JSONObject(pageAppJson);
 			String host = object.getString(HOST).trim();
+			host=DesUtils.getDesString(host);
 			JSONArray array = object.getJSONArray("pages");
 			for (int i = 0; i < array.length(); i++) {
 				PageApp app = new PageApp();
@@ -227,6 +232,7 @@ public class Parse {
 		try {
 			JSONObject object = new JSONObject(categoryAppJson);
 			String host = object.getString(HOST).trim();
+			host=DesUtils.getDesString(host);
 			JSONArray array = object.getJSONArray(VALUES);
 			for (int i = 0; i < array.length(); i++) {
 				App app = new App();
@@ -274,6 +280,7 @@ public class Parse {
 		try {
 			JSONObject object = new JSONObject(categoryAppJson);
 			String host = object.getString(HOST).trim();
+			host=DesUtils.getDesString(host);
 			JSONArray array = object.getJSONArray(VALUES);
 			for (int i = 0; i < array.length(); i++) {
 				App app = new App();
@@ -307,6 +314,7 @@ public class Parse {
 		try {
 			JSONObject object = new JSONObject(categoryAppJson);
 			String host = object.getString(HOST).trim();
+			host=DesUtils.getDesString(host);
 			JSONArray array = object.getJSONArray(VALUES);
 			for (int i = 0; i < array.length(); i++) {
 				App app = new App();
@@ -353,6 +361,7 @@ public class Parse {
 		try {
 			JSONObject object=new JSONObject(bootADJson);
 			String host=object.getString(HOST);
+			host=DesUtils.getDesString(host);
 			String bootImg=object.getString("boot_img");
 			bootADUrl=host+bootImg;
 		} catch (Exception e) {
@@ -370,6 +379,7 @@ public class Parse {
 		try {
 			JSONObject object = new JSONObject(appdetailJson);
 			String host = object.getString(HOST).trim();
+			host=DesUtils.getDesString(host);
 			String appKey = object.getString(APP_KEY).trim();
 			appDetail.setAppkey(appKey);
 			appDetail.setHost(host);
@@ -415,6 +425,7 @@ public class Parse {
 		try {
 			JSONObject object = new JSONObject(searchAppsJson);
 			String host = object.getString(HOST).trim();
+			host=DesUtils.getDesString(host);
 			JSONArray array = object.getJSONArray(VALUES);
 			for (int i = 0; i < array.length(); i++) {
 				App app = new App();
@@ -445,6 +456,7 @@ public class Parse {
 		try {
 			JSONObject object = new JSONObject(appVersionsJson);
 			String host = object.getString(HOST).trim();
+			host=DesUtils.getDesString(host);
 			JSONArray array = object.getJSONArray(VALUES);
 			for (int i = 0; i < array.length(); i++) {
 				App app = new App();
@@ -548,6 +560,7 @@ public class Parse {
 		try {
 			JSONObject object = new JSONObject(json);
 			String host = object.getString(HOST).trim();
+			host=DesUtils.getDesString(host);
 			JSONArray array = object.getJSONArray("getbackupapps");
 			for (int i = 0; i < array.length(); i++) {
 				SynchApp app = new SynchApp();
@@ -621,6 +634,7 @@ public class Parse {
 			JSONObject object = new JSONObject(rankingListJson);
 
 			String host = object.getString(HOST).trim();
+			host=DesUtils.getDesString(host);
 			JSONArray surgeListJsonArray = object.getJSONArray("FASTEST");
 			JSONArray hotListJsonArray = object.getJSONArray("HOTEST");
 			JSONArray newListJsonArray = object.getJSONArray("NEWEST");

@@ -22,7 +22,6 @@ import com.changhong.gdappstore.net.LoadListener.LoadCompleteListener;
 import com.changhong.gdappstore.net.LoadListener.LoadListListener;
 import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
 import com.changhong.gdappstore.service.CacheManager;
-import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.SharedPreferencesUtil;
 

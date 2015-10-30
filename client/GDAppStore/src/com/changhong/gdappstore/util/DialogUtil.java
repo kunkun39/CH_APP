@@ -81,7 +81,7 @@ public class DialogUtil {
 		progressDialog.setTitle(title);
 		progressDialog.setMessage(content);
 		progressDialog.setCancelable(false);
-		if (isshow) {
+		if (isshow && !progressDialog.isShowing()) {
 			progressDialog.show();
 		}
 		return progressDialog;

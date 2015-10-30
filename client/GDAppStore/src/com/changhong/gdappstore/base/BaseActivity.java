@@ -58,10 +58,9 @@ public class BaseActivity extends Activity {
 	protected void showLoadingDialog() {
 		if (loadingDialog == null) {
 			loadingDialog = DialogUtil.showCirculProDialog(context, context.getString(R.string.tishi),
-					context.getString(R.string.dataloading), true);
-		} else if(!loadingDialog.isShowing()){
-			loadingDialog.show();
+					context.getString(R.string.dataloading), false);
 		}
+		loadingDialog.show();
 	}
 
 	protected void dismissLoadingDialog() {
