@@ -35,6 +35,19 @@ public class InstallUtil {
 	}
 
 	/**
+	 * 卸载应用
+	 * 
+	 * @param context
+	 * @param packageName
+	 *            应用包名
+	 */
+	public static void unInstallApp(Context context, String packageName) {
+		Uri uri = Uri.parse("package:" + packageName);
+		Intent intent = new Intent(Intent.ACTION_DELETE, uri);
+		context.startActivity(intent);
+	}
+
+	/**
 	 * 静默安装
 	 * 
 	 * @param path

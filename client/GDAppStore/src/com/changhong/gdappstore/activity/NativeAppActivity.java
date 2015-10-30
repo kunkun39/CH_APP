@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -13,39 +12,31 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.adapter.NativeAppGridAdapter;
-import com.changhong.gdappstore.adapter.SynchGridAdapter;
 import com.changhong.gdappstore.base.BaseActivity;
 import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.model.NativeApp;
-import com.changhong.gdappstore.model.SynchApp;
-import com.changhong.gdappstore.model.SynchApp.Type;
 import com.changhong.gdappstore.net.LoadListener.LoadListListener;
-import com.changhong.gdappstore.post.PostSetting;
-import com.changhong.gdappstore.post.PosterLayoutView;
 import com.changhong.gdappstore.service.AppBroadcastReceiver;
 import com.changhong.gdappstore.service.AppBroadcastReceiver.AppChangeListener;
 import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.DialogUtil.DialogBtnOnClickListener;
+import com.changhong.gdappstore.util.DialogUtil.DialogMessage;
+import com.changhong.gdappstore.util.InstallUtil;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
-import com.changhong.gdappstore.util.DialogUtil.DialogMessage;
-import com.post.view.base.BasePosterLayoutView;
-import com.post.view.listener.IPosteDateListener;
-import com.post.view.listener.Listener.IItemOnClickListener;
-import com.post.view.listener.Listener.IItemOnLongClickListener;
 
 /**
  * 本地应用页面,基础海报页面
@@ -119,15 +110,8 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 		tv_num_checked = findView(R.id.tv_num_checked);
 		iv_batch_icon = findView(R.id.iv_batch_icon);
 		tv_ge = findView(R.id.tv_ge);
-		initPostView();
 	}
 
-	private void initPostView() {
-		if (loadDataProDialog != null && loadDataProDialog.isShowing()) {
-			loadDataProDialog.dismiss();
-		}
-
-	}
 
 	private void initData() {
 		nativeApps = Util.getApp(context);
@@ -265,13 +249,15 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 
 			@Override
 			public void onSubmit(DialogMessage dialogMessage) {
-				for (int i = 0; i < packages.size(); i++) {
-					Uri uri = Uri.parse("package:" + packages.get(i));
-					Intent intent = new Intent(Intent.ACTION_DELETE, uri);
-					startActivity(intent);
-				}
+				DialogUtil.showLongToast(context, "应用正在后台卸载中...");
 				if (dialogMessage != null && dialogMessage.dialogInterface != null) {
 					dialogMessage.dialogInterface.dismiss();
+				}
+				for (int i = 0; i < packages.size(); i++) {
+//					Uri uri = Uri.parse("package:" + packages.get(i));
+//					Intent intent = new Intent(Intent.ACTION_DELETE, uri);
+//					startActivity(intent);
+					InstallUtil.uninstallAppByCommond(packages.get(i));
 				}
 			}
 

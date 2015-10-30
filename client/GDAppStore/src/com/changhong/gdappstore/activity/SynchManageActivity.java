@@ -2,6 +2,7 @@ package com.changhong.gdappstore.activity;
 
 import java.util.List;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -40,6 +41,8 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 	private TextView tv_batch_suggest, tv_num_checked, tv_ge;
 	/** 批量操作时候选择的item个数 */
 	private int curCheckedItem = 0;
+	/**数据加载对话框*/
+	protected ProgressDialog loadingDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +74,9 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 		tv_num_checked = findView(R.id.tv_num_checked);
 		iv_batch_icon = findView(R.id.iv_batch_icon);
 		tv_ge = findView(R.id.tv_ge);
+		
+		loadingDialog = DialogUtil.showCirculProDialog(context, context.getString(R.string.tishi),
+				context.getString(R.string.dataloading), true);
 	}
 
 	private void initData() {
@@ -104,6 +110,9 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 					}
 				}
 				adapter.updateList(items);
+				if (loadingDialog != null && loadingDialog.isShowing()) {
+					loadingDialog.dismiss();
+				}
 			}
 		});
 	}
@@ -119,6 +128,15 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 		default:
 			break;
 		}
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (event.getAction()==KeyEvent.ACTION_DOWN && keyCode==KeyEvent.KEYCODE_MENU) {
+			doBatchOnClick();
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 
 	/**

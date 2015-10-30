@@ -3,6 +3,7 @@ package com.changhong.gdappstore.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -40,6 +41,8 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 	private TextView tv_batch_suggest, tv_num_checked, tv_ge;
 	/** 批量操作时候选择的item个数 */
 	private int curCheckedItem = 0;
+	/**数据加载对话框*/
+	protected ProgressDialog loadingDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +73,9 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 		tv_num_checked = findView(R.id.tv_num_checked);
 		iv_batch_icon = findView(R.id.iv_batch_icon);
 		tv_ge = findView(R.id.tv_ge);
+		
+		loadingDialog = DialogUtil.showCirculProDialog(context, context.getString(R.string.tishi),
+				context.getString(R.string.dataloading), true);
 	}
 
 	private void initData() {
@@ -87,6 +93,7 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 			@Override
 			public void onComplete(Object object) {
 				List<SynchApp> items = (List<SynchApp>) object;
+				List<SynchApp> itemsBySort = new ArrayList<SynchApp>();
 				if (items.size() > 6) {
 					iv_shandow_item1.setVisibility(VISIBLE);
 				}
@@ -107,9 +114,17 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 								synchApp.setVersionInt(nativeApp.nativeVersionInt);
 							}
 						}
+						if (synchApp.getSynchType()==Type.BACKUPED) {
+							itemsBySort.add(synchApp);
+						}else {
+							itemsBySort.add(0, synchApp);
+						}
 					}
 				}
-				adapter.updateList(items);
+				adapter.updateList(itemsBySort);
+				if (loadingDialog != null && loadingDialog.isShowing()) {
+					loadingDialog.dismiss();
+				}
 			}
 		});
 	}
@@ -125,6 +140,15 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 		default:
 			break;
 		}
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (event.getAction()==KeyEvent.ACTION_DOWN && keyCode==KeyEvent.KEYCODE_MENU) {
+			doBatchOnClick();
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 
 	/**
@@ -146,6 +170,7 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 					} else {
 						ids = ids + "," + app.getAppid();
 					}
+					app.setChecked(false);
 				}
 			}
 			postBackUp(ids);

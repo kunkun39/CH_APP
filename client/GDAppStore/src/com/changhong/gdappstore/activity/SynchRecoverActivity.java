@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -28,17 +29,15 @@ import com.changhong.gdappstore.model.SynchApp;
 import com.changhong.gdappstore.model.SynchApp.Type;
 import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
 import com.changhong.gdappstore.service.AppBroadcastReceiver;
-import com.changhong.gdappstore.service.DownLoadManager;
 import com.changhong.gdappstore.service.AppBroadcastReceiver.AppChangeListener;
+import com.changhong.gdappstore.service.DownLoadManager;
 import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.InstallUtil;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
 import com.changhong.gdappstore.view.MyProgressDialog;
-import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
-import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 
@@ -54,10 +53,12 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 	private TextView tv_batch_suggest, tv_num_checked, tv_ge;
 	/** 批量操作时候选择的item个数 */
 	private int curCheckedItem = 0;
-
+	/**下载apk进度对话框*/
 	private MyProgressDialog downloadPDialog;
-
+	/**apk 下载列表*/
 	private List<SynchApp> downloadApps;
+	/**数据加载对话框*/
+	protected ProgressDialog loadingDialog;
 	private int curDownLoadPos = -1;
 
 	@Override
@@ -94,6 +95,9 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 		downloadPDialog = new MyProgressDialog(context);
 		downloadPDialog.setUpdateFileSizeName(true);
 		downloadPDialog.dismiss();
+		
+		loadingDialog = DialogUtil.showCirculProDialog(context, context.getString(R.string.tishi),
+				context.getString(R.string.dataloading), true);
 
 		AppBroadcastReceiver.listeners.put(context.getClass().getName(), appChangeListener);
 	}
@@ -105,6 +109,7 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 			@Override
 			public void onComplete(Object object) {
 				List<SynchApp> items = (List<SynchApp>) object;
+				List<SynchApp> itemsBySort = new ArrayList<SynchApp>();
 				if (items.size() > 6) {
 					iv_shandow_item1.setVisibility(VISIBLE);
 				}
@@ -125,9 +130,17 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 								synchApp.setSynchType(Type.RECOVERED);
 							}
 						}
+						if (synchApp.getSynchType()==Type.RECOVERED) {
+							itemsBySort.add(synchApp);
+						}else {
+							itemsBySort.add(0, synchApp);
+						}
 					}
 				}
-				adapter.updateList(items);
+				adapter.updateList(itemsBySort);
+				if (loadingDialog != null && loadingDialog.isShowing()) {
+					loadingDialog.dismiss();
+				}
 			}
 		});
 	}
@@ -143,6 +156,15 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 		default:
 			break;
 		}
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (event.getAction()==KeyEvent.ACTION_DOWN && keyCode==KeyEvent.KEYCODE_MENU) {
+			doBatchOnClick();
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 
 	/**
@@ -160,6 +182,7 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 				SynchApp app = (SynchApp) adapter.getItem(i);
 				if (app.isChecked()) {
 					apps.add(app);
+					app.setChecked(false);
 				}
 			}
 			downloadApps(apps);
