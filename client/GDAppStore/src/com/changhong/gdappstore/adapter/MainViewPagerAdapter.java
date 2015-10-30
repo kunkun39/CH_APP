@@ -49,7 +49,7 @@ public class MainViewPagerAdapter extends PagerAdapter {
 
 	@Override
 	public int getCount() {
-		return pageViews.size();
+		return pageViews==null?0:pageViews.size();
 	}
 
 	@Override
