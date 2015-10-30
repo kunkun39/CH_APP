@@ -57,14 +57,13 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 	private MyProgressDialog downloadPDialog;
 	/**apk 下载列表*/
 	private List<SynchApp> downloadApps;
-	/**数据加载对话框*/
-	protected ProgressDialog loadingDialog;
 	private int curDownLoadPos = -1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_synch_backup);
+		showLoadingDialog();
 		initView();
 		initData();
 	}
@@ -96,9 +95,6 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 		downloadPDialog.setUpdateFileSizeName(true);
 		downloadPDialog.dismiss();
 		
-		loadingDialog = DialogUtil.showCirculProDialog(context, context.getString(R.string.tishi),
-				context.getString(R.string.dataloading), true);
-
 		AppBroadcastReceiver.listeners.put(context.getClass().getName(), appChangeListener);
 	}
 
@@ -138,9 +134,7 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 					}
 				}
 				adapter.updateList(itemsBySort);
-				if (loadingDialog != null && loadingDialog.isShowing()) {
-					loadingDialog.dismiss();
-				}
+				dismissLoadingDialog();
 			}
 		});
 	}

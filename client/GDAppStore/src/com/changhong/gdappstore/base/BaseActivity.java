@@ -1,14 +1,20 @@
 package com.changhong.gdappstore.base;
 
+import com.changhong.gdappstore.R;
+import com.changhong.gdappstore.util.DialogUtil;
+
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
+
 /**
  * 基类activity
+ * 
  * @author wangxiufeng
- *
+ * 
  */
 public class BaseActivity extends Activity {
 
@@ -22,6 +28,8 @@ public class BaseActivity extends Activity {
 	/** View.GONE */
 	protected static final int GONE = View.GONE;
 
+	protected ProgressDialog loadingDialog;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,6 +42,7 @@ public class BaseActivity extends Activity {
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
 		screenWidth = dm.widthPixels;// 获取分辨率宽度
 		screenHeight = dm.heightPixels;
+
 	}
 
 	/**
@@ -44,6 +53,21 @@ public class BaseActivity extends Activity {
 	 */
 	protected <T> T findView(int id) {
 		return (T) findViewById(id);
+	}
+
+	protected void showLoadingDialog() {
+		if (loadingDialog == null) {
+			loadingDialog = DialogUtil.showCirculProDialog(context, context.getString(R.string.tishi),
+					context.getString(R.string.dataloading), true);
+		} else if(!loadingDialog.isShowing()){
+			loadingDialog.show();
+		}
+	}
+
+	protected void dismissLoadingDialog() {
+		if (loadingDialog != null && loadingDialog.isShowing()) {
+			loadingDialog.dismiss();
+		}
 	}
 
 }

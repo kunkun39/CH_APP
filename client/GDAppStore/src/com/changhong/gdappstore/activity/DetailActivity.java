@@ -3,7 +3,6 @@ package com.changhong.gdappstore.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -51,8 +50,6 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	private ImageView iv_post, iv_icon;
 
 	private AppDetail appDetail;
-	/** 数据更新提示对话框 */
-	private ProgressDialog updateAppPDialog;
 	/** 下载进度提示对话框 */
 	private MyProgressDialog downloadPDialog;
 	/** 下载进度提示下载功能 */
@@ -102,8 +99,6 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		downloadPDialog = new MyProgressDialog(context);
 		downloadPDialog.setUpdateFileSizeName(true);
 		downloadPDialog.dismiss();
-		updateAppPDialog = DialogUtil.showCirculProDialog(context, context.getString(R.string.tishi),
-				context.getString(R.string.dataloading), true);
 		view_usermaylike.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -123,23 +118,19 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		if (downloadPDialog != null) {
 			downloadPDialog.dismiss();
 		}
-		if (updateAppPDialog != null) {
-			updateAppPDialog.dismiss();
-		}
 		updateBtnState();
 	}
 
 	private void initData() {
 		updateService = new UpdateService(context, null, downloadPDialog);
 		if (NetworkUtils.ISNET_CONNECT) {
-			updateAppPDialog.show();
+			showLoadingDialog();
 		}
 		DataCenter.getInstance().loadAppDetail(appId, new LoadObjectListener() {
 
 			@Override
 			public void onComplete(Object object) {
 				appDetail = (AppDetail) object;
-				updateAppPDialog.dismiss();
 				if (appDetail != null) {
 					scoreview.setScoreBy10Total(appDetail.getScores());
 					tv_appname.setText(appDetail.getAppname());
@@ -158,6 +149,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 						initRecommendData();
 					}
 				}
+				dismissLoadingDialog();
 			}
 		}, context);
 

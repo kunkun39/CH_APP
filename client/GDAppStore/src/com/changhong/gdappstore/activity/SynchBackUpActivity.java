@@ -41,13 +41,12 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 	private TextView tv_batch_suggest, tv_num_checked, tv_ge;
 	/** 批量操作时候选择的item个数 */
 	private int curCheckedItem = 0;
-	/**数据加载对话框*/
-	protected ProgressDialog loadingDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_synch_backup);
+		showLoadingDialog();
 		initView();
 		initData();
 	}
@@ -74,8 +73,6 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 		iv_batch_icon = findView(R.id.iv_batch_icon);
 		tv_ge = findView(R.id.tv_ge);
 		
-		loadingDialog = DialogUtil.showCirculProDialog(context, context.getString(R.string.tishi),
-				context.getString(R.string.dataloading), true);
 	}
 
 	private void initData() {
@@ -122,9 +119,7 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 					}
 				}
 				adapter.updateList(itemsBySort);
-				if (loadingDialog != null && loadingDialog.isShowing()) {
-					loadingDialog.dismiss();
-				}
+				dismissLoadingDialog();
 			}
 		});
 	}
@@ -221,6 +216,7 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 	 *            是否是批量操作
 	 */
 	private void postBackUp(String ids) {
+		showLoadingDialog();
 		DataCenter.getInstance().postBackup(ids, context, new LoadObjectListener() {
 
 			@Override
@@ -249,6 +245,7 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 					// 普通提交
 					adapter.updateList(items);
 				}
+				dismissLoadingDialog();
 			}
 		});
 	}

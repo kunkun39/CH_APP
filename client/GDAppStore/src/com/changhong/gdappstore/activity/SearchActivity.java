@@ -81,14 +81,13 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 	private Map<String, List<Object>> cacheMap = new LinkedHashMap<String, List<Object>>();
 	/** 缓存保留数据数量 */
 	private static final int CACHESIZE = 30;
-	/**加载进度圈*/
-	private ProgressDialog loadDataProDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search);
 		cacheMap = new LinkedHashMap<String, List<Object>>();
+		showLoadingDialog();
 		initView();
 		initPostView();
 		initData();
@@ -96,7 +95,6 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void initView() {
-		loadDataProDialog=DialogUtil.showCirculProDialog(context, context.getString(R.string.tishi), context.getString(R.string.dataloading), true);
 		for (int i = 0; i < id_keybords.length; i++) {
 			findViewById(id_keybords[i]).setOnClickListener(keyBordOnClickListener);
 		}
@@ -155,9 +153,7 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 	}
 
 	public void updateRankListData(List<Ranking_Item> rankingItems) {
-		if (loadDataProDialog==null ||loadDataProDialog.isShowing()) {
-			loadDataProDialog.dismiss();
-		}
+		dismissLoadingDialog();
 		if (rankingItems == null || rankingItems.size() <= 0) {
 			return;
 		}

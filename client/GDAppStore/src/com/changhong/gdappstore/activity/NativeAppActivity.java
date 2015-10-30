@@ -3,7 +3,6 @@ package com.changhong.gdappstore.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -58,7 +57,7 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 	/** 当前显示类别id **/
 	protected int curCategoryId = 0;
 
-	protected ProgressDialog loadDataProDialog;
+	
 
 	private static final int UNINSTALL_REQCODE = 11;
 
@@ -85,8 +84,6 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 		tv_name.setText("本地应用");
 		tv_page = findView(R.id.tv_page);
 		iv_search = findView(R.id.iv_search);
-		loadDataProDialog = DialogUtil.showCirculProDialog(context, context.getString(R.string.tishi),
-				context.getString(R.string.dataloading), true);
 		iv_search.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -110,15 +107,13 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 		tv_num_checked = findView(R.id.tv_num_checked);
 		iv_batch_icon = findView(R.id.iv_batch_icon);
 		tv_ge = findView(R.id.tv_ge);
+		showLoadingDialog();
 	}
 
 
 	private void initData() {
 		nativeApps = Util.getApp(context);
 		if (nativeApps != null) {
-			if (loadDataProDialog != null && !loadDataProDialog.isShowing()) {
-				loadDataProDialog.show();
-			}
 			adapter.updateList(nativeApps);
 			// 获取包名，用于请求版本号
 			List<String> packages = new ArrayList<String>();
@@ -149,9 +144,7 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 						}
 					}
 					adapter.updateList(nativeApps);
-					if (loadDataProDialog != null && loadDataProDialog.isShowing()) {
-						loadDataProDialog.dismiss();
-					}
+					dismissLoadingDialog();
 				}
 			}, context);
 		}

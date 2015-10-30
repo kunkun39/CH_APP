@@ -60,14 +60,13 @@ public class PostActivity extends BaseActivity {
 	/** 当前显示类别id **/
 	protected int curCategoryId = 0;
 
-	protected ProgressDialog loadDataProDialog;
-
 	private int itemsize;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post);
+		showLoadingDialog();
 		initView();
 		initData();
 	}
@@ -78,8 +77,6 @@ public class PostActivity extends BaseActivity {
 		tv_name = findView(R.id.tv_pagename);
 		tv_page = findView(R.id.tv_page);
 		iv_search = findView(R.id.iv_search);
-		loadDataProDialog = DialogUtil.showCirculProDialog(context, context.getString(R.string.tishi),
-				context.getString(R.string.dataloading), true);
 		iv_search.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -106,9 +103,7 @@ public class PostActivity extends BaseActivity {
 			public void onItemClick(View view, int position) {
 				Category category = (Category) view.getTag();
 				if (curCategoryId != category.getId()) {
-					if (loadDataProDialog != null && !loadDataProDialog.isShowing()) {
-						loadDataProDialog.show();
-					}
+					showLoadingDialog();
 					dataCenter.loadAppsByCategoryId(context, category.getId(), loadAppListListener);
 					curCategoryId = category.getId();
 				}
@@ -177,9 +172,6 @@ public class PostActivity extends BaseActivity {
 
 		@Override
 		public void onComplete(List<Object> items) {
-			if (loadDataProDialog != null && loadDataProDialog.isShowing()) {
-				loadDataProDialog.dismiss();
-			}
 			currentApps = items;
 			L.d("loadapp complete " + ((items == null) ? "items is null" : items.size()));
 			if (items != null && items.size() > 0) {
@@ -190,6 +182,7 @@ public class PostActivity extends BaseActivity {
 				itemsize = 0;
 				postView.setVisibility(INVISIBLE);
 			}
+			dismissLoadingDialog();
 		}
 	};
 
