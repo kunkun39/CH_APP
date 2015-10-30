@@ -166,7 +166,7 @@ public class Util {
 	 * @return
 	 */
 	public static NativeApp getNativeApp(Context context, String packageName) {
-		List<Object> objects = getApp(context);
+		List<NativeApp> objects = getApp(context);
 		if (objects == null || objects.size() == 0 || TextUtils.isEmpty(packageName)) {
 			return null;
 		}
@@ -185,14 +185,14 @@ public class Util {
 	 * @param context
 	 * @return
 	 */
-	public static List<Object> getApp(Context context) {
+	public static List<NativeApp> getApp(Context context) {
 		Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
 		mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 		if (context == null || context.getPackageManager() == null) {
 			return null;
 		}
 		// http://blog.csdn.net/qinjuning/article/details/6867806
-		List<Object> nativeApps = new ArrayList<Object>();
+		List<NativeApp> nativeApps = new ArrayList<NativeApp>();
 		List<PackageInfo> packages = context.getPackageManager().getInstalledPackages(0);
 		for (int i = 0; i < packages.size(); i++) {
 			PackageInfo packageInfo = packages.get(i);
@@ -203,6 +203,7 @@ public class Util {
 				tmpInfo.appname = packageInfo.applicationInfo.loadLabel(context.getPackageManager()).toString();
 				tmpInfo.appPackage = packageInfo.packageName;
 				tmpInfo.nativeVersionInt = packageInfo.versionCode;
+				tmpInfo.checked=false;
 				tmpInfo.appIcon = packageInfo.applicationInfo.loadIcon(context.getPackageManager());
 				nativeApps.add(tmpInfo);
 				tmpInfo.appid = -1;

@@ -90,7 +90,7 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 					iv_shandow_item3.setVisibility(VISIBLE);
 				}
 				if (items != null) {
-					List<Object> nativeApps = Util.getApp(context);
+					List<NativeApp> nativeApps = Util.getApp(context);
 					for (int i = 0; i < items.size(); i++) {
 						SynchApp synchApp = items.get(i);
 						for (int j = 0; j < nativeApps.size(); j++) {

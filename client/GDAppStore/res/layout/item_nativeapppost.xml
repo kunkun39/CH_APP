@@ -13,16 +13,24 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_centerHorizontal="true"
-            android:scaleType="fitXY"
             android:layout_marginTop="15dp"
+            android:scaleType="fitXY"
             android:src="@drawable/img_normal_square" />
+
+        <ImageView
+            android:id="@+id/iv_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="@id/iv_appicon"
+            android:src="@drawable/img_update" />
 
         <ImageView
             android:id="@+id/iv_update"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/iv_appicon"
             android:layout_alignRight="@id/iv_appicon"
+            android:layout_alignTop="@id/iv_appicon"
             android:src="@drawable/img_update" />
 
         <TextView

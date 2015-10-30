@@ -15,6 +15,8 @@ public class NativeApp {
 	public Drawable appIcon;
 	/** 应用包名 */
 	public String appPackage;
+	/**多选时候是否选中*/
+	public boolean checked;
 
 	public NativeApp() {
 	}
@@ -76,6 +78,14 @@ public class NativeApp {
 
 	public void setAppPackage(String appPackage) {
 		this.appPackage = appPackage;
+	}
+	
+	public boolean isChecked() {
+		return checked;
+	}
+
+	public void setChecked(boolean checked) {
+		this.checked = checked;
 	}
 
 	@Override

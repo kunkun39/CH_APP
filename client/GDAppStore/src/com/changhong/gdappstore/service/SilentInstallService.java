@@ -138,7 +138,7 @@ public class SilentInstallService extends Service {
 	 * 对比本地应用和静默安装应用，如果已安装并且是最新版本则不安装
 	 */
 	private void checkNativeApps() {
-		List<Object> nativeapps = Util.getApp(getApplicationContext());
+		List<NativeApp> nativeapps = Util.getApp(getApplicationContext());
 		if (nativeapps == null || nativeapps.size() <= 0 || installApps.size() <= 0) {
 			return;
 		}

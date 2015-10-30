@@ -76,7 +76,7 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 		adapter.setBatch(false);
 		List<String> packages = new ArrayList<String>();
 		// 获取本地已安装应用的报名
-		final List<Object> nativeApps = Util.getApp(context);
+		final List<NativeApp> nativeApps = Util.getApp(context);
 		for (int i = 0; i < nativeApps.size(); i++) {
 			if (nativeApps.get(i) != null && !TextUtils.isEmpty(((NativeApp) nativeApps.get(i)).getAppPackage())) {
 				packages.add(((NativeApp) nativeApps.get(i)).getAppPackage());

@@ -8,27 +8,40 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.R;
+import com.changhong.gdappstore.adapter.NativeAppGridAdapter;
+import com.changhong.gdappstore.adapter.SynchGridAdapter;
 import com.changhong.gdappstore.base.BaseActivity;
 import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.model.NativeApp;
+import com.changhong.gdappstore.model.SynchApp;
+import com.changhong.gdappstore.model.SynchApp.Type;
 import com.changhong.gdappstore.net.LoadListener.LoadListListener;
 import com.changhong.gdappstore.post.PostSetting;
 import com.changhong.gdappstore.post.PosterLayoutView;
 import com.changhong.gdappstore.service.AppBroadcastReceiver;
 import com.changhong.gdappstore.service.AppBroadcastReceiver.AppChangeListener;
 import com.changhong.gdappstore.util.DialogUtil;
+import com.changhong.gdappstore.util.DialogUtil.DialogBtnOnClickListener;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
+import com.changhong.gdappstore.util.DialogUtil.DialogMessage;
 import com.post.view.base.BasePosterLayoutView;
 import com.post.view.listener.IPosteDateListener;
 import com.post.view.listener.Listener.IItemOnClickListener;
@@ -40,15 +53,9 @@ import com.post.view.listener.Listener.IItemOnLongClickListener;
  * @author wangxiufeng
  * 
  */
-public class NativeAppActivity extends BaseActivity {
+public class NativeAppActivity extends BaseActivity implements OnClickListener, OnKeyListener {
 	/** 本地应用 */
-	private List<Object> nativeApps;
-	/** 海报墙view */
-	protected PosterLayoutView postView;
-	/** 海报墙配置项 */
-	protected PostSetting postSetting;
-	/** 标题view */
-	// protected PostTitleView titleView;
+	private List<NativeApp> nativeApps;
 	/** 数据处理中心 */
 	protected DataCenter dataCenter;
 	/** 父栏目，根据首页传过来的id确定 */
@@ -64,6 +71,16 @@ public class NativeAppActivity extends BaseActivity {
 
 	private static final int UNINSTALL_REQCODE = 11;
 
+	private static final String DOBATCH = "卸载应用";
+	private static final String SUBMIT_BACKUP = "确认卸载";
+	private GridView gridView;
+	private NativeAppGridAdapter adapter;
+	private Button bt_batch;
+	private ImageView iv_batch_icon;
+	private TextView tv_batch_suggest, tv_num_checked, tv_ge;
+	/** 批量操作时候选择的item个数 */
+	private int curCheckedItem = 0;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -73,8 +90,6 @@ public class NativeAppActivity extends BaseActivity {
 	}
 
 	private void initView() {
-		postView = findView(R.id.postview);
-		// titleView = findView(R.id.posttitleview);
 		tv_name = findView(R.id.tv_pagename);
 		tv_name.setText("本地应用");
 		tv_page = findView(R.id.tv_page);
@@ -88,23 +103,26 @@ public class NativeAppActivity extends BaseActivity {
 				startActivity(new Intent(NativeAppActivity.this, SearchActivity.class));
 			}
 		});
+		gridView = findView(R.id.gridview);
+
+		adapter = new NativeAppGridAdapter(context, null);
+		gridView.setOnItemClickListener(onItemClickListener);
+		gridView.setOnKeyListener(this);
+		gridView.setAdapter(adapter);
+
+		bt_batch = findView(R.id.bt_batch);
+		bt_batch.setOnKeyListener(this);
+		bt_batch.setOnClickListener(this);
+		bt_batch.requestFocus();
+
+		tv_batch_suggest = findView(R.id.tv_batch_suggest);
+		tv_num_checked = findView(R.id.tv_num_checked);
+		iv_batch_icon = findView(R.id.iv_batch_icon);
+		tv_ge = findView(R.id.tv_ge);
 		initPostView();
 	}
 
 	private void initPostView() {
-		// 重新配置post设置
-		postSetting = new PostSetting(3, 3, R.drawable.selector_bg_postitem, iPosteDateListener, null,
-				nativeappPostItemOnclickListener, onItemLongClickListener, null);
-		postSetting.setPosttype(PostSetting.TYPE_NATIVEAPP);
-		postSetting.setVerticalScroll(false);
-		postSetting.setFirstRowFocusUp(true);
-		postSetting.setFristItemFocus(true);
-		postSetting.setPost_column(5);
-		postSetting.setPost_row(3);
-		postSetting.setShowShandow(false);
-		postSetting.setVisibleClumn(1.1f);
-		postSetting.setMargins(15, 15, 0, 0);
-		postView.init(postSetting);
 		if (loadDataProDialog != null && loadDataProDialog.isShowing()) {
 			loadDataProDialog.dismiss();
 		}
@@ -117,7 +135,7 @@ public class NativeAppActivity extends BaseActivity {
 			if (loadDataProDialog != null && !loadDataProDialog.isShowing()) {
 				loadDataProDialog.show();
 			}
-			postView.refreshAllData(nativeApps, postSetting, nativeApps.size());
+			adapter.updateList(nativeApps);
 			// 获取包名，用于请求版本号
 			List<String> packages = new ArrayList<String>();
 			for (int i = 0; i < nativeApps.size(); i++) {
@@ -146,7 +164,7 @@ public class NativeAppActivity extends BaseActivity {
 							}
 						}
 					}
-					postView.refreshAllData(nativeApps, postSetting, nativeApps.size());
+					adapter.updateList(nativeApps);
 					if (loadDataProDialog != null && loadDataProDialog.isShowing()) {
 						loadDataProDialog.dismiss();
 					}
@@ -170,68 +188,189 @@ public class NativeAppActivity extends BaseActivity {
 				}
 				for (int i = 0; i < nativeApps.size(); i++) {
 					L.d("onappchange---packageName " + packageName + "  " + ((NativeApp) nativeApps.get(i)).appPackage);
-					if (((NativeApp) nativeApps.get(i)).appPackage.equals(packageName)) {
+					if (nativeApps.get(i).appPackage.equals(packageName)) {
 						nativeApps.remove(i);
 						break;
 					}
 				}
-				postView.refreshAllData(nativeApps, postSetting, nativeApps.size());
+				adapter.updateList(nativeApps);
 			}
 		}
 	};
 
-	/** 海报墙点击监听 **/
-	private IItemOnClickListener nativeappPostItemOnclickListener = new IItemOnClickListener() {
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.bt_batch:
+			doBatchOnClick();
+			break;
 
-		@Override
-		public void itemOnClick(BasePosterLayoutView arg0, View arg1, int arg2) {
-			NativeApp tmpInfo = (NativeApp) arg1.getTag();
-			if (tmpInfo.getAppid() > 0 && NetworkUtils.ISNET_CONNECT
-					&& tmpInfo.ServerVersionInt > tmpInfo.nativeVersionInt) {// 如果该应用来自于应用商城，进入详情
-				Intent intent = new Intent(NativeAppActivity.this, DetailActivity.class);
-				intent.putExtra(Config.KEY_APPID, tmpInfo.getAppid());
-				startActivity(intent);
-			} else {// 启动该应用
-				Util.openAppByPackageName(context, tmpInfo.getAppPackage());
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_MENU) {
+			doBatchOnClick();
+		}
+
+		return super.onKeyDown(keyCode, event);
+	}
+
+	/**
+	 * 批量操作按钮点击事件响应
+	 */
+	private void doBatchOnClick() {
+		if (adapter.getCount() == 0) {
+			DialogUtil.showShortToast(context, "没有应用存在，无法执行批量操作！");
+			return;
+		}
+		if (bt_batch.getText().toString().equals(SUBMIT_BACKUP)) {
+			// 已经是批量操作了，执行批量提交
+			List<String> packages = new ArrayList<String>();
+			for (int i = 0; i < adapter.getCount(); i++) {
+				NativeApp app = (NativeApp) adapter.getItem(i);
+				if (app.isChecked()) {
+					packages.add(app.appPackage);
+					app.setChecked(false);
+				}
+			}
+			if (packages != null && packages.size() > 0) {
+				unInstallApps(packages);
+			}
+			bt_batch.setText(DOBATCH);
+			tv_batch_suggest.setText("");
+			iv_batch_icon.setVisibility(VISIBLE);
+			tv_num_checked.setVisibility(INVISIBLE);
+			tv_ge.setVisibility(INVISIBLE);
+			adapter.setBatch(false);
+		} else {
+			// 从正常操作转向批量操作
+			bt_batch.setText(SUBMIT_BACKUP);
+			tv_batch_suggest.setText("已经选择");
+			iv_batch_icon.setVisibility(INVISIBLE);
+			refreshCheckedItemCount();
+			refreshCheckedItemText();
+			adapter.setBatch(true);
+		}
+	}
+	/**
+	 * 批量卸载应用
+	 * @param packages
+	 */
+	private void unInstallApps(final List<String> packages) {
+		DialogUtil.showMyAlertDialog(context, "提示：", "确认卸载选中应用？", "确认", "取消", new DialogBtnOnClickListener() {
+
+			@Override
+			public void onSubmit(DialogMessage dialogMessage) {
+				for (int i = 0; i < packages.size(); i++) {
+					Uri uri = Uri.parse("package:" + packages.get(i));
+					Intent intent = new Intent(Intent.ACTION_DELETE, uri);
+					startActivity(intent);
+				}
+				if (dialogMessage != null && dialogMessage.dialogInterface != null) {
+					dialogMessage.dialogInterface.dismiss();
+				}
+			}
+
+			@Override
+			public void onCancel(DialogMessage dialogMessage) {
+				if (dialogMessage != null && dialogMessage.dialogInterface != null) {
+					dialogMessage.dialogInterface.dismiss();
+				}
+			}
+		});
+
+	}
+
+	/**
+	 * 批量操作时候，刷新选中的个数
+	 */
+	private void refreshCheckedItemText() {
+		tv_num_checked.setVisibility(VISIBLE);
+		tv_ge.setVisibility(VISIBLE);
+		tv_num_checked.setText(curCheckedItem + "");
+	}
+
+	/**
+	 * 刷新批量操作时候的选择个数
+	 */
+	private void refreshCheckedItemCount() {
+		curCheckedItem = 0;
+		List<NativeApp> items = adapter.getItems();
+		if (items != null) {
+			for (int i = 0; i < items.size(); i++) {
+				if (items.get(i).isChecked()) {
+					curCheckedItem++;
+				}
 			}
 		}
-	};
+		if (tv_num_checked.getVisibility() == VISIBLE) {
+			refreshCheckedItemText();
+		}
+	}
 
-	private IItemOnLongClickListener onItemLongClickListener = new IItemOnLongClickListener() {
-
-		@Override
-		public boolean itemOnLongClick(BasePosterLayoutView arg0, View arg1, int arg2) {
-			if (arg1.getTag() != null) {
-				NativeApp tmpInfo = (NativeApp) arg1.getTag();
-				Uri uri = Uri.parse("package:" + tmpInfo.appPackage);
-				Intent intent = new Intent(Intent.ACTION_DELETE, uri);
-				// startActivityForResult(intent, UNINSTALL_REQCODE);
-				startActivity(intent);
+	@Override
+	public boolean onKey(View v, int keyCode, KeyEvent event) {
+		switch (v.getId()) {
+		case R.id.bt_batch:
+			// 批量操作按钮按又选中上次选中位置
+			if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+				gridView.requestFocus();// 选中上次选中的位置
 				return true;
 			}
-			return false;
+			break;
+		case R.id.gridview:
+			if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+				// 处理最后一排不能按下，不然焦点会跑到批量操作上面去
+				int itemCount = adapter.getCount();
+				int curSelectPos = gridView.getSelectedItemPosition();
+				if (itemCount > 6) {
+					int lastRowCount = itemCount % 3;
+					if (curSelectPos >= (itemCount - lastRowCount)) {
+						return true;
+					}
+				}
+			}
+			break;
+
+		default:
+			break;
+		}
+		return false;
+	}
+
+	OnItemClickListener onItemClickListener = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			NativeApp nativeApp = (NativeApp) adapter.getItem(position);
+			if (adapter.isBatch()) {
+				// 批量操作
+				if (nativeApp.appPackage.equals("com.changhong.gdappstore")) {
+					Toast.makeText(context, "不能卸载自己", Toast.LENGTH_SHORT).show();
+				}else {
+					curCheckedItem = nativeApp.isChecked() ? curCheckedItem - 1 : curCheckedItem + 1;
+					refreshCheckedItemText();
+					nativeApp.setChecked(!nativeApp.isChecked());
+					adapter.notifyDataSetChanged();
+				}
+			} else {
+				// 普通操作
+				doItemClick(nativeApp);
+			}
 		}
 	};
 
-	private IPosteDateListener iPosteDateListener = new IPosteDateListener() {
-
-		@Override
-		public void requestNextPageDate(int currentSize) {
-			// 请求新数据回调
+	private void doItemClick(NativeApp tmpInfo) {
+		if (tmpInfo.getAppid() > 0 && NetworkUtils.ISNET_CONNECT && tmpInfo.ServerVersionInt > tmpInfo.nativeVersionInt) {// 如果该应用来自于应用商城，进入详情
+			Intent intent = new Intent(NativeAppActivity.this, DetailActivity.class);
+			intent.putExtra(Config.KEY_APPID, tmpInfo.getAppid());
+			startActivity(intent);
+		} else {// 启动该应用
+			Util.openAppByPackageName(context, tmpInfo.getAppPackage());
 		}
-
-		@Override
-		public void changePage(Boolean isnext, int curpage, int totalpage) {
-			// 翻页回调
-			tv_page.setText("当前显示第" + (totalpage <= 0 ? 0 : curpage) + "页;共" + totalpage + "页");
-		}
-
-		@Override
-		public void lastPageOnKeyDpadDown() {
-		}
-
-		@Override
-		public void firstPageOnKeyDpadup() {
-		}
-	};
+	}
 }
