@@ -82,15 +82,15 @@ public class MyApplication extends Application {
 
 		option_memory_disc = new DisplayImageOptions.Builder().displayer(new SimpleBitmapDisplayer())
 				.bitmapConfig(bmConfig).imageScaleType(ImageScaleType.IN_SAMPLE_INT).cacheInMemory(true)
-				.showImageForEmptyUri(R.drawable.img_normal_square).showImageOnFail(R.drawable.img_normal_ver)
+				.showImageForEmptyUri(R.drawable.img_normal_square_cicle).showImageOnFail(R.drawable.img_normal_square_cicle)
 				.cacheOnDisc(true).build();
 		option_nomemory_disc = new DisplayImageOptions.Builder().displayer(new SimpleBitmapDisplayer())
 				.bitmapConfig(bmConfig).imageScaleType(ImageScaleType.IN_SAMPLE_INT).cacheInMemory(false)
-				.showImageForEmptyUri(R.drawable.img_normal_square).showImageOnFail(R.drawable.img_normal_square)
+				.showImageForEmptyUri(R.drawable.img_normal_square_cicle).showImageOnFail(R.drawable.img_normal_square_cicle)
 				.cacheOnDisc(true).build();
 		option_nomemory_nodisc = new DisplayImageOptions.Builder().displayer(new SimpleBitmapDisplayer())
 				.bitmapConfig(bmConfig).imageScaleType(ImageScaleType.IN_SAMPLE_INT).cacheInMemory(false)
-				.showImageForEmptyUri(R.drawable.img_normal_square).showImageOnFail(R.drawable.img_normal_square)
+				.showImageForEmptyUri(R.drawable.img_normal_square_cicle).showImageOnFail(R.drawable.img_normal_square_cicle)
 				.cacheOnDisc(false).build();
 	}
 

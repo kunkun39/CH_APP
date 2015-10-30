@@ -19,7 +19,7 @@
             android:focusable="false"
             android:scaleType="fitXY"
             android:visibility="invisible"
-            android:src="@drawable/img_normal_square" />
+            android:src="@drawable/img_normal_square_cicle" />
 
         <TextView
             android:id="@+id/tv_otc_name"

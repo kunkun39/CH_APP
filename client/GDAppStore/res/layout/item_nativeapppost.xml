@@ -15,7 +15,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
             android:scaleType="fitXY"
-            android:src="@drawable/img_normal_square" />
+            android:src="@drawable/img_normal_square_cicle" />
 
         <ImageView
             android:id="@+id/iv_check"

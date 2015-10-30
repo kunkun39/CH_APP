@@ -24,7 +24,7 @@
                 android:layout_width="130dp"
                 android:layout_height="130dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/img_normal_square" />
+                android:src="@drawable/img_normal_square_cicle" />
 
             <ImageView
                 android:id="@+id/iv_recommend"
@@ -222,7 +222,7 @@
             android:layout_height="315dp"
             android:layout_centerInParent="true"
             android:scaleType="fitXY"
-            android:src="@drawable/img_normal_ver" />
+            android:src="@drawable/img_normal_square_cicle" />
     </RelativeLayout>
 
     <TextView

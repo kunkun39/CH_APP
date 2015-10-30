@@ -115,7 +115,7 @@
             android:layout_width="@dimen/item_otc_width1"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:src="@drawable/img_normal_ver" />
+            android:src="@drawable/img_normal_square_cicle" />
 
         <ImageView
             android:id="@+id/iv_shandow2"
@@ -124,7 +124,7 @@
             android:layout_marginLeft="@dimen/item_otc_margintop"
             android:layout_toRightOf="@id/iv_shandow1"
             android:scaleType="fitXY"
-            android:src="@drawable/img_normal_ver" />
+            android:src="@drawable/img_normal_square_cicle" />
 
         <ImageView
             android:id="@+id/iv_shandow3"
@@ -133,7 +133,7 @@
             android:layout_marginLeft="@dimen/item_otc_margintop"
             android:layout_toRightOf="@id/iv_shandow2"
             android:scaleType="fitXY"
-            android:src="@drawable/img_normal_ver" />
+            android:src="@drawable/img_normal_square_cicle" />
 
         <ImageView
             android:id="@+id/iv_shandow4"
@@ -142,7 +142,7 @@
             android:layout_marginLeft="@dimen/item_otc_margintop"
             android:layout_toRightOf="@+id/iv_shandow3"
             android:scaleType="fitXY"
-            android:src="@drawable/img_normal_ver" />
+            android:src="@drawable/img_normal_square_cicle" />
 
         <ImageView
             android:id="@+id/iv_shandow5"
@@ -151,7 +151,7 @@
             android:layout_marginLeft="@dimen/item_otc_margintop"
             android:layout_toRightOf="@+id/iv_shandow4"
             android:scaleType="fitXY"
-            android:src="@drawable/img_normal_ver" />
+            android:src="@drawable/img_normal_square_cicle" />
     </RelativeLayout>
 
     <ImageView
