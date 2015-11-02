@@ -3,6 +3,8 @@ package com.changhong.gdappstore.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -16,7 +18,6 @@ import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseActivity;
 import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
-import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.ImageLoadUtil;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.SharedPreferencesUtil;
@@ -46,12 +47,24 @@ public class LoadingActivity extends BaseActivity {
 		setContentView(R.layout.activity_loading);
 		initView();
 		loadData();
+		handler.sendEmptyMessageDelayed(100, 5000);
 	}
+	
+	Handler handler =new Handler(){
+
+		@Override
+		public void handleMessage(Message msg) {
+			jumpToMain();
+			super.handleMessage(msg);
+		}
+		
+	};
 
 	private void initView() {
 		L.d("widthpx==" + context.getResources().getDisplayMetrics().density);
 		L.d("widthpx==" + screenWidth + " " + screenHeight);
 		ivLoading = findView(R.id.iv_loading);
+		ivLoading.setImageResource(0);
 		alphaAnimation = new AlphaAnimation(0.4f, 1f);
 		alphaAnimation.setDuration(AnimDuration);
 		alphaAnimation.setFillAfter(true);
@@ -67,7 +80,7 @@ public class LoadingActivity extends BaseActivity {
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
-				jumpToMain();
+//				jumpToMain();
 			}
 		});
 
@@ -77,6 +90,7 @@ public class LoadingActivity extends BaseActivity {
 		lastCachedADUri = SharedPreferencesUtil.getJsonCache(context, Config.KEY_BOOTADIMG);
 		L.d(TAG + " imgurl===" + lastCachedADUri + " ");
 		if (TextUtils.isEmpty(lastCachedADUri)) {
+			ivLoading.setImageResource(R.drawable.img_loading);
 			ivLoading.startAnimation(alphaAnimation);
 		} else {
 			ImageLoadUtil.displayImgByonlyDiscCache(lastCachedADUri, ivLoading, new ImageLoadingListener() {
@@ -90,7 +104,7 @@ public class LoadingActivity extends BaseActivity {
 				public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
 					ivLoading.setImageResource(R.drawable.img_loading);
 					ivLoading.startAnimation(alphaAnimation);
-					DialogUtil.showLongToast(context, "图片下载失败，使用默认图片！");
+//					DialogUtil.showLongToast(context, "图片下载失败，使用默认图片！");
 					L.d(TAG + " onLoadingFailed failReason=" + failReason);
 				}
 
@@ -104,7 +118,7 @@ public class LoadingActivity extends BaseActivity {
 				public void onLoadingCancelled(String imageUri, View view) {
 					ivLoading.setImageResource(R.drawable.img_loading);
 					ivLoading.startAnimation(alphaAnimation);
-					DialogUtil.showLongToast(context, "图片下载取消，使用默认图片！");
+//					DialogUtil.showLongToast(context, "图片下载取消，使用默认图片！");
 					L.d(TAG + " onLoadingCancelled url=" + imageUri);
 				}
 			});
