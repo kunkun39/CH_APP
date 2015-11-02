@@ -144,37 +144,37 @@ public class LoadingActivity extends BaseActivity {
 			public void onComplete(Object object) {
 				String uri = (String) object;
 				if (TextUtils.isEmpty(uri)) {
-					L.d(TAG + " loadBootAdImg by uri is null");
+					L.d(TAG + " loadnextBootAdImg by uri is null");
 					return;
 				}
 				if (!TextUtils.isEmpty(lastCachedADUri) && uri.equals(lastCachedADUri)) {
 					// 和上次缓存是同一张图片不再请求
-					L.d(TAG + " loadBootAdImg by uri equals lastone" + uri);
+					L.d(TAG + " loadnextBootAdImg by uri equals lastone" + uri);
 					return;
 				}
 				DisplayImageOptions options = new DisplayImageOptions.Builder().displayer(new SimpleBitmapDisplayer())
 						.bitmapConfig(Bitmap.Config.ARGB_8888).imageScaleType(ImageScaleType.IN_SAMPLE_INT)
-						.cacheInMemory(false).cacheOnDisc(true).build();
+						.cacheInMemory(false).cacheOnDisc(true).showImageOnFail(R.drawable.img_loading).build();
 				MyApplication.imageLoader.loadImage(uri, options, new ImageLoadingListener() {
 
 					@Override
 					public void onLoadingStarted(String imageUri, View view) {
-						L.d(TAG + " loadBootAdImg onLoadingStarted url=" + imageUri);
+						L.d(TAG + " loadnextBootAdImg onLoadingStarted url=" + imageUri);
 					}
 
 					@Override
 					public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-						L.d(TAG + " loadBootAdImg onLoadingFailed url=" + imageUri);
+						L.d(TAG + " loadnextBootAdImg onLoadingFailed url=" + imageUri);
 					}
 
 					@Override
 					public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-						L.d(TAG + " loadBootAdImg onLoadingComplete url=" + imageUri);
+						L.d(TAG + " loadnextBootAdImg onLoadingComplete url=" + imageUri);
 					}
 
 					@Override
 					public void onLoadingCancelled(String imageUri, View view) {
-						L.d(TAG + " loadBootAdImg onLoadingCancelled url=" + imageUri);
+						L.d(TAG + " loadnextBootAdImg onLoadingCancelled url=" + imageUri);
 					}
 				});
 			}
