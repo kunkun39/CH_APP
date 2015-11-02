@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -44,13 +43,14 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 public class SynchRecoverActivity extends BaseActivity implements OnClickListener, OnKeyListener {
 
 	private static final String TAG = "SynchRecoverActivity";
-	private static final String DOBATCH = "批量恢复";
-	private static final String SUBMIT_RECOVER = "确认恢复";
+	private  String DOBATCH;
+	private  String CONFIRM_RECOVER;
 	private GridView gridView;
 	private SynchGridAdapter adapter;
 	private Button bt_batch;
 	private ImageView iv_shandow_item1, iv_shandow_item2, iv_shandow_item3, iv_batch_icon;
 	private TextView tv_batch_suggest, tv_num_checked, tv_ge;
+	private TextView tv_pagename;
 	/** 批量操作时候选择的item个数 */
 	private int curCheckedItem = 0;
 	/**下载apk进度对话框*/
@@ -69,6 +69,9 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 	}
 
 	private void initView() {
+		DOBATCH=context.getString(R.string.batch_recovery);
+		CONFIRM_RECOVER=context.getString(R.string.confirm_recover);
+		
 		gridView = findView(R.id.gridview);
 		iv_shandow_item1 = findView(R.id.iv_shandow_item1);
 		iv_shandow_item2 = findView(R.id.iv_shandow_item2);
@@ -87,6 +90,11 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 		bt_batch.setText(DOBATCH);
 
 		tv_batch_suggest = findView(R.id.tv_batch_suggest);
+		tv_batch_suggest.setText(context.getString(R.string.dobatchbyclickmenu));
+		
+		tv_pagename=findView(R.id.tv_pagename);
+		tv_pagename.setText(context.getString(R.string.recovery));
+		
 		tv_num_checked = findView(R.id.tv_num_checked);
 		iv_batch_icon = findView(R.id.iv_batch_icon);
 		tv_ge = findView(R.id.tv_ge);
@@ -166,10 +174,10 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 	 */
 	private void doBatchOnClick() {
 		if (adapter.getCount() == 0) {
-			DialogUtil.showShortToast(context, "没有应用存在，无法执行批量操作！");
+			DialogUtil.showShortToast(context, context.getString(R.string.noapps_cando));
 			return;
 		}
-		if (bt_batch.getText().toString().equals(SUBMIT_RECOVER)) {
+		if (bt_batch.getText().toString().equals(CONFIRM_RECOVER)) {
 			// 已经是批量操作了，执行批量提交
 			List<SynchApp> apps = new ArrayList<SynchApp>();
 			for (int i = 0; i < adapter.getCount(); i++) {
@@ -182,8 +190,8 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 			downloadApps(apps);
 		} else {
 			// 从正常操作转向批量操作
-			bt_batch.setText(SUBMIT_RECOVER);
-			tv_batch_suggest.setText("已经选择");
+			bt_batch.setText(CONFIRM_RECOVER);
+			tv_batch_suggest.setText(context.getString(R.string.selected));
 			iv_batch_icon.setVisibility(INVISIBLE);
 			refreshCheckedItemCount();
 			refreshCheckedItemText();
@@ -227,7 +235,7 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 		// if (adapter.isBatch()) {
 		// // 批量提交
 		bt_batch.setText(DOBATCH);
-		tv_batch_suggest.setText("按菜单键批量恢复");
+		tv_batch_suggest.setText(context.getString(R.string.dobatchbyclickmenu));
 		iv_batch_icon.setVisibility(VISIBLE);
 		tv_num_checked.setVisibility(INVISIBLE);
 		tv_ge.setVisibility(INVISIBLE);

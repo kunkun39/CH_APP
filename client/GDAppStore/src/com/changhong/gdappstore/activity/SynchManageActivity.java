@@ -2,7 +2,6 @@ package com.changhong.gdappstore.activity;
 
 import java.util.List;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -26,19 +25,21 @@ import com.changhong.gdappstore.model.SynchApp.Type;
 import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
 import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.DialogUtil.DialogBtnOnClickListener;
+import com.changhong.gdappstore.util.DialogUtil.DialogMessage;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.Util;
-import com.changhong.gdappstore.util.DialogUtil.DialogMessage;
 
 public class SynchManageActivity extends BaseActivity implements OnClickListener, OnKeyListener {
-
-	private static final String DOBATCH = "批量删除";
-	private static final String SUBMIT_DELETE = "确认删除";
+	/** 批量删除 */
+	private String DOBATCH;
+	/** 确认删除 */
+	private String CONFIRM_DELETE;
 	private GridView gridView;
 	private SynchGridAdapter adapter;
 	private Button bt_batch;
 	private ImageView iv_shandow_item1, iv_shandow_item2, iv_shandow_item3, iv_batch_icon;
 	private TextView tv_batch_suggest, tv_num_checked, tv_ge;
+	private TextView tv_pagename;
 	/** 批量操作时候选择的item个数 */
 	private int curCheckedItem = 0;
 
@@ -52,6 +53,9 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 	}
 
 	private void initView() {
+		DOBATCH = context.getString(R.string.batch_delete);
+		CONFIRM_DELETE = context.getString(R.string.confirm_delete);
+
 		gridView = findView(R.id.gridview);
 		iv_shandow_item1 = findView(R.id.iv_shandow_item1);
 		iv_shandow_item2 = findView(R.id.iv_shandow_item2);
@@ -70,6 +74,11 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 		bt_batch.setText(DOBATCH);
 
 		tv_batch_suggest = findView(R.id.tv_batch_suggest);
+		tv_batch_suggest.setText(context.getString(R.string.dobatchbyclickmenu));
+		
+		tv_pagename=findView(R.id.tv_pagename);
+		tv_pagename.setText(context.getString(R.string.manage));
+		
 		tv_num_checked = findView(R.id.tv_num_checked);
 		iv_batch_icon = findView(R.id.iv_batch_icon);
 		tv_ge = findView(R.id.tv_ge);
@@ -123,10 +132,10 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 			break;
 		}
 	}
-	
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (event.getAction()==KeyEvent.ACTION_DOWN && keyCode==KeyEvent.KEYCODE_MENU) {
+		if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_MENU) {
 			doBatchOnClick();
 			return true;
 		}
@@ -138,10 +147,10 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 	 */
 	private void doBatchOnClick() {
 		if (adapter.getCount() == 0) {
-			DialogUtil.showShortToast(context, "没有应用存在，无法执行批量操作！");
+			DialogUtil.showShortToast(context, context.getString(R.string.noapps_cando));
 			return;
 		}
-		if (bt_batch.getText().toString().equals(SUBMIT_DELETE)) {
+		if (bt_batch.getText().toString().equals(CONFIRM_DELETE)) {
 			// 已经是批量操作了，执行批量提交
 			String ids = "";
 			for (int i = 0; i < adapter.getCount(); i++) {
@@ -157,8 +166,8 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 			deleteBackUp(ids);
 		} else {
 			// 从正常操作转向批量操作
-			bt_batch.setText(SUBMIT_DELETE);
-			tv_batch_suggest.setText("已经选择");
+			bt_batch.setText(CONFIRM_DELETE);
+			tv_batch_suggest.setText(context.getString(R.string.selected));
 			iv_batch_icon.setVisibility(INVISIBLE);
 			refreshCheckedItemCount();
 			refreshCheckedItemText();
@@ -225,7 +234,7 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 						if (adapter.isBatch()) {
 							// 批量删除
 							bt_batch.setText(DOBATCH);
-							tv_batch_suggest.setText("按菜单键批量删除");
+							tv_batch_suggest.setText(context.getString(R.string.dobatchbyclickmenu));
 							iv_batch_icon.setVisibility(VISIBLE);
 							tv_num_checked.setVisibility(INVISIBLE);
 							tv_ge.setVisibility(INVISIBLE);

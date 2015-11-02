@@ -25,4 +25,19 @@
     <string name="error_serverconnect">服务器连接异常...</string>
     <string name="error_serverdata">服务器数据异常...</string>
     <string name="error_parse">数据解析异常...</string>
+    
+    <!-- 云同步功能 -->
+    <string name="yuntongbu">云同步</string>
+    <string name="backup">备份</string>
+    <string name="recovery">恢复</string>
+    <string name="manage">管理</string>
+    <string name="batch_backup">批量备份</string>
+    <string name="confirm_backup">确认备份</string>
+    <string name="batch_recovery">批量恢复</string>
+    <string name="confirm_recover">确认恢复</string>
+    <string name="batch_delete">批量删除</string>
+    <string name="confirm_delete">确认删除</string>
+    <string name="selected">已经选择</string>
+    <string name="noapps_cando">没有发现可操作应用</string>
+    <string name="dobatchbyclickmenu">按菜单键批量操作</string>
 </resources>

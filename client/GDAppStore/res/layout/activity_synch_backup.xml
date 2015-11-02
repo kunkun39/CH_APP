@@ -20,11 +20,12 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_pagename"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="90dp"
-        android:text="云同步"
+        android:text="@string/backup"
         android:textColor="@color/white"
         android:textSize="28dp" />
 
@@ -80,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="240dp"
-            android:text="按菜单键批量备份"
+            android:text="@string/dobatchbyclickmenu"
             android:textColor="@color/white"
             android:textSize="24dp" />
 
@@ -91,7 +92,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:background="@drawable/selector_square_focues"
-            android:text="批量备份"
+            android:text=""
             android:textColor="@color/white"
             android:textSize="28dp" />
     </RelativeLayout>
@@ -118,7 +119,7 @@
         android:layout_alignLeft="@id/rl_backup_batch"
         android:layout_alignRight="@id/rl_backup_batch"
         android:layout_below="@id/rl_backup_batch"
-        android:layout_marginTop="-10dp"
+        android:layout_marginTop="-15dp"
         android:paddingLeft="12.5dp"
         android:paddingRight="12.5dp"
         android:src="@drawable/img_shandow_batch" />
