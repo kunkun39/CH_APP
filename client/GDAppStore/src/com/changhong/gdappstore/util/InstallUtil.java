@@ -54,9 +54,9 @@ public class InstallUtil {
 	 *            应用路径
 	 * @return success为0,fail 为2
 	 */
-	public static int installAppByCommond(String filePath) {
+	public static boolean installAppByCommond(String filePath) {
 		String[] args = { "pm", "install", "-r", filePath };
-		return exeCommond(args);
+		return exeCommond(args)==0;
 	}
 
 	/**
@@ -64,11 +64,11 @@ public class InstallUtil {
 	 * 
 	 * @param packageName
 	 *            包名
-	 * @return success为0,fail 为2
+	 * @return 
 	 */
-	public static int uninstallAppByCommond(String packageName) {
+	public static boolean uninstallAppByCommond(String packageName) {
 		String[] args = { "pm", "uninstall", packageName };
-		return exeCommond(args);
+		return exeCommond(args)==0;
 	}
 
 	private static int exeCommond(String[] args) {
