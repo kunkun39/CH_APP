@@ -6,6 +6,8 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -266,7 +268,7 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 			return;
 		}
 		curDownLoadPos++;
-		SynchApp app = downloadApps.get(curDownLoadPos);
+		final SynchApp app = downloadApps.get(curDownLoadPos);
 
 		downloadPDialog.show();
 		downloadPDialog.setProgress(0);
@@ -281,6 +283,7 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 					public void onLoading(long total, long current, boolean isUploading) {
 						downloadPDialog.setMax((int) total);
 						downloadPDialog.setProgress((int) current);
+						L.d("download recover app onloading total is " + total + " current " + current);
 						super.onLoading(total, current, isUploading);
 					}
 
@@ -292,10 +295,25 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 
 							@Override
 							public void run() {// 安装
-								InstallUtil.installApp(context, responseInfo.result.getPath());
+							// InstallUtil.installApp(context,
+							// responseInfo.result.getPath());
+							Message installingMsg=handler.obtainMessage(UPDATE_DIALOG_TITLE);
+							installingMsg.obj="下载完成，正在安装中...";
+							handler.sendMessage(installingMsg);
+							boolean success=InstallUtil.installAppByCommond(responseInfo.result.getPath());
+							L.d("install success "+success);
+							if (success) {
+								Message msg=handler.obtainMessage(SHOW_INSTALL_SUCCESS);
+								msg.obj=app.getAppname()+"";
+								handler.sendMessage(msg);
+							}else {
+								Message msg=handler.obtainMessage(SHOW_INSTALL_FAILED);
+								msg.obj=app.getAppname()+"";
+								handler.sendMessage(msg);
+							}
+							handler.sendEmptyMessage(DODOWNLOAD);// 下载下一个
 							}
 						}).start();
-						doDownLoad();// 下载下一个
 					}
 
 					@Override
@@ -307,10 +325,40 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 						} else {
 							DialogUtil.showLongToast(context, "下载发生异常！");
 						}
-						doDownLoad();// 下载下一个
+						handler.sendEmptyMessage(DODOWNLOAD);// 下载下一个
 					}
 				});
 	}
+
+	private static final int UPDATE_DIALOG_TITLE=110;
+	private static final int SHOW_INSTALL_SUCCESS=111;
+	private static final int SHOW_INSTALL_FAILED=112;
+	private static final int DODOWNLOAD=113;
+	Handler handler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			switch (msg.what) {
+			case DODOWNLOAD:
+				doDownLoad();// 下载下一个
+				break;
+			case SHOW_INSTALL_SUCCESS:
+				DialogUtil.showLongToast(context, (String)msg.obj+" 安装成功");
+				break;
+			case SHOW_INSTALL_FAILED:
+				DialogUtil.showLongToast(context, (String)msg.obj+" 安装失败");
+				break;
+			case UPDATE_DIALOG_TITLE:
+				L.d("install settitle "+(String)msg.obj);
+				downloadPDialog.setMyTitle((String)msg.obj);
+				break;
+
+			default:
+				break;
+			}
+		}
+	};
 
 	AppChangeListener appChangeListener = new AppChangeListener() {
 
