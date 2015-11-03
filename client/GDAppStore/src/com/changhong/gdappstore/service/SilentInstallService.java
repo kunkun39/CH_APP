@@ -79,7 +79,7 @@ public class SilentInstallService extends Service {
 
 				@Override
 				public void run() {// 静默安装
-					int success = InstallUtil.installAppByCommond(responseInfo.result.getPath());
+					boolean success = InstallUtil.installAppByCommond(responseInfo.result.getPath());
 					Util.deleteFile(responseInfo.result.getPath());
 					L.d(TAG + " installsuccess is  " + success);
 				}
