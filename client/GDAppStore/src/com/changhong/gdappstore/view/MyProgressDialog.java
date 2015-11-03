@@ -91,7 +91,7 @@ public class MyProgressDialog extends Dialog {
 	};
 
 	private void setmyProgress(int progress) {
-		L.d("setmyprogress--" + progress + "  max " + max);
+//		L.d("setmyprogress--" + progress + "  max " + max);
 		if (progress < 0) {
 			curprogress = 0;
 		} else if (progress > max) {
