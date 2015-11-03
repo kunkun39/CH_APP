@@ -15,15 +15,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	/** 数据库名字 */
 	private final static String DATABASE_NAME = "app.db";
 	/** 数据库app版本信息表 */
-	public final static String APPVERSION_TABLE = "appversions";
-	/** app版本信息表 appid列（主键） */
-	public static final String CLUM_APPID = "appid";
+	public final static String TABLE_OTHERAPPS = "otherapps";
 	/** app版本信息表 app包名列 */
 	public static final String CLUM_PCKNAME = "packagename";
-	/** app版本信息表 app versionname 列 */
-	public static final String CLUM_VERSIONNAME = "versionname";
-	/** app版本信息表 app versioncode 列 */
-	public static final String CLUM_VERSIONCODE = "versioncode";
 
 	private static int CURRENT_VERSION = 1;
 
@@ -46,8 +40,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	 */
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL("CREATE TABLE " + APPVERSION_TABLE + "(" + CLUM_APPID + " INTEGER PRIMARYKEY," + CLUM_PCKNAME
-				+ " VARCHAR(100)," + CLUM_VERSIONNAME + " VARCHAR(10)," + CLUM_VERSIONCODE + " INTEGER" + ")");
+		db.execSQL("CREATE TABLE " + CLUM_PCKNAME + " VARCHAR(100) PRIMARYKEY");
 
 	}
 
@@ -56,7 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	 */
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL("DROP TABLE IF EXISTS " + APPVERSION_TABLE);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_OTHERAPPS);
 		onCreate(db);
 	}
 }

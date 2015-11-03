@@ -6,6 +6,7 @@ import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 
+import com.changhong.gdappstore.util.DesUtils;
 import com.changhong.gdappstore.util.FileNameGeneratorHelper;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.NetworkUtils;
@@ -32,7 +33,7 @@ import com.ots.deviceinfoprovide.DeviceInfo;
 public class MyApplication extends Application {
 
 	/** 设备MAC地址 */
-	public static String deviceMac = "";
+	private static String deviceMac = "";
 
 	public static ImageLoader imageLoader;// 图片加载器
 
@@ -45,22 +46,22 @@ public class MyApplication extends Application {
 	public static DisplayImageOptions option_nomemory_nodisc;// 图片加载器设置（含缓存）
 	/** 磁盘缓存大小 **/
 	private static int discCacheSize = 10 * 1024 * 1024;
-	/** 磁盘缓存最大时间 ,以秒为单位**/
-	private static int discCacheMaxSeconds = 60*60*24*10;//10天
-	/**服务器端版本号*/
-	public static int SERVER_VERSION=0;
-	/**应用商城apk更新地址*/
-	public static String UPDATE_APKURL="";
+	/** 磁盘缓存最大时间 ,以秒为单位 **/
+	private static int discCacheMaxSeconds = 60 * 60 * 24 * 10;// 10天
+	/** 服务器端版本号 */
+	public static int SERVER_VERSION = 0;
+	/** 应用商城apk更新地址 */
+	public static String UPDATE_APKURL = "";
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		NetworkUtils.isConnectInternet(this);//网络链接
-		initImageLoaderCacheDir();//初始化imageloader 缓存路径
+		NetworkUtils.isConnectInternet(this);// 网络链接
+		initImageLoaderCacheDir();// 初始化imageloader 缓存路径
 		initImageLoader(this);
-		DeviceInfo.CollectInfo();//获取设备信息
+		DeviceInfo.CollectInfo();// 获取设备信息
 		deviceMac = DeviceInfo.DeviceMac;
-		L.d("devicemac--" + deviceMac+"  netconnect "+NetworkUtils.ISNET_CONNECT);
+		L.d("devicemac--" + deviceMac + "  netconnect " + NetworkUtils.ISNET_CONNECT);
 	}
 
 	/**
@@ -69,7 +70,7 @@ public class MyApplication extends Application {
 	 * @param context
 	 */
 	public static void initImageLoader(Context context) {
-//		int lruMemCachSize = 10 * 1024 * 1024;
+		// int lruMemCachSize = 10 * 1024 * 1024;
 		int threadPoolSize = 4;
 		Bitmap.Config bmConfig = Bitmap.Config.ARGB_4444;
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context).discCacheSize(discCacheSize)
@@ -82,16 +83,16 @@ public class MyApplication extends Application {
 
 		option_memory_disc = new DisplayImageOptions.Builder().displayer(new SimpleBitmapDisplayer())
 				.bitmapConfig(bmConfig).imageScaleType(ImageScaleType.IN_SAMPLE_INT).cacheInMemory(true)
-				.showImageForEmptyUri(R.drawable.img_normal_square_cicle).showImageOnFail(R.drawable.img_normal_square_cicle)
-				.cacheOnDisc(true).build();
+				.showImageForEmptyUri(R.drawable.img_normal_square_cicle)
+				.showImageOnFail(R.drawable.img_normal_square_cicle).cacheOnDisc(true).build();
 		option_nomemory_disc = new DisplayImageOptions.Builder().displayer(new SimpleBitmapDisplayer())
 				.bitmapConfig(bmConfig).imageScaleType(ImageScaleType.IN_SAMPLE_INT).cacheInMemory(false)
-				.showImageForEmptyUri(R.drawable.img_normal_square_cicle).showImageOnFail(R.drawable.img_normal_square_cicle)
-				.cacheOnDisc(true).build();
+				.showImageForEmptyUri(R.drawable.img_normal_square_cicle)
+				.showImageOnFail(R.drawable.img_normal_square_cicle).cacheOnDisc(true).build();
 		option_nomemory_nodisc = new DisplayImageOptions.Builder().displayer(new SimpleBitmapDisplayer())
 				.bitmapConfig(bmConfig).imageScaleType(ImageScaleType.IN_SAMPLE_INT).cacheInMemory(false)
-				.showImageForEmptyUri(R.drawable.img_normal_square_cicle).showImageOnFail(R.drawable.img_normal_square_cicle)
-				.cacheOnDisc(false).build();
+				.showImageForEmptyUri(R.drawable.img_normal_square_cicle)
+				.showImageOnFail(R.drawable.img_normal_square_cicle).cacheOnDisc(false).build();
 	}
 
 	/**
@@ -102,21 +103,41 @@ public class MyApplication extends Application {
 		// "picCache" + File.separator;
 		// File cacheDir = new File(imgCacheDirStr);// 图片缓存目录文件
 		File cacheDir = StorageUtils.getCacheDirectory(this);// 图片缓存目录文件
-		L.d("imageloader cacheDir "+cacheDir);
+		L.d("imageloader cacheDir " + cacheDir);
 		if (!cacheDir.exists()) {
 			cacheDir.mkdirs();
 		} else {
-			if (!Config.ISCACHEABLE && cacheDir.listFiles()!=null) {
-				L.d("imageloader cacheDir "+cacheDir.listFiles().length);
+			if (!Config.ISCACHEABLE && cacheDir.listFiles() != null) {
+				L.d("imageloader cacheDir " + cacheDir.listFiles().length);
 				for (int i = 0; i < cacheDir.listFiles().length; i++) {
-					L.d("imageloader delete file "+cacheDir.listFiles()[i].getAbsolutePath());
+					L.d("imageloader delete file " + cacheDir.listFiles()[i].getAbsolutePath());
 					Util.deleteFile(cacheDir.listFiles()[i].getAbsolutePath());
 				}
 			}
 		}
-		
-		discCacheAware=new LimitedAgeDiskCache(cacheDir, discCacheMaxSeconds);
-//		discCacheAware = new FileCountLimitedDiscCache(cacheDir, discCacheSize);
+
+		discCacheAware = new LimitedAgeDiskCache(cacheDir, discCacheMaxSeconds);
+		// discCacheAware = new FileCountLimitedDiscCache(cacheDir,
+		// discCacheSize);
+	}
+
+	/**
+	 * 返回Mac地址
+	 * 
+	 * @return
+	 */
+	public static String getDeviceMac() {
+		return deviceMac;
+	}
+
+	/**
+	 * 返回加密后的Mac地址
+	 * 
+	 * @return
+	 */
+	public static String getEncDeviceMac() {
+		String encMac = DesUtils.getEncString(getDeviceMac());
+		return encMac;
 	}
 
 }

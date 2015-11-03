@@ -25,8 +25,10 @@ import com.changhong.gdappstore.model.NativeApp;
 import com.changhong.gdappstore.model.SynchApp;
 import com.changhong.gdappstore.model.SynchApp.Type;
 import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
+import com.changhong.gdappstore.util.DateUtils;
 import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.L;
+import com.changhong.gdappstore.util.SharedPreferencesUtil;
 import com.changhong.gdappstore.util.Util;
 
 public class SynchBackUpActivity extends BaseActivity implements OnClickListener, OnKeyListener {
@@ -96,6 +98,13 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 				packages.add(((NativeApp) nativeApps.get(i)).getAppPackage());
 			}
 		}
+//		String thisDay=DateUtils.getDayByyyyyMMdd();
+//		String lastRequestDay=SharedPreferencesUtil.getAppSynch(context, SharedPreferencesUtil.KEY_REQUESTDAY);
+//		if (thisDay.compareTo(lastRequestDay)>0) {
+//			
+//			
+//			SharedPreferencesUtil.putAppSynch(context, SharedPreferencesUtil.KEY_REQUESTDAY, thisDay);
+//		}
 		DataCenter.getInstance().checkBackUpApp(packages, context, new LoadObjectListener() {
 
 			@Override

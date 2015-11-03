@@ -90,9 +90,19 @@ public class DateUtils {
         return simpleDateFormat.format(day);
     }
 
-    public static String getDayOfToday() {
+    public static String getDayAndTimeOfToday() {
         Date day = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DEFAUT_DATE_FORMAT + DEFAUT_TIME_FORMAT);
         return simpleDateFormat.format(day);
+    }
+    
+    public static String getDayByyyyyMMdd() {
+    	return getDayOfToday("yyyyMMdd");
+    }
+    
+    public static String getDayOfToday(String format) {
+    	Date day = new Date();
+    	SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+    	return simpleDateFormat.format(day);
     }
 }

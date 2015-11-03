@@ -46,11 +46,11 @@ public class Config {
 	/** 检测哪些应用是我们应用市场的，并且返回是否已备份 */
 	public static String checkBackUpApp = BASEURL + "client/checkbackupapp.html";
 	/** 请求备份 */
-	public static String postBackup = BASEURL + "client/requestBackupApp.html";
+	public static String postBackup = BASEURL + "client/requestbackupapp.html";
 	/** 获取已备份应用列表 */
-	public static String getBackupApps = BASEURL + "client/getBackupApp.html";
+	public static String getBackupApps = BASEURL + "client/getbackupapp.html";
 	/** 删除已备份应用 */
-	public static String deleteBackupApp = BASEURL + "client/deleteBackupApp.html";
+	public static String deleteBackupApp = BASEURL + "client/deletebackupapp.html";
 
 	/**
 	 * 

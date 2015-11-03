@@ -7,8 +7,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 
-import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.util.L;
 
 /**
@@ -43,20 +43,17 @@ public class DBManager {
 	/**
 	 * 插入app版本信息数据
 	 * 
-	 * @param app
+	 * @param packageName
 	 * @return 插入的id，-1表示异常
 	 */
-	public long insertAppVersions(App app) {
-		if (app == null || app.getAppid() < 0) {
-			L.e("DBManager insertAppVersions app is null or id<0 ");
+	public long insertOtherApp(String packageName) {
+		if (TextUtils.isEmpty(packageName)) {
+			L.e("DBManager insertOtherApp insertOtherApp is null ");
 			return -1;
 		}
 		ContentValues contentValues = new ContentValues();
-		contentValues.put(helper.CLUM_APPID, app.getAppid());
-		contentValues.put(helper.CLUM_PCKNAME, app.getPackageName());
-		contentValues.put(helper.CLUM_VERSIONNAME, app.getVersion());
-		contentValues.put(helper.CLUM_VERSIONCODE, app.getVersionInt());
-		return db.insert(helper.APPVERSION_TABLE, "", contentValues);
+		contentValues.put(helper.CLUM_PCKNAME, packageName);
+		return db.insert(helper.TABLE_OTHERAPPS, "", contentValues);
 		// db.beginTransaction(); // 开始事务
 		// db.execSQL("INSERT INTO person VALUES(null, ?, ?, ?)", new Object[] {
 		// person.name, person.age,person.info });
@@ -65,132 +62,66 @@ public class DBManager {
 	}
 
 	/**
-	 * 更新app数据库信息
+	 * 插入或者更新数据，如果有数据就更新，没有就插入
 	 * 
 	 * @param app
-	 * @return
 	 */
-	public int updateAppVersions(App app) {
-		if (app == null || app.getAppid() < 0) {
-			L.e("DBManager updateAppVersions app is null or id<0 ");
-			return -1;
-		}
-		ContentValues contentValues = new ContentValues();
-		contentValues.put(helper.CLUM_APPID, app.getAppid());
-		contentValues.put(helper.CLUM_PCKNAME, app.getPackageName());
-		contentValues.put(helper.CLUM_VERSIONNAME, app.getVersion());
-		contentValues.put(helper.CLUM_VERSIONCODE, app.getVersionInt());
-																		
-		return db.update(helper.APPVERSION_TABLE, contentValues, helper.CLUM_APPID + " = ?",
-				new String[] { app.getAppid() + "" });
-	}
-	/**
-	 * 插入或者更新数据，如果有数据就更新，没有就插入
-	 * @param app
-	 */
-	public void  insertOrUpdateVersions(App app) {
-		if (app==null ||app.getAppid()<0) {
-			L.d("insertOrUpdateVersions returned by app=null or appid<0");
+	public void insertOrUpdateOtherApp(String packageName) {
+		if (TextUtils.isEmpty(packageName)) {
+			L.d("insertOrUpdateOtherApp returned by packageName is null");
 			return;
 		}
-		App navApp=queryAppVersionById(app.getAppid());
-		if (navApp==null) {
-			long id=insertAppVersions(app);
-			L.d("insertOrUpdateVersions insert id=="+id);
-		}else {
-			int num=updateAppVersions(app);
-			L.d("insertOrUpdateVersions update num=="+num);
+		boolean hasthisApp = isOtherApp(packageName);
+		if (hasthisApp) {
+			deleteOtherApp(packageName);
+			insertOtherApp(packageName);
+		} else {
+			insertOtherApp(packageName);
 		}
 	}
 
 	/**
-	 * 删除app版本信息
+	 * 删除
 	 * 
-	 * @param appid
+	 * @param packageName
 	 */
-	public void deleteAppVersions(int appid) {
-		db.delete(helper.APPVERSION_TABLE, helper.CLUM_APPID + "= ?", new String[] { appid + "" });
+	public void deleteOtherApp(String packageName) {
+		db.delete(helper.TABLE_OTHERAPPS, helper.CLUM_PCKNAME + "= ?", new String[] { packageName + "" });
 	}
 
 	/**
-	 * 查询某个app信息
+	 * 查询某个应用是否是其它应用（每次调用这个方法回去查询一次数据库，数据量多的慎用！）
 	 * 
-	 * @param appid
+	 * @param packagename
 	 * @return
 	 */
-	public App queryAppVersionById(int appid) {
-		App app = null;
-		Cursor c = db.rawQuery("SELECT * FROM " + helper.APPVERSION_TABLE + " where " + helper.CLUM_APPID + " =?",
-				new String[] { appid + "" });
-		if (c == null || c.getCount() == 0) {
-			return app;
-		}
-		while (c.moveToNext()) {
-			if (app == null) {
-				app = new App();
-				app.setAppid(c.getInt(c.getColumnIndex(helper.CLUM_APPID)));
-				app.setPackageName(c.getString(c.getColumnIndex(helper.CLUM_PCKNAME)));
-				app.setVersion(c.getString(c.getColumnIndex(helper.CLUM_VERSIONNAME)));
-				app.setVersionInt(c.getInt(c.getColumnIndex(helper.CLUM_VERSIONCODE)));
-			} else {
-				// 删除多余列
-				L.d("delete 多余列id= "+c.getInt(c.getColumnIndex(helper.CLUM_APPID)));
-				deleteAppVersions(c.getInt(c.getColumnIndex(helper.CLUM_APPID)));
+	public boolean isOtherApp(String packageName) {
+		boolean isother = false;
+		List<String> otherApps = queryOtherApps();
+		for (int i = 0; i < otherApps.size(); i++) {
+			if (otherApps.get(i).equals(packageName)) {
+				isother = true;
+				break;
 			}
 		}
-		c.close();
-		return app;
+		return isother;
 	}
 
 	/**
-	 * 查询某个app信息
+	 * 查询所有其它应用
 	 * 
-	 * @param appid
 	 * @return
 	 */
-	public App queryAppVersionByPackagename(String packagename) {
-		App app = null;
-		Cursor c = db.rawQuery("SELECT * FROM " + helper.APPVERSION_TABLE + " where " + helper.CLUM_PCKNAME + " =?",
-				new String[] { packagename });
+	public List<String> queryOtherApps() {
+		List<String> otherPackages = new ArrayList<String>();
+		Cursor c = db.rawQuery("SELECT * FROM " + helper.TABLE_OTHERAPPS, null);
 		if (c == null || c.getCount() == 0) {
-			return app;
+			return otherPackages;
 		}
 		while (c.moveToNext()) {
-			if (app == null) {
-				app = new App();
-				app.setAppid(c.getInt(c.getColumnIndex(helper.CLUM_APPID)));
-				app.setPackageName(c.getString(c.getColumnIndex(helper.CLUM_PCKNAME)));
-				app.setVersion(c.getString(c.getColumnIndex(helper.CLUM_VERSIONNAME)));
-				app.setVersionInt(c.getInt(c.getColumnIndex(helper.CLUM_VERSIONCODE)));
-			} else {
-				// 删除多余列
-				deleteAppVersions(c.getInt(c.getColumnIndex(helper.CLUM_APPID)));
-			}
+			otherPackages.add(c.getString(c.getColumnIndex(helper.CLUM_PCKNAME)));
 		}
 		c.close();
-		return app;
-	}
-
-	/**
-	 * 查询所有保存的app版本信息
-	 * 
-	 * @return 注：返回的app只有数据库中保存的字段
-	 */
-	public List<App> queryAppVersions() {
-		List<App> apps = new ArrayList<App>();
-		Cursor c = db.rawQuery("SELECT * FROM " + helper.APPVERSION_TABLE, null);
-		if (c == null || c.getCount() == 0) {
-			return apps;
-		}
-		while (c.moveToNext()) {
-			App app = new App();
-			app.setAppid(c.getInt(c.getColumnIndex(helper.CLUM_APPID)));
-			app.setPackageName(c.getString(c.getColumnIndex(helper.CLUM_PCKNAME)));
-			app.setVersion(c.getString(c.getColumnIndex(helper.CLUM_VERSIONNAME)));
-			app.setVersionInt(c.getInt(c.getColumnIndex(helper.CLUM_VERSIONCODE)));
-			apps.add(app);
-		}
-		c.close();
-		return apps;
+		return otherPackages;
 	}
 }

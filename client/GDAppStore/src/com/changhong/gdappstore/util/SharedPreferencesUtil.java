@@ -13,6 +13,12 @@ import android.content.SharedPreferences;
 public class SharedPreferencesUtil {
 	/** jsoncache存放文件 */
 	public static final String JSON_CACHEFILE = "jsoncache";
+	
+	/************************* app云同步相关信息 **********************/
+	/**文件名**/
+	public static final String APP_SYNCH = "appsynch";
+	/**文件名**/
+	public static final String KEY_REQUESTDAY = "requestday";
 
 	/**
 	 * 获取SharedPreferences文件对象，类型为私有
@@ -67,5 +73,27 @@ public class SharedPreferencesUtil {
 	 */
 	public static String getJsonCache(Context context, String key) {
 		return getSharedString(context, JSON_CACHEFILE, key, "");
+	}
+
+	/**
+	 * 存放云同步私用
+	 * 
+	 * @param context
+	 * @param key
+	 * @param value
+	 */
+	public static void putAppSynch(Context context, String key, String value) {
+		putSharedString(context, APP_SYNCH, key, value);
+	}
+
+	/**
+	 * 云同步私用
+	 * 
+	 * @param context
+	 * @param key
+	 * @return
+	 */
+	public static String getAppSynch(Context context, String key) {
+		return getSharedString(context, APP_SYNCH, key, "");
 	}
 }

@@ -407,7 +407,7 @@ public class DataCenter {
 					return null;
 				}
 				List<NameValuePair> paramList = new ArrayList<NameValuePair>();
-				paramList.add(new BasicNameValuePair("boxMac", MyApplication.deviceMac));
+				paramList.add(new BasicNameValuePair("boxMac", MyApplication.getEncDeviceMac()));
 				for (int i = 0; i < packages.size(); i++) {
 					paramList.add(new BasicNameValuePair("appPackages", packages.get(i)));
 				}
@@ -443,7 +443,7 @@ public class DataCenter {
 					return null;
 				}
 				List<NameValuePair> paramList = new ArrayList<NameValuePair>();
-				paramList.add(new BasicNameValuePair("boxMac", MyApplication.deviceMac));
+				paramList.add(new BasicNameValuePair("boxMac", MyApplication.getEncDeviceMac()));
 				paramList.add(new BasicNameValuePair("appIds", appIds));
 				String jsonString = HttpRequestUtil.getEntityString(
 						HttpRequestUtil.doPostRequest(url, paramList, context), context);
@@ -477,7 +477,7 @@ public class DataCenter {
 					return null;
 				}
 				List<NameValuePair> paramList = new ArrayList<NameValuePair>();
-				paramList.add(new BasicNameValuePair("boxMac", MyApplication.deviceMac));
+				paramList.add(new BasicNameValuePair("boxMac",MyApplication.getEncDeviceMac()));
 				paramList.add(new BasicNameValuePair("appIds", appIds));
 				String jsonString = HttpRequestUtil.getEntityString(
 						HttpRequestUtil.doPostRequest(url, paramList, context), context);
@@ -505,7 +505,7 @@ public class DataCenter {
 			
 			@Override
 			protected Object doInBackground(Object... params) {
-				String url = Config.getBackupApps+"?" +"boxMac=" + MyApplication.deviceMac;
+				String url = Config.getBackupApps+"?" +"boxMac=" + MyApplication.getEncDeviceMac();
 				String jsonString = HttpRequestUtil.getEntityString(
 						HttpRequestUtil.doGetRequest(url, context),context);
 				List<SynchApp> ids = Parse.parseGetBackUpApps(jsonString);
@@ -625,7 +625,7 @@ public class DataCenter {
 
 			@Override
 			public void run() {
-				String url = Config.putAppDownloadOK + "?" + "appId=" + appId + "&boxMac=" + MyApplication.deviceMac;
+				String url = Config.putAppDownloadOK + "?" + "appId=" + appId + "&boxMac=" + MyApplication.getDeviceMac();
 				HttpRequestUtil.doGetRequest(url, context);
 			}
 		}).start();
