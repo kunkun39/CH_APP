@@ -22,6 +22,7 @@ import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.adapter.NativeAppGridAdapter;
 import com.changhong.gdappstore.base.BaseActivity;
+import com.changhong.gdappstore.database.DBManager;
 import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.Category;
@@ -32,9 +33,11 @@ import com.changhong.gdappstore.service.AppBroadcastReceiver.AppChangeListener;
 import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.DialogUtil.DialogBtnOnClickListener;
 import com.changhong.gdappstore.util.DialogUtil.DialogMessage;
+import com.changhong.gdappstore.util.DateUtils;
 import com.changhong.gdappstore.util.InstallUtil;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.NetworkUtils;
+import com.changhong.gdappstore.util.SharedPreferencesUtil;
 import com.changhong.gdappstore.util.Util;
 
 /**
@@ -56,8 +59,6 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 	protected ImageView iv_search;
 	/** 当前显示类别id **/
 	protected int curCategoryId = 0;
-
-	
 
 	private static final int UNINSTALL_REQCODE = 11;
 
@@ -110,7 +111,6 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 		showLoadingDialog();
 	}
 
-
 	private void initData() {
 		nativeApps = Util.getApp(context);
 		if (nativeApps != null) {
@@ -122,23 +122,78 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 					packages.add(((NativeApp) nativeApps.get(i)).getAppPackage());
 				}
 			}
+
+			/****************** 每天只请求所有应用一次，其它时候都剔除缓存中非我们市场应用 *************************/
+			final String thisDay = DateUtils.getDayByyyyyMMdd();
+			final String lastRequestDay = SharedPreferencesUtil.getAppSynch(context,
+					SharedPreferencesUtil.KEY_REQUESTDAY);
+			L.d("checkotherapp nativeAppActivity thisday==" + thisDay + "  lastday==" + lastRequestDay + " compare=="
+					+ thisDay.compareTo(lastRequestDay));
+			if (thisDay.compareTo(lastRequestDay) <= 0) {
+				// 当天已经请求过了。
+				List<String> otherApps = DBManager.getInstance(context).queryOtherApps();
+				if (otherApps != null && otherApps.size() > 0 && packages != null && packages.size() > 0) {
+					for (int i = 0; i < otherApps.size(); i++) {
+						String otherAppPackage = otherApps.get(i);
+						boolean isInstalled = false;
+						for (int j = 0; j < packages.size(); j++) {
+							if (packages.get(j).equals(otherAppPackage)) {
+								isInstalled = true;
+								L.d("checkotherapp nativeAppActivity removed befor request package==" + otherAppPackage);
+								packages.remove(j);
+								break;
+							}
+						}
+						if (!isInstalled) {
+							// 删除已经卸载应用在数据库中记录
+							L.d("checkotherapp nativeAppActivity delete uninstalled app package==" + otherAppPackage);
+							DBManager.getInstance(context).deleteOtherApp(otherAppPackage);
+						}
+					}
+				}
+				SharedPreferencesUtil.putAppSynch(context, SharedPreferencesUtil.KEY_REQUESTDAY, thisDay);
+			}
+			/*****************************************************************/
+
 			// 请求版本号
 			DataCenter.getInstance().loadAppsUpdateData(packages, new LoadListListener() {
 
 				@Override
 				public void onComplete(List<Object> items) {
 					List<Object> versionApps = items;
+					List<String> otherAppsInDb = DBManager.getInstance(context).queryOtherApps();
 					if (versionApps != null && versionApps.size() > 0) {
 						// 设置服务端id和服务端配置版本号
 						for (int i = 0; i < nativeApps.size(); i++) {
+							NativeApp nativeApp = (NativeApp) nativeApps.get(i);
+							boolean isotherApp = true;
 							for (int j = 0; j < versionApps.size(); j++) {
 								App versionApp = (App) versionApps.get(j);
-								if (versionApp != null
-										&& nativeApps.get(i) != null
-										&& ((NativeApp) nativeApps.get(i)).getAppPackage().equals(
-												versionApp.getPackageName())) {
-									((NativeApp) nativeApps.get(i)).setAppid(versionApp.getAppid());
-									((NativeApp) nativeApps.get(i)).setServerVersionInt(versionApp.getVersionInt());
+								if (versionApp != null && nativeApp != null
+										&& nativeApp.getAppPackage().equals(versionApp.getPackageName())) {
+									isotherApp = false;
+									nativeApp.setAppid(versionApp.getAppid());
+									nativeApp.setServerVersionInt(versionApp.getVersionInt());
+								}
+							}
+							if (isotherApp && !containsString(otherAppsInDb, nativeApp.getAppPackage())) {
+								// 非我们市场的应用保存到数据库缓存中
+								L.d("checkotherapp nativeAppActivity +insert " + nativeApp.getAppPackage());
+								DBManager.getInstance(context).insertOtherApp(nativeApp.getAppPackage());
+							}
+						}
+						// 非我们应用市场应用缓存操作，只有请求所有本地应用时候才用得着，所以要判断是否是同一天
+						if (thisDay.compareTo(lastRequestDay) > 0) {
+							// 删除本地安装属于我们市场的应用。
+							for (int i = 0; i < items.size(); i++) {
+								for (int j = 0; j < otherAppsInDb.size(); j++) {
+									if (otherAppsInDb.get(j).equals(((App) items.get(i)).getPackageName())) {
+										DBManager.getInstance(context).deleteOtherApp(otherAppsInDb.get(j));
+										L.d("checkotherapp nativeAppActivity delete otherapp in db "
+												+ otherAppsInDb.get(j));
+										otherAppsInDb.remove(j);
+										break;
+									}
 								}
 							}
 						}
@@ -149,6 +204,25 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 			}, context);
 		}
 		AppBroadcastReceiver.listeners.put(context.getClass().getName(), appChangeListener);
+	}
+
+	/**
+	 * String列表是否包含字符串name
+	 * 
+	 * @param list
+	 * @param name
+	 * @return
+	 */
+	private boolean containsString(List<String> list, String name) {
+		if (list == null || list.size() <= 0 || name == null) {
+			return false;
+		}
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).equals(name)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private AppChangeListener appChangeListener = new AppChangeListener() {
@@ -233,8 +307,10 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 			adapter.setBatch(true);
 		}
 	}
+
 	/**
 	 * 批量卸载应用
+	 * 
 	 * @param packages
 	 */
 	private void unInstallApps(final List<String> packages) {
@@ -247,7 +323,7 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 					dialogMessage.dialogInterface.dismiss();
 				}
 				new Thread(new Runnable() {
-					
+
 					@Override
 					public void run() {
 						for (int i = 0; i < packages.size(); i++) {
@@ -333,7 +409,7 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 				// 批量操作
 				if (nativeApp.appPackage.equals("com.changhong.gdappstore")) {
 					Toast.makeText(context, "不能卸载自己", Toast.LENGTH_SHORT).show();
-				}else {
+				} else {
 					curCheckedItem = nativeApp.isChecked() ? curCheckedItem - 1 : curCheckedItem + 1;
 					refreshCheckedItemText();
 					nativeApp.setChecked(!nativeApp.isChecked());
