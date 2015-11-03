@@ -23,6 +23,7 @@ import com.changhong.gdappstore.model.NativeApp;
 import com.changhong.gdappstore.model.SynchApp;
 import com.changhong.gdappstore.model.SynchApp.Type;
 import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
+import com.changhong.gdappstore.service.CacheManager;
 import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.DialogUtil.DialogBtnOnClickListener;
 import com.changhong.gdappstore.util.DialogUtil.DialogMessage;
@@ -86,7 +87,7 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 
 	private void initData() {
 		adapter.setBatch(false);
-		DataCenter.getInstance().loadBackUpApps(context, new LoadObjectListener() {
+		DataCenter.getInstance().loadBackUpApps(context, CacheManager.useCacheBackupedApps, new LoadObjectListener() {
 
 			@Override
 			public void onComplete(Object object) {

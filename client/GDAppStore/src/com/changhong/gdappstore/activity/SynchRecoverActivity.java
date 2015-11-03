@@ -28,6 +28,7 @@ import com.changhong.gdappstore.model.SynchApp;
 import com.changhong.gdappstore.model.SynchApp.Type;
 import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
 import com.changhong.gdappstore.service.AppBroadcastReceiver;
+import com.changhong.gdappstore.service.CacheManager;
 import com.changhong.gdappstore.service.AppBroadcastReceiver.AppChangeListener;
 import com.changhong.gdappstore.service.DownLoadManager;
 import com.changhong.gdappstore.util.DialogUtil;
@@ -43,8 +44,8 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 public class SynchRecoverActivity extends BaseActivity implements OnClickListener, OnKeyListener {
 
 	private static final String TAG = "SynchRecoverActivity";
-	private  String DOBATCH;
-	private  String CONFIRM_RECOVER;
+	private String DOBATCH;
+	private String CONFIRM_RECOVER;
 	private GridView gridView;
 	private SynchGridAdapter adapter;
 	private Button bt_batch;
@@ -53,9 +54,9 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 	private TextView tv_pagename;
 	/** 批量操作时候选择的item个数 */
 	private int curCheckedItem = 0;
-	/**下载apk进度对话框*/
+	/** 下载apk进度对话框 */
 	private MyProgressDialog downloadPDialog;
-	/**apk 下载列表*/
+	/** apk 下载列表 */
 	private List<SynchApp> downloadApps;
 	private int curDownLoadPos = -1;
 
@@ -69,9 +70,9 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 	}
 
 	private void initView() {
-		DOBATCH=context.getString(R.string.batch_recovery);
-		CONFIRM_RECOVER=context.getString(R.string.confirm_recover);
-		
+		DOBATCH = context.getString(R.string.batch_recovery);
+		CONFIRM_RECOVER = context.getString(R.string.confirm_recover);
+
 		gridView = findView(R.id.gridview);
 		iv_shandow_item1 = findView(R.id.iv_shandow_item1);
 		iv_shandow_item2 = findView(R.id.iv_shandow_item2);
@@ -91,10 +92,10 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 
 		tv_batch_suggest = findView(R.id.tv_batch_suggest);
 		tv_batch_suggest.setText(context.getString(R.string.dobatchbyclickmenu));
-		
-		tv_pagename=findView(R.id.tv_pagename);
+
+		tv_pagename = findView(R.id.tv_pagename);
 		tv_pagename.setText(context.getString(R.string.recovery));
-		
+
 		tv_num_checked = findView(R.id.tv_num_checked);
 		iv_batch_icon = findView(R.id.iv_batch_icon);
 		tv_ge = findView(R.id.tv_ge);
@@ -102,13 +103,13 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 		downloadPDialog = new MyProgressDialog(context);
 		downloadPDialog.setUpdateFileSizeName(true);
 		downloadPDialog.dismiss();
-		
+
 		AppBroadcastReceiver.listeners.put(context.getClass().getName(), appChangeListener);
 	}
 
 	private void initData() {
 		adapter.setBatch(false);
-		DataCenter.getInstance().loadBackUpApps(context, new LoadObjectListener() {
+		DataCenter.getInstance().loadBackUpApps(context, CacheManager.useCacheBackupedApps, new LoadObjectListener() {
 
 			@Override
 			public void onComplete(Object object) {
@@ -134,9 +135,9 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 								synchApp.setSynchType(Type.RECOVERED);
 							}
 						}
-						if (synchApp.getSynchType()==Type.RECOVERED) {
+						if (synchApp.getSynchType() == Type.RECOVERED) {
 							itemsBySort.add(synchApp);
-						}else {
+						} else {
 							itemsBySort.add(0, synchApp);
 						}
 					}
@@ -159,10 +160,10 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 			break;
 		}
 	}
-	
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (event.getAction()==KeyEvent.ACTION_DOWN && keyCode==KeyEvent.KEYCODE_MENU) {
+		if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_MENU) {
 			doBatchOnClick();
 			return true;
 		}
@@ -266,16 +267,16 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 		}
 		curDownLoadPos++;
 		SynchApp app = downloadApps.get(curDownLoadPos);
-		
+
 		downloadPDialog.show();
 		downloadPDialog.setProgress(0);
 		downloadPDialog.setMax(0);
-		downloadPDialog.setMyTitle("正在下载："+app.getAppname());
-		
+		downloadPDialog.setMyTitle("正在下载：" + app.getAppname());
+
 		String apkLoadUrl = app.getApkFilePath();
 		final String apkname = apkLoadUrl.substring(apkLoadUrl.lastIndexOf("/") + 1, apkLoadUrl.length()).trim();
-		DownLoadManager.putFileDownLoad(apkLoadUrl, app.getPackageName(), Config.baseXutilDownPath + "/" + apkname, false,
-				true, new RequestCallBack<File>() {
+		DownLoadManager.putFileDownLoad(apkLoadUrl, app.getPackageName(), Config.baseXutilDownPath + "/" + apkname,
+				false, true, new RequestCallBack<File>() {
 					@Override
 					public void onLoading(long total, long current, boolean isUploading) {
 						downloadPDialog.setMax((int) total);
@@ -301,9 +302,9 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 					public void onFailure(HttpException paramHttpException, String msg) {
 						if (!NetworkUtils.ISNET_CONNECT) {
 							DialogUtil.showLongToast(context, "下载取消，网络未连接！");
-						}else if (msg.contains("ConnectTimeoutException")) {
+						} else if (msg.contains("ConnectTimeoutException")) {
 							DialogUtil.showLongToast(context, "下载失败，服务器连接超时！");
-						}else {
+						} else {
 							DialogUtil.showLongToast(context, "下载发生异常！");
 						}
 						doDownLoad();// 下载下一个

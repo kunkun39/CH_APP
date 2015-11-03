@@ -390,8 +390,10 @@ public class DataCenter {
 			}
 		}.execute("");
 	}
+
 	/**
 	 * 检测本地应用属于我们市场应用，并且检测哪些应用已备份
+	 * 
 	 * @param packages
 	 * @param context
 	 * @param loadObjectListener
@@ -426,16 +428,19 @@ public class DataCenter {
 			}
 		}.execute("");
 	}
+
 	/**
 	 * 提交备份
-	 * @param appIds 需要备份应用id列表，用,隔开
+	 * 
+	 * @param appIds
+	 *            需要备份应用id列表，用,隔开
 	 * @param context
 	 * @param loadObjectListener
 	 */
-	public void postBackup(final String appIds, final Context context,
-			final LoadObjectListener loadObjectListener) {
+	public void postBackup(final String appIds, final Context context, final LoadObjectListener loadObjectListener) {
+		CacheManager.useCacheBackupedApps=false;
 		new AsyncTask<Object, Object, Object>() {
-			
+
 			@Override
 			protected Object doInBackground(Object... params) {
 				String url = Config.postBackup;
@@ -450,7 +455,7 @@ public class DataCenter {
 				List<Integer> ids = Parse.parsePostBackUpApps(jsonString);
 				return ids;
 			}
-			
+
 			@Override
 			protected void onPostExecute(Object result) {
 				if (loadObjectListener != null) {
@@ -460,16 +465,19 @@ public class DataCenter {
 			}
 		}.execute("");
 	}
+
 	/**
 	 * 删除备份
-	 * @param appIds 需要备份应用id列表，用,隔开
+	 * 
+	 * @param appIds
+	 *            需要备份应用id列表，用,隔开
 	 * @param context
 	 * @param loadObjectListener
 	 */
-	public void deleteBackup(final String appIds, final Context context,
-			final LoadObjectListener loadObjectListener) {
+	public void deleteBackup(final String appIds, final Context context, final LoadObjectListener loadObjectListener) {
+		CacheManager.useCacheBackupedApps=false;
 		new AsyncTask<Object, Object, Object>() {
-			
+
 			@Override
 			protected Object doInBackground(Object... params) {
 				String url = Config.deleteBackupApp;
@@ -477,14 +485,14 @@ public class DataCenter {
 					return null;
 				}
 				List<NameValuePair> paramList = new ArrayList<NameValuePair>();
-				paramList.add(new BasicNameValuePair("boxMac",MyApplication.getEncDeviceMac()));
+				paramList.add(new BasicNameValuePair("boxMac", MyApplication.getEncDeviceMac()));
 				paramList.add(new BasicNameValuePair("appIds", appIds));
 				String jsonString = HttpRequestUtil.getEntityString(
 						HttpRequestUtil.doPostRequest(url, paramList, context), context);
 				List<Integer> ids = Parse.parseDeleteBackUpApps(jsonString);
 				return ids;
 			}
-			
+
 			@Override
 			protected void onPostExecute(Object result) {
 				if (loadObjectListener != null) {
@@ -494,24 +502,37 @@ public class DataCenter {
 			}
 		}.execute("");
 	}
+
 	/**
-	 * 获取已备份app
+	 * 获取已备份应用信息
 	 * @param context
+	 * @param isUserCache 是否使用缓存数据。true时候使用缓存数据，缓存为空再请求。false直接请求
 	 * @param loadObjectListener
 	 */
-	public void loadBackUpApps(final Context context,
-			final LoadObjectListener loadObjectListener) {
+	public void loadBackUpApps(final Context context, boolean isUserCache, final LoadObjectListener loadObjectListener) {
+		CacheManager.useCacheBackupedApps=true;
+		if (Config.ISCACHEABLE && isUserCache) {
+			String json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_BACKUPEDAPPS);
+			List<SynchApp> ids = Parse.parseGetBackUpApps(json);
+			if (loadObjectListener != null && ids!=null && ids.size()>0) {
+				loadObjectListener.onComplete(ids);
+				return;// 在一定的时间段内使用缓存数据不用重复请求服务器。
+			}
+		}
 		new AsyncTask<Object, Object, Object>() {
-			
+
 			@Override
 			protected Object doInBackground(Object... params) {
-				String url = Config.getBackupApps+"?" +"boxMac=" + MyApplication.getEncDeviceMac();
-				String jsonString = HttpRequestUtil.getEntityString(
-						HttpRequestUtil.doGetRequest(url, context),context);
+				String url = Config.getBackupApps + "?" + "boxMac=" + MyApplication.getEncDeviceMac();
+				String jsonString = HttpRequestUtil
+						.getEntityString(HttpRequestUtil.doGetRequest(url, context), context);
+				if (!TextUtils.isEmpty(jsonString)) {
+					CacheManager.putJsonFileCache(context, CacheManager.KEYJSON_BACKUPEDAPPS, jsonString);
+				}
 				List<SynchApp> ids = Parse.parseGetBackUpApps(jsonString);
 				return ids;
 			}
-			
+
 			@Override
 			protected void onPostExecute(Object result) {
 				if (loadObjectListener != null) {
@@ -587,28 +608,30 @@ public class DataCenter {
 			}
 		}).start();
 	}
+
 	/**
 	 * 下载广告图片
+	 * 
 	 * @param context
 	 * @param loadObjectListener
 	 */
 	public void loadBootADData(final Context context, final LoadObjectListener loadObjectListener) {
 		new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				String url = Config.getBootADUrl;
 				String jsonString = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(url, context), context);
-				String bootADUrl=Parse.parseBootAD(jsonString);
-				
+				String bootADUrl = Parse.parseBootAD(jsonString);
+
 				if (!TextUtils.isEmpty(bootADUrl)) {
-					if (bootADUrl.endsWith(Config.INITIAL)) {//和apk默认广告图片一样
-						bootADUrl="";
+					if (bootADUrl.endsWith(Config.INITIAL)) {// 和apk默认广告图片一样
+						bootADUrl = "";
 					}
 					SharedPreferencesUtil.putJsonCache(context, Config.KEY_BOOTADIMG, bootADUrl);
 				}
 				if (loadObjectListener != null) {
-				   loadObjectListener.onComplete(bootADUrl);
+					loadObjectListener.onComplete(bootADUrl);
 				}
 			}
 		}).start();
@@ -625,7 +648,8 @@ public class DataCenter {
 
 			@Override
 			public void run() {
-				String url = Config.putAppDownloadOK + "?" + "appId=" + appId + "&boxMac=" + MyApplication.getDeviceMac();
+				String url = Config.putAppDownloadOK + "?" + "appId=" + appId + "&boxMac="
+						+ MyApplication.getDeviceMac();
 				HttpRequestUtil.doGetRequest(url, context);
 			}
 		}).start();
