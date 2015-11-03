@@ -246,12 +246,15 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 				if (dialogMessage != null && dialogMessage.dialogInterface != null) {
 					dialogMessage.dialogInterface.dismiss();
 				}
-				for (int i = 0; i < packages.size(); i++) {
-//					Uri uri = Uri.parse("package:" + packages.get(i));
-//					Intent intent = new Intent(Intent.ACTION_DELETE, uri);
-//					startActivity(intent);
-					InstallUtil.uninstallAppByCommond(packages.get(i));
-				}
+				new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						for (int i = 0; i < packages.size(); i++) {
+							InstallUtil.uninstallAppByCommond(packages.get(i));
+						}
+					}
+				}).start();
 			}
 
 			@Override

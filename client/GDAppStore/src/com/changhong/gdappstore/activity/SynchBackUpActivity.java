@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.adapter.SynchGridAdapter;
 import com.changhong.gdappstore.base.BaseActivity;
+import com.changhong.gdappstore.database.DBManager;
 import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.model.NativeApp;
 import com.changhong.gdappstore.model.SynchApp;
@@ -54,8 +55,8 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 	}
 
 	private void initView() {
-		DOBATCH=context.getString(R.string.batch_backup);
-		CONFIRM_BACKUP=context.getString(R.string.confirm_backup);
+		DOBATCH = context.getString(R.string.batch_backup);
+		CONFIRM_BACKUP = context.getString(R.string.confirm_backup);
 		gridView = findView(R.id.gridview);
 		iv_shandow_item1 = findView(R.id.iv_shandow_item1);
 		iv_shandow_item2 = findView(R.id.iv_shandow_item2);
@@ -66,11 +67,11 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 		gridView.setOnItemClickListener(onItemClickListener);
 		gridView.setOnKeyListener(this);
 		gridView.setAdapter(adapter);
-		
+
 		tv_batch_suggest = findView(R.id.tv_batch_suggest);
 		tv_batch_suggest.setText(context.getString(R.string.dobatchbyclickmenu));
-		
-		tv_pagename=findView(R.id.tv_pagename);
+
+		tv_pagename = findView(R.id.tv_pagename);
 		tv_pagename.setText(context.getString(R.string.backup));
 
 		bt_batch = findView(R.id.bt_batch);
@@ -98,19 +99,44 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 				packages.add(((NativeApp) nativeApps.get(i)).getAppPackage());
 			}
 		}
-//		String thisDay=DateUtils.getDayByyyyyMMdd();
-//		String lastRequestDay=SharedPreferencesUtil.getAppSynch(context, SharedPreferencesUtil.KEY_REQUESTDAY);
-//		if (thisDay.compareTo(lastRequestDay)>0) {
-//			
-//			
-//			SharedPreferencesUtil.putAppSynch(context, SharedPreferencesUtil.KEY_REQUESTDAY, thisDay);
-//		}
+		/****************** 每天只请求所有应用一次，其它时候都剔除缓存中非我们市场应用 *************************/
+		final String thisDay = DateUtils.getDayByyyyyMMdd();
+		final String lastRequestDay = SharedPreferencesUtil.getAppSynch(context, SharedPreferencesUtil.KEY_REQUESTDAY);
+		L.d("checkotherapp thisday==" + thisDay + "  lastday==" + lastRequestDay + " compare=="
+				+ thisDay.compareTo(lastRequestDay));
+		if (thisDay.compareTo(lastRequestDay) <= 0) {
+			// 当天已经请求过了。
+			List<String> otherApps = DBManager.getInstance(context).queryOtherApps();
+			if (otherApps != null && otherApps.size() > 0 && packages != null && packages.size() > 0) {
+				for (int i = 0; i < otherApps.size(); i++) {
+					String otherAppPackage = otherApps.get(i);
+					boolean isInstalled = false;
+					for (int j = 0; j < packages.size(); j++) {
+						if (packages.get(j).equals(otherAppPackage)) {
+							isInstalled = true;
+							L.d("checkotherapp removed befor request package==" + otherAppPackage);
+							packages.remove(j);
+							break;
+						}
+					}
+					if (!isInstalled) {
+						// 删除已经卸载应用在数据库中记录
+						L.d("checkotherapp delete uninstalled app package==" + otherAppPackage);
+						DBManager.getInstance(context).deleteOtherApp(otherAppPackage);
+					}
+				}
+			}
+			SharedPreferencesUtil.putAppSynch(context, SharedPreferencesUtil.KEY_REQUESTDAY, thisDay);
+		}
+		/*****************************************************************/
+
 		DataCenter.getInstance().checkBackUpApp(packages, context, new LoadObjectListener() {
 
 			@Override
 			public void onComplete(Object object) {
 				List<SynchApp> items = (List<SynchApp>) object;
 				List<SynchApp> itemsBySort = new ArrayList<SynchApp>();
+				List<String> otherAppsInDb = DBManager.getInstance(context).queryOtherApps();
 				if (items.size() > 6) {
 					iv_shandow_item1.setVisibility(VISIBLE);
 				}
@@ -121,20 +147,43 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 					iv_shandow_item3.setVisibility(VISIBLE);
 				}
 				if (items != null) {
-					for (int i = 0; i < items.size(); i++) {
-						SynchApp synchApp = items.get(i);
-						for (int j = 0; j < nativeApps.size(); j++) {
-							NativeApp nativeApp = (NativeApp) nativeApps.get(j);
+					for (int i = 0; i < nativeApps.size(); i++) {
+						NativeApp nativeApp = (NativeApp) nativeApps.get(i);
+						boolean isotherApp = true;
+						for (int j = 0; j < items.size(); j++) {
+							SynchApp synchApp = items.get(j);
 							if (synchApp.getPackageName().equals(nativeApp.appPackage)) {
+								isotherApp = false;
 								synchApp.setAppname(nativeApp.appname);
 								synchApp.setAppIcon(nativeApp.appIcon);
 								synchApp.setVersionInt(nativeApp.nativeVersionInt);
+								if (synchApp.getSynchType() == Type.BACKUPED) {
+									itemsBySort.add(synchApp);
+								} else {
+									itemsBySort.add(0, synchApp);// 排序
+								}
+								break;
 							}
 						}
-						if (synchApp.getSynchType() == Type.BACKUPED) {
-							itemsBySort.add(synchApp);
-						} else {
-							itemsBySort.add(0, synchApp);
+						if (isotherApp && !containsString(otherAppsInDb, nativeApp.getAppPackage())) {
+							// 非我们市场的应用保存到数据库缓存中
+							L.d("checkotherapp +insert " + nativeApp.getAppPackage());
+							DBManager.getInstance(context).insertOtherApp(nativeApp.getAppPackage());
+						}
+					}
+
+					// 非我们应用市场应用缓存操作，只有请求所有本地应用时候才用得着，所以要判断是否是同一天
+					if (thisDay.compareTo(lastRequestDay) > 0) {
+						// 删除本地安装属于我们市场的应用。
+						for (int i = 0; i < items.size(); i++) {
+							for (int j = 0; j < otherAppsInDb.size(); j++) {
+								if (otherAppsInDb.get(j).equals(items.get(i).getPackageName())) {
+									DBManager.getInstance(context).deleteOtherApp(otherAppsInDb.get(j));
+									L.d("checkotherapp delete otherapp in db " + otherAppsInDb.get(j));
+									otherAppsInDb.remove(j);
+									break;
+								}
+							}
 						}
 					}
 				}
@@ -142,6 +191,25 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 				dismissLoadingDialog();
 			}
 		});
+	}
+
+	/**
+	 * String列表是否包含字符串name
+	 * 
+	 * @param list
+	 * @param name
+	 * @return
+	 */
+	private boolean containsString(List<String> list, String name) {
+		if (list == null || list.size() <= 0 || name == null) {
+			return false;
+		}
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).equals(name)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
