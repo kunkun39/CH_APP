@@ -89,6 +89,17 @@
                     android:focusable="true"
                     android:scaleType="fitXY"
                     android:src="@drawable/btn_updateapp" />
+                <TextView 
+                    android:id="@+id/tv_downshelf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textColor="@color/red"
+                    android:text="该应用已下架！"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:visibility="gone"
+                    />
             </LinearLayout>
         </RelativeLayout>
 

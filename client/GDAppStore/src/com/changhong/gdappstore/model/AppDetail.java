@@ -7,6 +7,7 @@ package com.changhong.gdappstore.model;
  * 
  */
 public class AppDetail extends App {
+	public static final String PASSED="PASSED";
 	// 应用apk下载地址
 	protected String apkFilePath;
 	// 应用描述
@@ -17,9 +18,19 @@ public class AppDetail extends App {
 	protected int categoryId;
 	// 应用路径
 	protected String updateDate;
+	// 状态，除了PASSED外都为下架
+	protected String state=PASSED;
 
 	public AppDetail() {
 		super();
+	}
+	
+	/**
+	 * 是否上架
+	 * @return true上架，false下架
+	 */
+	public boolean isOnShelf() {
+		return state.equals(PASSED);
 	}
 
 	public String getApkFilePath() {
@@ -69,12 +80,19 @@ public class AppDetail extends App {
 	public void setUpdateDate(String updateDate) {
 		this.updateDate = updateDate;
 	}
+	
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
 
 	@Override
 	public String toString() {
-		return "AppDetail [" + super.toString() + "iconFilePath=" + iconFilePath + ", apkFilePath=" + apkFilePath
-				+ ", description=" + description + ", host=" + host + ", categoryId=" + categoryId + ", updateDate="
-				+ updateDate + "]";
+		return "AppDetail ["+ super.toString() +" apkFilePath=" + apkFilePath + ", description=" + description + ", host=" + host
+				+ ", categoryId=" + categoryId + ", updateDate=" + updateDate + ", state=" + state + "]";
 	}
 
 }

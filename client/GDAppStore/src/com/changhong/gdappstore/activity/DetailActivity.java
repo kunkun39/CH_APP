@@ -24,7 +24,6 @@ import com.changhong.gdappstore.model.NativeApp;
 import com.changhong.gdappstore.net.LoadListener;
 import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
 import com.changhong.gdappstore.service.DownLoadManager;
-import com.changhong.gdappstore.service.UpdateService;
 import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.DialogUtil.DialogBtnOnClickListener;
 import com.changhong.gdappstore.util.DialogUtil.DialogMessage;
@@ -58,23 +57,21 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	/** 用户喜欢 */
 	private UserMayLikeView view_usermaylike;
 	/** 应用文本介绍信息 */
-	private TextView tv_appname, tv_downloadcount, tv_size, tv_version, tv_updatetime;
+	private TextView tv_appname, tv_downloadcount, tv_size, tv_version, tv_updatetime, tv_downshelf;
 	private JustifyTextView tv_introduce;
 	private ImageView iv_post, iv_icon;
 
 	private AppDetail appDetail;
 	/** 下载进度提示对话框 */
 	private MyProgressDialog downloadPDialog;
-	/** 下载进度提示下载功能 */
-//	private UpdateService updateService;
 
 	private ScoreView scoreview;
 
 	int appId = -1;
 	/** 下载量是否需要加1？用于处理下载成功后手动添加下载量，不再请求服务器获取 */
-	public static int detailLoadCount = 0;
-	/**是否有app正在下载中**/
-	private static boolean hasAppLoading=false;
+	private int detailLoadCount = 0;
+	/** 是否有app正在下载中 **/
+	private static boolean hasAppLoading = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +106,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		tv_version = findView(R.id.tv_version);
 		tv_updatetime = findView(R.id.tv_updatetime);
 		tv_introduce = findView(R.id.tv_introduce);
+		tv_downshelf = findView(R.id.tv_downshelf);
 		scoreview = findView(R.id.scoreview_detail);
 		iv_recommend = findView(R.id.iv_recommend);
 		downloadPDialog = new MyProgressDialog(context);
@@ -137,7 +135,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	}
 
 	private void initData() {
-//		updateService = new UpdateService(context, null, downloadPDialog);
+		// updateService = new UpdateService(context, null, downloadPDialog);
 		if (NetworkUtils.ISNET_CONNECT) {
 			showLoadingDialog();
 		}
@@ -206,25 +204,30 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		NativeApp installed = Util.getNativeApp(context, appDetail.getPackageName());
 		boolean isInstalled = installed != null;
 		bt_open.setVisibility(isInstalled ? VISIBLE : GONE);
-		bt_dowload.setVisibility(isInstalled ? GONE : VISIBLE);
-		bt_update.setVisibility(isInstalled ? VISIBLE : GONE);
+		if (!appDetail.isOnShelf()) {
+			// 应用已下架
+			tv_downshelf.setVisibility(VISIBLE);
+			bt_dowload.setVisibility(GONE);
+			bt_update.setVisibility(GONE);
+		} else {
+			tv_downshelf.setVisibility(GONE);
+			bt_dowload.setVisibility(isInstalled ? GONE : VISIBLE);
+			bt_update.setVisibility(isInstalled ? VISIBLE : GONE);
+			int appdetailVersion = appDetail.getVersionInt();
+			if (isInstalled) {// 比较本地已安装版本号
+				int installedVersion = installed.getNativeVersionInt();
+				bt_update.setVisibility((appdetailVersion > installedVersion) ? VISIBLE : GONE);
+			}
+		}
+		// 焦点控制
 		if (view_usermaylike.getCurFocuesView() != null) {
 			view_usermaylike.getCurFocuesView().requestFocus();
 		} else {
-			if (isInstalled) {
+			if (isInstalled || !appDetail.isOnShelf()) {
 				bt_open.requestFocus();
 			} else {
 				bt_dowload.requestFocus();
 			}
-		}
-		int appdetailVersion = appDetail.getVersionInt();
-		if (isInstalled) {// 比较本地已安装版本号
-			int installedVersion = installed.getNativeVersionInt();
-			bt_update.setVisibility((appdetailVersion > installedVersion) ? VISIBLE : GONE);
-			L.d("checkversion--appdetail is " + appdetailVersion + " installedVersion is " + installedVersion);
-		} else {
-			// 没有安装
-			L.d("checkversion--appdetail isnot in database and not installed" + appDetail.getAppid());
 		}
 	}
 
@@ -237,14 +240,14 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		case R.id.bt_download:
 			if (hasAppLoading) {
 				DialogUtil.showLongToast(context, "有应用正在下载中，请稍等");
-			}else {
+			} else {
 				showDownloadDialog(true);
 			}
 			break;
 		case R.id.bt_update:
 			if (hasAppLoading) {
 				DialogUtil.showLongToast(context, "有应用正在下载中，请稍等");
-			}else {
+			} else {
 				showDownloadDialog(true);
 			}
 			break;
@@ -302,7 +305,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 
 		String apkLoadUrl = appDetail.getApkFilePath();
 		final String apkname = apkLoadUrl.substring(apkLoadUrl.lastIndexOf("/") + 1, apkLoadUrl.length()).trim();
-		hasAppLoading=true;
+		hasAppLoading = true;
 		DownLoadManager.putFileDownLoad(apkLoadUrl, appDetail.getPackageName(), Config.baseXutilDownPath + "/"
 				+ apkname, false, true, new RequestCallBack<File>() {
 			@Override
@@ -371,10 +374,11 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 			super.handleMessage(msg);
 			switch (msg.what) {
 			case DISSMISS_PDIALOG:
-				hasAppLoading=false;
+				hasAppLoading = false;
 				if (downloadPDialog != null && downloadPDialog.isShowing()) {
 					downloadPDialog.dismiss();
 				}
+				updateBtnState();
 				break;
 			case SHOW_INSTALL_SUCCESS:
 				DialogUtil.showLongToast(context, (String) msg.obj + " 安装成功");

@@ -10,7 +10,7 @@ public class Config {
 	/** 是否允许缓存。只有调试所有情况下都请求接口时候才改为false */
 	public static final boolean ISCACHEABLE = true;
 	/** 是否采用系统自带安装工具安装，true为用系统自带安装，false为静默安装 */
-	public static final boolean ISNORMAL_INSTALL = false;
+	public static final boolean ISNORMAL_INSTALL = true;
 	/** 是否采用系统自带卸载工具，true为用系统自带卸载，false为静默卸载 */
 	public static final boolean ISNORMAL_UNINSTALL = false;
 	/** 请求暂停时间，在这个时间内不能连续请求 */

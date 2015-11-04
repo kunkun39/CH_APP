@@ -399,6 +399,7 @@ public class Parse {
 			appDetail.setCategoryId(object.getInt(APP_CATEGORY_ID));
 			appDetail.setScores(object.getInt(APP_SCORES));
 			appDetail.setRecommend(object.getBoolean(APP_RECOMMEND));
+			appDetail.setState(object.getString("sta").trim());
 			if (object.has(APP_ICON_FILEPATH) && !TextUtils.isEmpty(object.getString(APP_ICON_FILEPATH))) {
 				appDetail.setIconFilePath(host + appKey + "/" + object.getString(APP_ICON_FILEPATH).trim());
 			}
