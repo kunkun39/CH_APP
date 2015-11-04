@@ -203,15 +203,6 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 			}
 		}
 		int appdetailVersion = appDetail.getVersionInt();
-		// App databaseApp =
-		// DBManager.getInstance(context).queryAppVersionById(appDetail.getAppid());
-		// if (databaseApp != null) {// 数据库存在该应用（取消数据库作用）
-		// int databaseAppVersion = databaseApp.getVersionInt();
-		// bt_update.setVisibility((appdetailVersion > databaseAppVersion) ?
-		// VISIBLE : GONE);
-		// L.d("checkversion--appdetail is " + appdetailVersion +
-		// " databaseAppVersion is " + databaseAppVersion);
-		// } else if (isInstalled) {// 数据库不存在再比较已安装apk版本号
 		if (isInstalled) {//比较本地已安装版本号
 			int installedVersion = installed.getNativeVersionInt();
 			bt_update.setVisibility((appdetailVersion > installedVersion) ? VISIBLE : GONE);
