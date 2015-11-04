@@ -15,8 +15,8 @@
     <string name="dataloading">正在处理中，请稍等...</string>
 
     <string name="error_nonet">网络未连接...</string>
-    <string name="error_serverconnect">服务器连接异常...</string>
-    <string name="error_serverdata">服务器数据异常...</string>
+    <string name="error_serverconnect">网络连接异常...</string>
+    <string name="error_serverdata">网络连接异常...</string>
     <string name="error_parse">数据解析异常...</string>
     
     <!-- 云同步功能 -->
