@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Toast;
 
 import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.R;

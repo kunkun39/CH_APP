@@ -10,7 +10,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.activity.NativeAppActivity;
@@ -18,7 +17,6 @@ import com.changhong.gdappstore.activity.RankingListActivity;
 import com.changhong.gdappstore.activity.SearchActivity;
 import com.changhong.gdappstore.activity.SynchronousActivity;
 import com.changhong.gdappstore.base.BasePageView;
-import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.model.PageApp;
 import com.changhong.gdappstore.util.DialogUtil;
@@ -62,7 +60,7 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 	}
 
 	protected void initView() {
-		View rootView = LayoutInflater.from(context).inflate(R.layout.view_homepage, this);
+		LayoutInflater.from(context).inflate(R.layout.view_homepage, this);
 		ivFocues = findView(R.id.iv_homepage_focues);
 		ivFocues.setVisibility(INVISIBLE);
 		for (int i = 0; i < postItemCount; i++) {
