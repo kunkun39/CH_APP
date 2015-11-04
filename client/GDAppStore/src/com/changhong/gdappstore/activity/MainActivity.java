@@ -135,11 +135,11 @@ public class MainActivity extends BaseActivity {
 		viewPager.setAnimationCacheEnabled(true);
 		viewPager.setOffscreenPageLimit(6);
 		viewPager.setOnPageChangeListener(pageChangeListener);
-		viewPager.setAdapter(viewPagerAdapter);
+//		viewPager.setAdapter(viewPagerAdapter);
 		// ((HomePageView)
 		// homePages[0]).initNativeData();//非必要代码，只是在加载数据前显示出来以免页面空虚
-		// handler.sendEmptyMessageDelayed(11, 10);// 解决跳转时候上个页面停留太久
-		initOnCreateData();
+		 handler.sendEmptyMessageDelayed(11, 10);// 解决跳转时候上个页面停留太久
+//		initOnCreateData();
 	}
 
 	Handler handler = new Handler() {
@@ -149,6 +149,7 @@ public class MainActivity extends BaseActivity {
 			super.handleMessage(msg);
 			// viewPager.setAdapter(viewPagerAdapter);
 			if (msg.what == 11) {
+				viewPager.setAdapter(viewPagerAdapter);
 				initOnCreateData();
 			} else if (msg.what == 12) {
 				initData();

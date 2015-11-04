@@ -47,7 +47,7 @@ public class LoadingActivity extends BaseActivity {
 		setContentView(R.layout.activity_loading);
 		initView();
 		loadData();
-		handler.sendEmptyMessageDelayed(100, 5000);
+		handler.sendEmptyMessageDelayed(100, 3000);
 	}
 	
 	Handler handler =new Handler(){
