@@ -74,7 +74,8 @@ public class Config {
 	 * 
 	 */
 	/***************************** 网络请求配置项 ******************************************/
-	public static final String HOMEPAGE = "首页";
+	/**首页 在MyApplication里面初始化**/
+	public static String HOMEPAGE;
 	/** 在首页显示几个栏目的页面 **/
 	public static final int showCatPageSize = 4;
 	/** 默认和apk一样的开机广告图片 */

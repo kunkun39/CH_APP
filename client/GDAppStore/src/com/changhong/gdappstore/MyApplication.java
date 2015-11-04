@@ -54,16 +54,20 @@ public class MyApplication extends Application {
 	public static String UPDATE_APKURL = "";
 	/** 应用商城apk是否许可 */
 	public static boolean UPDATE_ENABLE =true;
+	
+	private Context context;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		this.context=getApplicationContext();
 		NetworkUtils.isConnectInternet(this);// 网络链接
 		initImageLoaderCacheDir();// 初始化imageloader 缓存路径
 		initImageLoader(this);
 		DeviceInfo.CollectInfo();// 获取设备信息
 		deviceMac = DeviceInfo.DeviceMac;
 		L.d("devicemac--" + deviceMac + "  netconnect " + NetworkUtils.ISNET_CONNECT);
+		initStrings();
 	}
 
 	/**
@@ -121,6 +125,12 @@ public class MyApplication extends Application {
 		discCacheAware = new LimitedAgeDiskCache(cacheDir, discCacheMaxSeconds);
 		// discCacheAware = new FileCountLimitedDiscCache(cacheDir,
 		// discCacheSize);
+	}
+	/**
+	 * 加载字符串
+	 */
+	private void initStrings() {
+		Config.HOMEPAGE=context.getString(R.string.homepage);
 	}
 
 	/**

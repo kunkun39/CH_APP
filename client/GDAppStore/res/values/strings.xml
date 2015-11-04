@@ -1,6 +1,7 @@
 <resources>
 
     <string name="app_name">长虹应用商城</string>
+    <string name="homepage">首页</string>
     <string name="sousuo">&#60; 搜索</string>
     <string name="str_ranking_list">排行榜</string>
     <string name="str_download">下载量：</string>
