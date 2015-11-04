@@ -113,7 +113,7 @@ public class OtherCategoryView extends BasePageView implements OnFocusChangeList
 
 			}
 		}
-		setShandows();
+//		setShandows();
 	}
 
 	@Override
@@ -226,17 +226,16 @@ public class OtherCategoryView extends BasePageView implements OnFocusChangeList
 
 		@Override
 		public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-			setShandows();
+//			setShandows();
 		}
 
 		@Override
 		public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-			setShandows();
+//			setShandows();
 		}
 
 		@Override
 		public void onLoadingCancelled(String imageUri, View view) {
-			// TODO Auto-generated method stub
 
 		}
 	};

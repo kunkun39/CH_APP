@@ -107,7 +107,7 @@
         android:layout_alignLeft="@id/rl_othercat_categroys"
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@id/rl_othercat_categroys"
-        android:layout_marginBottom="65dp"
+        android:layout_marginBottom="70dp"
         android:gravity="center_horizontal" >
 
         <ImageView

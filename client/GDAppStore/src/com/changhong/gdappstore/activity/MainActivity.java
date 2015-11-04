@@ -214,7 +214,9 @@ public class MainActivity extends BaseActivity {
 		} else {
 			L.d("mainactivity initdata category is null");
 		}
-		// viewPagerAdapter.updateList(Arrays.asList(homePages));
+		for (int i = 0; i < homePages.length; i++) {
+			homePages[i].setPageIndex(i);
+		}
 		viewPagerAdapter.updateList(getHomePageList(homePages));
 		titleView.setFocusItem(0);
 		checkUpdate();
@@ -354,6 +356,11 @@ public class MainActivity extends BaseActivity {
 				return;
 			}
 			BasePageView curPageView = homePages[arg0];
+			if (arg0==homePages.length-1) {
+				((OtherCategoryView) curPageView).setShandows();
+			}else {
+				((HomePageView) curPageView).setShandows();
+			}
 			titleView.setSelectedItem(arg0);
 			if (!titleView.hasChildFocuesed()) {// 非标签上面切换情况下，处理默认交代呢
 				if (hasOtherPage() && arg0 == categories.size() - 1) {

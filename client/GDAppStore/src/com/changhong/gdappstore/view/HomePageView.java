@@ -45,7 +45,7 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 	public boolean isRightItemFocused = false;
 
 	private ImageView iv_shandow1, iv_shandow2, iv_shandow3, iv_shandow4, iv_shandow5;
-
+	
 	public HomePageView(Context context) {
 		super(context);
 		initView();
@@ -282,12 +282,16 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 
 		@Override
 		public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-			setShandows();
+			if (pageIndex==0) {
+				setShandows();
+			}
 		}
 
 		@Override
 		public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-			setShandows();
+			if (pageIndex==0) {
+				setShandows();
+			}
 		}
 
 		@Override
@@ -295,7 +299,7 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 
 		}
 	};
-
+	
 	public boolean isRightItemFocused() {
 		return isRightItemFocused;
 	}

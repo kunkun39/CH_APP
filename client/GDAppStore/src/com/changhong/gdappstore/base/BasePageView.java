@@ -47,6 +47,8 @@ public class BasePageView extends BaseRelativeLayout {
 	protected final int horLeftMar_add = 10, horTopMar_add = -3, horWidth_add = 3, horHeight_add = 13;
 	protected final int smallLeftMar_add = 7, smallTopMar_add = 0, smallWidth_add = 2, smallHeight_add = 7;
 
+	protected int pageIndex=0;
+
 	public BasePageView(Context context) {
 		super(context);
 		initBaseView();
@@ -141,5 +143,11 @@ public class BasePageView extends BaseRelativeLayout {
 		return categoryItemViews;
 	}
 
-	
+	public int getPageIndex() {
+		return pageIndex;
+	}
+
+	public void setPageIndex(int pageIndex) {
+		this.pageIndex = pageIndex;
+	}
 }
