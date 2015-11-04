@@ -102,7 +102,7 @@ public class BasePageView extends BaseRelativeLayout {
 	 */
 	protected void jumpToPostActivity(int parentCategoryId, int currentCategoryId) {
 		if (currentCategoryId <= 0) {
-			DialogUtil.showShortToast(context, context.getResources().getString(R.string.no_categorydata));
+			DialogUtil.showShortToast(context, context.getResources().getString(R.string.weipeizhi));
 			return;
 		}
 		if (!NetworkUtils.ISNET_CONNECT) {
@@ -122,7 +122,7 @@ public class BasePageView extends BaseRelativeLayout {
 	 */
 	protected void jumpToDetailActivity(int appid) {
 		if (appid < 0) {
-			DialogUtil.showShortToast(context,context.getResources().getString(R.string.no_appdata));
+			DialogUtil.showShortToast(context,context.getResources().getString(R.string.weipeizhi));
 			return;
 		}
 		if (!NetworkUtils.ISNET_CONNECT) {

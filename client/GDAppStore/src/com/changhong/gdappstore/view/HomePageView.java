@@ -1,5 +1,9 @@
 package com.changhong.gdappstore.view;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import android.R.integer;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -43,7 +47,7 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 	public boolean isRightItemFocused = false;
 
 	private ImageView iv_shandow1, iv_shandow2, iv_shandow3, iv_shandow4, iv_shandow5;
-	
+
 	public HomePageView(Context context) {
 		super(context);
 		initView();
@@ -121,32 +125,18 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 				});
 			}
 		}
-		if (category.getCategoryPageApps() == null) {
+		if (category.getCategoryPageApps() == null || category.getCategoryPageApps().size() == 0) {
 			return;
 		}
+		Map<Integer, PageApp> pageAppMap = new HashMap<Integer, PageApp>();
 		int size = category.getCategoryPageApps().size();
+		for (int i = 0; i < size; i++) {
+			PageApp pageApp = category.getCategoryPageApps().get(i);
+			pageAppMap.put(pageApp.getPosition(), pageApp);
+		}
 		for (int i = 0; i < postItemCount; i++) {
-			if (i < size) {
-				final PageApp pageApp = category.getCategoryPageApps().get(i);
-				int position = pageApp.getPosition();
-				if (position <= postItemCount) {
-					if (position == 5 || position == 6 || position == 9 || position == 12) {
-						postItemViews[(position - 1)].setPageAppData(pageApp, imageLoadingListener);
-					} else {
-						postItemViews[(position - 1)].setPageAppData(pageApp, null);
-					}
-					postItemViews[(position - 1)].setOnClickListener(new OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							if (onClickListener != null) {
-								onClickListener.onClick(v);
-							}
-							jumpToDetailActivity(pageApp.getAppid());
-						}
-					});
-				}
-			} else {
+			final PageApp pageApp = pageAppMap.get((i+1));//位置序号是从1开始计算。
+			if (pageApp == null) {
 				postItemViews[i].setOnClickListener(new OnClickListener() {
 
 					@Override
@@ -154,7 +144,23 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 						if (onClickListener != null) {
 							onClickListener.onClick(v);
 						}
-						DialogUtil.showShortToast(context, context.getResources().getString(R.string.no_appdata));
+						DialogUtil.showShortToast(context, context.getResources().getString(R.string.weipeizhi));
+					}
+				});
+			} else {
+				if (i == 5 || i == 6 || i == 9 || i == 12) {
+					postItemViews[i].setPageAppData(pageApp, imageLoadingListener);
+				} else {
+					postItemViews[i].setPageAppData(pageApp, null);
+				}
+				postItemViews[i].setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						if (onClickListener != null) {
+							onClickListener.onClick(v);
+						}
+						jumpToDetailActivity(pageApp.getAppid());
 					}
 				});
 			}
@@ -280,14 +286,14 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 
 		@Override
 		public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-			if (pageIndex==0) {
+			if (pageIndex == 0) {
 				setShandows();
 			}
 		}
 
 		@Override
 		public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-			if (pageIndex==0) {
+			if (pageIndex == 0) {
 				setShandows();
 			}
 		}
@@ -297,7 +303,7 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 
 		}
 	};
-	
+
 	public boolean isRightItemFocused() {
 		return isRightItemFocused;
 	}

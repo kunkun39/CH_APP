@@ -422,6 +422,9 @@ public class MainActivity extends BaseActivity {
 	private Dialog updateDialog = null;
 
 	private void checkUpdate() {
+		if (!MyApplication.UPDATE_ENABLE) {
+			return;
+		}
 		try {
 			int nativeVersion = getPackageManager().getPackageInfo(this.getPackageName(), 0).versionCode;
 			L.d("mainactivity readUpdate navVersion=" + nativeVersion + " serverVer " + MyApplication.SERVER_VERSION);

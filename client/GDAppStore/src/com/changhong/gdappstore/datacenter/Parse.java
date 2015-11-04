@@ -105,6 +105,9 @@ public class Parse {
 			if (categoryObject.has("client_url")) {
 				MyApplication.UPDATE_APKURL = DesUtils.getDesString(categoryObject.getString("client_url").trim());
 			}
+			if (categoryObject.has("client_en")) {
+				MyApplication.UPDATE_ENABLE = categoryObject.getBoolean("client_en");
+			}
 			if (categoryObject.has("client_v")) {
 				MyApplication.SERVER_VERSION = categoryObject.getInt("client_v");
 			}

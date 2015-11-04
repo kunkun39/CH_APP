@@ -52,6 +52,8 @@ public class MyApplication extends Application {
 	public static int SERVER_VERSION = 0;
 	/** 应用商城apk更新地址 */
 	public static String UPDATE_APKURL = "";
+	/** 应用商城apk是否许可 */
+	public static boolean UPDATE_ENABLE =true;
 
 	@Override
 	public void onCreate() {

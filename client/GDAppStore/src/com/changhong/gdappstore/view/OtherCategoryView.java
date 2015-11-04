@@ -81,10 +81,9 @@ public class OtherCategoryView extends BasePageView implements OnFocusChangeList
 
 	public void initData(final Category category) {
 		if (category.getCategoyChildren() != null) {
-			// 初始化左边4个子栏目数据，最多4个
 			int size = category.getCategoyChildren().size();
 			for (int i = 0; i < otcItemCount; i++) {
-				if (i < size) {
+				if (i < size) {//这里可以用i和size比较是因为这里的栏目里面没有序号信息，就挨着放就是
 					final Category childCategory = category.getCategoyChildren().get(i);
 					otcItemViews[i].setCategoryData(childCategory, imageLoadingListener);
 					otcItemViews[i].setOnClickListener(new OnClickListener() {
@@ -105,15 +104,14 @@ public class OtherCategoryView extends BasePageView implements OnFocusChangeList
 							if (onClickListener != null) {
 								onClickListener.onClick(v);
 							}
-							DialogUtil.showShortToast(context,
-									context.getResources().getString(R.string.no_categorydata));
+							DialogUtil.showShortToast(context, context.getResources().getString(R.string.weipeizhi));
 						}
 					});
 				}
 
 			}
 		}
-//		setShandows();
+		// setShandows();
 	}
 
 	@Override
@@ -153,19 +151,18 @@ public class OtherCategoryView extends BasePageView implements OnFocusChangeList
 		iv_shandow5.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(otcItemViews[9]),
 				shandowProportion2));
 	}
-	
+
 	/**
 	 * set the item view in postItemViews request focus by position .
 	 * 
 	 * @param position
 	 */
 	public void setOtcItemFocuesByPos(int position) {
-		if (otcItemViews != null && position >= 0 && position < otcItemViews.length
-				&& otcItemViews[position] != null) {
+		if (otcItemViews != null && position >= 0 && position < otcItemViews.length && otcItemViews[position] != null) {
 			otcItemViews[position].requestFocus();
 		}
 	}
-	
+
 	public OtherCategoryItemView[] getOtcItemViews() {
 		return otcItemViews;
 	}
@@ -226,12 +223,12 @@ public class OtherCategoryView extends BasePageView implements OnFocusChangeList
 
 		@Override
 		public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-//			setShandows();
+			// setShandows();
 		}
 
 		@Override
 		public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-//			setShandows();
+			// setShandows();
 		}
 
 		@Override
