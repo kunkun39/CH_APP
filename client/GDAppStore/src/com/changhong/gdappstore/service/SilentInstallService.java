@@ -75,6 +75,8 @@ public class SilentInstallService extends Service {
 			L.d(TAG + "---responseinfo  " + responseInfo.result.getPath());
 			Util.chrome0777File(Config.baseXutilDownPath);
 			Util.chrome0777File(responseInfo.result.getPath());
+			App app = (App) installApps.get(silentInstallPos);
+			DataCenter.getInstance().submitAppDownloadOK(app.getAppid() + "", getApplicationContext());
 			new Thread(new Runnable() {
 
 				@Override

@@ -648,6 +648,7 @@ public class DataCenter {
 
 			@Override
 			public void run() {
+				L.d("submitAppDownloadOK id="+appId);
 				String url = Config.putAppDownloadOK + "?" + "appId=" + appId + "&boxMac="
 						+ MyApplication.getDeviceMac();
 				HttpRequestUtil.doGetRequest(url, context);

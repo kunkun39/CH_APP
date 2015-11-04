@@ -304,7 +304,6 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 					public void onSuccess(final ResponseInfo<File> responseInfo) {
 						Util.chrome0777File(Config.baseXutilDownPath);
 						Util.chrome0777File(responseInfo.result.getPath());
-						DataCenter.getInstance().submitAppDownloadOK(app.getAppid() + "", context);
 						new Thread(new Runnable() {
 
 							@Override
