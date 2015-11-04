@@ -318,7 +318,6 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 
 			@Override
 			public void onSubmit(DialogMessage dialogMessage) {
-				DialogUtil.showLongToast(context, "应用正在后台卸载中...");
 				if (dialogMessage != null && dialogMessage.dialogInterface != null) {
 					dialogMessage.dialogInterface.dismiss();
 				}
@@ -326,8 +325,15 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 
 					@Override
 					public void run() {
+						if (!Config.ISNORMAL_UNINSTALL) {
+							DialogUtil.showChildThreadToast("应用正在后台卸载中...", context, true);
+						}
 						for (int i = 0; i < packages.size(); i++) {
-							InstallUtil.uninstallAppByCommond(packages.get(i));
+							if (Config.ISNORMAL_UNINSTALL) {
+								InstallUtil.unInstallApp(context, packages.get(i));
+							}else {
+								InstallUtil.uninstallAppByCommond(packages.get(i));
+							}
 						}
 					}
 				}).start();

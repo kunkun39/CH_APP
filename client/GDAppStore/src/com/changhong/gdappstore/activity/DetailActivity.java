@@ -1,9 +1,12 @@
 package com.changhong.gdappstore.activity;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,11 +23,13 @@ import com.changhong.gdappstore.model.AppDetail;
 import com.changhong.gdappstore.model.NativeApp;
 import com.changhong.gdappstore.net.LoadListener;
 import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
+import com.changhong.gdappstore.service.DownLoadManager;
 import com.changhong.gdappstore.service.UpdateService;
 import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.DialogUtil.DialogBtnOnClickListener;
 import com.changhong.gdappstore.util.DialogUtil.DialogMessage;
 import com.changhong.gdappstore.util.ImageLoadUtil;
+import com.changhong.gdappstore.util.InstallUtil;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
@@ -32,6 +37,9 @@ import com.changhong.gdappstore.view.JustifyTextView;
 import com.changhong.gdappstore.view.MyProgressDialog;
 import com.changhong.gdappstore.view.ScoreView;
 import com.changhong.gdappstore.view.UserMayLikeView;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
 
 /**
  * 应用详情页面
@@ -40,8 +48,13 @@ import com.changhong.gdappstore.view.UserMayLikeView;
  * 
  */
 public class DetailActivity extends BaseActivity implements OnFocusChangeListener, OnClickListener {
+	private static final String TAG = "SynchRecoverActivity";
+	private static final int UPDATE_DIALOG_TITLE = 110;
+	private static final int SHOW_INSTALL_SUCCESS = 111;
+	private static final int SHOW_INSTALL_FAILED = 112;
+	private static final int DISSMISS_PDIALOG = 113;
 	/** 下载按钮 */
-	private ImageView bt_dowload, bt_update, bt_open,iv_recommend;
+	private ImageView bt_dowload, bt_update, bt_open, iv_recommend;
 	/** 用户喜欢 */
 	private UserMayLikeView view_usermaylike;
 	/** 应用文本介绍信息 */
@@ -53,13 +66,15 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	/** 下载进度提示对话框 */
 	private MyProgressDialog downloadPDialog;
 	/** 下载进度提示下载功能 */
-	private UpdateService updateService;
+//	private UpdateService updateService;
 
 	private ScoreView scoreview;
 
 	int appId = -1;
 	/** 下载量是否需要加1？用于处理下载成功后手动添加下载量，不再请求服务器获取 */
 	public static int detailLoadCount = 0;
+	/**是否有app正在下载中**/
+	private static boolean hasAppLoading=false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +137,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	}
 
 	private void initData() {
-		updateService = new UpdateService(context, null, downloadPDialog);
+//		updateService = new UpdateService(context, null, downloadPDialog);
 		if (NetworkUtils.ISNET_CONNECT) {
 			showLoadingDialog();
 		}
@@ -140,7 +155,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 					tv_version.setText(appDetail.getVersion());
 					tv_introduce.setText(appDetail.getDescription());
 					tv_updatetime.setText(appDetail.getUpdateDate());
-//					iv_recommend.setVisibility(appDetail.isRecommend()?VISIBLE:INVISIBLE);
+					// iv_recommend.setVisibility(appDetail.isRecommend()?VISIBLE:INVISIBLE);
 					ImageLoadUtil.displayImgByNoCache(appDetail.getIconFilePath(), iv_icon);
 					ImageLoadUtil.displayImgByNoCache(appDetail.getPosterFilePath(), iv_post);
 					updateBtnState();
@@ -203,7 +218,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 			}
 		}
 		int appdetailVersion = appDetail.getVersionInt();
-		if (isInstalled) {//比较本地已安装版本号
+		if (isInstalled) {// 比较本地已安装版本号
 			int installedVersion = installed.getNativeVersionInt();
 			bt_update.setVisibility((appdetailVersion > installedVersion) ? VISIBLE : GONE);
 			L.d("checkversion--appdetail is " + appdetailVersion + " installedVersion is " + installedVersion);
@@ -220,10 +235,18 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 			Util.openAppByPackageName(context, appDetail.getPackageName());
 			break;
 		case R.id.bt_download:
-			showDownloadDialog(true);
+			if (hasAppLoading) {
+				DialogUtil.showLongToast(context, "有应用正在下载中，请稍等");
+			}else {
+				showDownloadDialog(true);
+			}
 			break;
 		case R.id.bt_update:
-			showDownloadDialog(false);
+			if (hasAppLoading) {
+				DialogUtil.showLongToast(context, "有应用正在下载中，请稍等");
+			}else {
+				showDownloadDialog(true);
+			}
 			break;
 
 		default:
@@ -243,7 +266,8 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 			@Override
 			public void onSubmit(DialogMessage dialogMessage) {
 				downloadPDialog.setProgress(0);
-				updateService.update(appDetail, isDownload);
+				// updateService.update(appDetail, isDownload);
+				doDownload(appDetail, isDownload);
 				if (dialogMessage != null && dialogMessage.dialogInterface != null) {
 					dialogMessage.dialogInterface.dismiss();
 				}
@@ -262,4 +286,110 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	public void onFocusChange(View v, boolean hasFocus) {
 
 	}
+
+	/**
+	 * apk下载操作
+	 * 
+	 * @param appDetail
+	 * @param isdownload
+	 *            true 下载 false更新
+	 */
+	private void doDownload(final AppDetail appDetail, final boolean isdownload) {
+		downloadPDialog.show();
+		downloadPDialog.setProgress(0);
+		downloadPDialog.setMax(0);
+		downloadPDialog.setMyTitle("正在下载：" + appDetail.getAppname());
+
+		String apkLoadUrl = appDetail.getApkFilePath();
+		final String apkname = apkLoadUrl.substring(apkLoadUrl.lastIndexOf("/") + 1, apkLoadUrl.length()).trim();
+		hasAppLoading=true;
+		DownLoadManager.putFileDownLoad(apkLoadUrl, appDetail.getPackageName(), Config.baseXutilDownPath + "/"
+				+ apkname, false, true, new RequestCallBack<File>() {
+			@Override
+			public void onLoading(long total, long current, boolean isUploading) {
+				downloadPDialog.setMax((int) total);
+				downloadPDialog.setProgress((int) current);
+				L.d("download detail app onloading total is " + total + " current " + current);
+				super.onLoading(total, current, isUploading);
+			}
+
+			@Override
+			public void onSuccess(final ResponseInfo<File> responseInfo) {
+				Util.chrome0777File(Config.baseXutilDownPath);
+				Util.chrome0777File(responseInfo.result.getPath());
+				if (isdownload) {// 下载提交下载量，更新不提交
+					DataCenter.getInstance().submitAppDownloadOK(appDetail.getAppid() + "", context);
+					detailLoadCount++;
+				}
+				new Thread(new Runnable() {
+
+					@Override
+					public void run() {// 安装
+						if (Config.ISNORMAL_INSTALL) {
+							InstallUtil.installApp(context, responseInfo.result.getPath());
+							handler.sendEmptyMessage(DISSMISS_PDIALOG);
+						} else {
+							Message installingMsg = handler.obtainMessage(UPDATE_DIALOG_TITLE);
+							installingMsg.obj = "下载完成，正在安装中...";
+							handler.sendMessage(installingMsg);
+							boolean success = InstallUtil.installAppByCommond(responseInfo.result.getPath());
+							L.d("install success " + success);
+							if (success) {
+								Message msg = handler.obtainMessage(SHOW_INSTALL_SUCCESS);
+								msg.obj = appDetail.getAppname() + "";
+								handler.sendMessage(msg);
+							} else {
+								Message msg = handler.obtainMessage(SHOW_INSTALL_FAILED);
+								msg.obj = appDetail.getAppname() + "";
+								handler.sendMessage(msg);
+							}
+							handler.sendEmptyMessage(DISSMISS_PDIALOG);
+						}
+					}
+				}).start();
+			}
+
+			@Override
+			public void onFailure(HttpException paramHttpException, String msg) {
+				if (!NetworkUtils.ISNET_CONNECT) {
+					DialogUtil.showLongToast(context, "下载取消，网络未连接！");
+				} else if (msg.contains("ConnectTimeoutException")) {
+					DialogUtil.showLongToast(context, "下载失败，服务器连接超时！");
+				} else {
+					DialogUtil.showLongToast(context, "下载发生异常！");
+				}
+				handler.sendEmptyMessage(DISSMISS_PDIALOG);
+			}
+		});
+
+	}
+
+	Handler handler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			switch (msg.what) {
+			case DISSMISS_PDIALOG:
+				hasAppLoading=false;
+				if (downloadPDialog != null && downloadPDialog.isShowing()) {
+					downloadPDialog.dismiss();
+				}
+				break;
+			case SHOW_INSTALL_SUCCESS:
+				DialogUtil.showLongToast(context, (String) msg.obj + " 安装成功");
+				break;
+			case SHOW_INSTALL_FAILED:
+				DialogUtil.showLongToast(context, (String) msg.obj + " 安装失败");
+				break;
+			case UPDATE_DIALOG_TITLE:
+				L.d("install settitle " + (String) msg.obj);
+				downloadPDialog.setMyTitle((String) msg.obj);
+				break;
+
+			default:
+				break;
+			}
+		}
+	};
 }

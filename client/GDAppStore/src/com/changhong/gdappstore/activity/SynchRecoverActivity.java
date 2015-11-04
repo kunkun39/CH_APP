@@ -263,9 +263,9 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 	}
 
 	private void doDownLoad() {
-		if (downloadApps == null || (curDownLoadPos + 1) >= downloadApps.size()||curDownLoadPos<-1) {
-			L.d("doDownLoad over "+curDownLoadPos);
-			if (curDownLoadPos<=0) {
+		if (downloadApps == null || (curDownLoadPos + 1) >= downloadApps.size() || curDownLoadPos < -1) {
+			L.d("doDownLoad over " + curDownLoadPos);
+			if (curDownLoadPos <= 0) {
 				curDownLoadPos = -1;
 			}
 			if (downloadPDialog != null && downloadPDialog.isShowing()) {
@@ -280,7 +280,8 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 		}
 		curDownLoadPos++;
 		final SynchApp app = downloadApps.get(curDownLoadPos);
-		L.d("doDownLoad curDownLoadPos="+curDownLoadPos+" downloadappsize "+downloadApps.size()+" app is "+app.toString());
+		L.d("doDownLoad curDownLoadPos=" + curDownLoadPos + " downloadappsize " + downloadApps.size() + " app is "
+				+ app.toString());
 		if (curDownLoadPos == 0 && Util.getTopActivity(context).equals(context.getClass().getName())) {
 			downloadPDialog.show();
 		}
@@ -308,24 +309,28 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 
 							@Override
 							public void run() {// 安装
-								// InstallUtil.installApp(context,
-								// responseInfo.result.getPath());
-								Message installingMsg = handler.obtainMessage(UPDATE_DIALOG_TITLE);
-								installingMsg.obj = "下载完成，正在安装中...";
-								handler.sendMessage(installingMsg);
-								boolean success = InstallUtil.installAppByCommond(responseInfo.result.getPath());
-								L.d("install success " + success);
-								if (success) {
-									Message msg = handler.obtainMessage(SHOW_INSTALL_SUCCESS);
-									msg.obj = app.getAppname() + "";
-									handler.sendMessage(msg);
+								if (Config.ISNORMAL_INSTALL) {
+									InstallUtil.installApp(context, responseInfo.result.getPath());
+									removeDownLoadingApp(app.getAppid());
+									handler.sendEmptyMessage(DODOWNLOAD);// 下载下一个
 								} else {
-									Message msg = handler.obtainMessage(SHOW_INSTALL_FAILED);
-									msg.obj = app.getAppname() + "";
-									handler.sendMessage(msg);
+									Message installingMsg = handler.obtainMessage(UPDATE_DIALOG_TITLE);
+									installingMsg.obj = "下载完成，正在安装中...";
+									handler.sendMessage(installingMsg);
+									boolean success = InstallUtil.installAppByCommond(responseInfo.result.getPath());
+									L.d("install success " + success);
+									if (success) {
+										Message msg = handler.obtainMessage(SHOW_INSTALL_SUCCESS);
+										msg.obj = app.getAppname() + "";
+										handler.sendMessage(msg);
+									} else {
+										Message msg = handler.obtainMessage(SHOW_INSTALL_FAILED);
+										msg.obj = app.getAppname() + "";
+										handler.sendMessage(msg);
+									}
+									removeDownLoadingApp(app.getAppid());
+									handler.sendEmptyMessage(DODOWNLOAD);// 下载下一个
 								}
-								removeDownLoadingApp(app.getAppid());
-								handler.sendEmptyMessage(DODOWNLOAD);// 下载下一个
 							}
 						}).start();
 					}
