@@ -19,8 +19,28 @@
 #   public *;
 #}
 
+-libraryjars libs/deviceinfo.jar
+-libraryjars libs/InstallApk.jar
+-libraryjars libs/postviewlib.jar
+-libraryjars libs/sunjce_provider.jar
+-libraryjars libs/universal-image-loader-1.9.4-with-sources.jar
+-libraryjars libs/xUtils-2.6.14.jar
+
+
 -keep class android.support.v4.**{*;}
 -dontwarn android.support.v4.**
 
 -keep class io.vov.**{*;}
 -dontwarn io.vov.**
+
+
+-keep class com.SyMedia.IntallAPK.**{*;}
+-dontwarn com.SyMedia.IntallAPK.**
+
+-keep class com.sun.crypto.provider.**{*;}
+-dontwarn com.sun.crypto.provider.**
+
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
