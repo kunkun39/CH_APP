@@ -74,7 +74,7 @@ public class HttpRequestUtil {
 	public static HttpEntity doGetRequest(String url, Context context) {
 		if (TextUtils.isEmpty(url) || !NetworkUtils.isConnectInternet(context)) {
 			L.d("doGetRequest--returned by url= " + url + " netisconnect= " + NetworkUtils.ISNET_CONNECT);
-			DialogUtil.showChildThreadToast(context.getString(R.string.error_nonet), context, true);
+			DialogUtil.showChildThreadToast(context.getString(R.string.error_net_notconnect), context, true);
 			return null;
 		}
 		url = url.replaceAll(" ", "%20");// 替换空格
@@ -95,7 +95,7 @@ public class HttpRequestUtil {
 			}
 		} catch (Exception e) {
 			L.e("doGetRequest- connect error");
-			DialogUtil.showChildThreadToast(context.getString(R.string.error_serverconnect), context, true);
+			DialogUtil.showChildThreadToast(context.getString(R.string.error_netconnect_please_checknet), context, true);
 			e.printStackTrace();
 		}
 		return null;
@@ -113,7 +113,7 @@ public class HttpRequestUtil {
 	public static HttpEntity doPostRequest(String url, final List<NameValuePair> paramList,Context context) {
 		if (TextUtils.isEmpty(url) || !NetworkUtils.isConnectInternet(context)) {
 			L.d("doPostRequest--returned by url= " + url + " netisconnect= " + NetworkUtils.ISNET_CONNECT);
-			DialogUtil.showChildThreadToast(context.getString(R.string.error_nonet), context, true);
+			DialogUtil.showChildThreadToast(context.getString(R.string.error_net_notconnect), context, true);
 			return null;
 		}
 		url = url.replaceAll(" ", "%20");// 替换空格
@@ -142,7 +142,7 @@ public class HttpRequestUtil {
 			}
 		} catch (Exception e) {
 			L.e("doPostRequest--connect error ");
-			DialogUtil.showChildThreadToast(context.getString(R.string.error_serverconnect), context, true);
+			DialogUtil.showChildThreadToast(context.getString(R.string.error_netconnect_please_checknet), context, true);
 			e.printStackTrace();
 		}
 		return null;

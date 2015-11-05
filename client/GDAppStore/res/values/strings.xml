@@ -13,12 +13,24 @@
     <string name="tv_search_tishi">只要输入应用首字母即可\n比如应用商城输入：YYSC即可成功搜索</string>
     <string name="tishi">提示：</string>
     <string name="dataloading">正在处理中，请稍等...</string>
-
-    <string name="error_nonet">网络未连接...</string>
-    <string name="error_serverconnect">网络连接异常...</string>
-    <string name="error_serverdata">网络连接异常...</string>
-    <string name="error_parse">数据解析异常...</string>
     
+    <!-- 错误信息提示 -->
+    <string name="error_net_notconnect">网络未连接</string>
+    <string name="error_netconnect_timeout">网络连接超时</string>
+    <string name="error_netconnect">网络连接异常</string>
+    <string name="error_parse">数据解析异常</string>
+    <string name="please_checknet">请检查网络</string>
+    <string name="error_netconnect_please_checknet">网络连接异常,请检查网络</string>
+
+    <!-- 详情页面 -->
+    <string name="hasapp_isloading">有应用正在下载中，请稍等</string>
+    <string name="sure_download_app">确认下载应用？</string>
+    <string name="sure_update_app">确认更新应用？</string>
+    <string name="downloading">正在下载</string>
+    <string name="downloadfailed">下载失败</string>
+    <string name="downloadover_installing">下载完成，正在安装中...</string>
+    <string name="install_success">安装成功</string>
+    <string name="install_failed">安装失败</string>
     <!-- 云同步功能 -->
     <string name="yuntongbu">云同步</string>
     <string name="backup">备份</string>
@@ -33,4 +45,5 @@
     <string name="selected">已经选择</string>
     <string name="noapps_cando">没有发现可操作应用</string>
     <string name="dobatchbyclickmenu">按菜单键批量操作</string>
+
 </resources>

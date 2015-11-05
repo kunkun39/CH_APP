@@ -239,14 +239,14 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 			break;
 		case R.id.bt_download:
 			if (hasAppLoading) {
-				DialogUtil.showLongToast(context, "有应用正在下载中，请稍等");
+				DialogUtil.showLongToast(context, context.getString(R.string.hasapp_isloading));
 			} else {
 				showDownloadDialog(true);
 			}
 			break;
 		case R.id.bt_update:
 			if (hasAppLoading) {
-				DialogUtil.showLongToast(context, "有应用正在下载中，请稍等");
+				DialogUtil.showLongToast(context, context.getString(R.string.hasapp_isloading));
 			} else {
 				showDownloadDialog(true);
 			}
@@ -260,11 +260,11 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	private void showDownloadDialog(final boolean isDownload) {
 		String content = "";
 		if (isDownload) {
-			content = "确认下载应用？";
+			content = context.getString(R.string.sure_download_app);
 		} else {
-			content = "确认更新应用？";
+			content = context.getString(R.string.sure_update_app);
 		}
-		DialogUtil.showMyAlertDialog(context, "提示：", content, "确  定", "取  消", new DialogBtnOnClickListener() {
+		DialogUtil.showMyAlertDialog(context, "", content, "", "", new DialogBtnOnClickListener() {
 
 			@Override
 			public void onSubmit(DialogMessage dialogMessage) {
@@ -301,7 +301,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		downloadPDialog.show();
 		downloadPDialog.setProgress(0);
 		downloadPDialog.setMax(0);
-		downloadPDialog.setMyTitle("正在下载：" + appDetail.getAppname());
+		downloadPDialog.setMyTitle(context.getString(R.string.downloading) + "：" + appDetail.getAppname());
 
 		String apkLoadUrl = appDetail.getApkFilePath();
 		final String apkname = apkLoadUrl.substring(apkLoadUrl.lastIndexOf("/") + 1, apkLoadUrl.length()).trim();
@@ -333,7 +333,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 							handler.sendEmptyMessage(DISSMISS_PDIALOG);
 						} else {
 							Message installingMsg = handler.obtainMessage(UPDATE_DIALOG_TITLE);
-							installingMsg.obj = "下载完成，正在安装中...";
+							installingMsg.obj = context.getString(R.string.downloadover_installing);
 							handler.sendMessage(installingMsg);
 							boolean success = InstallUtil.installAppByCommond(responseInfo.result.getPath());
 							L.d("install success " + success);
@@ -354,12 +354,14 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 
 			@Override
 			public void onFailure(HttpException paramHttpException, String msg) {
+				String downloadfailed = context.getString(R.string.downloadfailed) + ",";
 				if (!NetworkUtils.ISNET_CONNECT) {
-					DialogUtil.showLongToast(context, "下载取消，网络未连接！");
+					DialogUtil.showLongToast(context, downloadfailed + context.getString(R.string.error_net_notconnect));
 				} else if (msg.contains("ConnectTimeoutException")) {
-					DialogUtil.showLongToast(context, "下载失败，服务器连接超时！");
+					DialogUtil.showLongToast(context,
+							downloadfailed + context.getString(R.string.error_netconnect_timeout));
 				} else {
-					DialogUtil.showLongToast(context, "下载发生异常！");
+					DialogUtil.showLongToast(context, downloadfailed + context.getString(R.string.please_checknet));
 				}
 				handler.sendEmptyMessage(DISSMISS_PDIALOG);
 			}
@@ -381,10 +383,10 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 				updateBtnState();
 				break;
 			case SHOW_INSTALL_SUCCESS:
-				DialogUtil.showLongToast(context, (String) msg.obj + " 安装成功");
+				DialogUtil.showLongToast(context, (String) msg.obj + context.getString(R.string.install_success));
 				break;
 			case SHOW_INSTALL_FAILED:
-				DialogUtil.showLongToast(context, (String) msg.obj + " 安装失败");
+				DialogUtil.showLongToast(context, (String) msg.obj + context.getString(R.string.install_failed));
 				break;
 			case UPDATE_DIALOG_TITLE:
 				L.d("install settitle " + (String) msg.obj);
