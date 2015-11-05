@@ -1,11 +1,31 @@
 <resources>
 
     <string name="app_name">长虹应用商城</string>
+    <!-- 主页 -->
     <string name="homepage">首页</string>
-    <string name="sousuo">&#60; 搜索</string>
-    <string name="str_ranking_list">排行榜</string>
+    <string name="sure_exit_appstore">确认退出应用商城？</string>
+    <string name="checked_newversion">发现新版本</string>
+    <string name="update_now">欣然前往</string>
+    <string name="update_nexttime">残忍拒绝</string>
+    <string name="search">搜索</string>
+    <string name="rank_list">排行榜</string>
+    <string name="nativeapp">本地应用</string>
+    <string name="yuntongbu">云同步</string>
+
+    <!-- 本地应用 -->
+    <string name="uninstall_app">卸载应用</string>
+    <string name="uninstall_commit">确认卸载</string>
+    <string name="sure_uninstall_apps">确认卸载选中应用？</string>
+    <string name="uninstalling_background">应用正在后台卸载中</string>
+    <string name="cannot_uninstall_self">不能卸载自己</string>
+
+    <!-- 搜索 -->
+    <string name="page">页</string>
+    <string name="thecurrentis">当前是第</string>
+    <string name="total">共</string>
+    <!--  -->
     <string name="str_download">下载量：</string>
-    <string name="net_notconnected">网络已断开，请检查网络链接状态！</string>
+    <string name="net_disconnected_pleasecheck">网络已断开，请检查网络链接状态！</string>
     <string name="weipeizhi">没有获取到配置信息！</string>
     <string name="str_new">最新榜</string>
     <string name="str_hot">最热榜</string>
@@ -13,7 +33,7 @@
     <string name="tv_search_tishi">只要输入应用首字母即可\n比如应用商城输入：YYSC即可成功搜索</string>
     <string name="tishi">提示：</string>
     <string name="dataloading">正在处理中，请稍等...</string>
-    
+
     <!-- 错误信息提示 -->
     <string name="error_net_notconnect">网络未连接</string>
     <string name="error_netconnect_timeout">网络连接超时</string>
@@ -32,7 +52,6 @@
     <string name="install_success">安装成功</string>
     <string name="install_failed">安装失败</string>
     <!-- 云同步功能 -->
-    <string name="yuntongbu">云同步</string>
     <string name="backup">备份</string>
     <string name="recovery">恢复</string>
     <string name="manage">管理</string>

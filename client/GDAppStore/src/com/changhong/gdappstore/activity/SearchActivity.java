@@ -293,7 +293,7 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 				return;
 			}
 			if (!NetworkUtils.ISNET_CONNECT) {
-				DialogUtil.showShortToast(context, context.getString(R.string.net_notconnected));
+				DialogUtil.showShortToast(context, context.getString(R.string.net_disconnected_pleasecheck));
 				return;
 			}
 			App app = (App) arg1.getTag();

@@ -3,7 +3,6 @@ package com.changhong.gdappstore.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -56,7 +55,7 @@ public class PostActivity extends BaseActivity {
 	protected ImageView iv_search;
 	/** 当前应用列表 */
 	private List<Object> currentApps = new ArrayList<Object>();
-//	protected ImageView iv_shandow1, iv_shandow2, iv_shandow3, iv_shandow4;
+	// protected ImageView iv_shandow1, iv_shandow2, iv_shandow3, iv_shandow4;
 	/** 当前显示类别id **/
 	protected int curCategoryId = 0;
 
@@ -85,11 +84,11 @@ public class PostActivity extends BaseActivity {
 			}
 		});
 		iv_search.setOnKeyListener(new OnKeyListener() {
-			
+
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
-				if (event.getAction()==KeyEvent.ACTION_DOWN && keyCode==KeyEvent.KEYCODE_DPAD_DOWN) {
-					if (titleView!=null && titleView.getCurrentSelectedView()!=null) {
+				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+					if (titleView != null && titleView.getCurrentSelectedView() != null) {
 						titleView.getCurrentSelectedView().requestFocus();
 						return true;
 					}
@@ -160,7 +159,7 @@ public class PostActivity extends BaseActivity {
 				for (int i = 0; i < parentCategory.getCategoyChildren().size(); i++) {
 					if (parentCategory.getCategoyChildren().get(i).getId() == currentCategoryId) {
 						titleView.setFocusItem(i + 1);// 选中当前item
-						titleView.setSelectedItem(i+1);
+						titleView.setSelectedItem(i + 1);
 					}
 				}
 			}
@@ -195,7 +194,7 @@ public class PostActivity extends BaseActivity {
 				return;
 			}
 			if (!NetworkUtils.ISNET_CONNECT) {
-				DialogUtil.showShortToast(context, context.getString(R.string.net_notconnected));
+				DialogUtil.showShortToast(context, context.getString(R.string.net_disconnected_pleasecheck));
 				return;
 			}
 			App app = (App) arg1.getTag();
@@ -215,7 +214,9 @@ public class PostActivity extends BaseActivity {
 		@Override
 		public void changePage(Boolean isnext, int curpage, int totalpage) {
 			// 翻页回调
-			tv_page.setText("当前显示第" + (totalpage <= 0 ? 0 : curpage) + "页;共" + totalpage + "页");
+			tv_page.setText(context.getString(R.string.thecurrentis) + (totalpage <= 0 ? 0 : curpage)
+					+ context.getString(R.string.page) + ";" + context.getString(R.string.total) + totalpage
+					+ context.getString(R.string.page));
 		}
 
 		@Override
@@ -230,7 +231,6 @@ public class PostActivity extends BaseActivity {
 			// Toast.LENGTH_SHORT).show();
 		}
 	};
-
 
 	private OnKeyListener postOnKeyListener = new OnKeyListener() {
 

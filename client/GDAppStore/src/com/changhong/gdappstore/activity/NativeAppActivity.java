@@ -62,8 +62,8 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 
 	private static final int UNINSTALL_REQCODE = 11;
 
-	private static final String DOBATCH = "卸载应用";
-	private static final String SUBMIT_BACKUP = "确认卸载";
+	private static String UNINSTALL_APP;
+	private static String UNINSTALL_COMMIT;
 	private GridView gridView;
 	private NativeAppGridAdapter adapter;
 	private Button bt_batch;
@@ -81,8 +81,11 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 	}
 
 	private void initView() {
+		UNINSTALL_APP = context.getString(R.string.uninstall_app);
+		UNINSTALL_COMMIT = context.getString(R.string.uninstall_commit);
+
 		tv_name = findView(R.id.tv_pagename);
-		tv_name.setText("本地应用");
+		tv_name.setText(context.getString(R.string.nativeapp));
 		tv_page = findView(R.id.tv_page);
 		iv_search = findView(R.id.iv_search);
 		iv_search.setOnClickListener(new OnClickListener() {
@@ -275,10 +278,10 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 	 */
 	private void doBatchOnClick() {
 		if (adapter.getCount() == 0) {
-			DialogUtil.showShortToast(context, "没有应用存在，无法执行批量操作！");
+			DialogUtil.showShortToast(context, context.getString(R.string.noapps_cando));
 			return;
 		}
-		if (bt_batch.getText().toString().equals(SUBMIT_BACKUP)) {
+		if (bt_batch.getText().toString().equals(UNINSTALL_COMMIT)) {
 			// 已经是批量操作了，执行批量提交
 			List<String> packages = new ArrayList<String>();
 			for (int i = 0; i < adapter.getCount(); i++) {
@@ -291,7 +294,7 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 			if (packages != null && packages.size() > 0) {
 				unInstallApps(packages);
 			}
-			bt_batch.setText(DOBATCH);
+			bt_batch.setText(UNINSTALL_APP);
 			tv_batch_suggest.setText("");
 			iv_batch_icon.setVisibility(VISIBLE);
 			tv_num_checked.setVisibility(INVISIBLE);
@@ -299,8 +302,8 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 			adapter.setBatch(false);
 		} else {
 			// 从正常操作转向批量操作
-			bt_batch.setText(SUBMIT_BACKUP);
-			tv_batch_suggest.setText("已经选择");
+			bt_batch.setText(UNINSTALL_COMMIT);
+			tv_batch_suggest.setText(context.getString(R.string.selected));
 			iv_batch_icon.setVisibility(INVISIBLE);
 			refreshCheckedItemCount();
 			refreshCheckedItemText();
@@ -314,38 +317,39 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 	 * @param packages
 	 */
 	private void unInstallApps(final List<String> packages) {
-		DialogUtil.showMyAlertDialog(context, "提示：", "确认卸载选中应用？", "确认", "取消", new DialogBtnOnClickListener() {
-
-			@Override
-			public void onSubmit(DialogMessage dialogMessage) {
-				if (dialogMessage != null && dialogMessage.dialogInterface != null) {
-					dialogMessage.dialogInterface.dismiss();
-				}
-				new Thread(new Runnable() {
+		DialogUtil.showMyAlertDialog(context, "", context.getString(R.string.sure_uninstall_apps), "", "",
+				new DialogBtnOnClickListener() {
 
 					@Override
-					public void run() {
-						if (!Config.ISNORMAL_UNINSTALL) {
-							DialogUtil.showChildThreadToast("应用正在后台卸载中...", context, true);
+					public void onSubmit(DialogMessage dialogMessage) {
+						if (dialogMessage != null && dialogMessage.dialogInterface != null) {
+							dialogMessage.dialogInterface.dismiss();
 						}
-						for (int i = 0; i < packages.size(); i++) {
-							if (Config.ISNORMAL_UNINSTALL) {
-								InstallUtil.unInstallApp(context, packages.get(i));
-							}else {
-								InstallUtil.uninstallAppByCommond(packages.get(i));
+						new Thread(new Runnable() {
+
+							@Override
+							public void run() {
+								if (!Config.ISNORMAL_UNINSTALL) {
+									DialogUtil.showChildThreadToast(context.getString(R.string.uninstalling_background)+"...", context, true);
+								}
+								for (int i = 0; i < packages.size(); i++) {
+									if (Config.ISNORMAL_UNINSTALL) {
+										InstallUtil.unInstallApp(context, packages.get(i));
+									} else {
+										InstallUtil.uninstallAppByCommond(packages.get(i));
+									}
+								}
 							}
+						}).start();
+					}
+
+					@Override
+					public void onCancel(DialogMessage dialogMessage) {
+						if (dialogMessage != null && dialogMessage.dialogInterface != null) {
+							dialogMessage.dialogInterface.dismiss();
 						}
 					}
-				}).start();
-			}
-
-			@Override
-			public void onCancel(DialogMessage dialogMessage) {
-				if (dialogMessage != null && dialogMessage.dialogInterface != null) {
-					dialogMessage.dialogInterface.dismiss();
-				}
-			}
-		});
+				});
 
 	}
 
@@ -414,7 +418,7 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 			if (adapter.isBatch()) {
 				// 批量操作
 				if (nativeApp.appPackage.equals("com.changhong.gdappstore")) {
-					Toast.makeText(context, "不能卸载自己", Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, context.getString(R.string.cannot_uninstall_self), Toast.LENGTH_SHORT).show();
 				} else {
 					curCheckedItem = nativeApp.isChecked() ? curCheckedItem - 1 : curCheckedItem + 1;
 					refreshCheckedItemText();

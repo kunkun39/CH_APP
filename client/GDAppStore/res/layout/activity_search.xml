@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:text="@string/sousuo"
+            android:text="@string/search"
             android:textColor="@color/white"
             android:textSize="28sp" />
     </RelativeLayout>

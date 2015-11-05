@@ -120,10 +120,10 @@ public class OtherCategoryView extends BasePageView implements OnFocusChangeList
 		if (onClickListener != null) {
 			onClickListener.onClick(v);
 		}
-		if (NetworkUtils.ISNET_CONNECT) {
-		} else {
-			DialogUtil.showLongToast(context, context.getResources().getString(R.string.net_notconnected));
-		}
+//		if (NetworkUtils.ISNET_CONNECT) {
+//		} else {
+//			DialogUtil.showLongToast(context, context.getResources().getString(R.string.net_disconnected_pleasecheck));
+//		}
 	}
 
 	/**

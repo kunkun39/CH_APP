@@ -96,10 +96,10 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 
 	public void initNativeData() {
 		// 首页的4个标签写死
-		categoryItemViews[0].setCategoryData(new Category(-10, -10, "搜索"));
-		categoryItemViews[1].setCategoryData(new Category(-10, -10, "排行榜"));
-		categoryItemViews[2].setCategoryData(new Category(-10, -10, "本地应用"));
-		categoryItemViews[3].setCategoryData(new Category(-10, -10, "云同步"));
+		categoryItemViews[0].setCategoryData(new Category(-10, -10, context.getString(R.string.search)));
+		categoryItemViews[1].setCategoryData(new Category(-10, -10, context.getString(R.string.rank_list)));
+		categoryItemViews[2].setCategoryData(new Category(-10, -10, context.getString(R.string.nativeapp)));
+		categoryItemViews[3].setCategoryData(new Category(-10, -10, context.getString(R.string.yuntongbu)));
 		categoryItemViews[0].setDrawableIconPost(false, R.drawable.icon_search);
 		categoryItemViews[1].setDrawableIconPost(false, R.drawable.icon_ranklist);
 		categoryItemViews[2].setDrawableIconPost(false, R.drawable.icon_nativeapp);
@@ -202,7 +202,7 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 				DialogUtil.showLongToast(context, context.getResources().getString(R.string.weipeizhi));
 			}
 		} else {
-			DialogUtil.showLongToast(context, context.getResources().getString(R.string.net_notconnected));
+			DialogUtil.showLongToast(context, context.getResources().getString(R.string.net_disconnected_pleasecheck));
 		}
 	}
 

@@ -249,7 +249,7 @@ public class RankingListActivity extends Activity {
 		listView_hot.setVisibility(View.INVISIBLE);
 		listView_surge.setVisibility(View.INVISIBLE);
 		
-		((TextView)findViewById(R.id.ranking_list)).setText(getString(R.string.str_ranking_list));
+		((TextView)findViewById(R.id.ranking_list)).setText(getString(R.string.rank_list));
 		mlayout = new RelativeLayout.LayoutParams(0, 0);
 		
 		focusView = new FocusView(RankingListActivity.this, focusItem, ITEM_WIDTH, ITEM_HEIGHT);
@@ -324,10 +324,10 @@ public class RankingListActivity extends Activity {
 			return ;
 		}
 		
-		if (!NetworkUtils.ISNET_CONNECT) {
-			DialogUtil.showShortToast(this, this.getString(R.string.net_notconnected));
-			return;
-		}
+//		if (!NetworkUtils.ISNET_CONNECT) {
+//			DialogUtil.showShortToast(this, this.getString(R.string.net_disconnected_pleasecheck));
+//			return;
+//		}
 		
 		Intent intent = new Intent(this, DetailActivity.class);
 		intent.putExtra(Config.KEY_APPID, arrayList.get(position).getAppId());

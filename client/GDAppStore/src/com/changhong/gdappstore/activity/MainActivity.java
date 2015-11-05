@@ -135,11 +135,11 @@ public class MainActivity extends BaseActivity {
 		viewPager.setAnimationCacheEnabled(true);
 		viewPager.setOffscreenPageLimit(6);
 		viewPager.setOnPageChangeListener(pageChangeListener);
-//		viewPager.setAdapter(viewPagerAdapter);
+		// viewPager.setAdapter(viewPagerAdapter);
 		// ((HomePageView)
 		// homePages[0]).initNativeData();//非必要代码，只是在加载数据前显示出来以免页面空虚
-		 handler.sendEmptyMessageDelayed(11, 10);// 解决跳转时候上个页面停留太久
-//		initOnCreateData();
+		handler.sendEmptyMessageDelayed(11, 10);// 解决跳转时候上个页面停留太久
+		// initOnCreateData();
 	}
 
 	Handler handler = new Handler() {
@@ -264,7 +264,7 @@ public class MainActivity extends BaseActivity {
 			break;
 		case KeyEvent.KEYCODE_BACK:
 			if (event.getAction() == KeyEvent.ACTION_DOWN) {
-				DialogUtil.showMyAlertDialog(context, "提示：", "确认退出应用商城？", "确  认", "取  消",
+				DialogUtil.showMyAlertDialog(context, "", context.getString(R.string.sure_exit_appstore), "", "",
 						new DialogBtnOnClickListener() {
 
 							@Override
@@ -336,7 +336,7 @@ public class MainActivity extends BaseActivity {
 
 		@Override
 		public void onItemClick(View view, int position) {
-			if (categories.get(position).getName().equals("首页")) {
+			if (categories.get(position).getName().equals(Config.HOMEPAGE)) {
 				return;
 			}
 			Intent intent = new Intent(context, PostActivity.class);
@@ -357,9 +357,9 @@ public class MainActivity extends BaseActivity {
 				return;
 			}
 			BasePageView curPageView = homePages[arg0];
-			if (arg0==homePages.length-1) {
+			if (arg0 == homePages.length - 1) {
 				((OtherCategoryView) curPageView).setShandows();
-			}else {
+			} else {
 				((HomePageView) curPageView).setShandows();
 			}
 			titleView.setSelectedItem(arg0);
@@ -432,8 +432,9 @@ public class MainActivity extends BaseActivity {
 					&& !TextUtils.isEmpty(MyApplication.UPDATE_APKURL) && !isShowedUpdateDialog) {
 				if (updateDialog == null || (updateDialog != null && !updateDialog.isShowing())) {
 					isShowedUpdateDialog = true;
-					updateDialog = DialogUtil.showMyAlertDialog(context, "提示：", "有新版本更新。", "马上更新", "下次再说",
-							new DialogBtnOnClickListener() {
+					updateDialog = DialogUtil.showMyAlertDialog(context, "",
+							context.getString(R.string.checked_newversion), context.getString(R.string.update_now),
+							context.getString(R.string.update_nexttime), new DialogBtnOnClickListener() {
 
 								@Override
 								public void onSubmit(DialogMessage dialogMessage) {

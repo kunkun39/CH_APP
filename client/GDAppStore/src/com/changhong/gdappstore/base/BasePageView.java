@@ -105,10 +105,10 @@ public class BasePageView extends BaseRelativeLayout {
 			DialogUtil.showShortToast(context, context.getResources().getString(R.string.weipeizhi));
 			return;
 		}
-		if (!NetworkUtils.ISNET_CONNECT) {
-			DialogUtil.showShortToast(context, context.getString(R.string.net_notconnected));
-			return;
-		}
+//		if (!NetworkUtils.ISNET_CONNECT) {
+//			DialogUtil.showShortToast(context, context.getString(R.string.net_disconnected_pleasecheck));
+//			return;
+//		}
 		Intent intent = new Intent(context, PostActivity.class);
 		intent.putExtra(Config.KEY_PARENT_CATEGORYID, parentCategoryId);
 		intent.putExtra(Config.KEY_CURRENT_CATEGORYID, currentCategoryId);
@@ -125,10 +125,10 @@ public class BasePageView extends BaseRelativeLayout {
 			DialogUtil.showShortToast(context,context.getResources().getString(R.string.weipeizhi));
 			return;
 		}
-		if (!NetworkUtils.ISNET_CONNECT) {
-			DialogUtil.showShortToast(context, context.getString(R.string.net_notconnected));
-			return;
-		}
+//		if (!NetworkUtils.ISNET_CONNECT) {
+//			DialogUtil.showShortToast(context, context.getString(R.string.net_disconnected_pleasecheck));
+//			return;
+//		}
 		Intent intent = new Intent(context, DetailActivity.class);
 		intent.putExtra(Config.KEY_APPID, appid);
 		context.startActivity(intent);

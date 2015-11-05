@@ -62,7 +62,7 @@
         android:layout_marginBottom="-10dp"
         android:layout_marginRight="93dp"
         android:focusable="false"
-        android:text="当前显示第0页;共0页"
+        android:text=""
         android:textColor="@color/white"
         android:textSize="18sp" />
 
