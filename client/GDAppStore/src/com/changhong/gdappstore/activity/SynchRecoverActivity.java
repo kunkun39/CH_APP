@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -61,7 +62,7 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 	/** 批量操作时候选择的item个数 */
 	private int curCheckedItem = 0;
 	/** 下载apk进度对话框 */
-	private MyProgressDialog downloadPDialog;
+	private MyProgressDialog downloadPDialog = null;
 	/** apk 下载列表 */
 	private List<SynchApp> downloadApps = new ArrayList<SynchApp>();
 	private int curDownLoadPos = -1;
@@ -282,8 +283,15 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 		final SynchApp app = downloadApps.get(curDownLoadPos);
 		L.d("doDownLoad curDownLoadPos=" + curDownLoadPos + " downloadappsize " + downloadApps.size() + " app is "
 				+ app.toString());
-		if (curDownLoadPos == 0 && Util.getTopActivity(context).equals(context.getClass().getName())) {
-			downloadPDialog.show();
+		if (curDownLoadPos == 0 && !downloadPDialog.isShowing()
+				&& Util.getTopActivity(context).equals(context.getClass().getName())) {
+			if (!((Activity) context).isFinishing()) {
+				downloadPDialog.show();
+				L.d("doDownLoad show downloadPDialog over ");
+			} else {
+				//如果在这里显示对话框的话，在这个情况下回崩溃：选择一个，然后再批量选几个，返回退出页面，再进入时候。
+				L.d("doDownLoad not show context isFinishing");
+			}
 		}
 		downloadPDialog.setProgress(0);
 		downloadPDialog.setMax(0);
