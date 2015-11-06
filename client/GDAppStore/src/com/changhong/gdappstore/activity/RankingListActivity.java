@@ -498,7 +498,7 @@ public class RankingListActivity extends Activity {
 					}
 					break;
 				case LOAD_RANKING_FAIL:
-					Toast.makeText(RankingListActivity.this, "获取网络数据失败", Toast.LENGTH_LONG).show();
+					Toast.makeText(RankingListActivity.this, getApplicationContext().getString(R.string.error_netconnect_please_checknet), Toast.LENGTH_LONG).show();
 					break;
 				default:
 					break;
