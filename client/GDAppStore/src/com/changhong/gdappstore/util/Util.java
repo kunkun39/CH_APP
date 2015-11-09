@@ -267,6 +267,29 @@ public class Util {
 		}
 		return list;
 	}
+	
+	/**
+	 * 
+	 * @param all
+	 * @param lookingfor
+	 * @param position 从1开始，要想选择第几个？
+	 * @return
+	 */
+	public static int getIndexOfString(String all,Character lookingfor,int position) {
+		if (TextUtils.isEmpty(all)|| position>=all.length()) {
+			return -1;
+		}
+		int pos=0;
+		for (int i = 0; i < all.length(); i++) {
+			if (all.substring(i, i+1).equals(lookingfor)) {
+				pos++;
+				if (pos==position) {
+					return i;
+				}
+			}
+		}
+		return pos;
+	}
 
 	// public static Bitmap convertViewToBitmap(View view) {
 	// if (view==null) {

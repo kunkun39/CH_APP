@@ -350,7 +350,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="80dp"
-            android:text="搜索小贴士"
+            android:text="@string/search_tips"
             android:textColor="#2c7bf2"
             android:textSize="24sp" />
 
