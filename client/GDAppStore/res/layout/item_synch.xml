@@ -46,7 +46,7 @@
             android:layout_alignLeft="@id/tv_appname"
             android:layout_below="@id/view_score"
             android:layout_marginTop="5dp"
-            android:text="大小："
+            android:text="@string/size"
             android:textColor="@color/black"
             android:textSize="16dp" />
 

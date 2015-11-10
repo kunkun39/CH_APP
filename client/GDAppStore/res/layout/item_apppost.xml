@@ -48,7 +48,7 @@
             android:ellipsize="marquee"
             android:marqueeRepeatLimit="marquee_forever"
             android:singleLine="true"
-            android:text="大小："
+            android:text="@string/size"
             android:textColor="@color/white"
             android:textSize="20sp" />
 
