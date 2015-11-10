@@ -1,7 +1,5 @@
 package com.changhong.gdappstore.view;
 
-import java.util.List;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
@@ -16,10 +14,8 @@ import android.widget.RelativeLayout;
 
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BasePageView;
-import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.util.DialogUtil;
-import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
@@ -85,18 +81,17 @@ public class OtherCategoryView extends BasePageView implements OnFocusChangeList
 	}
 
 	private void initItemTextViewBg() {
-		int[] bgImgs = { R.drawable.img_mainapp_bg1, R.drawable.img_mainapp_bg2, R.drawable.img_mainapp_bg3,
-				R.drawable.img_mainapp_bg4, R.drawable.img_mainapp_bg5, R.drawable.img_mainapp_bg6 };
+		int[] bgImgs = { R.color.otc_blue, R.color.otc_green, R.color.otc_lightred, R.color.otc_purple,
+				R.color.otc_yellow, R.color.otc_orange };
 		int pos = 0;
 		for (int i = 0; i < otcItemCount; i++) {
-			otcItemViews[i].setTextViewBackground(bgImgs[pos]);
+			otcItemViews[i].setTextViewBGColor(bgImgs[pos]);
 			pos++;
 			if (pos >= bgImgs.length) {
 				pos = 0;
 			}
 		}
 	}
-
 
 	public void initData(final Category category) {
 		if (category.getCategoyChildren() != null) {

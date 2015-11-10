@@ -69,11 +69,11 @@ public class OtherCategoryItemView extends BaseRelativeLayout {
 	 * 文本内容背景图片
 	 * @param resource
 	 */
-	public void setTextViewBackground(int resource) {
-		if (resource>0) {
-			tv_name.setBackgroundResource(resource);
+	public void setTextViewBGColor(int color) {
+		if (color>0) {
+			tv_name.setBackgroundColor(context.getResources().getColor(color));
 		}else {
-			tv_name.setBackgroundResource(R.drawable.img_mainapp_bg1);
+			tv_name.setBackgroundColor(context.getResources().getColor(R.color.otc_blue));
 		}
 	}
 }

@@ -22,11 +22,11 @@
 	<color name="detail_content_title_textcolor">#7FFFFFFF</color>
 	<color name="bt_searchnormal">#3b4d51</color>
 	<color name="bt_searchfocues">#3685fc</color>
-	<!-- 其它页面推荐位颜色 -->
+	<!-- 其它页面颜色 -->
 	<color name="otc_purple">#660066</color>
-	<color name="otc_yellow">#ff8025</color>
 	<color name="otc_green">#80bd26</color>
-	<color name="otc_lightred">#cc3366</color>
 	<color name="otc_orange">#ff6631</color>
+	<color name="otc_yellow">#ff8025</color>
+	<color name="otc_lightred">#cc3366</color>
 	<color name="otc_blue">#6699ff</color>
 </resources>
