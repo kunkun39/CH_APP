@@ -18,7 +18,6 @@ import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.Util;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
-import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 

@@ -12,9 +12,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -152,7 +150,7 @@ public class DialogUtil {
 	public static Dialog showAlertDialog(Context context, String title, String content,
 			final DialogBtnOnClickListener listener) {
 		final Dialog alertDialog = new AlertDialog.Builder(context).setTitle(title).setMessage(content)
-				.setPositiveButton("确定", new OnClickListener() {
+				.setPositiveButton(context.getString(R.string.sure), new OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -161,7 +159,7 @@ public class DialogUtil {
 						}
 					}
 
-				}).setNegativeButton("取消", new OnClickListener() {
+				}).setNegativeButton(context.getString(R.string.cancel), new OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {

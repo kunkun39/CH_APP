@@ -15,7 +15,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.changhong.gdappstore.R;
-import com.changhong.gdappstore.util.L;
 
 public class MyProgressDialog extends Dialog {
 	private Context context;

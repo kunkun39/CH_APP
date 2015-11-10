@@ -15,6 +15,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.adapter.SynchGridAdapter;
 import com.changhong.gdappstore.base.BaseActivity;
@@ -181,7 +182,9 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 	 */
 	private void refreshCheckedItemText() {
 		tv_num_checked.setVisibility(VISIBLE);
-		tv_ge.setVisibility(VISIBLE);
+		if (!Config.IS_ENGLISH) {
+			tv_ge.setVisibility(VISIBLE);
+		}
 		tv_num_checked.setText(curCheckedItem + "");
 	}
 
@@ -210,7 +213,7 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 	 *            需要删除应用的id列表，中间用逗号隔开
 	 */
 	private void deleteBackUp(final String ids) {
-		DialogUtil.showMyAlertDialog(context, "提示：", "确认删除备份应用？", "确  认", "取  消", new DialogBtnOnClickListener() {
+		DialogUtil.showMyAlertDialog(context, "", context.getString(R.string.sure_deletebackedapps), "", "", new DialogBtnOnClickListener() {
 
 			@Override
 			public void onSubmit(DialogMessage dialogMessage) {

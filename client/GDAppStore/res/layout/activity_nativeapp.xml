@@ -74,7 +74,7 @@
             android:layout_alignBottom="@id/tv_num_checked"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/tv_num_checked"
-            android:text="个"
+            android:text="@string/ge"
             android:textColor="@color/white"
             android:textSize="24dp"
             android:visibility="invisible" />
@@ -97,7 +97,7 @@
             android:layout_centerHorizontal="true"
             android:background="@drawable/selector_square_focues"
             android:gravity="center"
-            android:text="卸载应用"
+            android:text="@string/uninstall_apps"
             android:textColor="@color/white"
             android:textSize="28dp" />
     </RelativeLayout>

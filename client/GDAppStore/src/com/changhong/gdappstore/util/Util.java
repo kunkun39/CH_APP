@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.View.MeasureSpec;
 import android.widget.Toast;
 
+import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.model.NativeApp;
 
 public class Util {
@@ -74,7 +75,7 @@ public class Util {
 	 */
 	public static void deleteFileChildrens(String path) {
 		File file = new File(path);
-		if (file==null || !file.exists()) {
+		if (file == null || !file.exists()) {
 			return;
 		}
 		if (file != null && file.isDirectory() && file.listFiles().length > 0) {
@@ -94,7 +95,7 @@ public class Util {
 			return;
 		}
 		File file = new File(path);
-		if (file==null || !file.exists()) {
+		if (file == null || !file.exists()) {
 			return;
 		}
 		if (file.isDirectory() && file.listFiles().length > 0) {
@@ -110,14 +111,16 @@ public class Util {
 			file.delete();
 		}
 	}
+
 	/**
 	 * 开发文件所有权限
+	 * 
 	 * @param filepath
 	 */
 	public static void chrome0777File(String filepath) {
 		try {
 			Runtime.getRuntime().exec("chmod 0777  " + filepath);
-//			Thread.sleep(600);
+			// Thread.sleep(600);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -133,7 +136,7 @@ public class Util {
 	public static boolean openAppByPackageName(Context context, String packageName) {
 		boolean isOk = false;
 		if (packageName != null && packageName.equals("com.changhong.gdappstore")) {
-			Toast.makeText(context, "该应用已打开", Toast.LENGTH_LONG).show();
+			Toast.makeText(context, context.getString(R.string.app_started), Toast.LENGTH_LONG).show();
 			return false;
 		}
 		try {
@@ -152,7 +155,7 @@ public class Util {
 			isOk = false;
 		}
 		if (!isOk) {
-			Toast.makeText(context, "应用启动失败，请检查应用是否安装正常", Toast.LENGTH_LONG).show();
+			Toast.makeText(context, context.getString(R.string.appstartfailed_pleasecheck), Toast.LENGTH_LONG).show();
 		}
 		return isOk;
 	}
@@ -203,7 +206,7 @@ public class Util {
 				tmpInfo.appname = packageInfo.applicationInfo.loadLabel(context.getPackageManager()).toString();
 				tmpInfo.appPackage = packageInfo.packageName;
 				tmpInfo.nativeVersionInt = packageInfo.versionCode;
-				tmpInfo.checked=false;
+				tmpInfo.checked = false;
 				tmpInfo.appIcon = packageInfo.applicationInfo.loadIcon(context.getPackageManager());
 				nativeApps.add(tmpInfo);
 				tmpInfo.appid = -1;
@@ -219,21 +222,36 @@ public class Util {
 	 * @return String
 	 */
 	public static String intToStr(int num) {
-		if (num < 10000) {
-			// 1w以下直接返回
-			return num + "";
-		} else if (num < 100000) {
-			// 1w~10w以下格式:x0000+ x为数字
-			return num / 10000 + "万+";
-		} else if (num < 1000000) {
-			// 10w~100w以下格式:x0万+ x为数字
-			return num / 100000 + "0万+";
-		} else if (num < 10000000) {
-			return num / 1000000 + "00万+";
-		} else if (num < 100000000) {
-			return num / 10000000 + "000万+";
+		if (com.changhong.gdappstore.Config.IS_ENGLISH) {
+			if (num < 1000) {
+				// 1000以下直接返回
+				return num + "";
+			} else if (num < 10000000) {
+				// 千
+				return num / 1000 + "thousand+";
+			} else if (num < 1000000000) {
+				// 百万
+				return num / 1000000 + "million+";
+			} else {
+				return num / 100000000 + "billion+";
+			}
 		} else {
-			return num / 100000000 + "亿+";
+			if (num < 10000) {
+				// 1w以下直接返回
+				return num + "";
+			} else if (num < 100000) {
+				// 1w~10w以下格式:x0000+ x为数字
+				return num / 10000 + "万+";
+			} else if (num < 1000000) {
+				// 10w~100w以下格式:x0万+ x为数字
+				return num / 100000 + "0万+";
+			} else if (num < 10000000) {
+				return num / 1000000 + "00万+";
+			} else if (num < 100000000) {
+				return num / 10000000 + "000万+";
+			} else {
+				return num / 100000000 + "亿+";
+			}
 		}
 	}
 
@@ -249,9 +267,10 @@ public class Util {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 去除list里面的空值。
+	 * 
 	 * @param list
 	 * @return
 	 */
@@ -261,29 +280,30 @@ public class Util {
 		}
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i) == null) {
-				list.remove(i);//去除空值
+				list.remove(i);// 去除空值
 				i--;
 			}
 		}
 		return list;
 	}
-	
+
 	/**
 	 * 
 	 * @param all
 	 * @param lookingfor
-	 * @param position 从1开始，要想选择第几个？
+	 * @param position
+	 *            从1开始，要想选择第几个？
 	 * @return
 	 */
-	public static int getIndexOfString(String all,Character lookingfor,int position) {
-		if (TextUtils.isEmpty(all)|| position>=all.length()) {
+	public static int getIndexOfString(String all, Character lookingfor, int position) {
+		if (TextUtils.isEmpty(all) || position >= all.length()) {
 			return -1;
 		}
-		int pos=0;
+		int pos = 0;
 		for (int i = 0; i < all.length(); i++) {
-			if (all.substring(i, i+1).equals(lookingfor)) {
+			if (all.substring(i, i + 1).equals(lookingfor)) {
 				pos++;
-				if (pos==position) {
+				if (pos == position) {
 					return i;
 				}
 			}

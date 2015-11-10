@@ -7,14 +7,23 @@ package com.changhong.gdappstore;
  * 
  */
 public class Config {
+	
 	/** 是否允许缓存。只有调试所有情况下都请求接口时候才改为false */
 	public static final boolean ISCACHEABLE = true;
+	
 	/** 是否采用系统自带安装工具安装，true为用系统自带安装，false为静默安装 */
 	public static final boolean ISNORMAL_INSTALL = false;
+	
 	/** 是否采用系统自带卸载工具，true为用系统自带卸载，false为静默卸载 */
 	public static final boolean ISNORMAL_UNINSTALL = false;
+	
+	/** 是否为英文版本，true是，false不是*/
+	public static final boolean IS_ENGLISH = false;
+	
 	/** 请求暂停时间，在这个时间内不能连续请求 */
 	public static final int REQUEST_RESTTIEM = 3 * 60 * 1000;
+	
+	
 	/** 存放使用自己开发代码下载apk文件目录 */
 	public static final String baseUpdatePath = "/data/data/com.changhong.gdappstore/loadapp";
 	/** 存放使用Xutil代码下载apk文件目录 */

@@ -214,7 +214,9 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 	 */
 	private void refreshCheckedItemText() {
 		tv_num_checked.setVisibility(VISIBLE);
-		tv_ge.setVisibility(VISIBLE);
+		if (!Config.IS_ENGLISH) {
+			tv_ge.setVisibility(VISIBLE);
+		}
 		tv_num_checked.setText(curCheckedItem + "");
 	}
 
@@ -275,7 +277,7 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 			return;
 		}
 		if (!NetworkUtils.ISNET_CONNECT) {
-			DialogUtil.showLongToast(context, "下载取消，网络未连接！");
+			DialogUtil.showLongToast(context, context.getString(R.string.error_netconnect_please_checknet));
 			downloadPDialog.dismiss();
 			return;
 		}
@@ -295,7 +297,7 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 		}
 		downloadPDialog.setProgress(0);
 		downloadPDialog.setMax(0);
-		downloadPDialog.setMyTitle("正在下载：" + app.getAppname());
+		downloadPDialog.setMyTitle(context.getString(R.string.downloading)+"：" + app.getAppname());
 
 		String apkLoadUrl = app.getApkFilePath();
 		final String apkname = apkLoadUrl.substring(apkLoadUrl.lastIndexOf("/") + 1, apkLoadUrl.length()).trim();
@@ -323,7 +325,7 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 									handler.sendEmptyMessage(DODOWNLOAD);// 下载下一个
 								} else {
 									Message installingMsg = handler.obtainMessage(UPDATE_DIALOG_TITLE);
-									installingMsg.obj = "下载完成，正在安装中...";
+									installingMsg.obj = context.getString(R.string.downloadover_installing);
 									handler.sendMessage(installingMsg);
 									boolean success = InstallUtil.installAppByCommond(responseInfo.result.getPath());
 									L.d("install success " + success);
@@ -345,12 +347,13 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 
 					@Override
 					public void onFailure(HttpException paramHttpException, String msg) {
+						String downloadFailed=context.getString(R.string.downloadfailed);
 						if (!NetworkUtils.ISNET_CONNECT) {
-							DialogUtil.showLongToast(context, "下载取消，网络未连接！");
+							DialogUtil.showLongToast(context, context.getString(R.string.error_net_notconnect));
 						} else if (msg.contains("ConnectTimeoutException")) {
-							DialogUtil.showLongToast(context, "下载失败，服务器连接超时！");
+							DialogUtil.showLongToast(context, context.getString(R.string.error_netconnect_timeout));
 						} else {
-							DialogUtil.showLongToast(context, "下载发生异常！");
+							DialogUtil.showLongToast(context, context.getString(R.string.error_netconnect));
 						}
 
 						removeDownLoadingApp(app.getAppid());
@@ -405,10 +408,10 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 				doDownLoad();// 下载下一个
 				break;
 			case SHOW_INSTALL_SUCCESS:
-				DialogUtil.showLongToast(context, (String) msg.obj + " 安装成功");
+				DialogUtil.showLongToast(context, (String) msg.obj + " "+context.getString(R.string.install_success));
 				break;
 			case SHOW_INSTALL_FAILED:
-				DialogUtil.showLongToast(context, (String) msg.obj + " 安装失败");
+				DialogUtil.showLongToast(context, (String) msg.obj + " "+context.getString(R.string.install_failed));
 				break;
 			case UPDATE_DIALOG_TITLE:
 				L.d("install settitle " + (String) msg.obj);
@@ -493,12 +496,12 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 			} else if (app.getSynchType() != Type.RECOVERED) {
 				// 普通操作
 				if (isInDownLoadingList(app.getAppid())) {
-					DialogUtil.showShortToast(context, "该应用已在下载列表中");
+					DialogUtil.showShortToast(context, context.getString(R.string.app_already_indownloadlist));
 				} else {
 					List<SynchApp> apps = new ArrayList<SynchApp>();
 					apps.add(app);
 					downloadApps(apps);
-					DialogUtil.showShortToast(context, "添加到下载列表成功");
+					DialogUtil.showShortToast(context, context.getString(R.string.addin_downloadlist_success));
 				}
 			}
 		}

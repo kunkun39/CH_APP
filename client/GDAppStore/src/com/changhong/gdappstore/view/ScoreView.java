@@ -2,13 +2,12 @@ package com.changhong.gdappstore.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
+
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseRelativeLayout;
-import com.changhong.gdappstore.util.L;
 
 /**
  * 频分星星显示view，可根据自己需要扩展。

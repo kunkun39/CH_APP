@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="90dp"
-        android:text="云同步"
+        android:text="@string/yuntongbu"
         android:textColor="@color/white"
         android:textSize="28dp" />
 
@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="230dp"
-                android:text="备份"
+                android:text="@string/backup"
                 android:textColor="@color/white"
                 android:textSize="40dp" />
 
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/tv_synch_home_suggest_margintop"
-                android:text="上传已安装应用到云端"
+                android:text="@string/post_nativeapps"
                 android:textColor="@color/white"
                 android:textSize="@dimen/tv_synch_home_suggest_textsize" />
         </RelativeLayout>
@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="230dp"
-                android:text="恢复"
+                android:text="@string/recovery"
                 android:textColor="@color/white"
                 android:textSize="40dp" />
 
@@ -103,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/tv_synch_home_suggest_margintop"
-                android:text="下载云端应用到电视"
+                android:text="@string/recover_serverapps"
                 android:textColor="@color/white"
                 android:textSize="@dimen/tv_synch_home_suggest_textsize" />
         </RelativeLayout>
@@ -132,7 +132,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="230dp"
-                android:text="管理"
+                android:text="@string/manage"
                 android:textColor="@color/white"
                 android:textSize="40dp" />
 
@@ -141,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/tv_synch_home_suggest_margintop"
-                android:text="管理云端应用"
+                android:text="@string/manage_serverapps"
                 android:textColor="@color/white"
                 android:textSize="@dimen/tv_synch_home_suggest_textsize" />
         </RelativeLayout>

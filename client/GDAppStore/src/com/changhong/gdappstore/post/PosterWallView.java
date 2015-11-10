@@ -7,12 +7,8 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 
-import com.changhong.gdappstore.R;
-import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.L;
 import com.post.view.base.BasePosterWallView;
 import com.post.view.listener.INeedPageChangeLisenter;

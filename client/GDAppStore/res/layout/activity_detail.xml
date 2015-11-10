@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_toRightOf="@id/iv_detailicon"
-                android:text="应用名字"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="28sp" />
 
@@ -95,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
                     android:textColor="@color/red"
-                    android:text="该应用已下架！"
+                    android:text="@string/appisundershelf"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
                     android:visibility="gone"
@@ -122,7 +122,7 @@
                     android:id="@+id/tv_downloadcount_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="下载量："
+                    android:text="@string/downloads"
                     android:textColor="@color/detail_content_title_textcolor"
                     android:textSize="@dimen/detail_contenttextsize" />
 
@@ -139,7 +139,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/detail_content_textmarginleft"
-                    android:text="版本："
+                    android:text="@string/version"
                     android:textColor="@color/detail_content_title_textcolor"
                     android:textSize="@dimen/detail_contenttextsize" />
 
@@ -164,7 +164,7 @@
                     android:id="@+id/tv_updatetime_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="更新时间："
+                    android:text="@string/updatetime"
                     android:textColor="@color/detail_content_title_textcolor"
                     android:textSize="@dimen/detail_contenttextsize" />
 
@@ -181,7 +181,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/detail_content_textmarginleft"
-                    android:text="大小："
+                    android:text="@string/size"
                     android:textColor="@color/detail_content_title_textcolor"
                     android:textSize="@dimen/detail_contenttextsize" />
 
@@ -200,7 +200,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ll_detailcontent_row2"
                 android:layout_marginTop="@dimen/detail_content_rowmargintop"
-                android:text="应用简介："
+                android:text="@string/description"
                 android:textColor="@color/detail_content_title_textcolor"
                 android:textSize="@dimen/detail_contenttextsize" />
 
@@ -244,7 +244,7 @@
         android:layout_below="@id/rl_detailcontent"
         android:layout_marginTop="@dimen/detail_content_rowmargintop"
         android:maxLines="2"
-        android:text="猜你喜欢"
+        android:text="@string/similar_apps"
         android:textColor="@color/white"
         android:textSize="@dimen/detail_contenttextsize" />
 

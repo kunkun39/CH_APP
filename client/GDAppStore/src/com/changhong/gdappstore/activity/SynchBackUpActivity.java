@@ -17,6 +17,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.adapter.SynchGridAdapter;
 import com.changhong.gdappstore.base.BaseActivity;
@@ -273,7 +274,9 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 	 */
 	private void refreshCheckedItemText() {
 		tv_num_checked.setVisibility(VISIBLE);
-		tv_ge.setVisibility(VISIBLE);
+		if (!Config.IS_ENGLISH) {
+			tv_ge.setVisibility(VISIBLE);
+		}
 		tv_num_checked.setText(curCheckedItem + "");
 	}
 

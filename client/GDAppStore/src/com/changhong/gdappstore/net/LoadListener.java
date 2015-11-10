@@ -2,8 +2,6 @@ package com.changhong.gdappstore.net;
 
 import java.util.List;
 
-import com.changhong.gdappstore.model.App;
-
 /**
  * 请求解析完成监听器
  * 

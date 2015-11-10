@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.text.TextUtils;
 
 import com.changhong.gdappstore.Config;
-import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.Util;
 

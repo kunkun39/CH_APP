@@ -3,7 +3,6 @@ package com.changhong.gdappstore.view;
 import java.util.HashMap;
 import java.util.Map;
 
-import android.R.integer;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;

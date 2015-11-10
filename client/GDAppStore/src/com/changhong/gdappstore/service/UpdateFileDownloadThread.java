@@ -6,11 +6,10 @@ import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import com.changhong.gdappstore.Config;
-import com.changhong.gdappstore.util.L;
-
 import android.content.Context;
 import android.util.Log;
+
+import com.changhong.gdappstore.Config;
 
 /**
  * Created by Jack Wang

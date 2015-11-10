@@ -13,7 +13,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.changhong.gdappstore.Config;
-import com.changhong.gdappstore.activity.DetailActivity;
+import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.model.AppDetail;
 import com.changhong.gdappstore.util.DialogUtil;
@@ -68,7 +68,7 @@ public class UpdateService {
 			return;
 		}
 		if (downloading) {
-			Toast.makeText(context, "当前正在下载更新，请耐心等待", Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, context.getString(R.string.hasapp_isloading), Toast.LENGTH_SHORT).show();
 			return;
 		}
 //		AppBroadcastReceiver.curAppDetail = appDetail;//TODO 取消数据库保存应用信息
@@ -79,16 +79,16 @@ public class UpdateService {
 					super.handleMessage(msg);
 					switch (msg.what) {
 					case MESSAGE_SERVER_FILEERROR:
-						DialogUtil.showLongToast(context, "服务器连接异常");
+						DialogUtil.showLongToast(context, context.getString(R.string.error_netconnect_please_checknet));
 						break;
 					case MESSAGE_DOWNLOADOVER:
-						DialogUtil.showLongToast(context, "下载完成");
+						DialogUtil.showLongToast(context, context.getString(R.string.downloadover));
 						break;
 					case MESSAGE_DOWNEXCEPTION:
-						DialogUtil.showLongToast(context, "下载发生异常");
+						DialogUtil.showLongToast(context, context.getString(R.string.downloadfailed));
 						break;
 					case MESSAGE_NETNOTCONNECT:
-						DialogUtil.showLongToast(context, "网络未连接");
+						DialogUtil.showLongToast(context, context.getString(R.string.net_disconnect));
 						break;
 
 					default:

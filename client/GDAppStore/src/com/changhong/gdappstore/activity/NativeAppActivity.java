@@ -358,7 +358,9 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 	 */
 	private void refreshCheckedItemText() {
 		tv_num_checked.setVisibility(VISIBLE);
-		tv_ge.setVisibility(VISIBLE);
+		if (!Config.IS_ENGLISH) {
+			tv_ge.setVisibility(VISIBLE);
+		}
 		tv_num_checked.setText(curCheckedItem + "");
 	}
 
