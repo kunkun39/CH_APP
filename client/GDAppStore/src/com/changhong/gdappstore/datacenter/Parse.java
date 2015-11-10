@@ -30,7 +30,7 @@ import com.changhong.gdappstore.util.Util;
  * 
  */
 public class Parse {
-	
+
 	/**************************************************************************/
 	public final static String HOST = "host";
 	public final static String VALUES = "values";
@@ -82,14 +82,20 @@ public class Parse {
 	public final static String APP_RECOMMEND = "recommend";
 
 	/**
-	 * 解析栏目数据
+	 * 请求栏目接口，包含：apk版本，apk下载地址，栏目信息，专题信息
 	 * 
 	 * @param categoryJson
-	 *            栏目数据json
-	 * @return
+	 * @return list.get(0)为栏目，list.get(1)为专题
 	 */
 	public static List<Category> parseCategory(String categoryJson) {
 		List<Category> categories = new ArrayList<Category>();
+		// 本地定义首页和专题栏目
+		Category zhuantiCategory = new Category(Config.ID_ZHUANTI, Config.ID_ZHUANTI, Config.ZHUANTI, "", true,
+				new ArrayList<Category>(), new ArrayList<PageApp>());
+		Category homepageCategory = new Category(0, -1, Config.HOMEPAGE, "", false, new ArrayList<Category>(),
+				new ArrayList<PageApp>());
+		// 本地添加首页栏目
+		categories.add(0, homepageCategory);
 		if (TextUtils.isEmpty(categoryJson)) {
 			return categories;
 		}
@@ -98,9 +104,9 @@ public class Parse {
 			String host = "";
 			if (categoryObject.has(HOST)) {
 				host = categoryObject.getString(HOST).trim();
-				L.d("parsecategory host befor=="+host);
-				host=DesUtils.getDesString(host);
-				L.d("parsecategory host after=="+host);
+				L.d("parsecategory host befor==" + host);
+				host = DesUtils.getDesString(host);
+				L.d("parsecategory host after==" + host);
 			}
 			if (categoryObject.has("client_url")) {
 				MyApplication.UPDATE_APKURL = DesUtils.getDesString(categoryObject.getString("client_url").trim());
@@ -112,41 +118,61 @@ public class Parse {
 				MyApplication.SERVER_VERSION = categoryObject.getInt("client_v");
 			}
 			L.d("server apk data  version=" + MyApplication.SERVER_VERSION + " apkurl=" + MyApplication.UPDATE_APKURL);
-			JSONArray array = categoryObject.getJSONArray(VALUES);
-			for (int i = 0; i < array.length(); i++) {
-				JSONObject object = array.getJSONObject(i);
-				Category category = new Category();
-				if (object.has(CATEGORY_ID)) {
-					category.setId(object.getInt(CATEGORY_ID));
-				}
-				if (object.has(CATEGORY_NAME)) {
-					category.setName(object.getString(CATEGORY_NAME).trim());
-				}
-				if (object.has(CATEGORY_FILENAME) && !TextUtils.isEmpty(object.getString(CATEGORY_FILENAME))) {
-					category.setIconFilePath(host + "category/" + object.getString(CATEGORY_FILENAME).trim());
-				}
-				int parentid = -1;
-				if (object.has(CATEGORY_PARENTID)) {
-					parentid = object.getInt(CATEGORY_PARENTID);
-					category.setParentId(parentid);
-				}
-				if (parentid == -1) {// 添加为父栏目
-					categories.add(category);
-				} else {
-					category.setCategoryPageApps(null);// 子栏目没有推荐位应用
-					category.setCategoyChildren(null);// 子栏目没有子栏目
-					for (int j = 0; j < categories.size(); j++) {
-						if (categories.get(j).getId() == parentid) {
-							// 添加为子栏目
-							categories.get(j).getCategoyChildren().add(category);
-							break;
+			{// 解析栏目数据
+				JSONArray array = categoryObject.getJSONArray("category");
+				for (int i = 0; i < array.length(); i++) {
+					JSONObject object = array.getJSONObject(i);
+					Category category = new Category();
+					category.setIstopic(false);
+					if (object.has(CATEGORY_ID)) {
+						category.setId(object.getInt(CATEGORY_ID));
+					}
+					if (object.has(CATEGORY_NAME)) {
+						category.setName(object.getString(CATEGORY_NAME).trim());
+					}
+					if (object.has(CATEGORY_FILENAME) && !TextUtils.isEmpty(object.getString(CATEGORY_FILENAME))) {
+						category.setIconFilePath(host + "category/" + object.getString(CATEGORY_FILENAME).trim());
+					}
+					int parentid = -1;
+					if (object.has(CATEGORY_PARENTID)) {
+						parentid = object.getInt(CATEGORY_PARENTID);
+						category.setParentId(parentid);
+					}
+					if (parentid == -1) {// 添加为父栏目
+						categories.add(category);
+					} else {
+						category.setCategoryPageApps(null);// 子栏目没有推荐位应用
+						category.setCategoyChildren(null);// 子栏目没有子栏目
+						for (int j = 0; j < categories.size(); j++) {
+							if (categories.get(j).getId() == parentid) {
+								// 添加为子栏目
+								categories.get(j).getCategoyChildren().add(category);
+								break;
+							}
 						}
 					}
 				}
 			}
-			// TODO 将首页手动添加为第一个
-			categories.add(0, new Category(0, -1, Config.HOMEPAGE, "", new ArrayList<Category>(),
-					new ArrayList<PageApp>()));
+			{// 解析专题数据
+				JSONArray array = categoryObject.getJSONArray("topics");
+				for (int i = 0; i < array.length(); i++) {
+					JSONObject object = array.getJSONObject(i);
+					Category topic = new Category();
+					topic.setIstopic(true);
+					if (object.has(CATEGORY_ID)) {
+						topic.setId(object.getInt(CATEGORY_ID));
+					}
+					if (object.has(CATEGORY_NAME)) {
+						topic.setName(object.getString(CATEGORY_NAME).trim());
+					}
+					if (object.has(CATEGORY_FILENAME) && !TextUtils.isEmpty(object.getString(CATEGORY_FILENAME))) {
+						topic.setIconFilePath(host + "topic/" + object.getString(CATEGORY_FILENAME).trim());
+					}
+					zhuantiCategory.getCategoyChildren().add(topic);
+				}
+				// 本地添加专题栏目
+				categories.add(zhuantiCategory);
+			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -171,7 +197,7 @@ public class Parse {
 		try {
 			JSONObject object = new JSONObject(pageAppJson);
 			String host = object.getString(HOST).trim();
-			host=DesUtils.getDesString(host);
+			host = DesUtils.getDesString(host);
 			JSONArray array = object.getJSONArray("pages");
 			for (int i = 0; i < array.length(); i++) {
 				PageApp app = new PageApp();
@@ -235,7 +261,7 @@ public class Parse {
 		try {
 			JSONObject object = new JSONObject(categoryAppJson);
 			String host = object.getString(HOST).trim();
-			host=DesUtils.getDesString(host);
+			host = DesUtils.getDesString(host);
 			JSONArray array = object.getJSONArray(VALUES);
 			for (int i = 0; i < array.length(); i++) {
 				App app = new App();
@@ -283,7 +309,7 @@ public class Parse {
 		try {
 			JSONObject object = new JSONObject(categoryAppJson);
 			String host = object.getString(HOST).trim();
-			host=DesUtils.getDesString(host);
+			host = DesUtils.getDesString(host);
 			JSONArray array = object.getJSONArray(VALUES);
 			for (int i = 0; i < array.length(); i++) {
 				App app = new App();
@@ -305,11 +331,11 @@ public class Parse {
 	 * @return
 	 */
 	public static List<List<Object>> parseSilentInstallApp(String categoryAppJson) {
-		List<List<Object>> apps=new ArrayList<List<Object>>();
+		List<List<Object>> apps = new ArrayList<List<Object>>();
 		List<Object> silentInstallApps = new ArrayList<Object>();
 		List<Object> silentUnInstallApps = new ArrayList<Object>();
-		apps.add(silentInstallApps);//安装列表
-		apps.add(silentUnInstallApps);//卸载列表
+		apps.add(silentInstallApps);// 安装列表
+		apps.add(silentUnInstallApps);// 卸载列表
 		if (TextUtils.isEmpty(categoryAppJson)) {
 			L.w("returned by categoryAppJson is empty when parseRecommendApp");
 			return apps;
@@ -317,7 +343,7 @@ public class Parse {
 		try {
 			JSONObject object = new JSONObject(categoryAppJson);
 			String host = object.getString(HOST).trim();
-			host=DesUtils.getDesString(host);
+			host = DesUtils.getDesString(host);
 			JSONArray array = object.getJSONArray(VALUES);
 			for (int i = 0; i < array.length(); i++) {
 				App app = new App();
@@ -336,7 +362,7 @@ public class Parse {
 				}
 				if (appobject.has(APP_APK_FILEPATH) && !TextUtils.isEmpty(appobject.getString(APP_APK_FILEPATH))) {
 					app.setPosterFilePath(host + app.getAppkey() + "/" + appobject.getString(APP_APK_FILEPATH).trim());
-					//TODO 使用海报图片路径代替apk路径
+					// TODO 使用海报图片路径代替apk路径
 				}
 				boolean install = appobject.getBoolean("install");
 				if (install) {
@@ -350,8 +376,10 @@ public class Parse {
 		}
 		return apps;
 	}
+
 	/**
 	 * 解析广告数据
+	 * 
 	 * @param bootADJson
 	 * @return
 	 */
@@ -360,13 +388,13 @@ public class Parse {
 			L.w("returned by appdetailJson is empty when bootADJson");
 			return "";
 		}
-		String bootADUrl="";
+		String bootADUrl = "";
 		try {
-			JSONObject object=new JSONObject(bootADJson);
-			String host=object.getString(HOST);
-			host=DesUtils.getDesString(host);
-			String bootImg=object.getString("boot_img");
-			bootADUrl=host+bootImg;
+			JSONObject object = new JSONObject(bootADJson);
+			String host = object.getString(HOST);
+			host = DesUtils.getDesString(host);
+			String bootImg = object.getString("boot_img");
+			bootADUrl = host + bootImg;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -382,7 +410,7 @@ public class Parse {
 		try {
 			JSONObject object = new JSONObject(appdetailJson);
 			String host = object.getString(HOST).trim();
-			host=DesUtils.getDesString(host);
+			host = DesUtils.getDesString(host);
 			String appKey = object.getString(APP_KEY).trim();
 			appDetail.setAppkey(appKey);
 			appDetail.setHost(host);
@@ -429,7 +457,7 @@ public class Parse {
 		try {
 			JSONObject object = new JSONObject(searchAppsJson);
 			String host = object.getString(HOST).trim();
-			host=DesUtils.getDesString(host);
+			host = DesUtils.getDesString(host);
 			JSONArray array = object.getJSONArray(VALUES);
 			for (int i = 0; i < array.length(); i++) {
 				App app = new App();
@@ -460,7 +488,7 @@ public class Parse {
 		try {
 			JSONObject object = new JSONObject(appVersionsJson);
 			String host = object.getString(HOST).trim();
-			host=DesUtils.getDesString(host);
+			host = DesUtils.getDesString(host);
 			JSONArray array = object.getJSONArray(VALUES);
 			for (int i = 0; i < array.length(); i++) {
 				App app = new App();
@@ -474,8 +502,10 @@ public class Parse {
 
 		return apps;
 	}
+
 	/**
 	 * 检测属于我们应用市场app以及已经备份app
+	 * 
 	 * @param json
 	 * @return
 	 */
@@ -496,10 +526,10 @@ public class Parse {
 				app.setScores(appobject.getInt(APP_SCORES));
 				app.setApkSize(appobject.getString(APP_SIZE).trim());
 				app.setPackageName(appobject.getString(APP_PACKAGE).trim());
-				int isbacked=appobject.getInt("is_backup");
-				if (isbacked==1) {
+				int isbacked = appobject.getInt("is_backup");
+				if (isbacked == 1) {
 					app.setSynchType(Type.BACKUPED);
-				}else {
+				} else {
 					app.setSynchType(Type.NORMAL);
 				}
 				apps.add(app);
@@ -510,11 +540,12 @@ public class Parse {
 
 		return apps;
 	}
+
 	/**
 	 * 解析备份成功数据
 	 */
 	public static List<Integer> parsePostBackUpApps(String json) {
-		List<Integer> successIds=new ArrayList<Integer>();
+		List<Integer> successIds = new ArrayList<Integer>();
 		if (TextUtils.isEmpty(json)) {
 			L.w("returned by json is empty when parsePostBackUpApps");
 			return successIds;
@@ -531,11 +562,12 @@ public class Parse {
 		}
 		return successIds;
 	}
+
 	/**
 	 * 解析备份成功数据
 	 */
 	public static List<Integer> parseDeleteBackUpApps(String json) {
-		List<Integer> successIds=new ArrayList<Integer>();
+		List<Integer> successIds = new ArrayList<Integer>();
 		if (TextUtils.isEmpty(json)) {
 			L.w("returned by json is empty when parsePostBackUpApps");
 			return successIds;
@@ -552,11 +584,12 @@ public class Parse {
 		}
 		return successIds;
 	}
+
 	/**
 	 * 解析备份成功数据
 	 */
 	public static List<SynchApp> parseGetBackUpApps(String json) {
-		List<SynchApp> apps=new ArrayList<SynchApp>();
+		List<SynchApp> apps = new ArrayList<SynchApp>();
 		if (TextUtils.isEmpty(json)) {
 			L.w("returned by json is empty when parseGetBackUpApps");
 			return apps;
@@ -564,7 +597,7 @@ public class Parse {
 		try {
 			JSONObject object = new JSONObject(json);
 			String host = object.getString(HOST).trim();
-			host=DesUtils.getDesString(host);
+			host = DesUtils.getDesString(host);
 			JSONArray array = object.getJSONArray("getbackupapps");
 			for (int i = 0; i < array.length(); i++) {
 				SynchApp app = new SynchApp();
@@ -638,7 +671,7 @@ public class Parse {
 			JSONObject object = new JSONObject(rankingListJson);
 
 			String host = object.getString(HOST).trim();
-			host=DesUtils.getDesString(host);
+			host = DesUtils.getDesString(host);
 			JSONArray surgeListJsonArray = object.getJSONArray("FASTEST");
 			JSONArray hotListJsonArray = object.getJSONArray("HOTEST");
 			JSONArray newListJsonArray = object.getJSONArray("NEWEST");

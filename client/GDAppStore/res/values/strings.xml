@@ -3,6 +3,7 @@
     <string name="app_name">长虹应用商城</string>
     <!-- 主页 -->
     <string name="homepage">首页</string>
+    <string name="zhuanti">专题</string>
     <string name="sure_exit_appstore">确认退出应用商城？</string>
     <string name="checked_newversion">发现新版本</string>
     <string name="update_now">欣然前往</string>

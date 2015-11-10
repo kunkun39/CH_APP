@@ -131,6 +131,7 @@ public class MyApplication extends Application {
 	 */
 	private void initStrings() {
 		Config.HOMEPAGE=context.getString(R.string.homepage);
+		Config.ZHUANTI=context.getString(R.string.zhuanti);
 	}
 
 	/**

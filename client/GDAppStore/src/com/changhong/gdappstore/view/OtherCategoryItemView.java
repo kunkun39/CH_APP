@@ -65,4 +65,15 @@ public class OtherCategoryItemView extends BaseRelativeLayout {
 	public void setItemSelected(boolean selected) {
 		tv_name.setSelected(selected);
 	}
+	/**
+	 * 文本内容背景图片
+	 * @param resource
+	 */
+	public void setTextViewBackground(int resource) {
+		if (resource>0) {
+			tv_name.setBackgroundResource(resource);
+		}else {
+			tv_name.setBackgroundResource(R.drawable.img_mainapp_bg1);
+		}
+	}
 }

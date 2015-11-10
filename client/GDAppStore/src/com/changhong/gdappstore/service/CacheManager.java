@@ -9,6 +9,7 @@ public class CacheManager {
 	public static final String KEYJSON_CATEGORIES = "keyjsoncategories";
 	public static final String KEYJSON_PAGEAPPS = "keyjsonpageapps";
 	public static final String KEYJSON_CATEGORYAPPS = "keyappbycategoryid";
+	public static final String KEYJSON_TOPICAPPS = "keyappbytopicid";
 	public static final String KEYJSON_RANKLIST = "keyjsonranklist";
 	public static final String KEYJSON_RECOMMENDAPPS = "keyrecommendapps";
 	public static final String KEYJSON_BACKUPEDAPPS = "keybackupedapps";

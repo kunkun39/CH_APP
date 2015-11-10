@@ -103,7 +103,13 @@ public class PostActivity extends BaseActivity {
 				Category category = (Category) view.getTag();
 				if (curCategoryId != category.getId()) {
 					showLoadingDialog();
-					dataCenter.loadAppsByCategoryId(context, category.getId(), loadAppListListener);
+					if (category.isIstopic()) {
+						//专题
+						dataCenter.loadAppsByTopicId(context, category.getId(), loadAppListListener);
+					}else {
+						//普通栏目
+						dataCenter.loadAppsByCategoryId(context, category.getId(), loadAppListListener);
+					}
 					curCategoryId = category.getId();
 				}
 			}
@@ -143,28 +149,43 @@ public class PostActivity extends BaseActivity {
 		Intent intent = getIntent();
 		int parentCategoryId = intent.getIntExtra(Config.KEY_PARENT_CATEGORYID, -2);
 		int currentCategoryId = intent.getIntExtra(Config.KEY_CURRENT_CATEGORYID, parentCategoryId);
-		if (parentCategoryId < -1) {
+		if (parentCategoryId < -1 && parentCategoryId != Config.ID_ZHUANTI) {
+			dismissLoadingDialog();
 			return;
 		}
 		parentCategory = dataCenter.getCategoryById(parentCategoryId);// 获取父栏目
 		curCategoryId = currentCategoryId;
 		L.d("parentCategory " + parentCategory.getId() + "  " + parentCategory.getName());
-		if (parentCategory != null) {
-			tv_name.setText(parentCategory.getName());
-			titleView.initData(parentCategory, parentCategory.getCategoyChildren());
-			if (parentCategory.getId() == currentCategoryId) {
-				titleView.setFocusItem(0);// 选中全部
-				titleView.setSelectedItem(0);
-			} else if (parentCategory.getCategoyChildren() != null) {
-				for (int i = 0; i < parentCategory.getCategoyChildren().size(); i++) {
-					if (parentCategory.getCategoyChildren().get(i).getId() == currentCategoryId) {
-						titleView.setFocusItem(i + 1);// 选中当前item
-						titleView.setSelectedItem(i + 1);
+		if (parentCategoryId != Config.ID_ZHUANTI) {
+			if (parentCategory != null) {
+				tv_name.setText(parentCategory.getName());
+				titleView.initData(parentCategory, parentCategory.getCategoyChildren());
+				if (parentCategory.getId() == currentCategoryId) {
+					titleView.setFocusItem(0);// 选中全部
+					titleView.setSelectedItem(0);
+				} else if (parentCategory.getCategoyChildren() != null) {
+					for (int i = 0; i < parentCategory.getCategoyChildren().size(); i++) {
+						if (parentCategory.getCategoyChildren().get(i).getId() == currentCategoryId) {
+							titleView.setFocusItem(i + 1);// 选中当前item
+							titleView.setSelectedItem(i + 1);
+						}
 					}
 				}
 			}
+			dataCenter.loadAppsByCategoryId(context, currentCategoryId, loadAppListListener);
+		} else {
+			tv_name.setText(context.getString(R.string.zhuanti));
+			if (parentCategory != null) {
+				titleView.initData(parentCategory, parentCategory.getCategoyChildren());
+				for (int i = 0; i < parentCategory.getCategoyChildren().size(); i++) {
+					if (parentCategory.getCategoyChildren().get(i).getId() == currentCategoryId) {
+						titleView.setFocusItem(i);// 选中当前item
+						titleView.setSelectedItem(i);
+					}
+				}
+			}
+			dataCenter.loadAppsByTopicId(context, currentCategoryId, loadAppListListener);
 		}
-		dataCenter.loadAppsByCategoryId(context, currentCategoryId, loadAppListListener);
 	}
 
 	private LoadListListener loadAppListListener = new LoadListListener() {

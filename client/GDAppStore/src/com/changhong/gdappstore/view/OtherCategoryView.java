@@ -1,5 +1,7 @@
 package com.changhong.gdappstore.view;
 
+import java.util.List;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
@@ -14,6 +16,7 @@ import android.widget.RelativeLayout;
 
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BasePageView;
+import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.util.DialogUtil;
 import com.changhong.gdappstore.util.NetworkUtils;
@@ -77,13 +80,29 @@ public class OtherCategoryView extends BasePageView implements OnFocusChangeList
 		iv_shandow3 = findView(R.id.iv_shandow3);
 		iv_shandow4 = findView(R.id.iv_shandow4);
 		iv_shandow5 = findView(R.id.iv_shandow5);
+
+		initItemTextViewBg();
 	}
+
+	private void initItemTextViewBg() {
+		int[] bgImgs = { R.drawable.img_mainapp_bg1, R.drawable.img_mainapp_bg2, R.drawable.img_mainapp_bg3,
+				R.drawable.img_mainapp_bg4, R.drawable.img_mainapp_bg5, R.drawable.img_mainapp_bg6 };
+		int pos = 0;
+		for (int i = 0; i < otcItemCount; i++) {
+			otcItemViews[i].setTextViewBackground(bgImgs[pos]);
+			pos++;
+			if (pos >= bgImgs.length) {
+				pos = 0;
+			}
+		}
+	}
+
 
 	public void initData(final Category category) {
 		if (category.getCategoyChildren() != null) {
 			int size = category.getCategoyChildren().size();
 			for (int i = 0; i < otcItemCount; i++) {
-				if (i < size) {//这里可以用i和size比较是因为这里的栏目里面没有序号信息，就挨着放就是
+				if (i < size) {// 这里可以用i和size比较是因为这里的栏目里面没有序号信息，就挨着放就是
 					final Category childCategory = category.getCategoyChildren().get(i);
 					otcItemViews[i].setCategoryData(childCategory, imageLoadingListener);
 					otcItemViews[i].setOnClickListener(new OnClickListener() {
@@ -111,7 +130,6 @@ public class OtherCategoryView extends BasePageView implements OnFocusChangeList
 
 			}
 		}
-		// setShandows();
 	}
 
 	@Override
@@ -120,10 +138,11 @@ public class OtherCategoryView extends BasePageView implements OnFocusChangeList
 		if (onClickListener != null) {
 			onClickListener.onClick(v);
 		}
-//		if (NetworkUtils.ISNET_CONNECT) {
-//		} else {
-//			DialogUtil.showLongToast(context, context.getResources().getString(R.string.net_disconnected_pleasecheck));
-//		}
+		// if (NetworkUtils.ISNET_CONNECT) {
+		// } else {
+		// DialogUtil.showLongToast(context,
+		// context.getResources().getString(R.string.net_disconnected_pleasecheck));
+		// }
 	}
 
 	/**
@@ -140,13 +159,13 @@ public class OtherCategoryView extends BasePageView implements OnFocusChangeList
 	}
 
 	public void setShandows() {
-		iv_shandow1.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(otcItemViews[1]),
+		iv_shandow1.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(otcItemViews[5]),
 				shandowProportion2));
-		iv_shandow2.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(otcItemViews[3]),
+		iv_shandow2.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(otcItemViews[6]),
 				shandowProportion2));
-		iv_shandow3.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(otcItemViews[5]),
+		iv_shandow3.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(otcItemViews[7]),
 				shandowProportion2));
-		iv_shandow4.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(otcItemViews[7]),
+		iv_shandow4.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(otcItemViews[8]),
 				shandowProportion2));
 		iv_shandow5.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(otcItemViews[9]),
 				shandowProportion2));
@@ -184,18 +203,10 @@ public class OtherCategoryView extends BasePageView implements OnFocusChangeList
 			tmplayout.topMargin = v.getTop();
 			tmplayout.width = v.getWidth();
 			tmplayout.height = v.getHeight();
-			if (viewId == R.id.othercat_item4 || viewId == R.id.othercat_item5 || viewId == R.id.othercat_item8
-					|| viewId == R.id.othercat_item9) {
-				mlayout.leftMargin = (int) (tmplayout.leftMargin + 2 - tmplayout.width * 0.1);
-				mlayout.topMargin = (int) (tmplayout.topMargin + 5 - tmplayout.height * 0.1);
-				mlayout.width = (int) (tmplayout.width + 8 + (tmplayout.width * 0.1));
-				mlayout.height = (int) (tmplayout.height + 7 + (tmplayout.height * 0.1));
-			} else {
-				mlayout.leftMargin = (int) (tmplayout.leftMargin + 14 - tmplayout.width * 0.1);
-				mlayout.topMargin = (int) (tmplayout.topMargin + 5 - tmplayout.height * 0.1);
-				mlayout.width = (int) (tmplayout.width + 0 + (tmplayout.width * 0.1));
-				mlayout.height = (int) (tmplayout.height + 7 + (tmplayout.height * 0.1));
-			}
+			mlayout.leftMargin = (int) (tmplayout.leftMargin + 14 - tmplayout.width * 0.1);
+			mlayout.topMargin = (int) (tmplayout.topMargin + 5 - tmplayout.height * 0.1);
+			mlayout.width = (int) (tmplayout.width + 0 + (tmplayout.width * 0.1));
+			mlayout.height = (int) (tmplayout.height + 7 + (tmplayout.height * 0.1));
 			ivFocues.setBackgroundResource(R.drawable.img_focues_mainpost);
 			ivFocues.setLayoutParams(mlayout);
 			ivFocues.setVisibility(View.VISIBLE);

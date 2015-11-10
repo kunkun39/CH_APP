@@ -68,6 +68,8 @@ public class DataCenter {
 	private static long lastRequestRankListTime = 0;
 	/** 上次请求分类下app列表时间 **/
 	private static Map<Integer, Long> lastRequestAppsByCategoryId = new HashMap<Integer, Long>();
+	/** 上次请求专题下app列表时间 **/
+	private static Map<Integer, Long> lastRequestAppsByTopicId = new HashMap<Integer, Long>();
 	/** 上次请求详情推荐列表时间 **/
 	private static Map<Integer, Long> lastRequestRecommendApps = new HashMap<Integer, Long>();
 
@@ -296,6 +298,50 @@ public class DataCenter {
 	}
 
 	/**
+	 * 请求某一专题下应用
+	 * 
+	 * @param context
+	 * @param topicId
+	 * @param loadAppListListener
+	 */
+	public void loadAppsByTopicId(final Context context, final int topicId, final LoadListListener loadAppListListener) {
+		if (Config.ISCACHEABLE && lastRequestAppsByTopicId.get(topicId) != null
+				&& (System.currentTimeMillis() - lastRequestAppsByTopicId.get(topicId)) < Config.REQUEST_RESTTIEM) {
+			String jsonString = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_TOPICAPPS + topicId);
+			if (!TextUtils.isEmpty(jsonString) && loadAppListListener != null) {
+				loadAppListListener.onComplete(Parse.parseCategoryApp(jsonString));
+				return;
+			}
+		}
+		new AsyncTask<Object, Object, Object>() {
+
+			@Override
+			protected Object doInBackground(Object... params) {
+				// 缓存中没有就去服务器请求
+				String url = Config.getTopicAppsUrl + "?topicId=" + topicId;
+				String jsonString = HttpRequestUtil
+						.getEntityString(HttpRequestUtil.doGetRequest(url, context), context);
+				if (!TextUtils.isEmpty(jsonString)) {
+					lastRequestAppsByTopicId.put(topicId, System.currentTimeMillis());
+					CacheManager.putJsonFileCache(context, CacheManager.KEYJSON_TOPICAPPS + topicId, jsonString);
+				} else {
+					jsonString = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_TOPICAPPS + topicId);
+				}
+				return Parse.parseCategoryApp(jsonString);
+			}
+
+			@Override
+			protected void onPostExecute(Object result) {
+				if (loadAppListListener != null) {
+					loadAppListListener.onComplete((List<Object>) result);
+				}
+				super.onPostExecute(result);
+			}
+
+		}.execute("");
+	}
+
+	/**
 	 * 请求应用详情
 	 * 
 	 * @param appId
@@ -438,7 +484,7 @@ public class DataCenter {
 	 * @param loadObjectListener
 	 */
 	public void postBackup(final String appIds, final Context context, final LoadObjectListener loadObjectListener) {
-		CacheManager.useCacheBackupedApps=false;
+		CacheManager.useCacheBackupedApps = false;
 		new AsyncTask<Object, Object, Object>() {
 
 			@Override
@@ -475,7 +521,7 @@ public class DataCenter {
 	 * @param loadObjectListener
 	 */
 	public void deleteBackup(final String appIds, final Context context, final LoadObjectListener loadObjectListener) {
-		CacheManager.useCacheBackupedApps=false;
+		CacheManager.useCacheBackupedApps = false;
 		new AsyncTask<Object, Object, Object>() {
 
 			@Override
@@ -505,16 +551,18 @@ public class DataCenter {
 
 	/**
 	 * 获取已备份应用信息
+	 * 
 	 * @param context
-	 * @param isUserCache 是否使用缓存数据。true时候使用缓存数据，缓存为空再请求。false直接请求
+	 * @param isUserCache
+	 *            是否使用缓存数据。true时候使用缓存数据，缓存为空再请求。false直接请求
 	 * @param loadObjectListener
 	 */
 	public void loadBackUpApps(final Context context, boolean isUserCache, final LoadObjectListener loadObjectListener) {
-		CacheManager.useCacheBackupedApps=true;
+		CacheManager.useCacheBackupedApps = true;
 		if (Config.ISCACHEABLE && isUserCache) {
 			String json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_BACKUPEDAPPS);
 			List<SynchApp> ids = Parse.parseGetBackUpApps(json);
-			if (loadObjectListener != null && ids!=null && ids.size()>0) {
+			if (loadObjectListener != null && ids != null && ids.size() > 0) {
 				loadObjectListener.onComplete(ids);
 				return;// 在一定的时间段内使用缓存数据不用重复请求服务器。
 			}
@@ -648,7 +696,7 @@ public class DataCenter {
 
 			@Override
 			public void run() {
-				L.d("submitAppDownloadOK id="+appId);
+				L.d("submitAppDownloadOK id=" + appId);
 				String url = Config.putAppDownloadOK + "?" + "appId=" + appId + "&boxMac="
 						+ MyApplication.getDeviceMac();
 				HttpRequestUtil.doGetRequest(url, context);
@@ -669,6 +717,7 @@ public class DataCenter {
 	public synchronized List<Category> getCategories() {
 		return categories;
 	}
+
 
 	/**
 	 * 根据栏目id获取栏目

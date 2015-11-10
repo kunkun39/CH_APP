@@ -31,6 +31,8 @@ public class Config {
 	public static String getPagesUrl = BASEURL + "client/boxpages.html";
 	/** 获取分类下app地址 **/
 	public static String getCategoryAppsUrl = BASEURL + "client/categoryapps.html";
+	/** 获取分类下app地址 **/
+	public static String getTopicAppsUrl = BASEURL + "client/topicapps.html";
 	/** 获取app详情地址 **/
 	public static String getAppDetailUrl = BASEURL + "client/appdetails.html";
 	/** 获取app排行榜地址 **/
@@ -76,8 +78,9 @@ public class Config {
 	/***************************** 网络请求配置项 ******************************************/
 	/**首页 在MyApplication里面初始化**/
 	public static String HOMEPAGE;
+	public static String ZHUANTI;
 	/** 在首页显示几个栏目的页面 **/
-	public static final int showCatPageSize = 4;
+	public static final int ID_ZHUANTI = -100;
 	/** 默认和apk一样的开机广告图片 */
 	public final static String INITIAL = "initial.png";
 	/** 广告图片地址获取key */

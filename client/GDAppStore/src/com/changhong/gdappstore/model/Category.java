@@ -9,7 +9,7 @@ import java.util.List;
  * @author wangxiufeng
  * 
  */
-public class Category {
+public class Category{
 	// 栏目id
 	protected int id;
 	// 栏目父栏目id
@@ -18,6 +18,8 @@ public class Category {
 	protected String name;
 	// 栏目图片地址
 	protected String iconFilePath;
+	//
+	protected boolean istopic=false;
 	// 栏目子栏目
 	protected List<Category> categoyChildren = new ArrayList<Category>();
 	// 栏目应用
@@ -42,13 +44,14 @@ public class Category {
 		this.iconFilePath = iconFilePath;
 	}
 
-	public Category(int id, int parentId, String name, String iconFilePath, List<Category> categoyChildren,
-			List<PageApp> categoryPageApps) {
+	public Category(int id, int parentId, String name, String iconFilePath, boolean istopic,
+			List<Category> categoyChildren, List<PageApp> categoryPageApps) {
 		super();
 		this.id = id;
 		this.parentId = parentId;
 		this.name = name;
 		this.iconFilePath = iconFilePath;
+		this.istopic = istopic;
 		this.categoyChildren = categoyChildren;
 		this.categoryPageApps = categoryPageApps;
 	}
@@ -100,11 +103,20 @@ public class Category {
 	public void setCategoryPageApps(List<PageApp> categoryPageApps) {
 		this.categoryPageApps = categoryPageApps;
 	}
+	
+	public boolean isIstopic() {
+		return istopic;
+	}
+
+	public void setIstopic(boolean istopic) {
+		this.istopic = istopic;
+	}
 
 	@Override
 	public String toString() {
 		return "Category [id=" + id + ", parentId=" + parentId + ", name=" + name + ", iconFilePath=" + iconFilePath
-				+ ", categoyChildren=" + categoyChildren + ", categoryPageApps=" + categoryPageApps + "]";
+				+ ", istopic=" + istopic + ", categoyChildren=" + categoyChildren + ", categoryPageApps="
+				+ categoryPageApps + "]";
 	}
-	
+
 }

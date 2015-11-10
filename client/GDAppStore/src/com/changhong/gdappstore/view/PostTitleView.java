@@ -12,6 +12,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseRelativeLayout;
 import com.changhong.gdappstore.model.Category;
@@ -94,16 +95,20 @@ public class PostTitleView extends BaseRelativeLayout {
 			initData(items);
 			return;
 		}
-		List<Category> totalCategories = new ArrayList<Category>();
-		Category parentCategory2 = new Category();
-		parentCategory2.setId(parentCategory.getId());
-		parentCategory2.setCategoyChildren(parentCategory.getCategoyChildren());
-		parentCategory2.setIconFilePath(parentCategory.getIconFilePath());
-		parentCategory2.setParentId(parentCategory.getParentId());
-		parentCategory2.setName("全部");
-		totalCategories.add(parentCategory2);
-		totalCategories.addAll(items);
-		initData(totalCategories);
+		if (parentCategory.getId() == Config.ID_ZHUANTI) {
+			initData(items);
+		} else {
+			List<Category> totalCategories = new ArrayList<Category>();
+			Category parentCategory2 = new Category();
+			parentCategory2.setId(parentCategory.getId());
+			parentCategory2.setCategoyChildren(parentCategory.getCategoyChildren());
+			parentCategory2.setIconFilePath(parentCategory.getIconFilePath());
+			parentCategory2.setParentId(parentCategory.getParentId());
+			parentCategory2.setName("全部");
+			totalCategories.add(parentCategory2);
+			totalCategories.addAll(items);
+			initData(totalCategories);
+		}
 	}
 
 	public void setMargin(int leftMargin, int rightMargin) {
