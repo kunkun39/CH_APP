@@ -24,9 +24,6 @@
     <string name="appstartfailed_pleasecheck">Launch failed</string>
 
     <!-- 搜索 -->
-    <string name="page">page</string>
-    <string name="thecurrentis">The current page is </string>
-    <string name="total">Total</string>
     <string name="search_tips">Search tips：</string>
     <!--  -->
     <string name="str_download">downloads：</string>

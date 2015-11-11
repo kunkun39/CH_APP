@@ -235,9 +235,7 @@ public class PostActivity extends BaseActivity {
 		@Override
 		public void changePage(Boolean isnext, int curpage, int totalpage) {
 			// 翻页回调
-			tv_page.setText(context.getString(R.string.thecurrentis) + (totalpage <= 0 ? 0 : curpage)
-					+ context.getString(R.string.page) + ";" + context.getString(R.string.total) + totalpage
-					+ context.getString(R.string.page));
+			tv_page.setText("("+curpage+"/"+totalpage+")");
 		}
 
 		@Override

@@ -24,9 +24,6 @@
     <string name="appstartfailed_pleasecheck">应用启动失败，请检查是否安装正常</string>
 
     <!-- 搜索 -->
-    <string name="page">页</string>
-    <string name="thecurrentis">当前是第</string>
-    <string name="total">共</string>
     <string name="search_tips">搜索小提示：</string>
     <!--  -->
     <string name="str_download">下载量：</string>

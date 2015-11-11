@@ -78,10 +78,10 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 
 		tv_batch_suggest = findView(R.id.tv_batch_suggest);
 		tv_batch_suggest.setText(context.getString(R.string.dobatchbyclickmenu));
-		
-		tv_pagename=findView(R.id.tv_pagename);
+
+		tv_pagename = findView(R.id.tv_pagename);
 		tv_pagename.setText(context.getString(R.string.manage));
-		
+
 		tv_num_checked = findView(R.id.tv_num_checked);
 		iv_batch_icon = findView(R.id.iv_batch_icon);
 		tv_ge = findView(R.id.tv_ge);
@@ -183,9 +183,7 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 	 */
 	private void refreshCheckedItemText() {
 		tv_num_checked.setVisibility(VISIBLE);
-		if (!Config.IS_ENGLISH_VERSION && MyApplication.IS_ZH_LANGUAGE) {
-			tv_ge.setVisibility(VISIBLE);
-		}
+		tv_ge.setVisibility(VISIBLE);
 		tv_num_checked.setText(curCheckedItem + "");
 	}
 
@@ -214,56 +212,57 @@ public class SynchManageActivity extends BaseActivity implements OnClickListener
 	 *            需要删除应用的id列表，中间用逗号隔开
 	 */
 	private void deleteBackUp(final String ids) {
-		DialogUtil.showMyAlertDialog(context, "", context.getString(R.string.sure_deletebackedapps), "", "", new DialogBtnOnClickListener() {
-
-			@Override
-			public void onSubmit(DialogMessage dialogMessage) {
-				showLoadingDialog();
-				DataCenter.getInstance().deleteBackup(ids, context, new LoadObjectListener() {
+		DialogUtil.showMyAlertDialog(context, "", context.getString(R.string.sure_deletebackedapps), "", "",
+				new DialogBtnOnClickListener() {
 
 					@Override
-					public void onComplete(Object object) {
-						List<Integer> successIds = (List<Integer>) object;
-						List<SynchApp> items = adapter.getItems();
-						if (successIds != null && items != null) {
-							for (int i = 0; i < items.size(); i++) {
-								for (int j = 0; j < successIds.size(); j++) {
-									if (items.get(i).getAppid() == successIds.get(j).intValue()) {
-										items.remove(i);
-										i--;
-										break;
+					public void onSubmit(DialogMessage dialogMessage) {
+						showLoadingDialog();
+						DataCenter.getInstance().deleteBackup(ids, context, new LoadObjectListener() {
+
+							@Override
+							public void onComplete(Object object) {
+								List<Integer> successIds = (List<Integer>) object;
+								List<SynchApp> items = adapter.getItems();
+								if (successIds != null && items != null) {
+									for (int i = 0; i < items.size(); i++) {
+										for (int j = 0; j < successIds.size(); j++) {
+											if (items.get(i).getAppid() == successIds.get(j).intValue()) {
+												items.remove(i);
+												i--;
+												break;
+											}
+										}
 									}
 								}
+								if (adapter.isBatch()) {
+									// 批量删除
+									bt_batch.setText(DOBATCH);
+									tv_batch_suggest.setText(context.getString(R.string.dobatchbyclickmenu));
+									iv_batch_icon.setVisibility(VISIBLE);
+									tv_num_checked.setVisibility(INVISIBLE);
+									tv_ge.setVisibility(INVISIBLE);
+									adapter.updateList(items, false);
+								} else {
+									// 普通删除
+									adapter.updateList(items);
+								}
+								refreshShandowVisible();
+								dismissLoadingDialog();
 							}
+						});
+						if (dialogMessage != null && dialogMessage.dialogInterface != null) {
+							dialogMessage.dialogInterface.dismiss();
 						}
-						if (adapter.isBatch()) {
-							// 批量删除
-							bt_batch.setText(DOBATCH);
-							tv_batch_suggest.setText(context.getString(R.string.dobatchbyclickmenu));
-							iv_batch_icon.setVisibility(VISIBLE);
-							tv_num_checked.setVisibility(INVISIBLE);
-							tv_ge.setVisibility(INVISIBLE);
-							adapter.updateList(items, false);
-						} else {
-							// 普通删除
-							adapter.updateList(items);
+					}
+
+					@Override
+					public void onCancel(DialogMessage dialogMessage) {
+						if (dialogMessage != null && dialogMessage.dialogInterface != null) {
+							dialogMessage.dialogInterface.dismiss();
 						}
-						refreshShandowVisible();
-						dismissLoadingDialog();
 					}
 				});
-				if (dialogMessage != null && dialogMessage.dialogInterface != null) {
-					dialogMessage.dialogInterface.dismiss();
-				}
-			}
-
-			@Override
-			public void onCancel(DialogMessage dialogMessage) {
-				if (dialogMessage != null && dialogMessage.dialogInterface != null) {
-					dialogMessage.dialogInterface.dismiss();
-				}
-			}
-		});
 
 	}
 

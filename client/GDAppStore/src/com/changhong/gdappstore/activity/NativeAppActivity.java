@@ -331,7 +331,8 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 							@Override
 							public void run() {
 								if (!Config.ISNORMAL_UNINSTALL) {
-									DialogUtil.showChildThreadToast(context.getString(R.string.uninstalling_background)+"...", context, true);
+									DialogUtil.showChildThreadToast(context.getString(R.string.uninstalling_background)
+											+ "...", context, true);
 								}
 								for (int i = 0; i < packages.size(); i++) {
 									if (Config.ISNORMAL_UNINSTALL) {
@@ -359,9 +360,7 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 	 */
 	private void refreshCheckedItemText() {
 		tv_num_checked.setVisibility(VISIBLE);
-		if (!Config.IS_ENGLISH_VERSION && MyApplication.IS_ZH_LANGUAGE) {
-			tv_ge.setVisibility(VISIBLE);
-		}
+		tv_ge.setVisibility(VISIBLE);
 		tv_num_checked.setText(curCheckedItem + "");
 	}
 
@@ -421,7 +420,8 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 			if (adapter.isBatch()) {
 				// 批量操作
 				if (nativeApp.appPackage.equals("com.changhong.gdappstore")) {
-					Toast.makeText(context, context.getString(R.string.cannot_uninstall_self), Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, context.getString(R.string.cannot_uninstall_self), Toast.LENGTH_SHORT)
+							.show();
 				} else {
 					curCheckedItem = nativeApp.isChecked() ? curCheckedItem - 1 : curCheckedItem + 1;
 					refreshCheckedItemText();

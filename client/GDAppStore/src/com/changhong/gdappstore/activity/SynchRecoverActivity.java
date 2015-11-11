@@ -215,9 +215,7 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 	 */
 	private void refreshCheckedItemText() {
 		tv_num_checked.setVisibility(VISIBLE);
-		if (!Config.IS_ENGLISH_VERSION && MyApplication.IS_ZH_LANGUAGE) {
-			tv_ge.setVisibility(VISIBLE);
-		}
+		tv_ge.setVisibility(VISIBLE);
 		tv_num_checked.setText(curCheckedItem + "");
 	}
 
@@ -292,13 +290,13 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 				downloadPDialog.show();
 				L.d("doDownLoad show downloadPDialog over ");
 			} else {
-				//如果在这里显示对话框的话，在这个情况下回崩溃：选择一个，然后再批量选几个，返回退出页面，再进入时候。
+				// 如果在这里显示对话框的话，在这个情况下回崩溃：选择一个，然后再批量选几个，返回退出页面，再进入时候。
 				L.d("doDownLoad not show context isFinishing");
 			}
 		}
 		downloadPDialog.setProgress(0);
 		downloadPDialog.setMax(0);
-		downloadPDialog.setMyTitle(context.getString(R.string.downloading)+"：" + app.getAppname());
+		downloadPDialog.setMyTitle(context.getString(R.string.downloading) + "：" + app.getAppname());
 
 		String apkLoadUrl = app.getApkFilePath();
 		final String apkname = apkLoadUrl.substring(apkLoadUrl.lastIndexOf("/") + 1, apkLoadUrl.length()).trim();
@@ -348,7 +346,7 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 
 					@Override
 					public void onFailure(HttpException paramHttpException, String msg) {
-						String downloadFailed=context.getString(R.string.downloadfailed);
+						String downloadFailed = context.getString(R.string.downloadfailed);
 						if (!NetworkUtils.ISNET_CONNECT) {
 							DialogUtil.showLongToast(context, context.getString(R.string.error_net_notconnect));
 						} else if (msg.contains("ConnectTimeoutException")) {
@@ -409,10 +407,10 @@ public class SynchRecoverActivity extends BaseActivity implements OnClickListene
 				doDownLoad();// 下载下一个
 				break;
 			case SHOW_INSTALL_SUCCESS:
-				DialogUtil.showLongToast(context, (String) msg.obj + " "+context.getString(R.string.install_success));
+				DialogUtil.showLongToast(context, (String) msg.obj + " " + context.getString(R.string.install_success));
 				break;
 			case SHOW_INSTALL_FAILED:
-				DialogUtil.showLongToast(context, (String) msg.obj + " "+context.getString(R.string.install_failed));
+				DialogUtil.showLongToast(context, (String) msg.obj + " " + context.getString(R.string.install_failed));
 				break;
 			case UPDATE_DIALOG_TITLE:
 				L.d("install settitle " + (String) msg.obj);
