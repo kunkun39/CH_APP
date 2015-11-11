@@ -35,7 +35,7 @@
     <string name="str_new">最新榜</string>
     <string name="str_hot">最热榜</string>
     <string name="str_surge">飙升榜</string>
-    <string name="tv_search_tishi">只要输入应用首字母即可\n比如应用商城输入：YYSC即可成功搜索</string>
+    <string name="tv_search_tishi">输入应用首字母或者拼音即可\n比如应用商城输入：YYSC或者YINGYONGSHANGCHENG即可成功搜索</string>
     <string name="tishi">提示：</string>
     <string name="sure">确认</string>
     <string name="sure_space">确    认</string>
@@ -56,7 +56,7 @@
     <string name="net_disconnect">网络已断开</string>
 
     <!-- 详情页面 -->
-    <string name="hasapp_isloading">有应用正在下载中，请稍等</string>
+    <string name="hasapp_isloading">有应用正在下载中，请稍后再试</string>
     <string name="sure_download_app">确认下载应用？</string>
     <string name="sure_update_app">确认更新应用？</string>
     <string name="downloading">正在下载</string>

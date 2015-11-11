@@ -110,8 +110,14 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 		String tishi = getResources().getString(R.string.tv_search_tishi);
 		SpannableStringBuilder style = new SpannableStringBuilder(tishi);
 		if (Config.IS_ENGLISH_VERSION || !MyApplication.IS_ZH_LANGUAGE) {
-			style.setSpan(new ForegroundColorSpan(Color.RED), 35, 44, Spannable.SPAN_EXCLUSIVE_INCLUSIVE); // 设置指定位置文字的背景颜色
-			style.setSpan(new ForegroundColorSpan(Color.RED), tishi.length()-2, tishi.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+			int appnamepos=tishi.indexOf("Google Play App");
+			style.setSpan(new ForegroundColorSpan(Color.RED), appnamepos, appnamepos+15, Spannable.SPAN_EXCLUSIVE_INCLUSIVE); // 设置指定位置文字的背景颜色
+			int search1=tishi.indexOf("google play");
+			style.setSpan(new ForegroundColorSpan(Color.RED), search1, search1+12, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+			int search2=tishi.indexOf("googleapp");
+			style.setSpan(new ForegroundColorSpan(Color.RED), search2, search2+10, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+			int search3=tishi.indexOf("GA");
+			style.setSpan(new ForegroundColorSpan(Color.RED), search3, search3+2, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
 		}else {
 			style.setSpan(new ForegroundColorSpan(Color.RED), 14, 18, Spannable.SPAN_EXCLUSIVE_INCLUSIVE); // 设置指定位置文字的背景颜色
 			style.setSpan(new ForegroundColorSpan(Color.RED), 21, 25, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);

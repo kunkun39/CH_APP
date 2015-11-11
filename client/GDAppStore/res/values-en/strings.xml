@@ -17,7 +17,7 @@
     <!-- 本地应用 -->
     <string name="uninstall_app">Uninstall</string>
     <string name="uninstall_commit">Confirm</string>
-    <string name="sure_uninstall_apps">Are you sure uninstall these apps</string>
+    <string name="sure_uninstall_apps">Do you want to uninstall these apps</string>
     <string name="uninstalling_background">Uninstalling in the background</string>
     <string name="cannot_uninstall_self">Can not uninstall yourself</string>
     <string name="app_started">This app already started</string>
@@ -35,7 +35,7 @@
     <string name="str_new">NEWEST</string>
     <string name="str_hot">HOTEST</string>
     <string name="str_surge">FASTEST-GROWING</string>
-    <string name="tv_search_tishi">Search by app Initials \n For example \'App Store\' search by：AS</string>
+    <string name="tv_search_tishi">You can search out apps by input full name or short name of app,\n such as below example: \n App Name: \"Google Play App\", you can input \"google play*\" or \"googleapp*\" or \"GA\" to find it out</string>
     <string name="tishi">Notice：</string>
     <string name="sure_space">Confirm</string>
     <string name="cancel">cancle</string>
@@ -55,9 +55,9 @@
     <string name="net_disconnect">Network disconnected</string>
 
     <!-- 详情页面 -->
-    <string name="hasapp_isloading">Some app is downloading, please wait...</string>
-    <string name="sure_download_app">Are you sure download this app?</string>
-    <string name="sure_update_app">Are you sure update this app?</string>
+    <string name="hasapp_isloading">You already start one download, please try later</string>
+    <string name="sure_download_app">Do you want to download this app?</string>
+    <string name="sure_update_app">Do you want to update this app?</string>
     <string name="downloading">downloading</string>
     <string name="downloadfailed">download failed</string>
     <string name="downloadover">Download completed</string>
@@ -72,24 +72,24 @@
     <string name="description">App description：</string>
     <string name="similar_apps">Similar apps：</string>
     <string name="uninstall_apps">uninstall</string>
-    <string name="ge">个</string>
+    <string name="ge"></string>
     <!-- 云同步功能 -->
     <string name="backup">backup</string>
     <string name="recovery">recovery</string>
     <string name="manage">manage</string>
-    <string name="batch_backup">Batch backup</string>
+    <string name="batch_backup">Bulk backup</string>
     <string name="confirm_backup">Confirm Backup</string>
-    <string name="batch_recovery">Batch recovery</string>
+    <string name="batch_recovery">Bulk recovery</string>
     <string name="confirm_recover">Confirm recovery</string>
-    <string name="batch_delete">Batch delete</string>
+    <string name="batch_delete">Bulk delete</string>
     <string name="confirm_delete">Confirm delete</string>
     <string name="post_nativeapps">Upload installed apps to cloud</string>
-    <string name="recover_serverapps">Recovery cloud apps to TV</string>
+    <string name="recover_serverapps">Restore app from cloud</string>
     <string name="manage_serverapps">Manage apps on the cloud</string>
     <string name="selected">selected</string>
     <string name="noapps_cando">There is no app can do</string>
     <string name="dobatchbyclickmenu">Batch operation by press menu key</string>
-    <string name="sure_deletebackedapps">Are you sure to delete these apps?</string>
+    <string name="sure_deletebackedapps">Do you want to delete these apps?</string>
     <string name="app_already_indownloadlist">This app is already in download list</string>
     <string name="addin_downloadlist_success">Add to download list success</string>
 
