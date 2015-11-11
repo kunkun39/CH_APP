@@ -109,7 +109,7 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 		tv_search_tishi = findView(R.id.tv_search_tishi);
 		String tishi = getResources().getString(R.string.tv_search_tishi);
 		SpannableStringBuilder style = new SpannableStringBuilder(tishi);
-		if (Config.IS_ENGLISH_VERSION || !MyApplication.IS_ZH_LANGUAGE) {
+		if (Config.IS_ENGLISH_VERSION && !MyApplication.IS_ZH_LANGUAGE) {
 			int appnamepos = tishi.indexOf("Google Play App");
 			style.setSpan(new ForegroundColorSpan(Color.RED), appnamepos, appnamepos + 15,
 					Spannable.SPAN_EXCLUSIVE_INCLUSIVE); // 设置指定位置文字的背景颜色
