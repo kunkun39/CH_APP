@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.changhong.gdappstore.Config;
+import com.changhong.gdappstore.MyApplication;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.adapter.NativeAppGridAdapter;
 import com.changhong.gdappstore.base.BaseActivity;
@@ -358,7 +359,7 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 	 */
 	private void refreshCheckedItemText() {
 		tv_num_checked.setVisibility(VISIBLE);
-		if (!Config.IS_ENGLISH) {
+		if (!Config.IS_ENGLISH_VERSION || MyApplication.IS_ZH_LANGUAGE) {
 			tv_ge.setVisibility(VISIBLE);
 		}
 		tv_num_checked.setText(curCheckedItem + "");

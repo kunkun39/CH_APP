@@ -13,7 +13,6 @@ import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
 import com.nostra13.universalimageloader.cache.disc.DiskCache;
 import com.nostra13.universalimageloader.cache.disc.impl.LimitedAgeDiskCache;
-import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -54,6 +53,8 @@ public class MyApplication extends Application {
 	public static String UPDATE_APKURL = "";
 	/** 应用商城apk是否许可 */
 	public static boolean UPDATE_ENABLE =true;
+	/** 是否是中文语言 */
+	public static boolean IS_ZH_LANGUAGE =true;
 	
 	private Context context;
 
@@ -68,6 +69,7 @@ public class MyApplication extends Application {
 		deviceMac = DeviceInfo.DeviceMac;
 		L.d("devicemac--" + deviceMac + "  netconnect " + NetworkUtils.ISNET_CONNECT);
 		initStrings();
+		IS_ZH_LANGUAGE=Util.getLanguageIsZH(context);
 	}
 
 	/**

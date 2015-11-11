@@ -3,6 +3,7 @@ package com.changhong.gdappstore.util;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 import android.app.ActivityManager;
@@ -25,6 +26,7 @@ import android.view.View;
 import android.view.View.MeasureSpec;
 import android.widget.Toast;
 
+import com.changhong.gdappstore.MyApplication;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.model.NativeApp;
 
@@ -222,7 +224,7 @@ public class Util {
 	 * @return String
 	 */
 	public static String intToStr(int num) {
-		if (com.changhong.gdappstore.Config.IS_ENGLISH) {
+		if (com.changhong.gdappstore.Config.IS_ENGLISH_VERSION ||!MyApplication.IS_ZH_LANGUAGE) {
 			if (num < 1000) {
 				// 1000以下直接返回
 				return num + "";
@@ -254,6 +256,16 @@ public class Util {
 			}
 		}
 	}
+	
+	public static boolean getLanguageIsZH(Context context) {
+        Locale locale = context.getResources().getConfiguration().locale;
+        String language = locale.getLanguage();
+        L.d("language is "+ language);
+        if (language.contains("zh"))
+            return true;
+        else
+            return false;
+    }
 
 	/**
 	 * 判断list是否为空

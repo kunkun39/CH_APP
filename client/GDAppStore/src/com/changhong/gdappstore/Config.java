@@ -17,8 +17,8 @@ public class Config {
 	/** 是否采用系统自带卸载工具，true为用系统自带卸载，false为静默卸载 */
 	public static final boolean ISNORMAL_UNINSTALL = false;
 	
-	/** 是否为英文版本，true是，false不是*/
-	public static final boolean IS_ENGLISH = false;
+	/**是否定死为英文版本*/
+	public static final boolean IS_ENGLISH_VERSION = false;
 	
 	/** 请求暂停时间，在这个时间内不能连续请求 */
 	public static final int REQUEST_RESTTIEM = 3 * 60 * 1000;
