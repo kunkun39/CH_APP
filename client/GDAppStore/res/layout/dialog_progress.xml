@@ -102,7 +102,7 @@
 
         <com.changhong.gdappstore.view.TextImageButton
             android:id="@+id/bt_loadbackground"
-            android:layout_width="@dimen/dialog_btn_width"
+            android:layout_width="@dimen/dialog_progress_btn_width"
             android:layout_height="@dimen/dialog_btn_height"
             android:background="@drawable/selector_textbtnfocues"
             android:focusable="true"

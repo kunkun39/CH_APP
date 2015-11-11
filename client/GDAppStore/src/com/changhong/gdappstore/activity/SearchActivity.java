@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.changhong.gdappstore.Config;
+import com.changhong.gdappstore.MyApplication;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseActivity;
 import com.changhong.gdappstore.datacenter.DataCenter;
@@ -108,8 +109,13 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 		tv_search_tishi = findView(R.id.tv_search_tishi);
 		String tishi = getResources().getString(R.string.tv_search_tishi);
 		SpannableStringBuilder style = new SpannableStringBuilder(tishi);
-		style.setSpan(new ForegroundColorSpan(Color.RED), 14, 18, Spannable.SPAN_EXCLUSIVE_INCLUSIVE); // 设置指定位置文字的背景颜色
-		style.setSpan(new ForegroundColorSpan(Color.RED), 21, 25, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+		if (Config.IS_ENGLISH_VERSION || !MyApplication.IS_ZH_LANGUAGE) {
+			style.setSpan(new ForegroundColorSpan(Color.RED), 35, 44, Spannable.SPAN_EXCLUSIVE_INCLUSIVE); // 设置指定位置文字的背景颜色
+			style.setSpan(new ForegroundColorSpan(Color.RED), tishi.length()-2, tishi.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+		}else {
+			style.setSpan(new ForegroundColorSpan(Color.RED), 14, 18, Spannable.SPAN_EXCLUSIVE_INCLUSIVE); // 设置指定位置文字的背景颜色
+			style.setSpan(new ForegroundColorSpan(Color.RED), 21, 25, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+		}
 		tv_search_tishi.setText(style);
 
 		bt_backone.setOnClickListener(this);
