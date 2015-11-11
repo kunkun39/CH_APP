@@ -25,6 +25,10 @@
 
     <!-- 搜索 -->
     <string name="search_tips">搜索小提示：</string>
+    <string name="searched">搜索到</string>
+    <string name="hotapps">热门应用</string>
+    <string name="app">应用</string>
+    <string name="apps">应用</string>
     <!--  -->
     <string name="str_download">下载量：</string>
     <string name="net_disconnected_pleasecheck">网络已断开，请检查网络链接状态！</string>

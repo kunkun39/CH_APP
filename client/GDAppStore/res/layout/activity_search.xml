@@ -36,7 +36,7 @@
         android:background="@color/transparent"
         android:drawableBottom="@drawable/img_inputline"
         android:drawableRight="@drawable/img_search"
-        android:hint="支持首字母搜索"
+        android:hint=""
         android:padding="3dp"
         android:singleLine="true"
         android:textColor="@color/white"
@@ -372,7 +372,7 @@
             android:layout_alignLeft="@id/tv_search_tishi_title"
             android:layout_below="@id/tv_search_tishi"
             android:layout_marginTop="20dp"
-            android:text="大家都在搜"
+            android:text="@string/hotapps"
             android:textColor="@color/white"
             android:textSize="22sp" />
 
@@ -382,7 +382,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@id/tv_everybody_search"
-            android:text="当前搜索结果0个"
+            android:text=""
             android:textColor="@color/white"
             android:textSize="18sp"
             android:visibility="invisible" />

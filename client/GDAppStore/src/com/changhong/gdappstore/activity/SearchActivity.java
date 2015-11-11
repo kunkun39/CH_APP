@@ -110,15 +110,16 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 		String tishi = getResources().getString(R.string.tv_search_tishi);
 		SpannableStringBuilder style = new SpannableStringBuilder(tishi);
 		if (Config.IS_ENGLISH_VERSION || !MyApplication.IS_ZH_LANGUAGE) {
-			int appnamepos=tishi.indexOf("Google Play App");
-			style.setSpan(new ForegroundColorSpan(Color.RED), appnamepos, appnamepos+15, Spannable.SPAN_EXCLUSIVE_INCLUSIVE); // 设置指定位置文字的背景颜色
-			int search1=tishi.indexOf("google play");
-			style.setSpan(new ForegroundColorSpan(Color.RED), search1, search1+12, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-			int search2=tishi.indexOf("googleapp");
-			style.setSpan(new ForegroundColorSpan(Color.RED), search2, search2+10, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-			int search3=tishi.indexOf("GA");
-			style.setSpan(new ForegroundColorSpan(Color.RED), search3, search3+2, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-		}else {
+			int appnamepos = tishi.indexOf("Google Play App");
+			style.setSpan(new ForegroundColorSpan(Color.RED), appnamepos, appnamepos + 15,
+					Spannable.SPAN_EXCLUSIVE_INCLUSIVE); // 设置指定位置文字的背景颜色
+			int search1 = tishi.indexOf("google play");
+			style.setSpan(new ForegroundColorSpan(Color.RED), search1, search1 + 12, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+			int search2 = tishi.indexOf("googleapp");
+			style.setSpan(new ForegroundColorSpan(Color.RED), search2, search2 + 10, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+			int search3 = tishi.indexOf("GA");
+			style.setSpan(new ForegroundColorSpan(Color.RED), search3, search3 + 2, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+		} else {
 			style.setSpan(new ForegroundColorSpan(Color.RED), 14, 18, Spannable.SPAN_EXCLUSIVE_INCLUSIVE); // 设置指定位置文字的背景颜色
 			style.setSpan(new ForegroundColorSpan(Color.RED), 21, 25, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
 		}
@@ -290,7 +291,7 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 							}
 							cacheMap.put(s.toString(), items);
 						}
-					},context);
+					}, context);
 				}
 			}
 		}
@@ -348,10 +349,12 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 			tv_searchresult.setVisibility(VISIBLE);
 			findViewById(R.id.tv_everybody_search).setVisibility(INVISIBLE);
 			int datasize = searchList.size();
-			if (datasize > 0) {
-				tv_searchresult.setText("当前搜索结果有：" + searchList.size() + " 个应用。");
+			if (datasize > 1) {
+				tv_searchresult.setText(context.getString(R.string.searched) + " " + searchList.size() + " "
+						+ context.getString(R.string.apps));
 			} else {
-				tv_searchresult.setText("没有搜索到：“" + editText.getText().toString().trim() + "”相关应用，请重新输入搜索信息！");
+				tv_searchresult.setText(context.getString(R.string.searched) + " " + searchList.size() + " "
+						+ context.getString(R.string.app));
 			}
 
 		}
