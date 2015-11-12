@@ -32,7 +32,7 @@
             <TextView
                 android:id="@+id/tv_topic_name"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="51dp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:background="@color/otc_blue"
@@ -45,7 +45,7 @@
                 android:singleLine="true"
                 android:text=""
                 android:textColor="@color/white"
-                android:textSize="22sp" />
+                android:textSize="20sp" />
         </RelativeLayout>
     </RelativeLayout>
 

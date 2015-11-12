@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -22,7 +21,6 @@ import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BasePageView;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.util.ImageLoadUtil;
-import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.Util;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
@@ -128,6 +126,9 @@ public class TopicView extends BasePageView implements OnFocusChangeListener {
 
 	private void setChildData(List<Category> childrens) {
 		int childrenSize = childrens.size();
+		int[] tv_bgs = { R.color.otc_blue, R.color.otc_green, R.color.otc_lightred, R.color.otc_orange,
+				R.color.otc_purple, R.color.otc_yellow };
+		int bgpos = 0;
 		for (int i = 0; i < rl_topics.getChildCount(); i++) {
 			if (i >= childrenSize) {
 				return;
@@ -142,6 +143,11 @@ public class TopicView extends BasePageView implements OnFocusChangeListener {
 			final ImageView iv_shandow = (ImageView) view.findViewById(R.id.iv_topic_shandow);
 			final RelativeLayout rl_contentin = (RelativeLayout) view.findViewById(R.id.rl_topiccontentin);
 			tv_name.setText(TextUtils.isEmpty(category.getName()) ? "" : category.getName());
+			if (bgpos >= tv_bgs.length) {
+				bgpos = 0;
+			}
+			tv_name.setBackgroundColor(context.getResources().getColor(tv_bgs[bgpos]));
+			bgpos++;
 			view.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -246,13 +252,16 @@ public class TopicView extends BasePageView implements OnFocusChangeListener {
 		}
 		RelativeLayout rl_content = (RelativeLayout) v.findViewById(R.id.rl_topiccontent);
 		RelativeLayout rl_contentin = (RelativeLayout) v.findViewById(R.id.rl_topiccontentin);
+		TextView tv_name=(TextView)v.findViewById(R.id.tv_topic_name);
 		rl_content.setBackgroundColor(Color.TRANSPARENT);
 		if (hasFocus) {
+			tv_name.setSelected(true);
 			currentFocuesId = v.getId();
 			rl_contentin.setBackgroundResource(R.drawable.img_focues_mainpost);
 			rl_content.startAnimation(animationbig);
 			v.bringToFront();
 		} else {
+			tv_name.setSelected(false);
 			rl_contentin.setBackgroundColor(Color.TRANSPARENT);
 			rl_content.startAnimation(animationsmall);
 			rl_content.clearAnimation();

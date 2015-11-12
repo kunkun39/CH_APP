@@ -36,7 +36,7 @@
     <string name="str_new">NEWEST</string>
     <string name="str_hot">HOTEST</string>
     <string name="str_surge">FASTEST-GROWING</string>
-    <string name="tv_search_tishi">You can search out apps by input full name or short name of app,\n such as below example: \n App Name: \"Google Play App\", you can input \"google play*\" or \"googleapp*\" or \"GA\" to find it out</string>
+    <string name="tv_search_tishi">You can search out apps by input full name or short name of app.\n For example: \n App Name: \"Google Play App\", you can input \"google play*\" or \"googleapp*\" or \"GA\" to find it out</string>
     <string name="tishi">Notice：&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</string>
     <string name="sure_space">Confirm</string>
     <string name="cancel">cancle</string>
@@ -75,9 +75,9 @@
     <string name="uninstall_apps">uninstall</string>
     <string name="ge"></string>
     <!-- 云同步功能 -->
-    <string name="backup">backup</string>
-    <string name="recovery">recovery</string>
-    <string name="manage">manage</string>
+    <string name="backup">Backup</string>
+    <string name="recovery">Recovery</string>
+    <string name="manage">Manage</string>
     <string name="batch_backup">Bulk backup</string>
     <string name="confirm_backup">Confirm Backup</string>
     <string name="batch_recovery">Bulk recovery</string>
