@@ -147,6 +147,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 				if (appDetail != null) {
 					scoreview.setScoreBy10Total(appDetail.getScores());
 					tv_appname.setText(appDetail.getAppname());
+					tv_appname.setSelected(true);
 					tv_downloadcount.setText(Util.intToStr(Integer.parseInt(appDetail.getDownload())));
 					detailLoadCount = Integer.parseInt(appDetail.getDownload());
 					tv_size.setText(TextUtils.isEmpty(appDetail.getApkSize()) ? "" : appDetail.getApkSize() + " M");
@@ -383,10 +384,10 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 				updateBtnState();
 				break;
 			case SHOW_INSTALL_SUCCESS:
-				DialogUtil.showLongToast(context, (String) msg.obj + context.getString(R.string.install_success));
+				DialogUtil.showLongToast(context, (String) msg.obj + " " + context.getString(R.string.install_success));
 				break;
 			case SHOW_INSTALL_FAILED:
-				DialogUtil.showLongToast(context, (String) msg.obj + context.getString(R.string.install_failed));
+				DialogUtil.showLongToast(context, (String) msg.obj + " " + context.getString(R.string.install_failed));
 				break;
 			case UPDATE_DIALOG_TITLE:
 				L.d("install settitle " + (String) msg.obj);

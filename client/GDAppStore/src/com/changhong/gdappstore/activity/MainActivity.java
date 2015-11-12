@@ -344,6 +344,9 @@ public class MainActivity extends BaseActivity {
 			if (categories.get(position).getName().equals(Config.HOMEPAGE)) {
 				return;
 			}
+			if (categories.get(position).getName().equals(Config.ZHUANTI)) {
+				return;
+			}
 			Intent intent = new Intent(context, PostActivity.class);
 			intent.putExtra(Config.KEY_PARENT_CATEGORYID, categories.get(position).getId());
 			intent.putExtra(Config.KEY_CURRENT_CATEGORYID, categories.get(position).getId());

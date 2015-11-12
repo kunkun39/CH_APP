@@ -16,6 +16,7 @@ import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BasePageView;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.util.DialogUtil;
+import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
@@ -37,15 +38,11 @@ public class OtherCategoryView extends BasePageView implements OnFocusChangeList
 	/** 应用推荐位ID */
 	private int[] otcItemIds = { R.id.othercat_item1, R.id.othercat_item2, R.id.othercat_item3, R.id.othercat_item4,
 			R.id.othercat_item5, R.id.othercat_item6, R.id.othercat_item7, R.id.othercat_item8, R.id.othercat_item9,
-			R.id.othercat_item10, R.id.othercat_item11, R.id.othercat_item12, R.id.othercat_item13,
-			R.id.othercat_item14, R.id.othercat_item15, R.id.othercat_item16, R.id.othercat_item17,
-			R.id.othercat_item18, R.id.othercat_item19, R.id.othercat_item20 };
+			R.id.othercat_item10 };
 	/** 应用推荐位个数 */
-	private int otcItemCount = 20;
+	private int otcItemCount = 10;
 	/** 应用推荐位view */
 	private OtherCategoryItemView[] otcItemViews = new OtherCategoryItemView[otcItemCount];
-	
-	RelativeLayout.LayoutParams tmplayout_righttop, tmplayout_rightbottom;
 
 	public OtherCategoryView(Context context) {
 		super(context);
@@ -80,33 +77,14 @@ public class OtherCategoryView extends BasePageView implements OnFocusChangeList
 		iv_shandow3 = findView(R.id.iv_shandow3);
 		iv_shandow4 = findView(R.id.iv_shandow4);
 		iv_shandow5 = findView(R.id.iv_shandow5);
-		
-		tmplayout_righttop=getFocuesLayoutParams(otcItemViews[8]);
-		tmplayout_rightbottom=getFocuesLayoutParams(otcItemViews[9]);
-
-		initItemTextViewBg();
-	}
-
-	private void initItemTextViewBg() {
-		int[] bgImgs = { R.color.otc_blue, R.color.otc_green, R.color.otc_lightred, R.color.otc_purple,
-				R.color.otc_yellow, R.color.otc_orange };
-		int pos = 0;
-		for (int i = 0; i < otcItemCount; i++) {
-			otcItemViews[i].setTextViewBGColor(bgImgs[pos]);
-			pos++;
-			if (pos >= bgImgs.length) {
-				pos = 0;
-			}
-		}
 	}
 
 	public void initData(final Category category) {
 		if (category.getCategoyChildren() != null) {
 			int size = category.getCategoyChildren().size();
 			for (int i = 0; i < otcItemCount; i++) {
-				if (i < size) {// 这里可以用i和size比较是因为这里的栏目里面没有序号信息，就挨着放就是
+				if (i < size) {//这里可以用i和size比较是因为这里的栏目里面没有序号信息，就挨着放就是
 					final Category childCategory = category.getCategoyChildren().get(i);
-					otcItemViews[i].setVisibility(VISIBLE);
 					otcItemViews[i].setCategoryData(childCategory, imageLoadingListener);
 					otcItemViews[i].setOnClickListener(new OnClickListener() {
 
@@ -119,11 +97,21 @@ public class OtherCategoryView extends BasePageView implements OnFocusChangeList
 						}
 					});
 				} else {
-					otcItemViews[i].setVisibility(GONE);
+					otcItemViews[i].setOnClickListener(new OnClickListener() {
+
+						@Override
+						public void onClick(View v) {
+							if (onClickListener != null) {
+								onClickListener.onClick(v);
+							}
+							DialogUtil.showShortToast(context, context.getResources().getString(R.string.weipeizhi));
+						}
+					});
 				}
 
 			}
 		}
+		// setShandows();
 	}
 
 	@Override
@@ -132,11 +120,10 @@ public class OtherCategoryView extends BasePageView implements OnFocusChangeList
 		if (onClickListener != null) {
 			onClickListener.onClick(v);
 		}
-		// if (NetworkUtils.ISNET_CONNECT) {
-		// } else {
-		// DialogUtil.showLongToast(context,
-		// context.getResources().getString(R.string.net_disconnected_pleasecheck));
-		// }
+//		if (NetworkUtils.ISNET_CONNECT) {
+//		} else {
+//			DialogUtil.showLongToast(context, context.getResources().getString(R.string.net_disconnected_pleasecheck));
+//		}
 	}
 
 	/**
@@ -153,13 +140,13 @@ public class OtherCategoryView extends BasePageView implements OnFocusChangeList
 	}
 
 	public void setShandows() {
-		iv_shandow1.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(otcItemViews[5]),
+		iv_shandow1.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(otcItemViews[1]),
 				shandowProportion2));
-		iv_shandow2.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(otcItemViews[6]),
+		iv_shandow2.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(otcItemViews[3]),
 				shandowProportion2));
-		iv_shandow3.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(otcItemViews[7]),
+		iv_shandow3.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(otcItemViews[5]),
 				shandowProportion2));
-		iv_shandow4.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(otcItemViews[8]),
+		iv_shandow4.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(otcItemViews[7]),
 				shandowProportion2));
 		iv_shandow5.setImageBitmap(Util.createImages(context, Util.convertViewToBitmap(otcItemViews[9]),
 				shandowProportion2));
@@ -188,14 +175,26 @@ public class OtherCategoryView extends BasePageView implements OnFocusChangeList
 		if (hasFocus) {
 			int viewId = v.getId();
 			currentFocuesId = viewId;
-			RelativeLayout.LayoutParams mlayout;
-			
-			if (isRightUp(viewId)) {
-				mlayout=tmplayout_righttop;
-			}else if (isRightDown(viewId)) {
-				mlayout=tmplayout_rightbottom;
-			}else {
-				mlayout = getFocuesLayoutParams(v);
+			RelativeLayout.LayoutParams mlayout = new RelativeLayout.LayoutParams(100, 100);
+			// RelativeLayout.LayoutParams tmplayout = (LayoutParams) v
+			// .getLayoutParams();
+			RelativeLayout.LayoutParams tmplayout = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+					LayoutParams.WRAP_CONTENT);
+			tmplayout.leftMargin = v.getLeft();
+			tmplayout.topMargin = v.getTop();
+			tmplayout.width = v.getWidth();
+			tmplayout.height = v.getHeight();
+			if (viewId == R.id.othercat_item4 || viewId == R.id.othercat_item5 || viewId == R.id.othercat_item8
+					|| viewId == R.id.othercat_item9) {
+				mlayout.leftMargin = (int) (tmplayout.leftMargin + 2 - tmplayout.width * 0.1);
+				mlayout.topMargin = (int) (tmplayout.topMargin + 5 - tmplayout.height * 0.1);
+				mlayout.width = (int) (tmplayout.width + 8 + (tmplayout.width * 0.1));
+				mlayout.height = (int) (tmplayout.height + 7 + (tmplayout.height * 0.1));
+			} else {
+				mlayout.leftMargin = (int) (tmplayout.leftMargin + 14 - tmplayout.width * 0.1);
+				mlayout.topMargin = (int) (tmplayout.topMargin + 5 - tmplayout.height * 0.1);
+				mlayout.width = (int) (tmplayout.width + 0 + (tmplayout.width * 0.1));
+				mlayout.height = (int) (tmplayout.height + 7 + (tmplayout.height * 0.1));
 			}
 			ivFocues.setBackgroundResource(R.drawable.img_focues_mainpost);
 			ivFocues.setLayoutParams(mlayout);
@@ -213,43 +212,6 @@ public class OtherCategoryView extends BasePageView implements OnFocusChangeList
 			ivFocues.setVisibility(View.INVISIBLE);
 		}
 		((OtherCategoryItemView) v).setItemSelected(hasFocus);
-	}
-
-	private boolean isRightUp(int id) {
-		int[] rightids = { R.id.othercat_item11, R.id.othercat_item13, R.id.othercat_item15, R.id.othercat_item17,
-				R.id.othercat_item19 };
-		for (int i = 0; i < rightids.length; i++) {
-			if (rightids[i] == id) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private boolean isRightDown(int id) {
-		int[] rightids = { R.id.othercat_item12, R.id.othercat_item14, R.id.othercat_item16, R.id.othercat_item18,
-				R.id.othercat_item20 };
-		for (int i = 0; i < rightids.length; i++) {
-			if (rightids[i] == id) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	private RelativeLayout.LayoutParams getFocuesLayoutParams(View view) {
-		RelativeLayout.LayoutParams mlayout = new RelativeLayout.LayoutParams(100, 100);
-		RelativeLayout.LayoutParams tmplayout = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
-		tmplayout.leftMargin = view.getLeft();
-		tmplayout.topMargin = view.getTop();
-		tmplayout.width = view.getWidth();
-		tmplayout.height = view.getHeight();
-		mlayout.leftMargin = (int) (tmplayout.leftMargin + 14 - tmplayout.width * 0.1);
-		mlayout.topMargin = (int) (tmplayout.topMargin + 5 - tmplayout.height * 0.1);
-		mlayout.width = (int) (tmplayout.width + 0 + (tmplayout.width * 0.1));
-		mlayout.height = (int) (tmplayout.height + 7 + (tmplayout.height * 0.1));
-		return mlayout;
 	}
 
 	private ImageLoadingListener imageLoadingListener = new ImageLoadingListener() {

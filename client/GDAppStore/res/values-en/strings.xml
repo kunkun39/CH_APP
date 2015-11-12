@@ -2,7 +2,7 @@
 
     <string name="app_name">ChangHong AppCenter</string>
     <!-- 主页 -->
-    <string name="homepage">Home</string>
+    <string name="homepage">Dashboard</string>
     <string name="zhuanti">Topic</string>
     <string name="all">ALL</string>
     <string name="sure_exit_appstore">Confirm exit?</string>
@@ -10,9 +10,9 @@
     <string name="update_now">Update now</string>
     <string name="update_nexttime">Not now</string>
     <string name="search">Search</string>
-    <string name="rank_list">Ranking list </string>
-    <string name="nativeapp">My apps</string>
-    <string name="yuntongbu">CloudSync</string>
+    <string name="rank_list">Ranking List </string>
+    <string name="nativeapp">App Native</string>
+    <string name="yuntongbu">Cloud Service</string>
 
     <!-- 本地应用 -->
     <string name="uninstall_app">Uninstall</string>
@@ -63,13 +63,13 @@
     <string name="downloadfailed">download failed</string>
     <string name="downloadover">Download completed</string>
     <string name="downloadover_installing">Download completed,installing...</string>
-    <string name="install_success">install success</string>
-    <string name="install_failed">install failed</string>
+    <string name="install_success"> install success</string>
+    <string name="install_failed"> install failed</string>
     <string name="appisundershelf">No stock</string>
-    <string name="downloads">downloads：</string>
-    <string name="version">version：</string>
-    <string name="updatetime">update time：</string>
-    <string name="size">size：</string>
+    <string name="downloads">Downloads：</string>
+    <string name="version">Version：</string>
+    <string name="updatetime">Update Time：</string>
+    <string name="size">Size：</string>
     <string name="description">App description：</string>
     <string name="similar_apps">Similar apps：</string>
     <string name="uninstall_apps">uninstall</string>

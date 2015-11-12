@@ -175,15 +175,16 @@ public class PostActivity extends BaseActivity {
 			dataCenter.loadAppsByCategoryId(context, currentCategoryId, loadAppListListener);
 		} else {
 			tv_name.setText(context.getString(R.string.zhuanti));
-			if (parentCategory != null) {
-				titleView.initData(parentCategory, parentCategory.getCategoyChildren());
-				for (int i = 0; i < parentCategory.getCategoyChildren().size(); i++) {
-					if (parentCategory.getCategoyChildren().get(i).getId() == currentCategoryId) {
-						titleView.setFocusItem(i);// 选中当前item
-						titleView.setSelectedItem(i);
-					}
-				}
-			}
+//			if (parentCategory != null) {
+//				titleView.initData(parentCategory, parentCategory.getCategoyChildren());
+//				for (int i = 0; i < parentCategory.getCategoyChildren().size(); i++) {
+//					if (parentCategory.getCategoyChildren().get(i).getId() == currentCategoryId) {
+//						titleView.setFocusItem(i);// 选中当前item
+//						titleView.setSelectedItem(i);
+//					}
+//				}
+//			}
+			titleView.setVisibility(INVISIBLE);
 			dataCenter.loadAppsByTopicId(context, currentCategoryId, loadAppListListener);
 		}
 	}
