@@ -97,7 +97,7 @@
             android:layout_centerHorizontal="true"
             android:background="@drawable/selector_square_focues"
             android:gravity="center"
-            android:text="@string/uninstall_apps"
+            android:text="@string/uninstall_app"
             android:textColor="@color/white"
             android:textSize="28dp" />
     </RelativeLayout>

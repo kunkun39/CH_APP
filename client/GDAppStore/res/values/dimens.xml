@@ -4,6 +4,8 @@
     <!-- 标题 -->
     <dimen name="ll_title_height">69dp</dimen>
     <dimen name="iv_logo_marginleft">30dp</dimen>
+    <dimen name="tv_logo_textsize">22sp</dimen>
+    <dimen name="tv_logo_marginleft">10dp</dimen>
 
     <!-- 一级页面推荐位 -->
     <dimen name="item_square1_width">240dp</dimen>

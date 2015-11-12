@@ -224,20 +224,7 @@ public class Util {
 	 * @return String
 	 */
 	public static String intToStr(int num) {
-		if (com.changhong.gdappstore.Config.IS_ENGLISH_VERSION ||!MyApplication.IS_ZH_LANGUAGE) {
-			if (num < 1000) {
-				// 1000以下直接返回
-				return num + "";
-			} else if (num < 10000000) {
-				// 千
-				return num / 1000 + "thousand+";
-			} else if (num < 1000000000) {
-				// 百万
-				return num / 1000000 + "million+";
-			} else {
-				return num / 100000000 + "billion+";
-			}
-		} else {
+		if (!com.changhong.gdappstore.Config.IS_ENGLISH_VERSION && MyApplication.IS_ZH_LANGUAGE) {
 			if (num < 10000) {
 				// 1w以下直接返回
 				return num + "";
@@ -253,6 +240,19 @@ public class Util {
 				return num / 10000000 + "000万+";
 			} else {
 				return num / 100000000 + "亿+";
+			}
+		} else {
+			if (num < 1000) {
+				// 1000以下直接返回
+				return num + "";
+			} else if (num < 10000000) {
+				// 千
+				return num / 1000 + "thousand+";
+			} else if (num < 1000000000) {
+				// 百万
+				return num / 1000000 + "million+";
+			} else {
+				return num / 100000000 + "billion+";
 			}
 		}
 	}
