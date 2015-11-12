@@ -121,6 +121,7 @@ public class PostActivity extends BaseActivity {
 
 			}
 		});
+		titleView.setMargin(-15, -15);
 		titleView.setIfFocuesWithSelected(false);
 		initPostView();
 	}

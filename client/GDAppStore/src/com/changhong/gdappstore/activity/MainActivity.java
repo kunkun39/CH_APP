@@ -181,7 +181,7 @@ public class MainActivity extends BaseActivity {
 	 */
 	private void initData() {
 		categories = DataCenter.getInstance().getCategories();
-		titleView.setMargin(0, 0);
+		titleView.setMargin(-5, -5);
 		((HomePageView) homePages[0]).initNativeData();
 		if (categories != null) {
 			for (int i = 0; i < categories.size(); i++) {
