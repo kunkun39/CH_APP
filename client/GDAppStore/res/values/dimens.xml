@@ -28,6 +28,11 @@
     <dimen name="item_otc_height2">180dp</dimen>
     <dimen name="item_otc_margintop">13dp</dimen>
     <dimen name="item_otc_marginleft">8dp</dimen>
+     <!-- 一级页面 “专题”页面 -->
+    <dimen name="item_topic_width1">260dp</dimen>
+    <dimen name="item_topic_height1">200dp</dimen>
+    <dimen name="item_topic_margintop">-40dp</dimen>
+    <dimen name="item_topic_marginleft">-50dp</dimen>
 
     <!-- 搜索页面 -->
     <dimen name="bt_search_width">112.4dp</dimen>
