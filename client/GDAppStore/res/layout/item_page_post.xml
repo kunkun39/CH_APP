@@ -29,7 +29,7 @@
         android:focusable="false"
         android:gravity="center_horizontal"
         android:marqueeRepeatLimit="marquee_forever"
-        android:paddingBottom="3dp"
+        android:paddingBottom="5dp"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
         android:singleLine="true"
