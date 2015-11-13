@@ -2,7 +2,7 @@
 
     <string name="app_name">ChangHong AppCenter</string>
     <!-- 主页 -->
-    <string name="homepage">Dashboard</string>
+    <string name="homepage">Home</string>
     <string name="zhuanti">Topic</string>
     <string name="all">ALL</string>
     <string name="sure_exit_appstore">Confirm exit?</string>
