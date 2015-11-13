@@ -196,6 +196,7 @@ public class PostActivity extends BaseActivity {
 		public void onComplete(List<Object> items) {
 			currentApps = items;
 			L.d("loadapp complete " + ((items == null) ? "items is null" : items.size()));
+			tv_page.setText("("+0+"/"+0+")");
 			if (items != null && items.size() > 0) {
 				itemsize = currentApps.size();
 				postView.setVisibility(VISIBLE);
