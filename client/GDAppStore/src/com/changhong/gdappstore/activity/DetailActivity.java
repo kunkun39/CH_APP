@@ -218,6 +218,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 			if (isInstalled) {// 比较本地已安装版本号
 				int installedVersion = installed.getNativeVersionInt();
 				bt_update.setVisibility((appdetailVersion > installedVersion) ? VISIBLE : GONE);
+				L.d("detail installed serverVer="+appdetailVersion+" nativeVer="+installedVersion+" serverpackage="+appDetail.getPackageName()+" nativepackage="+installed.appPackage);
 			}
 		}
 		// 焦点控制
