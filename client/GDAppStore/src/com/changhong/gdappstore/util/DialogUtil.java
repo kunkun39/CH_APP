@@ -150,7 +150,7 @@ public class DialogUtil {
 	public static Dialog showAlertDialog(Context context, String title, String content,
 			final DialogBtnOnClickListener listener) {
 		final Dialog alertDialog = new AlertDialog.Builder(context).setTitle(title).setMessage(content)
-				.setPositiveButton(context.getString(R.string.sure), new OnClickListener() {
+				.setPositiveButton(context.getString(R.string.sure_space), new OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
