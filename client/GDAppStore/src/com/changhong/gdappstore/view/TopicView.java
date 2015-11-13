@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -42,6 +43,8 @@ public class TopicView extends BasePageView implements OnFocusChangeListener {
 	private OnFocusChangeListener onFocusChangeListener;
 
 	private RelativeLayout rl_topics;
+	
+	private HorizontalScrollView sc_topics;
 	/** itemview根据这个数一次增加 */
 	public static final int TOPICITEMVIEW_BASEID = 20001;
 
@@ -64,6 +67,7 @@ public class TopicView extends BasePageView implements OnFocusChangeListener {
 		animationbig = AnimationUtils.loadAnimation(context, R.anim.scale_big);
 		animationsmall = AnimationUtils.loadAnimation(context, R.anim.scale_small);
 		LayoutInflater.from(context).inflate(R.layout.view_topoic, this);
+		sc_topics=findView(R.id.hc_topics);
 		rl_topics = findView(R.id.rl_topics);
 
 	}
@@ -260,6 +264,9 @@ public class TopicView extends BasePageView implements OnFocusChangeListener {
 			rl_contentin.setBackgroundResource(R.drawable.img_focues_mainpost);
 			rl_content.startAnimation(animationbig);
 			v.bringToFront();
+			if (v.getId()==TOPICITEMVIEW_BASEID||v.getId()==TOPICITEMVIEW_BASEID+1) {
+				sc_topics.smoothScrollTo(0, 0);
+			}
 		} else {
 			tv_name.setSelected(false);
 			rl_contentin.setBackgroundColor(Color.TRANSPARENT);
