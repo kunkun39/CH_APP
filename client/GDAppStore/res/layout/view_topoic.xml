@@ -6,7 +6,7 @@
     android:background="@color/transparent" >
 
     <HorizontalScrollView
-        android:id="@+id/sc_topics"
+        android:id="@+id/hc_topics"
         android:scrollbars="none"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
@@ -20,13 +20,5 @@
             android:gravity="center_horizontal" >
         </RelativeLayout>
     </HorizontalScrollView>
-
-    <ImageView
-        android:id="@+id/iv_topic_focues"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="false"
-        android:focusable="false"
-        android:visibility="invisible" />
 
 </RelativeLayout>
