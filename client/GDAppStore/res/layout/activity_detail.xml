@@ -35,7 +35,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginTop="0dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/img_recommend"
+                android:src="@drawable/lug_img_recommend"
                 android:visibility="invisible" />
 
             <TextView
@@ -74,7 +74,7 @@
                     android:background="@drawable/selector_btnfocues"
                     android:focusable="true"
                     android:scaleType="fitXY"
-                    android:src="@drawable/btn_download" />
+                    android:src="@drawable/lug_btn_download" />
 
                 <ImageView
                     android:id="@+id/bt_start"
@@ -83,7 +83,7 @@
                     android:background="@drawable/selector_btnfocues"
                     android:focusable="true"
                     android:scaleType="fitXY"
-                    android:src="@drawable/btn_startapp" />
+                    android:src="@drawable/lug_btn_startapp" />
 
                 <ImageView
                     android:id="@+id/bt_update"
@@ -92,7 +92,7 @@
                     android:background="@drawable/selector_btnfocues"
                     android:focusable="true"
                     android:scaleType="fitXY"
-                    android:src="@drawable/btn_updateapp" />
+                    android:src="@drawable/lug_btn_updateapp" />
                 <TextView 
                     android:id="@+id/tv_downshelf"
                     android:layout_width="wrap_content"

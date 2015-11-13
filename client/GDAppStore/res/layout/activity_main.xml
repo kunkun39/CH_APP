@@ -42,7 +42,7 @@
         android:background="@drawable/selector_bg_postitem"
         android:focusable="true"
         android:scaleType="fitXY"
-        android:src="@drawable/btn_setting"
+        android:src="@drawable/lug_btn_setting"
         android:visibility="invisible" />
 
     <ImageView

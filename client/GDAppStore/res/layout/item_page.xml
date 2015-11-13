@@ -88,7 +88,7 @@
             android:visibility="invisible"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/img_recommend" />
+            android:src="@drawable/lug_img_recommend" />
     </RelativeLayout>
      <RelativeLayout
         android:id="@+id/rl_postitem_category"

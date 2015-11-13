@@ -68,7 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/img_backuped"
+        android:src="@drawable/lug_img_backuped"
         android:visibility="invisible" />
 
     <ImageView

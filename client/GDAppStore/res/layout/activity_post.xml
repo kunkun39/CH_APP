@@ -30,7 +30,7 @@
             android:background="@drawable/selector_bg_postitem"
             android:focusable="true"
             android:scaleType="fitXY"
-            android:src="@drawable/btn_search" />
+            android:src="@drawable/lug_btn_search" />
     </RelativeLayout>
 
     <com.changhong.gdappstore.view.PostTitleView
