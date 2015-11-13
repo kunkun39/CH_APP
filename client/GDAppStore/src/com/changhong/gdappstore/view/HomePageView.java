@@ -134,7 +134,7 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 			pageAppMap.put(pageApp.getPosition(), pageApp);
 		}
 		for (int i = 0; i < postItemCount; i++) {
-			final PageApp pageApp = pageAppMap.get((i+1));//位置序号是从1开始计算。
+			final PageApp pageApp = pageAppMap.get((i + 1));// 位置序号是从1开始计算。
 			if (pageApp == null) {
 				postItemViews[i].setOnClickListener(new OnClickListener() {
 
@@ -186,22 +186,17 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 		if (onClickListener != null) {
 			onClickListener.onClick(v);
 		}
-		if (v.getId() == R.id.homepage_itema3) {
+
+		if (v.getId() == R.id.homepage_itema1) {
+			context.startActivity(new Intent(context, SearchActivity.class));
+		} else if (v.getId() == R.id.homepage_itema2) {
+			context.startActivity(new Intent(context, RankingListActivity.class));
+		} else if (v.getId() == R.id.homepage_itema3) {
 			context.startActivity(new Intent(context, NativeAppActivity.class));
-			return;
-		}
-		if (NetworkUtils.ISNET_CONNECT) {
-			if (v.getId() == R.id.homepage_itema1) {
-				context.startActivity(new Intent(context, SearchActivity.class));
-			} else if (v.getId() == R.id.homepage_itema2) {
-				context.startActivity(new Intent(context, RankingListActivity.class));
-			} else if (v.getId() == R.id.homepage_itema4) {
-				context.startActivity(new Intent(context, SynchronousActivity.class));
-			} else {
-				DialogUtil.showLongToast(context, context.getResources().getString(R.string.weipeizhi));
-			}
+		} else if (v.getId() == R.id.homepage_itema4) {
+			context.startActivity(new Intent(context, SynchronousActivity.class));
 		} else {
-			DialogUtil.showLongToast(context, context.getResources().getString(R.string.net_disconnected_pleasecheck));
+			DialogUtil.showLongToast(context, context.getResources().getString(R.string.weipeizhi));
 		}
 	}
 
