@@ -156,7 +156,9 @@ public class SynchBackUpActivity extends BaseActivity implements OnClickListener
 							SynchApp synchApp = items.get(j);
 							if (synchApp.getPackageName().equals(nativeApp.appPackage)) {
 								isotherApp = false;
-								synchApp.setAppname(nativeApp.appname);
+								if (TextUtils.isEmpty(synchApp.getAppname())) {
+									synchApp.setAppname(nativeApp.appname);
+								}
 								synchApp.setAppIcon(nativeApp.appIcon);
 								synchApp.setVersionInt(nativeApp.nativeVersionInt);
 								if (synchApp.getSynchType() == Type.BACKUPED) {

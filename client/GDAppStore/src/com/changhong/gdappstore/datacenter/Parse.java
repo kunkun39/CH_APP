@@ -524,6 +524,9 @@ public class Parse {
 				JSONObject appobject = array.getJSONObject(i);
 				app.setAppid(appobject.getInt(APP_ID));
 				app.setScores(appobject.getInt(APP_SCORES));
+				if (appobject.has(APP_NAME)) {
+					app.setAppname(appobject.getString(APP_NAME).trim());
+				}
 				app.setApkSize(appobject.getString(APP_SIZE).trim());
 				app.setPackageName(appobject.getString(APP_PACKAGE).trim());
 				int isbacked = appobject.getInt("is_backup");
@@ -564,7 +567,7 @@ public class Parse {
 	}
 
 	/**
-	 * 解析备份成功数据
+	 * 解析删除备份成功数据
 	 */
 	public static List<Integer> parseDeleteBackUpApps(String json) {
 		List<Integer> successIds = new ArrayList<Integer>();
@@ -586,7 +589,7 @@ public class Parse {
 	}
 
 	/**
-	 * 解析备份成功数据
+	 * 解析我的备份应用数据
 	 */
 	public static List<SynchApp> parseGetBackUpApps(String json) {
 		List<SynchApp> apps = new ArrayList<SynchApp>();
