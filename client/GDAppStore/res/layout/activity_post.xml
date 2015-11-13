@@ -22,12 +22,12 @@
 
         <ImageView
             android:id="@+id/iv_search"
-            android:layout_width="130dp"
-            android:layout_height="65dp"
+            android:layout_width="140dp"
+            android:layout_height="80dp"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@id/tv_pagename"
             android:layout_marginRight="85dp"
-            android:background="@drawable/selector_bg_postitem"
+            android:background="@drawable/selector_bg_btn_search"
             android:focusable="true"
             android:scaleType="fitXY"
             android:src="@drawable/lug_btn_search" />
@@ -37,11 +37,11 @@
         android:id="@+id/posttitleview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minHeight="60dp"
         android:layout_below="@id/rl_pageheader"
         android:layout_marginLeft="110dp"
         android:layout_marginRight="250dp"
-        android:layout_marginTop="0dp" />
+        android:layout_marginTop="0dp"
+        android:minHeight="60dp" />
 
     <com.changhong.gdappstore.post.PosterLayoutView
         android:id="@+id/postview"
@@ -66,6 +66,5 @@
         android:text=""
         android:textColor="@color/white"
         android:textSize="18sp" />
-
 
 </RelativeLayout>

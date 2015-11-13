@@ -22,12 +22,12 @@
 
         <ImageView
             android:id="@+id/iv_search"
-            android:layout_width="130dp"
-            android:layout_height="65dp"
+            android:layout_width="140dp"
+            android:layout_height="80dp"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@id/tv_pagename"
             android:layout_marginRight="154dp"
-            android:background="@drawable/selector_bg_postitem"
+            android:background="@drawable/selector_bg_btn_search"
             android:focusable="true"
             android:scaleType="fitXY"
             android:src="@drawable/lug_btn_search" />
