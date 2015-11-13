@@ -93,10 +93,10 @@ public class SynchGridAdapter extends BaseAdapter {
 			// 已备份或者已恢复图标
 			if (app.getSynchType() == Type.BACKUPED) {
 				viewHolder.iv_synchtype.setVisibility(View.VISIBLE);
-				viewHolder.iv_synchtype.setImageResource(R.drawable.img_backuped);
+				viewHolder.iv_synchtype.setImageResource(R.drawable.lug_img_backuped);
 			} else if (app.getSynchType() == Type.RECOVERED) {
 				viewHolder.iv_synchtype.setVisibility(View.VISIBLE);
-				viewHolder.iv_synchtype.setImageResource(R.drawable.img_recovered);
+				viewHolder.iv_synchtype.setImageResource(R.drawable.lug_img_recovered);
 			} else {
 				viewHolder.iv_synchtype.setVisibility(View.INVISIBLE);
 			}

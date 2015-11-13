@@ -90,7 +90,7 @@ public class LoadingActivity extends BaseActivity {
 		lastCachedADUri = SharedPreferencesUtil.getJsonCache(context, Config.KEY_BOOTADIMG);
 		L.d(TAG + " imgurl===" + lastCachedADUri + " ");
 		if (TextUtils.isEmpty(lastCachedADUri)) {
-			ivLoading.setImageResource(R.drawable.img_loading);
+			ivLoading.setImageResource(R.drawable.lug_img_loading);
 			ivLoading.startAnimation(alphaAnimation);
 		} else {
 			ImageLoadUtil.displayImgByonlyDiscCache(lastCachedADUri, ivLoading, new ImageLoadingListener() {
@@ -102,7 +102,7 @@ public class LoadingActivity extends BaseActivity {
 
 				@Override
 				public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-					ivLoading.setImageResource(R.drawable.img_loading);
+					ivLoading.setImageResource(R.drawable.lug_img_loading);
 					ivLoading.startAnimation(alphaAnimation);
 //					DialogUtil.showLongToast(context, "图片下载失败，使用默认图片！");
 					L.d(TAG + " onLoadingFailed failReason=" + failReason);
@@ -116,7 +116,7 @@ public class LoadingActivity extends BaseActivity {
 
 				@Override
 				public void onLoadingCancelled(String imageUri, View view) {
-					ivLoading.setImageResource(R.drawable.img_loading);
+					ivLoading.setImageResource(R.drawable.lug_img_loading);
 					ivLoading.startAnimation(alphaAnimation);
 //					DialogUtil.showLongToast(context, "图片下载取消，使用默认图片！");
 					L.d(TAG + " onLoadingCancelled url=" + imageUri);
@@ -154,7 +154,7 @@ public class LoadingActivity extends BaseActivity {
 				}
 				DisplayImageOptions options = new DisplayImageOptions.Builder().displayer(new SimpleBitmapDisplayer())
 						.bitmapConfig(Bitmap.Config.ARGB_8888).imageScaleType(ImageScaleType.IN_SAMPLE_INT)
-						.cacheInMemory(false).cacheOnDisc(true).showImageOnFail(R.drawable.img_loading).build();
+						.cacheInMemory(false).cacheOnDisc(true).showImageOnFail(R.drawable.lug_img_loading).build();
 				MyApplication.imageLoader.loadImage(uri, options, new ImageLoadingListener() {
 
 					@Override
