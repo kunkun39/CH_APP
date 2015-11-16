@@ -52,24 +52,30 @@ public class MyApplication extends Application {
 	/** 应用商城apk更新地址 */
 	public static String UPDATE_APKURL = "";
 	/** 应用商城apk是否许可 */
-	public static boolean UPDATE_ENABLE =true;
+	public static boolean UPDATE_ENABLE = true;
 	/** 是否是中文语言 */
-	public static boolean IS_ZH_LANGUAGE =true;
-	
+	public static boolean IS_ZH_LANGUAGE = true;
+
 	private Context context;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		this.context=getApplicationContext();
+		this.context = getApplicationContext();
+		this.IS_ZH_LANGUAGE = Util.getLanguageIsZH(context);// 系统语言
 		NetworkUtils.isConnectInternet(this);// 网络链接
+
+		DeviceInfo.CollectInfo();// 获取设备信息
+		this.deviceMac = DeviceInfo.DeviceMac;
+		L.d("devicemac=" + deviceMac + "  netconnect=" + NetworkUtils.ISNET_CONNECT + " IS_ZH_LANGUAGE="
+				+ IS_ZH_LANGUAGE);
+
 		initImageLoaderCacheDir();// 初始化imageloader 缓存路径
 		initImageLoader(this);
-		DeviceInfo.CollectInfo();// 获取设备信息
-		deviceMac = DeviceInfo.DeviceMac;
-		L.d("devicemac--" + deviceMac + "  netconnect " + NetworkUtils.ISNET_CONNECT);
-		initStrings();
-		IS_ZH_LANGUAGE=Util.getLanguageIsZH(context);
+
+		initStrings();// 初始化string字符串
+		initBaseUrl();// 初始化服务端请求地址
+
 	}
 
 	/**
@@ -128,12 +134,21 @@ public class MyApplication extends Application {
 		// discCacheAware = new FileCountLimitedDiscCache(cacheDir,
 		// discCacheSize);
 	}
+
 	/**
 	 * 加载字符串
 	 */
 	private void initStrings() {
-		Config.HOMEPAGE=context.getString(R.string.homepage);
-		Config.ZHUANTI=context.getString(R.string.zhuanti);
+		Config.HOMEPAGE = context.getString(R.string.homepage);
+		Config.ZHUANTI = context.getString(R.string.zhuanti);
+	}
+
+	private void initBaseUrl() {
+		if (!Config.IS_ENGLISH_VERSION && IS_ZH_LANGUAGE) {
+			Config.setBASEURL(Config.SERVER_ZH);
+		} else {
+			Config.setBASEURL(Config.SERVER_EN);
+		}
 	}
 
 	/**

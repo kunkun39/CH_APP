@@ -31,10 +31,13 @@ public class Config {
 	/***************************** 网络请求配置项 ******************************************/
 	/** 请求链接超时 */
 	public static int CONNECTION_TIMEOUT = 9000;
-	/** 服务器基础地址 **/
-//	 public static String BASEURL = "http://192.168.0.55:8080/appmarket/";//本地中文版
-	 public static String BASEURL = "http://192.168.0.55:8081/appmarket/";//本地英文版
-//	public static String BASEURL = "http://www.ottserver.com:8081/appmarket/";
+	
+	 public static final String NATIVE_ZH = "http://192.168.0.55:8080/appmarket/";//本地中文版
+	 public static final String NATIVE_EN = "http://192.168.0.55:8081/appmarket/";//本地英文版
+	 public static final String SERVER_ZH = "http://www.ottserver.com:8081/appmarket/";//公网中文版
+	 public static final String SERVER_EN = "http://www.ottserver.com:8099/appmarket/";//公网英文版
+	 /** 服务器基础地址 在MyApplication的oncreate（）中调用initBaseUrl()初始化 **/
+	 public static String BASEURL = SERVER_ZH;
 	/** 获取分类地址 **/
 	public static String getCategoryUrl = BASEURL + "client/appcategories.html";
 	/** 获取页面数据地址 **/
@@ -95,4 +98,37 @@ public class Config {
 	public final static String INITIAL = "initial.png";
 	/** 广告图片地址获取key */
 	public final static String KEY_BOOTADIMG = "bootadimg";
+	
+	/**
+	 * 
+	 * 
+	 * 
+	 */
+	/***************************** 更改值函数区域 ******************************************/
+	public static void setBASEURL(String bASEURL) {
+		BASEURL = bASEURL;
+		updateUrls();//update other urls
+	}
+	
+	/**
+	 * Remenber update serverUrls when you change BASEURL.
+	 */
+	public static void updateUrls() {
+		getCategoryUrl = BASEURL + "client/appcategories.html";
+		getPagesUrl = BASEURL + "client/boxpages.html";
+		getCategoryAppsUrl = BASEURL + "client/categoryapps.html";
+		getTopicAppsUrl = BASEURL + "client/topicapps.html";
+		getAppDetailUrl = BASEURL + "client/appdetails.html";
+		getAppRankListUrl = BASEURL + "client/appranklist.html";
+		getAppSearchUrl = BASEURL + "client/appsearch.html";
+		getAppVersionsUrl = BASEURL + "client/appversions.html";
+		putAppDownloadOK = BASEURL + "client/appdownload.html";
+		getDetailRecommendUrl = BASEURL + "client/appdetailsrecommend.html";
+		getSilentInstallUrl = BASEURL + "client/appmust.html";
+		getBootADUrl = BASEURL + "client/bootadvertise.html";
+		checkBackUpApp = BASEURL + "client/checkbackupapp.html";
+		postBackup = BASEURL + "client/requestbackupapp.html";
+		getBackupApps = BASEURL + "client/getbackupapp.html";
+		deleteBackupApp = BASEURL + "client/deletebackupapp.html";
+	}
 }
