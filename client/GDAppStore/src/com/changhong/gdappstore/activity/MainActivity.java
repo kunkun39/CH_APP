@@ -69,9 +69,12 @@ public class MainActivity extends BaseActivity {
 	private ImageView iv_setting;
 	/** 下载进度条 */
 	private MyProgressDialog progressDialog;
-	/** 显示几页，可能会变化 **/
-	private static int nomalPageSize = 5;
-	private BasePageView[] homePages = new BasePageView[nomalPageSize];
+	/** 默认显示几页 **/
+	private static final int PAGESIZE = 5;
+	/** 当前几页，可能会变化 **/
+	private static int curPageSize = PAGESIZE;
+	private BasePageView[] homePages = new BasePageView[curPageSize];
+	private HomePageView homePageView;
 
 	private static boolean isShowedUpdateDialog = false;
 	private static boolean isSilentInstallServiceStart = false;
@@ -94,7 +97,8 @@ public class MainActivity extends BaseActivity {
 		titleView = findView(R.id.titleview);
 		titleView.setTitleItemOnClickListener(titleItemOnClickListener);
 		titleView.setTitleItemOnFocuesChangedListener(titleItemOnFocuesChangedListener);
-		homePages[0] = new HomePageView(context);// 首页娱乐游戏应用
+		homePages[0] = homePageView = new HomePageView(context);// 首页
+		homePageView.setPageIndex(0);
 
 		NetChangeReceiver.listeners.put(context.getClass().getName(), new NetChangeListener() {
 
@@ -182,30 +186,36 @@ public class MainActivity extends BaseActivity {
 	private void initData() {
 		categories = DataCenter.getInstance().getCategories();
 		titleView.setMargin(-5, -5);
-		((HomePageView) homePages[0]).initNativeData();
+		homePageView.initNativeData();
 		if (categories != null) {
+			// 移除多余PAGESIZE的页面
 			for (int i = 0; i < categories.size(); i++) {
-				if (i > nomalPageSize) {
+				if (i > PAGESIZE) {
 					categories.remove(i);
 					i--;
 				}
 			}
-			if (categories.size() < nomalPageSize) {// 如果栏目数据小于预定义页数，重新定义页数
-				nomalPageSize = categories.size();
-				if (nomalPageSize == 0) {
-					nomalPageSize = 1;
-				}
-				homePages = new HomePageView[nomalPageSize];
-				L.d("categoriessize<nomalpagesize categoriessize is " + categories.size() + " new homePagesSize is "
+			// 当前页面curPageSize和预定义PAGESIZE不相等时候，重置当前页面数据
+			if (curPageSize != PAGESIZE) {
+				homePages = new BasePageView[PAGESIZE];
+				homePages[0] = homePageView;// 首页是必须添加项
+				curPageSize = PAGESIZE;
+			}
+			// 如果栏目数据小于预定义页数，重新定义页数
+			if (categories.size() < PAGESIZE) {
+				curPageSize = categories.size();
+				curPageSize = curPageSize == 0 ? 1 : curPageSize;// 如果为0需要加上首页
+				homePages = new BasePageView[curPageSize];
+				homePages[0] = homePageView;// 首页是必须添加项
+				L.d("categoriessize<PAGESIZE categoriessize=" + categories.size() + " homePagesSize="
 						+ homePages.length);
-				homePages[0] = new HomePageView(context);// 首页是必须添加项
-				((HomePageView) homePages[0]).initNativeData();
-				homePages[0].setPageIndex(0);
 			}
 			L.d("initdata categoriessize is " + categories.size() + " new homePagesSize is " + homePages.length);
+			// 设置标签数据
 			titleView.initData(categories);
-			// 目前是初始化默认数据
-			for (int i = 0; i < nomalPageSize; i++) {
+			// 设置页面数据
+			for (int i = 0; i < curPageSize; i++) {
+
 				if (categories.size() > i) {
 					Category category = categories.get(i);
 					if (category.isIstopic()) {// 专题页面
@@ -379,10 +389,10 @@ public class MainActivity extends BaseActivity {
 							((TopicView) curPageView).setOtcItemFocuesByPos(0);// 其它情况让第一个获取焦点
 						}
 					}
-				} else if (arg0 == nomalPageSize - 2) {
+				} else if (arg0 == curPageSize - 2) {
 					// 当前页面是其它页面的上一个页面
 					if (currIndex == arg0 + 1) {// 从右往左翻页
-						if (homePages[currIndex].currentFocuesId == (TopicView.TOPICITEMVIEW_BASEID+1)) {
+						if (homePages[currIndex].currentFocuesId == (TopicView.TOPICITEMVIEW_BASEID + 1)) {
 							curPageView.setPostItemFocuesByPos(11);// 最底层一排翻页让第上一页最低层最后一个获取焦点
 						} else {
 							curPageView.setPostItemFocuesByPos(9);// 其它情况让最后一列最上面一个获取焦点
