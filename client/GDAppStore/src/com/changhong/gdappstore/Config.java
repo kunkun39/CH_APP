@@ -7,23 +7,22 @@ package com.changhong.gdappstore;
  * 
  */
 public class Config {
-	
+
 	/** 是否允许缓存。只有调试所有情况下都请求接口时候才改为false */
 	public static final boolean ISCACHEABLE = true;
-	
+
 	/** 是否采用系统自带安装工具安装，true为用系统自带安装，false为静默安装 */
 	public static final boolean ISNORMAL_INSTALL = false;
-	
+
 	/** 是否采用系统自带卸载工具，true为用系统自带卸载，false为静默卸载 */
 	public static final boolean ISNORMAL_UNINSTALL = false;
-	
-	/**是否定死为英文版本*/
+
+	/** 是否定死为英文版本 */
 	public static final boolean IS_ENGLISH_VERSION = false;
-	
+
 	/** 请求暂停时间，在这个时间内不能连续请求 */
 	public static final int REQUEST_RESTTIEM = 3 * 60 * 1000;
-	
-	
+
 	/** 存放使用自己开发代码下载apk文件目录 */
 	public static final String baseUpdatePath = "/data/data/com.changhong.gdappstore/loadapp";
 	/** 存放使用Xutil代码下载apk文件目录 */
@@ -31,13 +30,13 @@ public class Config {
 	/***************************** 网络请求配置项 ******************************************/
 	/** 请求链接超时 */
 	public static int CONNECTION_TIMEOUT = 9000;
-	
-	 public static final String NATIVE_ZH = "http://192.168.0.55:8080/appmarket/";//本地中文版
-	 public static final String NATIVE_EN = "http://192.168.0.55:8081/appmarket/";//本地英文版
-	 public static final String SERVER_ZH = "http://www.ottserver.com:8081/appmarket/";//公网中文版
-	 public static final String SERVER_EN = "http://www.ottserver.com:8099/appmarket/";//公网英文版
-	 /** 服务器基础地址 在MyApplication的oncreate（）中调用initBaseUrl()初始化 **/
-	 public static String BASEURL = SERVER_ZH;
+
+	public static final String NATIVE_ZH = "http://192.168.0.55:8080/appmarket/";// 本地中文版
+	public static final String NATIVE_EN = "http://192.168.0.55:8081/appmarket/";// 本地英文版
+	public static final String SERVER_ZH = "http://www.ottserver.com:8081/appmarket/";// 公网中文版
+	public static final String SERVER_EN = "http://www.ottserver.com:8099/appmarket/";// 公网英文版
+	/** 服务器基础地址 在MyApplication的oncreate（）中调用initBaseUrl()初始化 **/
+	private static String BASEURL = SERVER_ZH;
 	/** 获取分类地址 **/
 	public static String getCategoryUrl = BASEURL + "client/appcategories.html";
 	/** 获取页面数据地址 **/
@@ -89,7 +88,7 @@ public class Config {
 	 * 
 	 */
 	/***************************** 网络请求配置项 ******************************************/
-	/**首页 在MyApplication里面初始化**/
+	/** 首页 在MyApplication里面初始化 **/
 	public static String HOMEPAGE;
 	public static String ZHUANTI;
 	/** 在首页显示几个栏目的页面 **/
@@ -98,7 +97,7 @@ public class Config {
 	public final static String INITIAL = "initial.png";
 	/** 广告图片地址获取key */
 	public final static String KEY_BOOTADIMG = "bootadimg";
-	
+
 	/**
 	 * 
 	 * 
@@ -107,9 +106,9 @@ public class Config {
 	/***************************** 更改值函数区域 ******************************************/
 	public static void setBASEURL(String bASEURL) {
 		BASEURL = bASEURL;
-		updateUrls();//update other urls
+		updateUrls();// update other urls
 	}
-	
+
 	/**
 	 * Remenber update serverUrls when you change BASEURL.
 	 */
