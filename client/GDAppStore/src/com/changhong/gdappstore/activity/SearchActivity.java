@@ -122,9 +122,9 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 					Spannable.SPAN_EXCLUSIVE_INCLUSIVE); // 设置指定位置文字的背景颜色
 			int search1 = tishi.indexOf("google play");
 			style.setSpan(new ForegroundColorSpan(Color.RED), search1, search1 + 12, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-			int search2 = tishi.indexOf("googleapp");
+			int search2 = tishi.indexOf("googleplay");
 			style.setSpan(new ForegroundColorSpan(Color.RED), search2, search2 + 10, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-			int search3 = tishi.indexOf("GA");
+			int search3 = tishi.indexOf("GP");
 			style.setSpan(new ForegroundColorSpan(Color.RED), search3, search3 + 2, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
 		}
 		tv_search_tishi.setText(style);
