@@ -36,7 +36,7 @@
     <string name="str_new">NEWEST</string>
     <string name="str_hot">HOTEST</string>
     <string name="str_surge">FASTEST-GROWING</string>
-    <string name="tv_search_tishi">You can search out apps by input full name or short name of app.\n For example: \n App Name: \"Google Play App\", you can input \"google play*\" or \"googleapp*\" or \"GA\" to find it out</string>
+    <string name="tv_search_tishi">You can search out apps by input full name or short name of app.\n For example: \n App Name: \"Google Play App\", you can input \"google play*\" or \"googleplay*\" or \"GP\" to find it out</string>
     <string name="tishi">Notice：&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</string>
     <string name="sure_space">Confirm</string>
     <string name="cancel">cancle</string>
