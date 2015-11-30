@@ -23,7 +23,6 @@ import com.changhong.gdappstore.base.BasePageView;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.model.PageApp;
 import com.changhong.gdappstore.util.DialogUtil;
-import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
@@ -186,15 +185,18 @@ public class HomePageView extends BasePageView implements OnFocusChangeListener,
 		if (onClickListener != null) {
 			onClickListener.onClick(v);
 		}
-
-		if (v.getId() == R.id.homepage_itema1) {
-			context.startActivity(new Intent(context, SearchActivity.class));
-		} else if (v.getId() == R.id.homepage_itema2) {
-			context.startActivity(new Intent(context, RankingListActivity.class));
-		} else if (v.getId() == R.id.homepage_itema3) {
-			context.startActivity(new Intent(context, NativeAppActivity.class));
-		} else if (v.getId() == R.id.homepage_itema4) {
-			context.startActivity(new Intent(context, SynchronousActivity.class));
+		if (pageIndex == 0) {//首页默认跳转
+			if (v.getId() == R.id.homepage_itema1) {
+				context.startActivity(new Intent(context, SearchActivity.class));
+			} else if (v.getId() == R.id.homepage_itema2) {
+				context.startActivity(new Intent(context, RankingListActivity.class));
+			} else if (v.getId() == R.id.homepage_itema3) {
+				context.startActivity(new Intent(context, NativeAppActivity.class));
+			} else if (v.getId() == R.id.homepage_itema4) {
+				context.startActivity(new Intent(context, SynchronousActivity.class));
+			} else {
+				DialogUtil.showLongToast(context, context.getResources().getString(R.string.weipeizhi));
+			}
 		} else {
 			DialogUtil.showLongToast(context, context.getResources().getString(R.string.weipeizhi));
 		}
