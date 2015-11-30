@@ -221,6 +221,7 @@ public class MainActivity extends BaseActivity {
 					if (category.isIstopic()) {// 专题页面
 						if (homePages[i] == null) {
 							homePages[i] = new TopicView(context);
+							homePages[i].setPageTag(BasePageView.TAG_TOPIC);
 						}
 						((TopicView) homePages[i]).initData(category);
 						((TopicView) homePages[i]).setNextFocuesUpId(titleView.getItemTextViewAt(i).getId());
@@ -268,7 +269,7 @@ public class MainActivity extends BaseActivity {
 			int titleFocusPos = titleView.getFocuesPosition();
 			if (titleFocusPos >= 0 && viewPager.getCurrentItem() == titleFocusPos && titleFocusPos < homePages.length
 					&& homePages[titleFocusPos] != null) {
-				if (titleFocusPos == categories.size() - 1) {
+				if (homePages[titleFocusPos].getPageTag()==BasePageView.TAG_TOPIC) {
 					if (((TopicView) homePages[titleFocusPos]).getChildViewAt(0) != null) {
 						((TopicView) homePages[titleFocusPos]).getChildViewAt(0).requestFocus();
 						return true;
@@ -381,8 +382,8 @@ public class MainActivity extends BaseActivity {
 			titleView.setSelectedItem(arg0);
 			if (!titleView.hasChildFocuesed()) {// 非标签上面切换情况下，处理默认交代呢
 				if (arg0 == categories.size() - 1) {
-					// 当前页面是其它页面
-					if (currIndex == arg0 - 1) {// 从左往右翻页
+					// 当前页面是专题页面
+					if (curPageView.getPageTag()==BasePageView.TAG_TOPIC) {// 从左往右翻页
 						if (homePages[currIndex].currentFocuesId == R.id.homepage_item12) {
 							((TopicView) curPageView).setOtcItemFocuesByPos(1);// 最底层一排翻页让第下一页最低层第一个获取焦点
 						} else {

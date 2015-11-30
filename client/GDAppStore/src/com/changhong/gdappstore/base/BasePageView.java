@@ -47,6 +47,12 @@ public class BasePageView extends BaseRelativeLayout {
 	protected final int smallLeftMar_add = 7, smallTopMar_add = 0, smallWidth_add = 2, smallHeight_add = 7;
 
 	protected int pageIndex=0;
+	/**普通首页类型标识*/
+	public static final int TAG_HOMEPAGE=1;
+	/**专题类型标识*/
+	public static final int TAG_TOPIC=2;
+	/**页面类型标识*/
+	protected int pageTag=TAG_HOMEPAGE;
 
 	public BasePageView(Context context) {
 		super(context);
@@ -149,4 +155,13 @@ public class BasePageView extends BaseRelativeLayout {
 	public void setPageIndex(int pageIndex) {
 		this.pageIndex = pageIndex;
 	}
+
+	public int getPageTag() {
+		return pageTag;
+	}
+
+	public void setPageTag(int pageTag) {
+		this.pageTag = pageTag;
+	}
+	
 }
