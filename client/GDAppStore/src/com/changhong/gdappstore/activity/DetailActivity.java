@@ -309,12 +309,12 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		final String apkname = apkLoadUrl.substring(apkLoadUrl.lastIndexOf("/") + 1, apkLoadUrl.length()).trim();
 		hasAppLoading = true;
 		DownLoadManager.putFileDownLoad(apkLoadUrl, appDetail.getPackageName(), Config.baseXutilDownPath + "/"
-				+ apkname, false, true, new RequestCallBack<File>() {
+				+ apkname, true, true, new RequestCallBack<File>() {
 			@Override
 			public void onLoading(long total, long current, boolean isUploading) {
 				downloadPDialog.setMax((int) total);
 				downloadPDialog.setProgress((int) current);
-				L.d("download detail app onloading total is " + total + " current " + current);
+				L.d("download detail app onloading current is " + current + " total " + total+" isUploading "+isUploading);
 				super.onLoading(total, current, isUploading);
 			}
 
