@@ -42,7 +42,7 @@ public class HttpRequestUtil {
 	 * @param httpEntity
 	 * @return
 	 */
-	public static String getEntityString(HttpEntity httpEntity,Context context) {
+	public static String getEntityString(HttpEntity httpEntity, Context context) {
 		String jsonString = "";
 		if (httpEntity == null) {
 			L.d("getEntityString return null by httpEntity is null ");
@@ -76,6 +76,7 @@ public class HttpRequestUtil {
 		url = url.replaceAll(" ", "%20");// 替换空格
 		L.d("doGetRequest--url is " + url);
 		try {
+			// URLEncoder.encode(url,"UTF-8");
 			HttpGet httpGet = new HttpGet(url);
 			DefaultHttpClient httpClient = new DefaultHttpClient();
 			httpClient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, Config.CONNECTION_TIMEOUT);
@@ -91,7 +92,8 @@ public class HttpRequestUtil {
 			}
 		} catch (Exception e) {
 			L.e("doGetRequest- connect error");
-			DialogUtil.showChildThreadToast(context.getString(R.string.error_netconnect_please_checknet), context, true);
+			DialogUtil
+					.showChildThreadToast(context.getString(R.string.error_netconnect_please_checknet), context, true);
 			e.printStackTrace();
 		}
 		return null;
@@ -106,7 +108,7 @@ public class HttpRequestUtil {
 	 *            参数
 	 * @return
 	 */
-	public static HttpEntity doPostRequest(String url, final List<NameValuePair> paramList,Context context) {
+	public static HttpEntity doPostRequest(String url, final List<NameValuePair> paramList, Context context) {
 		if (TextUtils.isEmpty(url) || !NetworkUtils.isConnectInternet(context)) {
 			L.d("doPostRequest--returned by url= " + url + " netisconnect= " + NetworkUtils.ISNET_CONNECT);
 			DialogUtil.showChildThreadToast(context.getString(R.string.error_net_notconnect), context, true);
@@ -138,12 +140,12 @@ public class HttpRequestUtil {
 			}
 		} catch (Exception e) {
 			L.e("doPostRequest--connect error ");
-			DialogUtil.showChildThreadToast(context.getString(R.string.error_netconnect_please_checknet), context, true);
+			DialogUtil
+					.showChildThreadToast(context.getString(R.string.error_netconnect_please_checknet), context, true);
 			e.printStackTrace();
 		}
 		return null;
 	}
-
 
 	public static void writetofile(byte[] bytes, File file) {
 		FileOutputStream fos = null;
