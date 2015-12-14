@@ -148,6 +148,7 @@ public class MyApplication extends Application {
 			Config.setBASEURL(Config.SERVER_ZH);
 		} else {
 			Config.setBASEURL(Config.SERVER_EN);
+			Config.CONNECTION_TIMEOUT=15000;
 		}
 	}
 
