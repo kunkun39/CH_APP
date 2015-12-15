@@ -66,15 +66,16 @@
         
         <ImageView
             android:id="@+id/iv_recommend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:scaleType="fitXY"
-            android:visibility="invisible"
+            android:layout_width="75dp"
+            android:layout_height="25dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/lug_img_recommend" />
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="1dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/lug_img_recommend"
+            android:visibility="invisible" />
+
     </RelativeLayout>
 
 </RelativeLayout>

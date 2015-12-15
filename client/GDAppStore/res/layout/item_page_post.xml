@@ -3,8 +3,7 @@
     android:id="@+id/rl_postitem_apppost"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_centerInParent="true"
-     >
+    android:layout_centerInParent="true" >
 
     <ImageView
         android:id="@+id/iv_appicon"
@@ -39,8 +38,8 @@
 
     <ImageView
         android:id="@+id/iv_recommend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="75dp"
+        android:layout_height="22dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="0dp"
