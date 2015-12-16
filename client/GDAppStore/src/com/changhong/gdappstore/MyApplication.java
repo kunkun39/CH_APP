@@ -146,6 +146,7 @@ public class MyApplication extends Application {
 	private void initBaseUrl() {
 		if (!Config.IS_ENGLISH_VERSION && IS_ZH_LANGUAGE) {
 			Config.setBASEURL(Config.SERVER_ZH);
+			Config.CONNECTION_TIMEOUT=9000;
 		} else {
 			Config.setBASEURL(Config.SERVER_EN);
 			Config.CONNECTION_TIMEOUT=15000;
