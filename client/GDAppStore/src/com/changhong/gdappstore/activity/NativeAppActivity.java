@@ -117,6 +117,12 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 	private void initData() {
 		nativeApps = Util.getApp(context);
 		if (nativeApps != null) {
+			for (int i = 0; i < nativeApps.size(); i++) {
+				if (nativeApps.get(i) != null && ((NativeApp) nativeApps.get(i)).getAppPackage().equals(getPackageName())) {
+					nativeApps.remove(i);//去掉我们市场应用
+					break;
+				}
+			}
 			adapter.updateList(nativeApps);
 			// 获取包名，用于请求版本号
 			List<String> packages = new ArrayList<String>();
