@@ -95,4 +95,5 @@
     <string name="app_already_indownloadlist">该应用已在下载列表中</string>
     <string name="addin_downloadlist_success">添加到下载列表成功</string>
 
+     <string name="noaccess">您没有权限使用该应用!</string>
 </resources>
