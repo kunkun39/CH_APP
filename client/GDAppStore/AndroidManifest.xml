@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.changhong.gdappstore"
-    android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionCode="32"
+    android:versionName="32.0" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -19,6 +19,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DELETE_PACKAGES"/>
     <uses-permission android:name="android.permission.INSTALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <application
         android:name="com.changhong.gdappstore.MyApplication"
@@ -41,7 +42,9 @@
         <activity android:name=".activity.RankingListActivity" android:theme="@style/anim_zoom"/>
         <activity android:name=".activity.SearchActivity" android:theme="@style/anim_zoom"/>
         <activity android:name=".activity.PostActivity" android:theme="@style/anim_zoom"/>
-        <activity android:name=".activity.DetailActivity" android:theme="@style/anim_zoom"/>
+        <activity 
+            android:exported="true"
+            android:name=".activity.DetailActivity" android:theme="@style/anim_zoom"/>
         <activity android:name=".activity.NativeAppActivity" android:theme="@style/anim_zoom"/>
         <activity android:name=".activity.SynchronousActivity" android:theme="@style/anim_zoom"/>
         <activity android:name=".activity.SynchBackUpActivity" android:theme="@style/anim_zoom"/>
