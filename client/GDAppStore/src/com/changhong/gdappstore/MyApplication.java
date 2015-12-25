@@ -55,6 +55,8 @@ public class MyApplication extends Application {
 	public static boolean UPDATE_ENABLE = true;
 	/** 是否是中文语言 */
 	public static boolean IS_ZH_LANGUAGE = true;
+	/** 是否拥有权限使用 */
+	public static boolean HAS_ACCESSUSER = true;
 
 	private Context context;
 
@@ -146,10 +148,10 @@ public class MyApplication extends Application {
 	private void initBaseUrl() {
 		if (!Config.IS_ENGLISH_VERSION && IS_ZH_LANGUAGE) {
 			Config.setBASEURL(Config.SERVER_ZH);
-			Config.CONNECTION_TIMEOUT=9000;
+			Config.CONNECTION_TIMEOUT = 9000;
 		} else {
 			Config.setBASEURL(Config.SERVER_EN);
-			Config.CONNECTION_TIMEOUT=15000;
+			Config.CONNECTION_TIMEOUT = 15000;
 		}
 	}
 

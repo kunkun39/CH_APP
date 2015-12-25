@@ -395,6 +395,11 @@ public class Parse {
 			host = DesUtils.getDesString(host);
 			String bootImg = object.getString("boot_img");
 			bootADUrl = host + bootImg;
+			if (object.has("access")) {
+				MyApplication.HAS_ACCESSUSER = object.getBoolean("access");
+			}else {
+				MyApplication.HAS_ACCESSUSER=true;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

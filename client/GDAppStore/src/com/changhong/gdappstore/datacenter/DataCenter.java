@@ -668,7 +668,7 @@ public class DataCenter {
 
 			@Override
 			public void run() {
-				String url = Config.getBootADUrl;
+				String url = Config.getBootADUrl + "?" + "boxMac=" + MyApplication.getEncDeviceMac();
 				String jsonString = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(url, context), context);
 				String bootADUrl = Parse.parseBootAD(jsonString);
 

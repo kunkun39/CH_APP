@@ -1,5 +1,6 @@
 package com.changhong.gdappstore.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -18,6 +19,9 @@ import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseActivity;
 import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
+import com.changhong.gdappstore.util.DialogUtil;
+import com.changhong.gdappstore.util.DialogUtil.DialogBtnOnClickListener;
+import com.changhong.gdappstore.util.DialogUtil.DialogMessage;
 import com.changhong.gdappstore.util.ImageLoadUtil;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.SharedPreferencesUtil;
@@ -41,23 +45,36 @@ public class LoadingActivity extends BaseActivity {
 	private static final String TAG = "LoadingActivity";
 	private String lastCachedADUri = "";
 
+	private static final int WHAT_JUMPMAIN = 100;
+	private static final int WHAT_SHOWNOACCESS = 101;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_loading);
 		initView();
 		loadData();
-		handler.sendEmptyMessageDelayed(100, 3000);
+		handler.sendEmptyMessageDelayed(WHAT_JUMPMAIN, 3000);
 	}
-	
-	Handler handler =new Handler(){
+
+	Handler handler = new Handler() {
 
 		@Override
 		public void handleMessage(Message msg) {
-			jumpToMain();
+			switch (msg.what) {
+			case WHAT_JUMPMAIN:
+				jumpToMain();
+				break;
+			case WHAT_SHOWNOACCESS:
+				showNoAccessDialog();
+				break;
+			default:
+				break;
+			}
+
 			super.handleMessage(msg);
 		}
-		
+
 	};
 
 	private void initView() {
@@ -80,13 +97,14 @@ public class LoadingActivity extends BaseActivity {
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
-//				jumpToMain();
+				// jumpToMain();
 			}
 		});
 
 	}
 
 	private void loadData() {
+		MyApplication.HAS_ACCESSUSER = true;
 		lastCachedADUri = SharedPreferencesUtil.getJsonCache(context, Config.KEY_BOOTADIMG);
 		L.d(TAG + " imgurl===" + lastCachedADUri + " ");
 		if (TextUtils.isEmpty(lastCachedADUri)) {
@@ -104,7 +122,7 @@ public class LoadingActivity extends BaseActivity {
 				public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
 					ivLoading.setImageResource(R.drawable.lug_img_loading);
 					ivLoading.startAnimation(alphaAnimation);
-//					DialogUtil.showLongToast(context, "图片下载失败，使用默认图片！");
+					// DialogUtil.showLongToast(context, "图片下载失败，使用默认图片！");
 					L.d(TAG + " onLoadingFailed failReason=" + failReason);
 				}
 
@@ -118,7 +136,7 @@ public class LoadingActivity extends BaseActivity {
 				public void onLoadingCancelled(String imageUri, View view) {
 					ivLoading.setImageResource(R.drawable.lug_img_loading);
 					ivLoading.startAnimation(alphaAnimation);
-//					DialogUtil.showLongToast(context, "图片下载取消，使用默认图片！");
+					// DialogUtil.showLongToast(context, "图片下载取消，使用默认图片！");
 					L.d(TAG + " onLoadingCancelled url=" + imageUri);
 				}
 			});
@@ -127,8 +145,10 @@ public class LoadingActivity extends BaseActivity {
 	}
 
 	private void jumpToMain() {
-		startActivity(new Intent(context, MainActivity.class));
-		finish();
+		if (MyApplication.HAS_ACCESSUSER) {
+			startActivity(new Intent(context, MainActivity.class));
+			finish();
+		}
 	}
 
 	/**
@@ -143,6 +163,10 @@ public class LoadingActivity extends BaseActivity {
 			@Override
 			public void onComplete(Object object) {
 				String uri = (String) object;
+				L.d(TAG + "HAS_ACCESSUSER==" + MyApplication.HAS_ACCESSUSER);
+				if (!MyApplication.HAS_ACCESSUSER) {
+					handler.sendEmptyMessage(WHAT_SHOWNOACCESS);
+				}
 				if (TextUtils.isEmpty(uri)) {
 					L.d(TAG + " loadnextBootAdImg by uri is null");
 					return;
@@ -179,5 +203,25 @@ public class LoadingActivity extends BaseActivity {
 				});
 			}
 		});
+	}
+
+	private void showNoAccessDialog() {
+		String content = context.getResources().getString(R.string.noaccess);
+		Dialog dialog = DialogUtil.showMyAlertDialog(context, context.getResources().getString(R.string.tishi),
+				content, "OK", "", true, false, false, new DialogBtnOnClickListener() {
+
+					@Override
+					public void onSubmit(DialogMessage dialogMessage) {
+						if (dialogMessage != null && dialogMessage.dialogInterface != null) {
+							dialogMessage.dialogInterface.dismiss();
+						}
+						System.exit(0);
+					}
+
+					@Override
+					public void onCancel(DialogMessage dialogMessage) {
+
+					}
+				});
 	}
 }

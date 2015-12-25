@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -87,6 +88,11 @@ public class DialogUtil {
 
 	public static Dialog showMyAlertDialog(Context context, String title, String content, String positiveBtnName,
 			String negtiveBtnName, final DialogBtnOnClickListener listener) {
+		return showMyAlertDialog(context, title, content, positiveBtnName, negtiveBtnName, false,true,true, listener);
+	}
+
+	public static Dialog showMyAlertDialog(Context context, String title, String content, String positiveBtnName,
+			String negtiveBtnName, boolean isOnlySureBtn, boolean isSystem,boolean isCancelable, final DialogBtnOnClickListener listener) {
 		final Dialog dialog = new Dialog(context, R.style.Dialog_nowindowbg);
 
 		View view = LayoutInflater.from(context).inflate(R.layout.dialog_myalert, null);
@@ -98,11 +104,12 @@ public class DialogUtil {
 
 		TextImageButton bt_submit = (TextImageButton) view.findViewById(R.id.bt_alertdia_submit);
 		TextImageButton bt_cancel = (TextImageButton) view.findViewById(R.id.bt_alertdia_cancel);
+		bt_cancel.setVisibility(isOnlySureBtn ? View.GONE : View.VISIBLE);
 		if (!TextUtils.isEmpty(positiveBtnName)) {
-			bt_submit.setText(positiveBtnName);
+			bt_submit.setMyText(positiveBtnName);
 		}
 		if (!TextUtils.isEmpty(negtiveBtnName)) {
-			bt_cancel.setText(negtiveBtnName);
+			bt_cancel.setMyText(negtiveBtnName);
 		}
 		bt_submit.setOnClickListener(new View.OnClickListener() {
 
@@ -137,11 +144,14 @@ public class DialogUtil {
 		}
 		bt_submit.requestFocus();
 		dialog.getWindow().setAttributes(param);
-		// dialog.getWindow()
-		// .setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+		dialog.setCancelable(isCancelable);
+		if (isSystem) {
+			dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+		}
 		try {
 			dialog.show();
 		} catch (Exception e) {
+			L.e("dialog show error "+e.getMessage());
 			e.printStackTrace();
 		}
 		return dialog;

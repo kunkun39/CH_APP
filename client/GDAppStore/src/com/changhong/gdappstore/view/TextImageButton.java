@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 import android.widget.ImageButton;
 
 import com.changhong.gdappstore.R;
+import com.changhong.gdappstore.util.L;
 /**
  * 带文字的imageButton
  * @author wangxiufeng
@@ -54,6 +55,10 @@ public class TextImageButton extends ImageButton {
 		this.text=text;
 		invalidate();
 	}
+	public void setMyText(String text) {
+		this.text=text;
+		invalidate();
+	}
 	
 	public void setTextSize(int textSize) {
 		this.textSize=textSize;
@@ -72,6 +77,7 @@ public class TextImageButton extends ImageButton {
 		paint.setTextAlign(Align.CENTER);
 		paint.setColor(textColor);
 		paint.setTextSize(textSize);
+		L.d("textImageButton draw text "+text);
 		canvas.drawText(text, canvas.getWidth() / 2, (canvas.getHeight() / 2)+textSize/2-5, paint);
 	}
 
