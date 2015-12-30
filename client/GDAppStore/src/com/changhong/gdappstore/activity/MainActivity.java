@@ -59,7 +59,7 @@ public class MainActivity extends BaseActivity {
 	private ViewPager viewPager;
 	/** viewpager适配器 */
 	private MainViewPagerAdapter viewPagerAdapter;
-	/**更新对话框*/
+	/** 更新对话框 */
 	private Dialog updateDialog = null;
 	/** viewpager 翻页动画 */
 	private Animation anim_rightin, anim_leftin;
@@ -77,18 +77,42 @@ public class MainActivity extends BaseActivity {
 	private static int curPageSize = PAGESIZE;
 	private BasePageView[] homePages = new BasePageView[curPageSize];
 	private HomePageView homePageView;
-
+	/** 更新提示对话框是否已经显示 */
 	private static boolean isShowedUpdateDialog = false;
+	/** 静默安装Server是否已经启动 */
 	private static boolean isSilentInstallServiceStart = false;
+
+	Handler handler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			// viewPager.setAdapter(viewPagerAdapter);
+			if (msg.what == 11) {
+				viewPager.setAdapter(viewPagerAdapter);
+				initOnCreateData();
+			} else if (msg.what == 12) {
+				initData();
+			}
+
+		}
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		L.d("mainactivity on create ");
+		
 		setContentView(R.layout.activity_main);
 		initView();
-		
-		//启动静默安装
+		startSilentInstallService();
+	}
+
+	/**
+	 * 静默安装
+	 */
+	private void startSilentInstallService() {
+		// 启动静默安装
 		if (!isSilentInstallServiceStart) {
 			startService(new Intent(MainActivity.this, SilentInstallService.class));
 			isSilentInstallServiceStart = true;
@@ -142,26 +166,9 @@ public class MainActivity extends BaseActivity {
 		viewPager.setAnimationCacheEnabled(true);
 		viewPager.setOffscreenPageLimit(5);
 		viewPager.setOnPageChangeListener(pageChangeListener);
-		
-		
+
 		handler.sendEmptyMessageDelayed(11, 10);// 解决跳转时候上个页面停留太久
 	}
-
-	Handler handler = new Handler() {
-
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-			// viewPager.setAdapter(viewPagerAdapter);
-			if (msg.what == 11) {
-				viewPager.setAdapter(viewPagerAdapter);
-				initOnCreateData();
-			} else if (msg.what == 12) {
-				initData();
-			}
-
-		}
-	};
 
 	/**
 	 * 执行onCreate页面首次进入时候请求数据
@@ -189,17 +196,17 @@ public class MainActivity extends BaseActivity {
 	 * 初始化数据
 	 */
 	private void initData() {
-		//栏目数据
+		// 栏目数据
 		categories = DataCenter.getInstance().getCategories();
-		//标签距离
+		// 标签距离
 		titleView.setMargin(-5, -5);
-		//初始化首页默认数据（首页默认显示）
+		// 初始化首页默认数据（首页默认显示）
 		homePageView.initNativeData();
 		if (categories != null) {
 			// 移除多余PAGESIZE的页面
-			for (int i = 0; i < categories.size()-1; i++) {
-				if (i > PAGESIZE-2) {//有专题存在
-					L.d("categroies will be remove "+i+"  "+categories.get(i).getName());
+			for (int i = 0; i < categories.size() - 1; i++) {
+				if (i > PAGESIZE - 2) {// 有专题存在
+					L.d("categroies will be remove " + i + "  " + categories.get(i).getName());
 					categories.remove(i);
 					i--;
 				}
@@ -278,7 +285,7 @@ public class MainActivity extends BaseActivity {
 			int titleFocusPos = titleView.getFocuesPosition();
 			if (titleFocusPos >= 0 && viewPager.getCurrentItem() == titleFocusPos && titleFocusPos < homePages.length
 					&& homePages[titleFocusPos] != null) {
-				if (homePages[titleFocusPos].getPageTag()==BasePageView.TAG_TOPIC) {
+				if (homePages[titleFocusPos].getPageTag() == BasePageView.TAG_TOPIC) {
 					if (((TopicView) homePages[titleFocusPos]).getChildViewAt(0) != null) {
 						((TopicView) homePages[titleFocusPos]).getChildViewAt(0).requestFocus();
 						return true;
@@ -392,7 +399,7 @@ public class MainActivity extends BaseActivity {
 			if (!titleView.hasChildFocuesed()) {// 非标签上面切换情况下，处理默认交代呢
 				if (arg0 == categories.size() - 1) {
 					// 当前页面是专题页面
-					if (curPageView.getPageTag()==BasePageView.TAG_TOPIC) {// 从左往右翻页
+					if (curPageView.getPageTag() == BasePageView.TAG_TOPIC) {// 从左往右翻页
 						if (homePages[currIndex].currentFocuesId == R.id.homepage_item12) {
 							((TopicView) curPageView).setOtcItemFocuesByPos(1);// 最底层一排翻页让第下一页最低层第一个获取焦点
 						} else {
