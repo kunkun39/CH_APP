@@ -13,11 +13,14 @@ import android.content.SharedPreferences;
 public class SharedPreferencesUtil {
 	/** jsoncache存放文件 */
 	public static final String JSON_CACHEFILE = "jsoncache";
-	
+
+	public static final String ACCESS_CACHEFILE = "useraccesss";
+	public static final String KEY_USERACCESS = "useraccesss";
+
 	/************************* app云同步相关信息 **********************/
-	/**文件名**/
+	/** 文件名 **/
 	public static final String APP_SYNCH = "appsynch";
-	/**文件名**/
+	/** 文件名 **/
 	public static final String KEY_REQUESTDAY = "requestday";
 
 	/**
@@ -53,6 +56,27 @@ public class SharedPreferencesUtil {
 		return json;
 	}
 
+	public static void putSharedBoolean(Context context, String filename, String key, boolean value) {
+		SharedPreferences sharedPreferences = getPrivateShareFile(context, filename);
+		if (sharedPreferences == null) {
+			L.e("sharedPreferences is null when putSharedBoolean");
+			return;
+		}
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.putBoolean(key, value);
+		editor.commit();
+	}
+
+	public static boolean getSharedBoolean(Context context, String filename, String key, boolean defaultValue) {
+		SharedPreferences sharedPreferences = getPrivateShareFile(context, filename);
+		if (sharedPreferences == null) {
+			L.e("sharedPreferences is null when getSharedBoolean");
+			return defaultValue;
+		}
+		boolean json = sharedPreferences.getBoolean(key, defaultValue);
+		return json;
+	}
+
 	/**
 	 * 存放json字符串私用
 	 * 
@@ -64,6 +88,10 @@ public class SharedPreferencesUtil {
 		putSharedString(context, JSON_CACHEFILE, key, value);
 	}
 
+	public static void putAccessCache(Context context, boolean value) {
+		putSharedBoolean(context, ACCESS_CACHEFILE, KEY_USERACCESS, value);
+	}
+
 	/**
 	 * 获取json字符串私用
 	 * 
@@ -73,6 +101,10 @@ public class SharedPreferencesUtil {
 	 */
 	public static String getJsonCache(Context context, String key) {
 		return getSharedString(context, JSON_CACHEFILE, key, "");
+	}
+
+	public static boolean getAccessCache(Context context, boolean defaultvalue) {
+		return getSharedBoolean(context, ACCESS_CACHEFILE, KEY_USERACCESS, defaultvalue);
 	}
 
 	/**
