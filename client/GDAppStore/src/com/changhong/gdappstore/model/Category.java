@@ -18,7 +18,7 @@ public class Category{
 	protected String name;
 	// 栏目图片地址
 	protected String iconFilePath;
-	//
+	//true:专题栏目，false：普通栏目
 	protected boolean istopic=false;
 	// 栏目子栏目
 	protected List<Category> categoyChildren = new ArrayList<Category>();

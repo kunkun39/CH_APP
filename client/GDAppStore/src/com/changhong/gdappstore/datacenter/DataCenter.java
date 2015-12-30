@@ -228,8 +228,9 @@ public class DataCenter {
 
 			@Override
 			protected Object doInBackground(Object... params) {
-				String json = HttpRequestUtil.getEntityString(
-						HttpRequestUtil.doGetRequest(Config.getPagesUrl, context), context);
+				String url = Config.getPagesUrl + "?" + "boxMac=" + MyApplication.getEncDeviceMac();
+				String json = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(url, context), context);
+
 				if (!TextUtils.isEmpty(json)) {
 					lastRequestPageAppsTime = System.currentTimeMillis();// 更改上次请求时间
 					CacheManager.putJsonFileCache(context, CacheManager.KEYJSON_PAGEAPPS, json);// 缓存json数据
@@ -254,7 +255,7 @@ public class DataCenter {
 	}
 
 	/**
-	 * 请求某分类下面的应用
+	 * 请求某栏目下面的应用
 	 * 
 	 * @param categoryId
 	 *            分类id
@@ -273,8 +274,10 @@ public class DataCenter {
 
 			@Override
 			protected Object doInBackground(Object... params) {
+
 				// 缓存中没有就去服务器请求
-				String url = Config.getCategoryAppsUrl + "?categoryId=" + categoryId;
+				String url = Config.getCategoryAppsUrl + "?categoryId=" + categoryId + "&boxMac="
+						+ MyApplication.getEncDeviceMac();
 				String jsonString = HttpRequestUtil
 						.getEntityString(HttpRequestUtil.doGetRequest(url, context), context);
 				if (!TextUtils.isEmpty(jsonString)) {
@@ -318,7 +321,8 @@ public class DataCenter {
 			@Override
 			protected Object doInBackground(Object... params) {
 				// 缓存中没有就去服务器请求
-				String url = Config.getTopicAppsUrl + "?topicId=" + topicId;
+				String url = Config.getTopicAppsUrl + "?topicId=" + topicId + "&boxMac="
+						+ MyApplication.getEncDeviceMac();
 				String jsonString = HttpRequestUtil
 						.getEntityString(HttpRequestUtil.doGetRequest(url, context), context);
 				if (!TextUtils.isEmpty(jsonString)) {
@@ -354,7 +358,7 @@ public class DataCenter {
 			@Override
 			protected Object doInBackground(Object... params) {
 				// 缓存中没有就去服务器请求
-				String url = Config.getAppDetailUrl + "?appId=" + appId;
+				String url = Config.getAppDetailUrl + "?appId=" + appId + "&boxMac=" + MyApplication.getEncDeviceMac();
 				String jsonString = HttpRequestUtil
 						.getEntityString(HttpRequestUtil.doGetRequest(url, context), context);
 				AppDetail appDetail = Parse.parseAppDetail(jsonString);
@@ -383,7 +387,8 @@ public class DataCenter {
 
 			@Override
 			protected Object doInBackground(Object... params) {
-				String url = Config.getAppSearchUrl + "?keywords=" + keywords;
+				String url = Config.getAppSearchUrl + "?keywords=" + keywords + "&boxMac="
+						+ MyApplication.getEncDeviceMac();
 				String jsonString = HttpRequestUtil
 						.getEntityString(HttpRequestUtil.doGetRequest(url, context), context);
 				List<Object> categoryApps = Parse.parseSearchApps(jsonString);
@@ -418,6 +423,7 @@ public class DataCenter {
 					return null;
 				}
 				List<NameValuePair> paramList = new ArrayList<NameValuePair>();
+				paramList.add(new BasicNameValuePair("boxMac", MyApplication.getEncDeviceMac()));
 				for (int i = 0; i < packages.size(); i++) {
 					paramList.add(new BasicNameValuePair("appPackages", packages.get(i)));
 				}
@@ -613,7 +619,8 @@ public class DataCenter {
 			@Override
 			protected Object doInBackground(Object... params) {
 				// 缓存中没有就去服务器请求
-				String url = Config.getDetailRecommendUrl + "?categoryId=" + categoryId;
+				String url = Config.getDetailRecommendUrl + "?categoryId=" + categoryId + "&boxMac="
+						+ MyApplication.getDeviceMac();
 				String jsonString = HttpRequestUtil
 						.getEntityString(HttpRequestUtil.doGetRequest(url, context), context);
 				if (!TextUtils.isEmpty(jsonString)) {
@@ -718,7 +725,6 @@ public class DataCenter {
 		return categories;
 	}
 
-
 	/**
 	 * 根据栏目id获取栏目
 	 * 
@@ -779,8 +785,9 @@ public class DataCenter {
 			@Override
 			protected Boolean doInBackground(Void... params) {
 				// TODO Auto-generated method stub
-				String json = HttpRequestUtil.getEntityString(
-						HttpRequestUtil.doGetRequest(Config.getAppRankListUrl, context), context);
+				String url = Config.getAppRankListUrl + "?boxMac=" + MyApplication.getDeviceMac();
+				String json = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(url, context), context);
+
 				if (!TextUtils.isEmpty(json)) {
 					lastRequestRankListTime = System.currentTimeMillis();// 更改上次请求时间
 					CacheManager.putJsonFileCache(context, CacheManager.KEYJSON_RANKLIST, json);// 缓存json数据

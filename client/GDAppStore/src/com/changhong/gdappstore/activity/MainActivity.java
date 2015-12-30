@@ -59,6 +59,8 @@ public class MainActivity extends BaseActivity {
 	private ViewPager viewPager;
 	/** viewpager适配器 */
 	private MainViewPagerAdapter viewPagerAdapter;
+	/**更新对话框*/
+	private Dialog updateDialog = null;
 	/** viewpager 翻页动画 */
 	private Animation anim_rightin, anim_leftin;
 	/** viewpager 当前选中标签页 */
@@ -85,6 +87,8 @@ public class MainActivity extends BaseActivity {
 		L.d("mainactivity on create ");
 		setContentView(R.layout.activity_main);
 		initView();
+		
+		//启动静默安装
 		if (!isSilentInstallServiceStart) {
 			startService(new Intent(MainActivity.this, SilentInstallService.class));
 			isSilentInstallServiceStart = true;
@@ -138,11 +142,9 @@ public class MainActivity extends BaseActivity {
 		viewPager.setAnimationCacheEnabled(true);
 		viewPager.setOffscreenPageLimit(5);
 		viewPager.setOnPageChangeListener(pageChangeListener);
-		// viewPager.setAdapter(viewPagerAdapter);
-		// ((HomePageView)
-		// homePages[0]).initNativeData();//非必要代码，只是在加载数据前显示出来以免页面空虚
+		
+		
 		handler.sendEmptyMessageDelayed(11, 10);// 解决跳转时候上个页面停留太久
-		// initOnCreateData();
 	}
 
 	Handler handler = new Handler() {
@@ -161,6 +163,9 @@ public class MainActivity extends BaseActivity {
 		}
 	};
 
+	/**
+	 * 执行onCreate页面首次进入时候请求数据
+	 */
 	private void initOnCreateData() {
 		L.d("initdata initOnCreateData----");
 		showLoadingDialog();
@@ -184,13 +189,17 @@ public class MainActivity extends BaseActivity {
 	 * 初始化数据
 	 */
 	private void initData() {
+		//栏目数据
 		categories = DataCenter.getInstance().getCategories();
+		//标签距离
 		titleView.setMargin(-5, -5);
+		//初始化首页默认数据（首页默认显示）
 		homePageView.initNativeData();
 		if (categories != null) {
 			// 移除多余PAGESIZE的页面
-			for (int i = 0; i < categories.size(); i++) {
-				if (i > PAGESIZE) {
+			for (int i = 0; i < categories.size()-1; i++) {
+				if (i > PAGESIZE-2) {//有专题存在
+					L.d("categroies will be remove "+i+"  "+categories.get(i).getName());
 					categories.remove(i);
 					i--;
 				}
@@ -436,8 +445,10 @@ public class MainActivity extends BaseActivity {
 		public void onPageScrollStateChanged(int arg0) {
 		}
 	};
-	private Dialog updateDialog = null;
 
+	/**
+	 * 检测更新
+	 */
 	private void checkUpdate() {
 		if (!MyApplication.UPDATE_ENABLE) {
 			return;
