@@ -56,7 +56,7 @@ public class MyApplication extends Application {
 	/** 是否是中文语言 */
 	public static boolean IS_ZH_LANGUAGE = true;
 	/** 是否拥有权限使用 */
-	public static boolean HAS_ACCESSUSER = true;
+	public static boolean ACCESSUSER_INITED = false;
 
 	private Context context;
 
@@ -153,6 +153,7 @@ public class MyApplication extends Application {
 			Config.setBASEURL(Config.SERVER_EN);
 			Config.CONNECTION_TIMEOUT = 15000;
 		}
+//		Config.setBASEURL("http://52.76.82.189:8080/appmarket/");
 	}
 
 	/**
