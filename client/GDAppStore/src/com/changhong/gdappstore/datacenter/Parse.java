@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.changhong.gdappstore.Config;
@@ -21,6 +22,7 @@ import com.changhong.gdappstore.model.SynchApp;
 import com.changhong.gdappstore.model.SynchApp.Type;
 import com.changhong.gdappstore.util.DesUtils;
 import com.changhong.gdappstore.util.L;
+import com.changhong.gdappstore.util.SharedPreferencesUtil;
 import com.changhong.gdappstore.util.Util;
 
 /**
@@ -383,7 +385,7 @@ public class Parse {
 	 * @param bootADJson
 	 * @return
 	 */
-	public static String parseBootAD(String bootADJson) {
+	public static String parseBootAD(String bootADJson, Context context) {
 		if (TextUtils.isEmpty(bootADJson)) {
 			L.w("returned by appdetailJson is empty when bootADJson");
 			return "";
@@ -396,9 +398,8 @@ public class Parse {
 			String bootImg = object.getString("boot_img");
 			bootADUrl = host + bootImg;
 			if (object.has("access")) {
-				MyApplication.HAS_ACCESSUSER = object.getBoolean("access");
-			}else {
-				MyApplication.HAS_ACCESSUSER=true;
+				SharedPreferencesUtil.putAccessCache(context, object.getBoolean("access"));
+				MyApplication.ACCESSUSER_INITED = true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

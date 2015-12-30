@@ -677,7 +677,7 @@ public class DataCenter {
 			public void run() {
 				String url = Config.getBootADUrl + "?" + "boxMac=" + MyApplication.getEncDeviceMac();
 				String jsonString = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(url, context), context);
-				String bootADUrl = Parse.parseBootAD(jsonString);
+				String bootADUrl = Parse.parseBootAD(jsonString,context);
 
 				if (!TextUtils.isEmpty(bootADUrl)) {
 					if (bootADUrl.endsWith(Config.INITIAL)) {// 和apk默认广告图片一样
