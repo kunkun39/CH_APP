@@ -20,7 +20,6 @@ import com.changhong.gdappstore.base.BaseActivity;
 import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
 import com.changhong.gdappstore.util.DialogUtil;
-import com.changhong.gdappstore.util.DialogUtil.DialogBtnOnClickListener;
 import com.changhong.gdappstore.util.DialogUtil.DialogMessage;
 import com.changhong.gdappstore.util.ImageLoadUtil;
 import com.changhong.gdappstore.util.L;
@@ -46,7 +45,7 @@ public class LoadingActivity extends BaseActivity {
 	private String lastCachedADUri = "";
 
 	private static final int WHAT_JUMPMAIN = 100;
-	private static final int WHAT_SHOWNOACCESS = 101;
+	private static final int WHAT_DOACCESS = 101;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +53,7 @@ public class LoadingActivity extends BaseActivity {
 		setContentView(R.layout.activity_loading);
 		initView();
 		loadData();
+		requestBootAdImgData();
 		handler.sendEmptyMessageDelayed(WHAT_JUMPMAIN, 3000);
 	}
 
@@ -65,8 +65,8 @@ public class LoadingActivity extends BaseActivity {
 			case WHAT_JUMPMAIN:
 				jumpToMain();
 				break;
-			case WHAT_SHOWNOACCESS:
-				showNoAccessDialog();
+			case WHAT_DOACCESS:
+				doAccess();
 				break;
 			default:
 				break;
@@ -104,9 +104,8 @@ public class LoadingActivity extends BaseActivity {
 	}
 
 	private void loadData() {
-		MyApplication.HAS_ACCESSUSER = true;
 		lastCachedADUri = SharedPreferencesUtil.getJsonCache(context, Config.KEY_BOOTADIMG);
-		L.d(TAG + " imgurl===" + lastCachedADUri + " ");
+		L.d(TAG + " lastCachedADUri===" + lastCachedADUri + " ");
 		if (TextUtils.isEmpty(lastCachedADUri)) {
 			ivLoading.setImageResource(R.drawable.lug_img_loading);
 			ivLoading.startAnimation(alphaAnimation);
@@ -141,12 +140,13 @@ public class LoadingActivity extends BaseActivity {
 				}
 			});
 		}
-		loadBootAdImg();
 	}
 
+	private boolean isJumped=false;
 	private void jumpToMain() {
-		if (MyApplication.HAS_ACCESSUSER) {
+		if (SharedPreferencesUtil.getAccessCache(context, false)) {
 			startActivity(new Intent(context, MainActivity.class));
+			isJumped=true;
 			finish();
 		}
 	}
@@ -156,59 +156,44 @@ public class LoadingActivity extends BaseActivity {
 	 * 广告图片加载机制：请求广告图片地址；判断是否和上一次地址一样，不一样就下载图片保存本地。下一次启动时候加载上次下载的图片
 	 * ，如果本地没有去服务器请求，请求失败显示默认图片
 	 */
-	private void loadBootAdImg() {
+	private void requestBootAdImgData() {
 
 		DataCenter.getInstance().loadBootADData(context, new LoadObjectListener() {
 
 			@Override
 			public void onComplete(Object object) {
 				String uri = (String) object;
-				L.d(TAG + "HAS_ACCESSUSER==" + MyApplication.HAS_ACCESSUSER);
-				if (!MyApplication.HAS_ACCESSUSER) {
-					handler.sendEmptyMessage(WHAT_SHOWNOACCESS);
-				}
+
+				handler.sendEmptyMessage(WHAT_DOACCESS);
+
 				if (TextUtils.isEmpty(uri)) {
 					L.d(TAG + " loadnextBootAdImg by uri is null");
 					return;
 				}
 				if (!TextUtils.isEmpty(lastCachedADUri) && uri.equals(lastCachedADUri)) {
-					// 和上次缓存是同一张图片不再请求
 					L.d(TAG + " loadnextBootAdImg by uri equals lastone" + uri);
-					return;
+					return;// 和上次缓存是同一张图片不再请求
 				}
-				DisplayImageOptions options = new DisplayImageOptions.Builder().displayer(new SimpleBitmapDisplayer())
-						.bitmapConfig(Bitmap.Config.ARGB_8888).imageScaleType(ImageScaleType.IN_SAMPLE_INT)
-						.cacheInMemory(false).cacheOnDisc(true).showImageOnFail(R.drawable.lug_img_loading).build();
-				MyApplication.imageLoader.loadImage(uri, options, new ImageLoadingListener() {
 
-					@Override
-					public void onLoadingStarted(String imageUri, View view) {
-						L.d(TAG + " loadnextBootAdImg onLoadingStarted url=" + imageUri);
-					}
-
-					@Override
-					public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-						L.d(TAG + " loadnextBootAdImg onLoadingFailed url=" + imageUri);
-					}
-
-					@Override
-					public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-						L.d(TAG + " loadnextBootAdImg onLoadingComplete url=" + imageUri);
-					}
-
-					@Override
-					public void onLoadingCancelled(String imageUri, View view) {
-						L.d(TAG + " loadnextBootAdImg onLoadingCancelled url=" + imageUri);
-					}
-				});
+				loadBootAdImg(uri);
 			}
 		});
 	}
 
-	private void showNoAccessDialog() {
+	/**
+	 * 处理是否拥有全新进入应用
+	 */
+	private void doAccess() {
+		boolean hasAccess = SharedPreferencesUtil.getAccessCache(context, false);
+		L.d(TAG + "HAS_ACCESSUSER==" + hasAccess + " inited " + MyApplication.ACCESSUSER_INITED);
+		if (hasAccess) {
+			jumpToMain();
+			return;
+		}
+//		startService(new Intent(context,SystemDialogService.class));
 		String content = context.getResources().getString(R.string.noaccess);
 		Dialog dialog = DialogUtil.showMyAlertDialog(context, context.getResources().getString(R.string.tishi),
-				content, "OK", "", true, false, false, new DialogBtnOnClickListener() {
+				content, "OK", "", true, true, false, new DialogBtnOnClickListener() {
 
 					@Override
 					public void onSubmit(DialogMessage dialogMessage) {
@@ -223,5 +208,38 @@ public class LoadingActivity extends BaseActivity {
 
 					}
 				});
+	}
+
+	/**
+	 * 下载保存图片
+	 * 
+	 * @param uri
+	 */
+	private void loadBootAdImg(String uri) {
+		DisplayImageOptions options = new DisplayImageOptions.Builder().displayer(new SimpleBitmapDisplayer())
+				.bitmapConfig(Bitmap.Config.ARGB_8888).imageScaleType(ImageScaleType.IN_SAMPLE_INT)
+				.cacheInMemory(false).cacheOnDisc(true).showImageOnFail(R.drawable.lug_img_loading).build();
+		MyApplication.imageLoader.loadImage(uri, options, new ImageLoadingListener() {
+
+			@Override
+			public void onLoadingStarted(String imageUri, View view) {
+				L.d(TAG + " loadnextBootAdImg onLoadingStarted url=" + imageUri);
+			}
+
+			@Override
+			public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+				L.d(TAG + " loadnextBootAdImg onLoadingFailed url=" + imageUri);
+			}
+
+			@Override
+			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+				L.d(TAG + " loadnextBootAdImg onLoadingComplete url=" + imageUri);
+			}
+
+			@Override
+			public void onLoadingCancelled(String imageUri, View view) {
+				L.d(TAG + " loadnextBootAdImg onLoadingCancelled url=" + imageUri);
+			}
+		});
 	}
 }
