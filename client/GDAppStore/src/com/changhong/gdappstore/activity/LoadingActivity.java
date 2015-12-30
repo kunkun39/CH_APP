@@ -20,6 +20,7 @@ import com.changhong.gdappstore.base.BaseActivity;
 import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
 import com.changhong.gdappstore.util.DialogUtil;
+import com.changhong.gdappstore.util.DialogUtil.DialogBtnOnClickListener;
 import com.changhong.gdappstore.util.DialogUtil.DialogMessage;
 import com.changhong.gdappstore.util.ImageLoadUtil;
 import com.changhong.gdappstore.util.L;
