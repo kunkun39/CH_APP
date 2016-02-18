@@ -82,6 +82,10 @@ public class Parse {
 	public final static String APP_SCORES = "scores";
 
 	public final static String APP_RECOMMEND = "recommend";
+	/** VIP应用 */
+	public final static String APP_IS_VIP = "is_vip";
+	/** 详情应用是否允许下载 */
+	public final static String APP_CAN_DOWNLOAD = "enable_download";
 
 	/**
 	 * 请求栏目接口，包含：apk版本，apk下载地址，栏目信息，专题信息
@@ -434,6 +438,12 @@ public class Parse {
 			appDetail.setScores(object.getInt(APP_SCORES));
 			appDetail.setRecommend(object.getBoolean(APP_RECOMMEND));
 			appDetail.setState(object.getString("sta").trim());
+			if (object.has(APP_IS_VIP)) {
+				appDetail.setVipApp(object.getBoolean(APP_IS_VIP));
+			}
+			if (object.has(APP_CAN_DOWNLOAD)) {
+				appDetail.setCanDownload(object.getBoolean(APP_CAN_DOWNLOAD));
+			}
 			if (object.has(APP_ICON_FILEPATH) && !TextUtils.isEmpty(object.getString(APP_ICON_FILEPATH))) {
 				appDetail.setIconFilePath(host + appKey + "/" + object.getString(APP_ICON_FILEPATH).trim());
 			}

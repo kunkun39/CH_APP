@@ -53,7 +53,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	private static final int SHOW_INSTALL_FAILED = 112;
 	private static final int DISSMISS_PDIALOG = 113;
 	/** 下载按钮 */
-	private ImageView bt_dowload, bt_update, bt_open, iv_recommend;
+	private ImageView bt_dowload, bt_update, bt_open, iv_recommend, iv_isvip;
 	/** 用户喜欢 */
 	private UserMayLikeView view_usermaylike;
 	/** 应用文本介绍信息 */
@@ -100,6 +100,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		bt_update.setVisibility(GONE);
 		iv_post = findView(R.id.iv_detailpost);
 		iv_icon = findView(R.id.iv_detailicon);
+		iv_isvip = findView(R.id.iv_isvip);
 		tv_appname = findView(R.id.tv_appname);
 		tv_downloadcount = findView(R.id.tv_downloadcount);
 		tv_size = findView(R.id.tv_appsize);
@@ -154,6 +155,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 					tv_version.setText(appDetail.getVersion());
 					tv_introduce.setText(appDetail.getDescription());
 					tv_updatetime.setText(appDetail.getUpdateDate());
+					iv_isvip.setVisibility(appDetail.isVipApp() ? VISIBLE : GONE);
 					// iv_recommend.setVisibility(appDetail.isRecommend()?VISIBLE:INVISIBLE);
 					ImageLoadUtil.displayImgByNoCache(appDetail.getIconFilePath(), iv_icon);
 					ImageLoadUtil.displayImgByNoCache(appDetail.getPosterFilePath(), iv_post);
@@ -218,7 +220,8 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 			if (isInstalled) {// 比较本地已安装版本号
 				int installedVersion = installed.getNativeVersionInt();
 				bt_update.setVisibility((appdetailVersion > installedVersion) ? VISIBLE : GONE);
-				L.d("detail installed serverVer="+appdetailVersion+" nativeVer="+installedVersion+" serverpackage="+appDetail.getPackageName()+" nativepackage="+installed.appPackage);
+				L.d("detail installed serverVer=" + appdetailVersion + " nativeVer=" + installedVersion
+						+ " serverpackage=" + appDetail.getPackageName() + " nativepackage=" + installed.appPackage);
 			}
 		}
 		// 焦点控制
@@ -260,6 +263,10 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	}
 
 	private void showDownloadDialog(final boolean isDownload) {
+		if (appDetail == null || !appDetail.isCanDownload()) {
+			showNotVipSuggestionDialog();// 显示用户VIP等级不足下载应用对话框
+			return;
+		}
 		String content = "";
 		if (isDownload) {
 			content = context.getString(R.string.sure_download_app);
@@ -273,6 +280,26 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 				downloadPDialog.setProgress(0);
 				// updateService.update(appDetail, isDownload);
 				doDownload(appDetail, isDownload);
+				if (dialogMessage != null && dialogMessage.dialogInterface != null) {
+					dialogMessage.dialogInterface.dismiss();
+				}
+			}
+
+			@Override
+			public void onCancel(DialogMessage dialogMessage) {
+				if (dialogMessage != null && dialogMessage.dialogInterface != null) {
+					dialogMessage.dialogInterface.dismiss();
+				}
+			}
+		});
+	}
+
+	private void showNotVipSuggestionDialog() {
+		String content = context.getResources().getString(R.string.notvipuser_cannotdownload);
+		DialogUtil.showMyAlertDialog(context, "", content, "", "", true, false, true, new DialogBtnOnClickListener() {
+
+			@Override
+			public void onSubmit(DialogMessage dialogMessage) {
 				if (dialogMessage != null && dialogMessage.dialogInterface != null) {
 					dialogMessage.dialogInterface.dismiss();
 				}
@@ -314,7 +341,8 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 			public void onLoading(long total, long current, boolean isUploading) {
 				downloadPDialog.setMax((int) total);
 				downloadPDialog.setProgress((int) current);
-				L.d("download detail app onloading current is " + current + " total " + total+" isUploading "+isUploading);
+				L.d("download detail app onloading current is " + current + " total " + total + " isUploading "
+						+ isUploading);
 				super.onLoading(total, current, isUploading);
 			}
 

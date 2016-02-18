@@ -7,7 +7,7 @@ package com.changhong.gdappstore.model;
  * 
  */
 public class AppDetail extends App {
-	public static final String PASSED="PASSED";
+	public static final String PASSED = "PASSED";
 	// 应用apk下载地址
 	protected String apkFilePath;
 	// 应用描述
@@ -19,14 +19,19 @@ public class AppDetail extends App {
 	// 应用路径
 	protected String updateDate;
 	// 状态，除了PASSED外都为下架
-	protected String state=PASSED;
+	protected String state = PASSED;
+	// 是否是VIP应用
+	protected boolean isVipApp = false;
+	// 是否可以下载
+	protected boolean isCanDownload = true;
 
 	public AppDetail() {
 		super();
 	}
-	
+
 	/**
 	 * 是否上架
+	 * 
 	 * @return true上架，false下架
 	 */
 	public boolean isOnShelf() {
@@ -80,7 +85,7 @@ public class AppDetail extends App {
 	public void setUpdateDate(String updateDate) {
 		this.updateDate = updateDate;
 	}
-	
+
 	public String getState() {
 		return state;
 	}
@@ -89,10 +94,27 @@ public class AppDetail extends App {
 		this.state = state;
 	}
 
+	public boolean isVipApp() {
+		return isVipApp;
+	}
+
+	public void setVipApp(boolean isVipApp) {
+		this.isVipApp = isVipApp;
+	}
+
+	public boolean isCanDownload() {
+		return isCanDownload;
+	}
+
+	public void setCanDownload(boolean isCanDownload) {
+		this.isCanDownload = isCanDownload;
+	}
+
 	@Override
 	public String toString() {
-		return "AppDetail ["+ super.toString() +" apkFilePath=" + apkFilePath + ", description=" + description + ", host=" + host
-				+ ", categoryId=" + categoryId + ", updateDate=" + updateDate + ", state=" + state + "]";
+		return "AppDetail [apkFilePath=" + apkFilePath + ", description=" + description + ", host=" + host
+				+ ", categoryId=" + categoryId + ", updateDate=" + updateDate + ", state=" + state + ", isVipApp="
+				+ isVipApp + ", isCanDownload=" + isCanDownload + "]";
 	}
 
 }
