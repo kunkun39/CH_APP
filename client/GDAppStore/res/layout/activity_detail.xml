@@ -38,6 +38,18 @@
                 android:src="@drawable/lug_img_recommend"
                 android:visibility="invisible" />
 
+            <ImageView
+                android:id="@+id/iv_isvip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@id/iv_detailicon"
+                android:layout_alignTop="@id/iv_detailicon"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/img_vip"
+                android:visibility="gone" />
+
             <TextView
                 android:id="@+id/tv_appname"
                 android:layout_width="match_parent"
@@ -45,10 +57,10 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="10dp"
                 android:layout_toRightOf="@id/iv_detailicon"
-                android:text=""
-                android:singleLine="true"
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="28sp" />
 
@@ -93,18 +105,18 @@
                     android:focusable="true"
                     android:scaleType="fitXY"
                     android:src="@drawable/lug_btn_updateapp" />
-                <TextView 
+
+                <TextView
                     android:id="@+id/tv_downshelf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/blue"
-                    android:text="@string/appisundershelf"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
                     android:gravity="center_vertical"
-                    android:visibility="gone"
-                    />
+                    android:text="@string/appisundershelf"
+                    android:textColor="@color/blue"
+                    android:textSize="20sp"
+                    android:visibility="gone" />
             </LinearLayout>
         </RelativeLayout>
 

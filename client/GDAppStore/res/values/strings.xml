@@ -75,6 +75,7 @@
     <string name="similar_apps">猜你喜欢：</string>
     <string name="uninstall_apps">卸载应用：</string>
     <string name="ge">个</string>
+    <string name="notvipuser_cannotdownload">你不是会员或你的会员等级不够，请联系运营商查询更多关于会员的细节。</string>
     <!-- 云同步功能 -->
     <string name="backup">备份</string>
     <string name="recovery">恢复</string>
