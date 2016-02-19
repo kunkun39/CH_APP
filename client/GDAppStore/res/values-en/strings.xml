@@ -74,7 +74,7 @@
     <string name="similar_apps">Similar Apps：</string>
     <string name="uninstall_apps">uninstall</string>
     <string name="ge"></string>
-    <string name="notvipuser_cannotdownload">You are not vip member or you vip level is not enough, please contact yupptv for more vip details.</string>
+    <string name="notvipuser_cannotdownload">You are not vip member or your vip level is not enough, please contact yupptv for more vip details.</string>
     <!-- 云同步功能 -->
     <string name="backup">Backup</string>
     <string name="recovery">Recovery</string>
