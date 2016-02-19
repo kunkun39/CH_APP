@@ -620,7 +620,7 @@ public class DataCenter {
 			protected Object doInBackground(Object... params) {
 				// 缓存中没有就去服务器请求
 				String url = Config.getDetailRecommendUrl + "?categoryId=" + categoryId + "&boxMac="
-						+ MyApplication.getDeviceMac();
+						+ MyApplication.getEncDeviceMac();
 				String jsonString = HttpRequestUtil
 						.getEntityString(HttpRequestUtil.doGetRequest(url, context), context);
 				if (!TextUtils.isEmpty(jsonString)) {
@@ -705,7 +705,7 @@ public class DataCenter {
 			public void run() {
 				L.d("submitAppDownloadOK id=" + appId);
 				String url = Config.putAppDownloadOK + "?" + "appId=" + appId + "&boxMac="
-						+ MyApplication.getDeviceMac();
+						+ MyApplication.getEncDeviceMac();
 				HttpRequestUtil.doGetRequest(url, context);
 			}
 		}).start();
@@ -785,7 +785,7 @@ public class DataCenter {
 			@Override
 			protected Boolean doInBackground(Void... params) {
 				// TODO Auto-generated method stub
-				String url = Config.getAppRankListUrl + "?boxMac=" + MyApplication.getDeviceMac();
+				String url = Config.getAppRankListUrl + "?boxMac=" + MyApplication.getEncDeviceMac();
 				String json = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(url, context), context);
 
 				if (!TextUtils.isEmpty(json)) {
