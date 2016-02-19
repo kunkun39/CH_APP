@@ -153,7 +153,7 @@ public class MyApplication extends Application {
 			Config.setBASEURL(Config.SERVER_EN);
 			Config.CONNECTION_TIMEOUT = 15000;
 		}
-//		Config.setBASEURL("http://52.76.82.189:8080/appmarket/");
+//		Config.setBASEURL("http://192.168.0.106:8080/appmarket/");//TODO 临时测试修改IP地址时候使用
 	}
 
 	/**
