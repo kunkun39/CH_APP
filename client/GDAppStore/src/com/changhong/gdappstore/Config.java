@@ -8,6 +8,9 @@ package com.changhong.gdappstore;
  */
 public class Config {
 
+	/** 是否定死为英文版本 */
+	public static final boolean IS_ENGLISH_VERSION = false;
+	
 	/** 是否允许缓存。只有调试所有情况下都请求接口时候才改为false */
 	public static final boolean ISCACHEABLE = true;
 
@@ -17,8 +20,8 @@ public class Config {
 	/** 是否采用系统自带卸载工具，true为用系统自带卸载，false为静默卸载 */
 	public static final boolean ISNORMAL_UNINSTALL = false;
 
-	/** 是否定死为英文版本 */
-	public static final boolean IS_ENGLISH_VERSION = false;
+	/** 是否打印json字符串？在调试时候可以打开*/
+	public static final boolean IS_JSONSTRING_DEBUG = false;
 
 	/** 请求暂停时间，在这个时间内不能连续请求 */
 	public static final int REQUEST_RESTTIEM = 3 * 60 * 1000;
