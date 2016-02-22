@@ -51,7 +51,9 @@ public class HttpRequestUtil {
 		try {
 			long contentLenght = httpEntity.getContentLength();
 			jsonString = EntityUtils.toString(httpEntity, "UTF-8");
-			L.d("getEntityString-httpentity content lenght is " + contentLenght + " jsonString " + jsonString);
+			if (Config.IS_JSONSTRING_DEBUG) {
+				L.d("getEntityString-httpentity content lenght is " + contentLenght + " jsonString " + jsonString);
+			}
 		} catch (Exception e) {
 			L.d("getEntityString error " + e);
 			DialogUtil.showChildThreadToast(context.getString(R.string.error_parse), context, true);
