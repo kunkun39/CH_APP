@@ -67,7 +67,8 @@ public class LoadingActivity extends BaseActivity {
 				jumpToMain();
 				break;
 			case WHAT_DOACCESS:
-				doAccess();
+//				doAccess();//TODO 中文版取消限制
+				jumpToMain();
 				break;
 			default:
 				break;
@@ -145,11 +146,11 @@ public class LoadingActivity extends BaseActivity {
 
 	private boolean isJumped=false;
 	private void jumpToMain() {
-		if (SharedPreferencesUtil.getAccessCache(context, false)) {
+//		if (SharedPreferencesUtil.getAccessCache(context, false)) {
 			startActivity(new Intent(context, MainActivity.class));
 			isJumped=true;
 			finish();
-		}
+//		}
 	}
 
 	/**
@@ -184,32 +185,31 @@ public class LoadingActivity extends BaseActivity {
 	/**
 	 * 处理是否拥有全新进入应用
 	 */
-	private void doAccess() {
-		boolean hasAccess = SharedPreferencesUtil.getAccessCache(context, false);
-		L.d(TAG + "HAS_ACCESSUSER==" + hasAccess + " inited " + MyApplication.ACCESSUSER_INITED);
-		if (hasAccess) {
-			jumpToMain();
-			return;
-		}
-//		startService(new Intent(context,SystemDialogService.class));
-		String content = context.getResources().getString(R.string.noaccess);
-		Dialog dialog = DialogUtil.showMyAlertDialog(context, context.getResources().getString(R.string.tishi),
-				content, "OK", "", true, true, false, new DialogBtnOnClickListener() {
-
-					@Override
-					public void onSubmit(DialogMessage dialogMessage) {
-						if (dialogMessage != null && dialogMessage.dialogInterface != null) {
-							dialogMessage.dialogInterface.dismiss();
-						}
-						System.exit(0);
-					}
-
-					@Override
-					public void onCancel(DialogMessage dialogMessage) {
-
-					}
-				});
-	}
+//	private void doAccess() {
+//		boolean hasAccess = SharedPreferencesUtil.getAccessCache(context, false);
+//		L.d(TAG + "HAS_ACCESSUSER==" + hasAccess + " inited " + MyApplication.ACCESSUSER_INITED);
+//		if (hasAccess) {
+//			jumpToMain();
+//			return;
+//		}
+//		String content = context.getResources().getString(R.string.noaccess);
+//		Dialog dialog = DialogUtil.showMyAlertDialog(context, context.getResources().getString(R.string.tishi),
+//				content, "OK", "", true, true, false, new DialogBtnOnClickListener() {
+//
+//					@Override
+//					public void onSubmit(DialogMessage dialogMessage) {
+//						if (dialogMessage != null && dialogMessage.dialogInterface != null) {
+//							dialogMessage.dialogInterface.dismiss();
+//						}
+//						System.exit(0);
+//					}
+//
+//					@Override
+//					public void onCancel(DialogMessage dialogMessage) {
+//
+//					}
+//				});
+//	}
 
 	/**
 	 * 下载保存图片

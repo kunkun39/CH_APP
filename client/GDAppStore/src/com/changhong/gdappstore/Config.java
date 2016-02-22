@@ -7,10 +7,8 @@ package com.changhong.gdappstore;
  * 
  */
 public class Config {
-
-	/** 是否定死为英文版本 */
-	public static final boolean IS_ENGLISH_VERSION = false;
-	
+	/** 服务端IP地址 */
+	public static final String SERVER_ZH = "http://www.ottserver.com:8081/appmarket/";// 公网中文版
 	/** 是否允许缓存。只有调试所有情况下都请求接口时候才改为false */
 	public static final boolean ISCACHEABLE = true;
 
@@ -20,7 +18,7 @@ public class Config {
 	/** 是否采用系统自带卸载工具，true为用系统自带卸载，false为静默卸载 */
 	public static final boolean ISNORMAL_UNINSTALL = false;
 
-	/** 是否打印json字符串？在调试时候可以打开*/
+	/** 是否打印json字符串？在调试时候可以打开 */
 	public static final boolean IS_JSONSTRING_DEBUG = false;
 
 	/** 请求暂停时间，在这个时间内不能连续请求 */
@@ -32,46 +30,42 @@ public class Config {
 	public static final String baseXutilDownPath = "/data/data/com.changhong.gdappstore/xutilloadapp";
 	/***************************** 网络请求配置项 ******************************************/
 	/** 请求链接超时 */
-	public static int CONNECTION_TIMEOUT = 9000;
+	public static  final int CONNECTION_TIMEOUT = 9000;
 
-	public static final String NATIVE_ZH = "http://192.168.0.55:8080/appmarket/";// 本地中文版
-	public static final String NATIVE_EN = "http://192.168.0.55:8081/appmarket/";// 本地英文版
-	public static final String SERVER_ZH = "http://www.ottserver.com:8081/appmarket/";// 公网中文版
-	public static final String SERVER_EN = "http://chappstore.yuppcdn.net/appmarket/";// 公网英文版
-	/** 服务器基础地址 在MyApplication的oncreate（）中调用initBaseUrl()初始化 **/
-	private static String BASEURL = SERVER_ZH;
+	/** 服务器基础地址 **/
+	private static  final String BASEURL = SERVER_ZH;
 	/** 获取分类地址 **/
-	public static String getCategoryUrl = BASEURL + "client/appcategories.html";
+	public static  final String getCategoryUrl = BASEURL + "client/appcategories.html";
 	/** 获取页面数据地址 **/
-	public static String getPagesUrl = BASEURL + "client/boxpages.html";
+	public static  final String getPagesUrl = BASEURL + "client/boxpages.html";
 	/** 获取分类下app地址 **/
-	public static String getCategoryAppsUrl = BASEURL + "client/categoryapps.html";
+	public static final  String getCategoryAppsUrl = BASEURL + "client/categoryapps.html";
 	/** 获取分类下app地址 **/
-	public static String getTopicAppsUrl = BASEURL + "client/topicapps.html";
+	public static final  String getTopicAppsUrl = BASEURL + "client/topicapps.html";
 	/** 获取app详情地址 **/
-	public static String getAppDetailUrl = BASEURL + "client/appdetails.html";
+	public static  final String getAppDetailUrl = BASEURL + "client/appdetails.html";
 	/** 获取app排行榜地址 **/
-	public static String getAppRankListUrl = BASEURL + "client/appranklist.html";
+	public static  final String getAppRankListUrl = BASEURL + "client/appranklist.html";
 	/** 搜索app地址 **/
-	public static String getAppSearchUrl = BASEURL + "client/appsearch.html";
+	public static final  String getAppSearchUrl = BASEURL + "client/appsearch.html";
 	/** 获取app升级信息地址 **/
-	public static String getAppVersionsUrl = BASEURL + "client/appversions.html";
+	public static final  String getAppVersionsUrl = BASEURL + "client/appversions.html";
 	/** app下载成功后提交统计 **/
-	public static String putAppDownloadOK = BASEURL + "client/appdownload.html";
+	public static  final String putAppDownloadOK = BASEURL + "client/appdownload.html";
 	/** 获取详情推荐位推荐数据 */
-	public static String getDetailRecommendUrl = BASEURL + "client/appdetailsrecommend.html";
+	public static final  String getDetailRecommendUrl = BASEURL + "client/appdetailsrecommend.html";
 	/** 获取静默安装静默卸载数据 */
-	public static String getSilentInstallUrl = BASEURL + "client/appmust.html";
+	public static  final String getSilentInstallUrl = BASEURL + "client/appmust.html";
 	/** 获取开机画面图片信息 */
-	public static String getBootADUrl = BASEURL + "client/bootadvertise.html";
+	public static  final String getBootADUrl = BASEURL + "client/bootadvertise.html";
 	/** 检测哪些应用是我们应用市场的，并且返回是否已备份 */
-	public static String checkBackUpApp = BASEURL + "client/checkbackupapp.html";
+	public static  final String checkBackUpApp = BASEURL + "client/checkbackupapp.html";
 	/** 请求备份 */
-	public static String postBackup = BASEURL + "client/requestbackupapp.html";
+	public static final  String postBackup = BASEURL + "client/requestbackupapp.html";
 	/** 获取已备份应用列表 */
-	public static String getBackupApps = BASEURL + "client/getbackupapp.html";
+	public static  final String getBackupApps = BASEURL + "client/getbackupapp.html";
 	/** 删除已备份应用 */
-	public static String deleteBackupApp = BASEURL + "client/deletebackupapp.html";
+	public static final String deleteBackupApp = BASEURL + "client/deletebackupapp.html";
 
 	/**
 	 * 
@@ -107,30 +101,4 @@ public class Config {
 	 * 
 	 */
 	/***************************** 更改值函数区域 ******************************************/
-	public static void setBASEURL(String bASEURL) {
-		BASEURL = bASEURL;
-		updateUrls();// update other urls
-	}
-
-	/**
-	 * Remenber update serverUrls when you change BASEURL.
-	 */
-	public static void updateUrls() {
-		getCategoryUrl = BASEURL + "client/appcategories.html";
-		getPagesUrl = BASEURL + "client/boxpages.html";
-		getCategoryAppsUrl = BASEURL + "client/categoryapps.html";
-		getTopicAppsUrl = BASEURL + "client/topicapps.html";
-		getAppDetailUrl = BASEURL + "client/appdetails.html";
-		getAppRankListUrl = BASEURL + "client/appranklist.html";
-		getAppSearchUrl = BASEURL + "client/appsearch.html";
-		getAppVersionsUrl = BASEURL + "client/appversions.html";
-		putAppDownloadOK = BASEURL + "client/appdownload.html";
-		getDetailRecommendUrl = BASEURL + "client/appdetailsrecommend.html";
-		getSilentInstallUrl = BASEURL + "client/appmust.html";
-		getBootADUrl = BASEURL + "client/bootadvertise.html";
-		checkBackUpApp = BASEURL + "client/checkbackupapp.html";
-		postBackup = BASEURL + "client/requestbackupapp.html";
-		getBackupApps = BASEURL + "client/getbackupapp.html";
-		deleteBackupApp = BASEURL + "client/deletebackupapp.html";
-	}
 }

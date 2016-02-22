@@ -109,24 +109,29 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 		tv_search_tishi = findView(R.id.tv_search_tishi);
 		String tishi = getResources().getString(R.string.tv_search_tishi);
 		SpannableStringBuilder style = new SpannableStringBuilder(tishi);
-		if (!com.changhong.gdappstore.Config.IS_ENGLISH_VERSION && MyApplication.IS_ZH_LANGUAGE) {// TODO
+		if (MyApplication.IS_ZH_LANGUAGE) {
 			style.setSpan(new ForegroundColorSpan(Color.RED), 16, 20, Spannable.SPAN_EXCLUSIVE_INCLUSIVE); // 设置指定位置文字的背景颜色
 			style.setSpan(new ForegroundColorSpan(Color.RED), 23, 27, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
 			String YYSC = "YINGYONGSHANGCHENG";
 			int pos1 = tishi.indexOf(YYSC);
 			style.setSpan(new ForegroundColorSpan(Color.RED), pos1, pos1 + YYSC.length(),
 					Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-		} else {
-			int appnamepos = tishi.indexOf("Google Play App");
-			style.setSpan(new ForegroundColorSpan(Color.RED), appnamepos, appnamepos + 15,
-					Spannable.SPAN_EXCLUSIVE_INCLUSIVE); // 设置指定位置文字的背景颜色
-			int search1 = tishi.indexOf("google play");
-			style.setSpan(new ForegroundColorSpan(Color.RED), search1, search1 + 12, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-			int search2 = tishi.indexOf("googleplay");
-			style.setSpan(new ForegroundColorSpan(Color.RED), search2, search2 + 10, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-			int search3 = tishi.indexOf("GP");
-			style.setSpan(new ForegroundColorSpan(Color.RED), search3, search3 + 2, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
 		}
+		// else {
+		// int appnamepos = tishi.indexOf("Google Play App");
+		// style.setSpan(new ForegroundColorSpan(Color.RED), appnamepos,
+		// appnamepos + 15,
+		// Spannable.SPAN_EXCLUSIVE_INCLUSIVE); // 设置指定位置文字的背景颜色
+		// int search1 = tishi.indexOf("google play");
+		// style.setSpan(new ForegroundColorSpan(Color.RED), search1, search1 +
+		// 12, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+		// int search2 = tishi.indexOf("googleplay");
+		// style.setSpan(new ForegroundColorSpan(Color.RED), search2, search2 +
+		// 10, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+		// int search3 = tishi.indexOf("GP");
+		// style.setSpan(new ForegroundColorSpan(Color.RED), search3, search3 +
+		// 2, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+		// }
 		tv_search_tishi.setText(style);
 
 		bt_backone.setOnClickListener(this);

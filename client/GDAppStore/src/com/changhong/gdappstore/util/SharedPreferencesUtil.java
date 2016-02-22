@@ -103,9 +103,9 @@ public class SharedPreferencesUtil {
 		return getSharedString(context, JSON_CACHEFILE, key, "");
 	}
 
-	public static boolean getAccessCache(Context context, boolean defaultvalue) {
-		return getSharedBoolean(context, ACCESS_CACHEFILE, KEY_USERACCESS, defaultvalue);
-	}
+//	public static boolean getAccessCache(Context context, boolean defaultvalue) {
+//		return getSharedBoolean(context, ACCESS_CACHEFILE, KEY_USERACCESS, defaultvalue);
+//	}
 
 	/**
 	 * 存放云同步私用

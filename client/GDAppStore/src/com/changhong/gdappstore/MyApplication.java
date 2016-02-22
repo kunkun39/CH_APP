@@ -76,7 +76,6 @@ public class MyApplication extends Application {
 		initImageLoader(this);
 
 		initStrings();// 初始化string字符串
-		initBaseUrl();// 初始化服务端请求地址
 
 	}
 
@@ -143,17 +142,6 @@ public class MyApplication extends Application {
 	private void initStrings() {
 		Config.HOMEPAGE = context.getString(R.string.homepage);
 		Config.ZHUANTI = context.getString(R.string.zhuanti);
-	}
-
-	private void initBaseUrl() {
-		if (!Config.IS_ENGLISH_VERSION && IS_ZH_LANGUAGE) {
-			Config.setBASEURL(Config.SERVER_ZH);
-			Config.CONNECTION_TIMEOUT = 9000;
-		} else {
-			Config.setBASEURL(Config.SERVER_EN);
-			Config.CONNECTION_TIMEOUT = 15000;
-		}
-//		Config.setBASEURL("http://192.168.0.106:8080/appmarket/");//TODO 临时测试修改IP地址时候使用
 	}
 
 	/**
