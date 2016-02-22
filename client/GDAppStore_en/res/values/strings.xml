@@ -1,0 +1,100 @@
+<resources>
+
+    <string name="app_name">长虹应用商城</string>
+    <!-- 主页 -->
+    <string name="homepage">首页</string>
+    <string name="zhuanti">专题</string>
+    <string name="all">全部</string>
+    <string name="sure_exit_appstore">确认退出应用商城？</string>
+    <string name="checked_newversion">发现新版本</string>
+    <string name="update_now">欣然前往</string>
+    <string name="update_nexttime">残忍拒绝</string>
+    <string name="search">搜索</string>
+    <string name="rank_list">排行榜</string>
+    <string name="nativeapp">本地应用</string>
+    <string name="yuntongbu">云同步</string>
+
+    <!-- 本地应用 -->
+    <string name="uninstall_app">卸载应用</string>
+    <string name="uninstall_commit">确认卸载</string>
+    <string name="sure_uninstall_apps">确认卸载选中应用？</string>
+    <string name="uninstalling_background">应用正在后台卸载中</string>
+    <string name="cannot_uninstall_self">不能卸载自己</string>
+    <string name="app_started">应用已打开</string>
+    <string name="appstartfailed_pleasecheck">应用启动失败，请检查是否安装正常</string>
+
+    <!-- 搜索 -->
+    <string name="search_tips">搜索小提示：</string>
+    <string name="searched">搜索到</string>
+    <string name="hotapps">热门应用</string>
+    <string name="app">应用</string>
+    <string name="apps">应用</string>
+    <!--  -->
+    <string name="str_download">下载量：</string>
+    <string name="net_disconnected_pleasecheck">网络已断开，请检查网络链接状态！</string>
+    <string name="weipeizhi">没有获取到配置信息！</string>
+    <string name="str_new">最新榜</string>
+    <string name="str_hot">最热榜</string>
+    <string name="str_surge">飙升榜</string>
+    <string name="tv_search_tishi">输入应用首字母或者拼音即可\n比如应用商城输入：YYSC或者YINGYONGSHANGCHENG即可成功搜索</string>
+    <string name="tishi">提示：</string>
+    <string name="sure">确认</string>
+    <string name="sure_space">确    认</string>
+    <string name="cancel">取消</string>
+    <string name="cancel_space">取    消</string>
+    <string name="dataloading">正在处理中，请稍等...</string>
+    <string name="download_background">后台下载</string>
+    <string name="cur_download_progress">当前下载进度：</string>
+
+    <!-- 错误信息提示 -->
+    <string name="error_net_notconnect">网络未连接</string>
+    <string name="error_netconnect_timeout">网络连接超时</string>
+    <string name="error_netconnect">网络连接异常</string>
+    <string name="error_parse">数据解析异常</string>
+    <string name="please_checknet">请检查网络</string>
+    <string name="error_netconnect_please_checknet">网络连接异常,请检查网络</string>
+    <string name="net_connected">网络连接成功</string>
+    <string name="net_disconnect">网络已断开</string>
+
+    <!-- 详情页面 -->
+    <string name="hasapp_isloading">有应用正在下载中，请稍后再试</string>
+    <string name="sure_download_app">确认下载应用？</string>
+    <string name="sure_update_app">确认更新应用？</string>
+    <string name="downloading">正在下载</string>
+    <string name="downloadfailed">下载失败</string>
+    <string name="downloadover">下载完成</string>
+    <string name="downloadover_installing">下载完成，正在安装中...</string>
+    <string name="install_success">安装成功</string>
+    <string name="install_failed">安装失败</string>
+    <string name="appisundershelf">应用已下架</string>
+    <string name="downloads">下载量：</string>
+    <string name="version">版本：</string>
+    <string name="updatetime">更新时间：</string>
+    <string name="size">大小：</string>
+    <string name="description">应用简介：</string>
+    <string name="similar_apps">猜你喜欢：</string>
+    <string name="uninstall_apps">卸载应用：</string>
+    <string name="ge">个</string>
+    <string name="notvipuser_cannotdownload">你不是会员或你的会员等级不够，请联系运营商查询更多关于会员的细节。</string>
+    <!-- 云同步功能 -->
+    <string name="backup">备份</string>
+    <string name="recovery">恢复</string>
+    <string name="manage">管理</string>
+    <string name="batch_backup">批量备份</string>
+    <string name="confirm_backup">确认备份</string>
+    <string name="batch_recovery">批量恢复</string>
+    <string name="confirm_recover">确认恢复</string>
+    <string name="batch_delete">批量删除</string>
+    <string name="confirm_delete">确认删除</string>
+    <string name="post_nativeapps">上传已安装应用到云端</string>
+    <string name="recover_serverapps">恢复云端应用到电视</string>
+    <string name="manage_serverapps">管理云端应用</string>
+    <string name="selected">已经选择</string>
+    <string name="noapps_cando">没有发现可操作应用</string>
+    <string name="dobatchbyclickmenu">按菜单键批量操作</string>
+    <string name="sure_deletebackedapps">确认删除备份应用？</string>
+    <string name="app_already_indownloadlist">该应用已在下载列表中</string>
+    <string name="addin_downloadlist_success">添加到下载列表成功</string>
+
+     <string name="noaccess">您没有权限使用该应用!</string>
+</resources>

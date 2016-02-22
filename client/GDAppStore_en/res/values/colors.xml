@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 常用颜色 -->
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="blue">#0000FF</color>
+    <color name="gold">#FFD700</color>
+    <color name="green">#008000</color>
+    <color name="red">#FF0000</color>
+    <color name="lime">#00FF00</color>
+    <color name="black_half50">#7F000000</color>
+    <color name="black_half80">#CC000000</color>
+    <color name="black_half20">#33000000</color>
+    <color name="white_half50">#7FFFFFFF</color>
+    <color name="white_half30">#4CFFFFFF</color>
+	<!-- 局部使用颜色 -->
+	<color name="postbg">#616b72</color>
+	<drawable name="draw_transparent">#00000000</drawable>
+	<color name="detail_content_title_textcolor">#7FFFFFFF</color>
+	<color name="bt_searchnormal">#3b4d51</color>
+	<color name="bt_searchfocues">#3685fc</color>
+	<!-- 其它页面颜色 -->
+	<color name="otc_purple">#660066</color>
+	<color name="otc_green">#80bd26</color>
+	<color name="otc_orange">#ff6631</color>
+	<color name="otc_yellow">#ff8025</color>
+	<color name="otc_lightred">#cc3366</color>
+	<color name="otc_blue">#6699ff</color>
+</resources>
