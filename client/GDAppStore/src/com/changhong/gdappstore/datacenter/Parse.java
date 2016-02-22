@@ -110,9 +110,7 @@ public class Parse {
 			String host = "";
 			if (categoryObject.has(HOST)) {
 				host = categoryObject.getString(HOST).trim();
-				L.d("parsecategory host befor==" + host);
 				host = DesUtils.getDesString(host);
-				L.d("parsecategory host after==" + host);
 			}
 			if (categoryObject.has("client_url")) {
 				MyApplication.UPDATE_APKURL = DesUtils.getDesString(categoryObject.getString("client_url").trim());
