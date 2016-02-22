@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:textImageView="http://schemas.android.com/apk/res/com.changhong.gdappstore"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog" >
+
+    <RelativeLayout
+        android:id="@+id/rl_dia_myalert_title"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_margin="1dp"
+        android:background="@drawable/bg_dialog_title" >
+
+        <ImageView
+            android:id="@+id/iv_dialog_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/iv_dialog_title_margintop"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/img_dialog_title" />
+
+        <TextView
+            android:id="@+id/tv_alertdia_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/iv_dialog_title"
+            android:singleLine="true"
+            android:text="@string/tishi"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/dialog_title_textsize" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/iv_alertdia_dilver"
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:layout_below="@+id/rl_dia_myalert_title"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/holo_blue_light"
+        android:visibility="gone" />
+
+    <ScrollView
+        android:id="@+id/sc_alertdia_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/rl_dialogbtns"
+        android:layout_below="@id/iv_alertdia_dilver"
+        android:scrollbars="none" >
+
+        <TextView
+            android:id="@+id/tv_alertdia_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:gravity="center"
+            android:singleLine="false"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/dialog_content_textsize" />
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/rl_dialogbtns"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/dialog_btn_marginBottom" >
+
+        <com.changhong.gdappstore.view.TextImageButton
+            android:id="@+id/bt_alertdia_cancel"
+            android:layout_width="@dimen/dialog_btn_width"
+            android:layout_height="@dimen/dialog_btn_height"
+            android:layout_marginRight="@dimen/dialog_btn_marginLeft"
+            android:background="@drawable/selector_textbtnfocues"
+            android:focusable="true"
+            android:gravity="center"
+            android:scaleType="fitXY"
+            android:src="@drawable/btn_dialog"
+            textImageView:text="@string/cancel_space"
+            textImageView:textColor="@android:color/white"
+            textImageView:textSize="26sp" />
+
+        <com.changhong.gdappstore.view.TextImageButton
+            android:id="@+id/bt_alertdia_submit"
+            android:layout_width="@dimen/dialog_btn_width"
+            android:layout_height="@dimen/dialog_btn_height"
+            android:layout_alignTop="@id/bt_alertdia_cancel"
+            android:layout_toRightOf="@id/bt_alertdia_cancel"
+            android:background="@drawable/selector_textbtnfocues"
+            android:gravity="center"
+            android:scaleType="fitXY"
+            android:src="@drawable/btn_dialog"
+            textImageView:text="@string/sure_space"
+            textImageView:textColor="@android:color/white"
+            textImageView:textSize="26sp" />
+    </RelativeLayout>
+
+</RelativeLayout>
