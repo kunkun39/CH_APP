@@ -20,7 +20,6 @@
 #}
 
 -libraryjars libs/deviceinfo.jar
--libraryjars libs/InstallApk.jar
 -libraryjars libs/postviewlib.jar
 -libraryjars libs/sunjce_provider.jar
 -libraryjars libs/universal-image-loader-1.9.4-with-sources.jar
@@ -32,10 +31,6 @@
 
 -keep class io.vov.**{*;}
 -dontwarn io.vov.**
-
-
--keep class com.SyMedia.IntallAPK.**{*;}
--dontwarn com.SyMedia.IntallAPK.**
 
 -keep class com.sun.crypto.provider.**{*;}
 -dontwarn com.sun.crypto.provider.**
