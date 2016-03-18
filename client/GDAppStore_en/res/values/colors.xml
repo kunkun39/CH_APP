@@ -19,7 +19,8 @@
 	<!-- 局部使用颜色 -->
 	<color name="postbg">#616b72</color>
 	<drawable name="draw_transparent">#00000000</drawable>
-	<color name="detail_content_title_textcolor">#7FFFFFFF</color>
+	<color name="detail_content_title_textcolor">#8c8a85</color>
+	<color name="detail_content_textcolor">#72706c</color>
 	<color name="bt_searchnormal">#3b4d51</color>
 	<color name="bt_searchfocues">#3685fc</color>
 	<!-- 其它页面颜色 -->

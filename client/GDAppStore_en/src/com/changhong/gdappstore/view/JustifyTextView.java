@@ -20,6 +20,9 @@ public class JustifyTextView extends TextView {
 	private int mLineY;
 	/** The raw measured width of this view */
 	private int mViewWidth;
+	/** 字行直接高度增加量 */
+	private static final int HEIGHT_ADD = 8;
+
 	public static final String TWO_CHINESE_BLANK = "  ";
 
 	public JustifyTextView(Context context, AttributeSet attrs) {
@@ -29,6 +32,12 @@ public class JustifyTextView extends TextView {
 	@Override
 	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
 		super.onLayout(changed, left, top, right, bottom);
+	}
+	
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		// TODO Auto-generated method stub
+		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 	}
 
 	@Override
@@ -50,6 +59,7 @@ public class JustifyTextView extends TextView {
 		Paint.FontMetrics fm = paint.getFontMetrics();
 
 		int textHeight = (int) (Math.ceil(fm.descent - fm.ascent));// 字体高度
+		textHeight += HEIGHT_ADD;
 		textHeight = (int) (textHeight * layout.getSpacingMultiplier() + layout.getSpacingAdd());
 
 		for (int i = 0; i < layout.getLineCount(); i++) {
@@ -64,6 +74,7 @@ public class JustifyTextView extends TextView {
 			}
 			mLineY += textHeight;
 		}
+		
 	}
 
 	private void drawScaledText(Canvas canvas, int lineStart, String line, float lineWidth) {
@@ -89,7 +100,7 @@ public class JustifyTextView extends TextView {
 			i += 2;
 		}
 
-		float d = (mViewWidth - lineWidth) / gapCount;//每个字符增加空白长度，已填充末尾空白满足左右对齐
+		float d = (mViewWidth - lineWidth) / gapCount;// 每个字符增加空白长度，已填充末尾空白满足左右对齐
 		for (; i < line.length(); i++) {
 			String c = String.valueOf(line.charAt(i));
 			float cw = StaticLayout.getDesiredWidth(c, getPaint());

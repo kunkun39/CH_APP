@@ -1,8 +1,6 @@
 package com.changhong.gdappstore.activity;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,10 +16,8 @@ import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseActivity;
 import com.changhong.gdappstore.datacenter.DataCenter;
-import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.AppDetail;
 import com.changhong.gdappstore.model.NativeApp;
-import com.changhong.gdappstore.net.LoadListener;
 import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
 import com.changhong.gdappstore.service.DownLoadManager;
 import com.changhong.gdappstore.util.DialogUtil;
@@ -34,8 +30,6 @@ import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
 import com.changhong.gdappstore.view.JustifyTextView;
 import com.changhong.gdappstore.view.MyProgressDialog;
-import com.changhong.gdappstore.view.ScoreView;
-import com.changhong.gdappstore.view.UserMayLikeView;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
@@ -54,18 +48,14 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	private static final int DISSMISS_PDIALOG = 113;
 	/** 下载按钮 */
 	private ImageView bt_dowload, bt_update, bt_open, iv_recommend, iv_isvip;
-	/** 用户喜欢 */
-	private UserMayLikeView view_usermaylike;
 	/** 应用文本介绍信息 */
-	private TextView tv_appname, tv_downloadcount, tv_size, tv_version, tv_updatetime, tv_downshelf;
+	private TextView tv_appname, tv_size, tv_version, tv_downshelf;
 	private JustifyTextView tv_introduce;
 	private ImageView iv_post, iv_icon;
 
 	private AppDetail appDetail;
 	/** 下载进度提示对话框 */
 	private MyProgressDialog downloadPDialog;
-
-	private ScoreView scoreview;
 
 	int appId = -1;
 	/** 下载量是否需要加1？用于处理下载成功后手动添加下载量，不再请求服务器获取 */
@@ -85,7 +75,6 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	}
 
 	private void initView() {
-		view_usermaylike = findView(R.id.view_usermaylike);
 		bt_dowload = findView(R.id.bt_download);
 		bt_dowload.setOnFocusChangeListener(this);
 		bt_dowload.setOnClickListener(this);
@@ -102,28 +91,14 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		iv_icon = findView(R.id.iv_detailicon);
 		iv_isvip = findView(R.id.iv_isvip);
 		tv_appname = findView(R.id.tv_appname);
-		tv_downloadcount = findView(R.id.tv_downloadcount);
 		tv_size = findView(R.id.tv_appsize);
 		tv_version = findView(R.id.tv_version);
-		tv_updatetime = findView(R.id.tv_updatetime);
 		tv_introduce = findView(R.id.tv_introduce);
 		tv_downshelf = findView(R.id.tv_downshelf);
-		scoreview = findView(R.id.scoreview_detail);
 		iv_recommend = findView(R.id.iv_recommend);
 		downloadPDialog = new MyProgressDialog(context);
 		downloadPDialog.setUpdateFileSizeName(true);
 		downloadPDialog.dismiss();
-		view_usermaylike.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				if (v.getTag() != null) {
-					App app = (App) v.getTag();
-					appId = app.getAppid();
-					initData();
-				}
-			}
-		});
 	}
 
 	@Override
@@ -146,53 +121,23 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 			public void onComplete(Object object) {
 				appDetail = (AppDetail) object;
 				if (appDetail != null) {
-					scoreview.setScoreBy10Total(appDetail.getScores());
 					tv_appname.setText(appDetail.getAppname());
 					tv_appname.setSelected(true);
-					tv_downloadcount.setText(Util.intToStr(Integer.parseInt(appDetail.getDownload())));
 					detailLoadCount = Integer.parseInt(appDetail.getDownload());
 					tv_size.setText(TextUtils.isEmpty(appDetail.getApkSize()) ? "" : appDetail.getApkSize() + " M");
 					tv_version.setText(appDetail.getVersion());
 					tv_introduce.setText(appDetail.getDescription());
-					tv_updatetime.setText(appDetail.getUpdateDate());
 					iv_isvip.setVisibility(appDetail.isVipApp() ? VISIBLE : GONE);
 					// iv_recommend.setVisibility(appDetail.isRecommend()?VISIBLE:INVISIBLE);
 					ImageLoadUtil.displayImgByNoCache(appDetail.getIconFilePath(), iv_icon);
 					ImageLoadUtil.displayImgByNoCache(appDetail.getPosterFilePath(), iv_post);
 					updateBtnState();
 					L.d("appdetail appdetail=" + appDetail.toString());
-					if (appDetail.getCategoryId() > 0) {
-						initRecommendData();
-					}
 				}
 				dismissLoadingDialog();
 			}
 		}, context);
 
-	}
-
-	/**
-	 * 获取猜你喜欢数据
-	 */
-	private void initRecommendData() {
-		DataCenter.getInstance().loadRecommendData(context, appDetail.getCategoryId(),
-				new LoadListener.LoadListListener() {
-
-					@Override
-					public void onComplete(List<Object> items) {
-						if (items != null && items.size() > 0) {
-							List<App> apps = new ArrayList<App>();
-							for (int i = 0; i < items.size(); i++) {
-								if (((App) items.get(i)).getAppid() != appDetail.getAppid()) {
-									apps.add(((App) items.get(i)));
-								}
-							}
-							view_usermaylike.initData(apps);
-						} else {
-							view_usermaylike.initData(null);
-						}
-					}
-				});
 	}
 
 	/**
@@ -202,7 +147,6 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		if (appDetail == null) {
 			return;
 		}
-		tv_downloadcount.setText(Util.intToStr(detailLoadCount));
 		// 是否已经安装
 		NativeApp installed = Util.getNativeApp(context, appDetail.getPackageName());
 		boolean isInstalled = installed != null;
@@ -225,14 +169,10 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 			}
 		}
 		// 焦点控制
-		if (view_usermaylike.getCurFocuesView() != null) {
-			view_usermaylike.getCurFocuesView().requestFocus();
+		if (isInstalled || !appDetail.isOnShelf()) {
+			bt_open.requestFocus();
 		} else {
-			if (isInstalled || !appDetail.isOnShelf()) {
-				bt_open.requestFocus();
-			} else {
-				bt_dowload.requestFocus();
-			}
+			bt_dowload.requestFocus();
 		}
 	}
 
