@@ -35,6 +35,11 @@
 -keep class com.sun.crypto.provider.**{*;}
 -dontwarn com.sun.crypto.provider.**
 
+-keep class com.ots.deviceinfoprovide.**{*;}
+-dontwarn com.ots.deviceinfoprovide.**
+-keep class com.changhong.factorymode.uart.**{*;}
+-dontwarn com.changhong.factorymode.uart.**
+
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application
 -keep public class * extends android.app.Service
