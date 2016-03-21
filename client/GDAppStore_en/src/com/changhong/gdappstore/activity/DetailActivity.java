@@ -1,6 +1,7 @@
 package com.changhong.gdappstore.activity;
 
 import java.io.File;
+import java.text.BreakIterator;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +10,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,6 +31,7 @@ import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.NetworkUtils;
 import com.changhong.gdappstore.util.Util;
 import com.changhong.gdappstore.view.JustifyTextView;
+import com.changhong.gdappstore.view.MyButton;
 import com.changhong.gdappstore.view.MyProgressDialog;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
@@ -47,7 +50,8 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	private static final int SHOW_INSTALL_FAILED = 112;
 	private static final int DISSMISS_PDIALOG = 113;
 	/** 下载按钮 */
-	private ImageView bt_dowload, bt_update, bt_open, iv_recommend, iv_isvip;
+	private ImageView iv_recommend, iv_isvip;
+	private MyButton bt_dowload, bt_update, bt_open, bt_uninstall;
 	/** 应用文本介绍信息 */
 	private TextView tv_appname, tv_size, tv_version, tv_downshelf;
 	private JustifyTextView tv_introduce;
@@ -84,6 +88,10 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		bt_open = findView(R.id.bt_start);
 		bt_open.setOnFocusChangeListener(this);
 		bt_open.setOnClickListener(this);
+		bt_uninstall = findView(R.id.bt_uninstall);
+		bt_uninstall.setOnFocusChangeListener(this);
+		bt_uninstall.setOnClickListener(this);
+
 		bt_dowload.setVisibility(GONE);
 		bt_open.setVisibility(GONE);
 		bt_update.setVisibility(GONE);
@@ -151,6 +159,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		NativeApp installed = Util.getNativeApp(context, appDetail.getPackageName());
 		boolean isInstalled = installed != null;
 		bt_open.setVisibility(isInstalled ? VISIBLE : GONE);
+		bt_uninstall.setVisibility(isInstalled ? VISIBLE : GONE);
 		if (!appDetail.isOnShelf()) {
 			// 应用已下架
 			tv_downshelf.setVisibility(VISIBLE);
@@ -197,9 +206,41 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 			}
 			break;
 
+		case R.id.bt_uninstall:
+			showUninstallDialog();
+			break;
 		default:
 			break;
 		}
+	}
+
+	private void showUninstallDialog() {
+		if (appDetail == null) {
+			return;
+		}
+		DialogUtil.showMyAlertDialog(context, "", "", "", "", false, false, true, new DialogBtnOnClickListener() {
+
+			@Override
+			public void onSubmit(DialogMessage dialogMessage) {
+				boolean isSuccess = InstallUtil.uninstallAppByCommond(appDetail.getPackageName());
+				if (isSuccess) {
+					DialogUtil.showLongToast(context, getResources().getString(R.string.uninstall_success));
+					updateBtnState();
+				} else {
+					DialogUtil.showLongToast(context, getResources().getString(R.string.uninstall_failed));
+				}
+				if (dialogMessage != null && dialogMessage.dialogInterface != null) {
+					dialogMessage.dialogInterface.dismiss();
+				}
+			}
+
+			@Override
+			public void onCancel(DialogMessage dialogMessage) {
+				if (dialogMessage != null && dialogMessage.dialogInterface != null) {
+					dialogMessage.dialogInterface.dismiss();
+				}
+			}
+		});
 	}
 
 	private void showDownloadDialog(final boolean isDownload) {

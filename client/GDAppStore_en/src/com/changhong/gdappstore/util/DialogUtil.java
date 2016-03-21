@@ -14,11 +14,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.changhong.gdappstore.R;
-import com.changhong.gdappstore.view.TextImageButton;
 
 public class DialogUtil {
 	public static interface DialogBtnOnClickListener {
@@ -102,14 +102,14 @@ public class DialogUtil {
 		param.width = (int) context.getResources().getDimension(R.dimen.dialog_width);
 		param.height = (int) context.getResources().getDimension(R.dimen.dialog_height);
 
-		TextImageButton bt_submit = (TextImageButton) view.findViewById(R.id.bt_alertdia_submit);
-		TextImageButton bt_cancel = (TextImageButton) view.findViewById(R.id.bt_alertdia_cancel);
+		Button bt_submit = (Button) view.findViewById(R.id.bt_alertdia_submit);
+		Button bt_cancel = (Button) view.findViewById(R.id.bt_alertdia_cancel);
 		bt_cancel.setVisibility(isOnlySureBtn ? View.GONE : View.VISIBLE);
 		if (!TextUtils.isEmpty(positiveBtnName)) {
-			bt_submit.setMyText(positiveBtnName);
+			bt_submit.setText(positiveBtnName);
 		}
 		if (!TextUtils.isEmpty(negtiveBtnName)) {
-			bt_cancel.setMyText(negtiveBtnName);
+			bt_cancel.setText(negtiveBtnName);
 		}
 		bt_submit.setOnClickListener(new View.OnClickListener() {
 

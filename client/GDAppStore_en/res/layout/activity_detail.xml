@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myButton="http://schemas.android.com/apk/res/com.changhong.gdappstore"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_main" >
@@ -129,41 +130,72 @@
             android:layout_below="@id/ll_version"
             android:layout_marginTop="15dp" >
 
-            <ImageView
+            <com.changhong.gdappstore.view.MyButton
                 android:id="@+id/bt_download"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/selector_btnfocues"
+                android:layout_width="130dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="20dp"
                 android:focusable="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/lug_btn_download" />
+                myButton:mybtn_radius="4dp"
+                myButton:mybtn_solidColor="@color/transparent"
+                myButton:mybtn_solidColor_selected="@color/bt_detail_selectsolidcolor"
+                myButton:mybtn_stokeColor="@color/black_half20"
+                myButton:mybtn_strokeWidth="1dp"
+                myButton:mybtn_text="Download"
+                myButton:mybtn_textColor="@color/bt_detail_normaltextcolor"
+                myButton:mybtn_textColor_selected="@color/bt_detail_selectedtextcolor"
+                myButton:mybtn_textSize="20sp" />
 
-            <ImageView
+            <com.changhong.gdappstore.view.MyButton
                 android:id="@+id/bt_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/selector_btnfocues"
+                android:layout_width="110dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="20dp"
                 android:focusable="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/lug_btn_startapp" />
+                myButton:mybtn_radius="4dp"
+                myButton:mybtn_solidColor="@color/transparent"
+                myButton:mybtn_solidColor_selected="@color/bt_detail_selectsolidcolor"
+                myButton:mybtn_stokeColor="@color/black_half20"
+                myButton:mybtn_strokeWidth="1dp"
+                myButton:mybtn_text="Open"
+                myButton:mybtn_textColor="@color/bt_detail_normaltextcolor"
+                myButton:mybtn_textColor_selected="@color/bt_detail_selectedtextcolor"
+                myButton:mybtn_textSize="20sp" />
 
-            <ImageView
+            <com.changhong.gdappstore.view.MyButton
                 android:id="@+id/bt_uninstall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/selector_btnfocues"
+                android:layout_width="130dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="20dp"
                 android:focusable="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/lug_btn_startapp" />
+                myButton:mybtn_radius="4dp"
+                myButton:mybtn_solidColor="@color/transparent"
+                myButton:mybtn_solidColor_selected="@color/bt_detail_selectsolidcolor"
+                myButton:mybtn_stokeColor="@color/black_half20"
+                myButton:mybtn_strokeWidth="1dp"
+                myButton:mybtn_text="Uninstall"
+                myButton:mybtn_textColor="@color/bt_detail_normaltextcolor"
+                myButton:mybtn_textColor_selected="@color/bt_detail_selectedtextcolor"
+                myButton:mybtn_textSize="20sp" />
 
-            <ImageView
+            <com.changhong.gdappstore.view.MyButton
                 android:id="@+id/bt_update"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/selector_btnfocues"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
                 android:focusable="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/lug_btn_updateapp" />
+                myButton:mybtn_radius="4dp"
+                myButton:mybtn_solidColor="@color/transparent"
+                myButton:mybtn_solidColor_selected="@color/bt_detail_selectsolidcolor"
+                myButton:mybtn_stokeColor="@color/black_half20"
+                myButton:mybtn_strokeWidth="1dp"
+                myButton:mybtn_text="Update"
+                myButton:mybtn_textColor="@color/bt_detail_normaltextcolor"
+                myButton:mybtn_textColor_selected="@color/bt_detail_selectedtextcolor"
+                myButton:mybtn_textSize="20sp" />
 
             <TextView
                 android:id="@+id/tv_downshelf"
@@ -191,9 +223,9 @@
             android:id="@+id/iv_detailpost"
             android:layout_width="530dp"
             android:layout_height="300dp"
-            android:layout_marginTop="0dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="50dp"
+            android:layout_marginTop="0dp"
             android:scaleType="fitXY"
             android:src="@drawable/img_normal_square_cicle" />
     </RelativeLayout>
@@ -219,9 +251,9 @@
             android:id="@+id/tv_introduce"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_below="@id/tv_introduce_title"
             android:layout_marginRight="200dp"
             android:layout_marginTop="10dp"
-            android:layout_below="@id/tv_introduce_title"
             android:ellipsize="end"
             android:text=""
             android:textColor="#999591"

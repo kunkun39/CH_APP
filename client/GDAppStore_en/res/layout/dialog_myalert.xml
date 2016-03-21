@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:textImageView="http://schemas.android.com/apk/res/com.changhong.gdappstore"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_dialog" >
+    android:background="@color/white" >
 
     <RelativeLayout
         android:id="@+id/rl_dia_myalert_title"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:layout_margin="1dp"
-        android:background="@drawable/bg_dialog_title" >
+        android:layout_margin="1dp" >
 
         <ImageView
             android:id="@+id/iv_dialog_title"
@@ -18,8 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/iv_dialog_title_margintop"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/img_dialog_title" />
+            android:layout_marginLeft="10dp" />
 
         <TextView
             android:id="@+id/tv_alertdia_title"
@@ -30,7 +27,7 @@
             android:layout_toRightOf="@+id/iv_dialog_title"
             android:singleLine="true"
             android:text="@string/tishi"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:textSize="@dimen/dialog_title_textsize" />
     </RelativeLayout>
 
@@ -50,7 +47,7 @@
         android:id="@+id/sc_alertdia_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/rl_dialogbtns"
+        android:layout_above="@+id/ll_dialogbtns"
         android:layout_below="@id/iv_alertdia_dilver"
         android:scrollbars="none" >
 
@@ -63,45 +60,114 @@
             android:layout_marginRight="7dp"
             android:gravity="center"
             android:singleLine="false"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:textSize="@dimen/dialog_content_textsize" />
     </ScrollView>
 
-    <RelativeLayout
-        android:id="@+id/rl_dialogbtns"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/ll_dialogbtns"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/dialog_btn_marginBottom" >
+        android:layout_marginBottom="@dimen/dialog_btn_marginBottom"
+        android:orientation="horizontal" >
 
-        <com.changhong.gdappstore.view.TextImageButton
+        <Button
             android:id="@+id/bt_alertdia_cancel"
-            android:layout_width="@dimen/dialog_btn_width"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/dialog_btn_height"
             android:layout_marginRight="@dimen/dialog_btn_marginLeft"
-            android:background="@drawable/selector_textbtnfocues"
-            android:focusable="true"
+            android:layout_weight="1"
+            android:background="@drawable/selector_button"
             android:gravity="center"
-            android:scaleType="fitXY"
-            android:src="@drawable/btn_dialog"
-            textImageView:text="@string/cancel_space"
-            textImageView:textColor="@android:color/white"
-            textImageView:textSize="26sp" />
+            android:text="@string/cancel_space"
+            android:textColor="@drawable/selector_btton_textcolor"
+            android:textSize="26sp" />
 
-        <com.changhong.gdappstore.view.TextImageButton
+        <Button
             android:id="@+id/bt_alertdia_submit"
-            android:layout_width="@dimen/dialog_btn_width"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/dialog_btn_height"
-            android:layout_alignTop="@id/bt_alertdia_cancel"
-            android:layout_toRightOf="@id/bt_alertdia_cancel"
-            android:background="@drawable/selector_textbtnfocues"
+            android:layout_weight="1"
+            android:background="@drawable/selector_button"
             android:gravity="center"
-            android:scaleType="fitXY"
-            android:src="@drawable/btn_dialog"
-            textImageView:text="@string/sure_space"
-            textImageView:textColor="@android:color/white"
-            textImageView:textSize="26sp" />
-    </RelativeLayout>
+            android:text="@string/sure_space"
+            android:textColor="@drawable/selector_btton_textcolor"
+            android:textSize="26sp" />
+
+        <!-- <com.changhong.gdappstore.view.MyButton -->
+        <!-- android:id="@+id/bt_alertdia_cancel" -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="@dimen/dialog_btn_height" -->
+        <!-- android:layout_marginRight="@dimen/dialog_btn_marginLeft" -->
+        <!-- android:layout_weight="1" -->
+        <!-- android:background="@drawable/selector_textbtnfocues" -->
+        <!-- android:gravity="center" -->
+        <!-- myButton:mybtn_radius="0dp" -->
+        <!-- myButton:mybtn_solidColor="@color/transparent" -->
+        <!-- myButton:mybtn_solidColor_selected="@color/bt_detail_selectsolidcolor" -->
+        <!-- myButton:mybtn_stokeColor="@color/black_half20" -->
+        <!-- myButton:mybtn_strokeWidth="1dp" -->
+        <!-- myButton:mybtn_text="@string/cancel_space" -->
+        <!-- myButton:mybtn_textColor="@color/bt_detail_normaltextcolor" -->
+        <!-- myButton:mybtn_textColor_selected="@color/bt_detail_selectedtextcolor" -->
+        <!-- myButton:mybtn_textSize="26sp" /> -->
+
+
+        <!-- <com.changhong.gdappstore.view.MyButton -->
+        <!-- android:id="@+id/bt_alertdia_submit" -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="@dimen/dialog_btn_height" -->
+        <!-- android:layout_weight="1" -->
+        <!-- android:gravity="center" -->
+        <!-- myButton:mybtn_radius="0dp" -->
+        <!-- myButton:mybtn_solidColor="@color/transparent" -->
+        <!-- myButton:mybtn_solidColor_selected="@color/bt_detail_selectsolidcolor" -->
+        <!-- myButton:mybtn_stokeColor="@color/black_half20" -->
+        <!-- myButton:mybtn_strokeWidth="1dp" -->
+        <!-- myButton:mybtn_text="@string/sure_space" -->
+        <!-- myButton:mybtn_textColor="@color/bt_detail_normaltextcolor" -->
+        <!-- myButton:mybtn_textColor_selected="@color/bt_detail_selectedtextcolor" -->
+        <!-- myButton:mybtn_textSize="26sp" /> -->
+    </LinearLayout>
+
+    <!-- <RelativeLayout -->
+    <!-- android:id="@+id/rl_dialogbtns" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_alignParentBottom="true" -->
+    <!-- android:layout_centerHorizontal="true" -->
+    <!-- android:layout_marginBottom="@dimen/dialog_btn_marginBottom" > -->
+
+
+    <!-- <com.changhong.gdappstore.view.TextImageButton -->
+    <!-- android:id="@+id/bt_alertdia_cancel" -->
+    <!-- android:layout_width="@dimen/dialog_btn_width" -->
+    <!-- android:layout_height="@dimen/dialog_btn_height" -->
+    <!-- android:layout_marginRight="@dimen/dialog_btn_marginLeft" -->
+    <!-- android:background="@drawable/selector_textbtnfocues" -->
+    <!-- android:focusable="true" -->
+    <!-- android:gravity="center" -->
+    <!-- android:scaleType="fitXY" -->
+    <!-- android:src="@drawable/btn_dialog" -->
+    <!-- textImageView:text="@string/cancel_space" -->
+    <!-- textImageView:textColor="@android:color/white" -->
+    <!-- textImageView:textSize="26sp" /> -->
+
+
+    <!-- <com.changhong.gdappstore.view.TextImageButton -->
+    <!-- android:id="@+id/bt_alertdia_submit" -->
+    <!-- android:layout_width="@dimen/dialog_btn_width" -->
+    <!-- android:layout_height="@dimen/dialog_btn_height" -->
+    <!-- android:layout_alignTop="@id/bt_alertdia_cancel" -->
+    <!-- android:layout_toRightOf="@id/bt_alertdia_cancel" -->
+    <!-- android:background="@drawable/selector_textbtnfocues" -->
+    <!-- android:gravity="center" -->
+    <!-- android:scaleType="fitXY" -->
+    <!-- android:src="@drawable/btn_dialog" -->
+    <!-- textImageView:text="@string/sure_space" -->
+    <!-- textImageView:textColor="@android:color/white" -->
+    <!-- textImageView:textSize="26sp" /> -->
+    <!-- </RelativeLayout> -->
 
 </RelativeLayout>

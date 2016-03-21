@@ -14,5 +14,18 @@
              <enum name="app" value="0" />
          </attr>
     </declare-styleable>
+    
+     <declare-styleable name="MyButton">
+        <attr name="mybtn_text" format="reference|string"></attr>
+        <attr name="mybtn_textSize" format="dimension"></attr>
+        <attr name="mybtn_textColor" format="color"></attr>
+        <attr name="mybtn_textColor_selected" format="color"></attr>
+        <attr name="mybtn_radius" format="dimension"></attr>
+        <attr name="mybtn_strokeWidth" format="dimension"></attr>
+        <attr name="mybtn_stokeColor" format="color"></attr>
+        <attr name="mybtn_solidColor" format="color"></attr>
+        <attr name="mybtn_solidColor_selected" format="color"></attr>
+        <attr name="mybtn_enable" format="boolean"></attr>
+    </declare-styleable>
 
 </resources>

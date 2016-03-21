@@ -21,7 +21,7 @@ public class MyProgressDialog extends Dialog {
 	private TextView tv_title, tv_progress_hundred, tv_progress_total;
 	// 进度条
 	private SeekBar seekBar;
-	private TextImageButton bt_backload;
+	private MyButton bt_backload;
 	// 最大进度
 	private int max = 100;
 	// 当前进度
@@ -46,7 +46,7 @@ public class MyProgressDialog extends Dialog {
 		tv_progress_total = (TextView) view.findViewById(R.id.tv_progress_total);
 		seekBar = (SeekBar) view.findViewById(R.id.progress);
 		seekBar.setProgress(0);
-		bt_backload = (TextImageButton) findViewById(R.id.bt_loadbackground);
+		bt_backload = (MyButton) findViewById(R.id.bt_loadbackground);
 		bt_backload.setOnClickListener(new View.OnClickListener() {
 
 			@Override
