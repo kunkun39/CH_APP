@@ -18,7 +18,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:text="@string/search"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="28sp" />
     </RelativeLayout>
     <!-- 搜索输入框 -->
@@ -39,7 +39,7 @@
         android:hint=""
         android:padding="3dp"
         android:singleLine="true"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="18sp" />
 
     <RelativeLayout
@@ -362,7 +362,7 @@
             android:layout_below="@id/tv_search_tishi_title"
             android:layout_marginTop="10dp"
             android:text="@string/tv_search_tishi"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="18sp" />
 
         <TextView
@@ -373,7 +373,7 @@
             android:layout_below="@id/tv_search_tishi"
             android:layout_marginTop="10dp"
             android:text="@string/hotapps"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="22sp" />
 
         <TextView
@@ -383,7 +383,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignTop="@id/tv_everybody_search"
             android:text=""
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="18sp"
             android:visibility="invisible" />
     </RelativeLayout>

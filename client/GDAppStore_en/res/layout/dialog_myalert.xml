@@ -7,7 +7,8 @@
     <RelativeLayout
         android:id="@+id/rl_dia_myalert_title"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:background="@color/black_half20"
+        android:layout_height="45dp"
         android:layout_margin="1dp" >
 
         <ImageView

@@ -53,26 +53,36 @@
         android:gravity="center_vertical"
         android:scrollbars="none" >
 
-        <SeekBar
-            android:id="@+id/progress"
+        <RelativeLayout
+            android:id="@+id/rl_progress"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="70dp"
-            android:layout_marginRight="70dp"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/bg_progress"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:progress="0"
-            android:progressDrawable="@drawable/layer_progressbar"
-            android:thumb="@color/transparent" />
+            android:layout_height="30dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/bg_seekbar" >
+
+            <SeekBar
+                android:id="@+id/progress"
+                android:layout_width="match_parent"
+                android:layout_height="13dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/bg_progress"
+                android:focusable="false"
+                android:layout_centerInParent="true"
+                android:focusableInTouchMode="false"
+                android:progress="0"
+                android:progressDrawable="@drawable/layer_progressbar"
+                android:thumb="@color/transparent" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_progress_hundread"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/progress"
-            android:layout_below="@id/progress"
+            android:layout_alignLeft="@id/rl_progress"
+            android:layout_below="@id/rl_progress"
             android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:singleLine="true"
@@ -83,7 +93,7 @@
             android:id="@+id/tv_progress_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignRight="@id/progress"
+            android:layout_alignRight="@id/rl_progress"
             android:layout_alignTop="@id/tv_progress_hundread"
             android:gravity="center_vertical"
             android:singleLine="true"
@@ -105,12 +115,12 @@
             android:layout_height="@dimen/dialog_btn_height"
             android:focusable="true"
             android:gravity="center"
+            android:padding="1dp"
             myButton:mybtn_radius="1dp"
             myButton:mybtn_solidColor="@color/transparent"
             myButton:mybtn_solidColor_selected="@color/bt_detail_selectsolidcolor"
             myButton:mybtn_stokeColor="@color/black_half20"
             myButton:mybtn_strokeWidth="1dp"
-            android:padding="1dp"
             myButton:mybtn_text="@string/download_background"
             myButton:mybtn_textColor="@color/bt_detail_normaltextcolor"
             myButton:mybtn_textColor_selected="@color/bt_detail_selectedtextcolor"
