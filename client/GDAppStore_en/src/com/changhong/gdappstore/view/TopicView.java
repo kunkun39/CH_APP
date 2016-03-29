@@ -120,7 +120,7 @@ public class TopicView extends BasePageView implements OnFocusChangeListener {
 				layoutParams.topMargin = 0;
 				layoutParams.leftMargin = (int) context.getResources().getDimension(R.dimen.item_topic_marginleft);
 				View preBeforView = rl_topics.getChildAt(i - 2);
-				layoutParams.addRule(RelativeLayout.END_OF, preBeforView.getId());// 设置item3在
+				layoutParams.addRule(RelativeLayout.RIGHT_OF, preBeforView.getId());// 设置item3在
 				layoutParams.addRule(RelativeLayout.ALIGN_TOP, preBeforView.getId());// 设置item3在
 				view.setLayoutParams(layoutParams);
 				rl_topics.addView(view);

@@ -146,7 +146,7 @@ public class LoadingActivity extends BaseActivity {
 	private boolean isJumped=false;
 	private void jumpToMain() {
 		if (SharedPreferencesUtil.getAccessCache(context, false)) {
-			startActivity(new Intent(context, MainActivity.class));
+			startActivity(new Intent(context, IndiaMainActivity.class));
 			isJumped=true;
 			finish();
 		}

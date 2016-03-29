@@ -16,6 +16,7 @@ import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.MyApplication;
 import com.changhong.gdappstore.model.AppDetail;
 import com.changhong.gdappstore.model.Category;
+import com.changhong.gdappstore.model.HomePagePoster;
 import com.changhong.gdappstore.model.SynchApp;
 import com.changhong.gdappstore.net.HttpRequestUtil;
 import com.changhong.gdappstore.net.LoadListener.LoadCompleteListener;
@@ -38,9 +39,11 @@ public class DataCenter {
 	public static final int LOAD_CACHEDATA_NO_UPDATE = 3;
 	public static final int LOAD_SERVERDATA_SUCCESS = 4;
 	public static final int LOAD_SERVERDATA_FAIL = 5;
+	public static final int LOAD_HOMEPAGE_POSTER = LOAD_SERVERDATA_FAIL + 1;
 
 	public static final int LOAD_BY_CACHE = 51;
 	public static final int LOAD_BY_SERVER = 52;
+
 
 	private static DataCenter dataCenter = null;
 
@@ -66,6 +69,8 @@ public class DataCenter {
 	private static long lastRequestPageAppsTime = 0;
 	/** 上一次请求的排行榜数据的时间 **/
 	private static long lastRequestRankListTime = 0;
+	/** 上一次获取主页海报时间 **/
+	private static long getLastRequestHomePagePosterTime = 0;
 	/** 上次请求分类下app列表时间 **/
 	private static Map<Integer, Long> lastRequestAppsByCategoryId = new HashMap<Integer, Long>();
 	/** 上次请求专题下app列表时间 **/
@@ -809,6 +814,37 @@ public class DataCenter {
 				}
 			}
 
+		}.execute((Void[]) null);
+	}
+
+	public void loadHomePagePoster(final Context context, final LoadObjectListener objectListener) {
+		new AsyncTask<Void, Void, List<HomePagePoster>>() {
+			@Override
+			protected List<HomePagePoster> doInBackground(Void... params) {
+				String json;
+				if (Config.ISCACHEABLE && (System.currentTimeMillis() - getLastRequestHomePagePosterTime) < Config.REQUEST_RESTTIEM
+						&& getLastRequestHomePagePosterTime != 0) {
+					json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_HOMEPAGEPOSTER);
+				}else{
+					String url = Config.obtainMainPagePoster;
+					json = HttpRequestUtil.getEntityString(HttpRequestUtil.doGetRequest(url, context), context);
+
+					if (!TextUtils.isEmpty(json)) {
+						getLastRequestHomePagePosterTime = System.currentTimeMillis();// 更改上次请求时间
+						CacheManager.putJsonFileCache(context, CacheManager.KEYJSON_HOMEPAGEPOSTER, json);// 缓存json数据
+					} else {
+						L.d("datacenter-loadRankingList--server json is null");
+						// 没有请求到服务器数据使用缓存文件
+						return null;
+					}
+				}
+				return Parse.parserHomePagePoster(json);
+			}
+
+			@Override
+			protected void onPostExecute(List<HomePagePoster> result) {
+					objectListener.onComplete(result);
+			}
 		}.execute((Void[]) null);
 	}
 }

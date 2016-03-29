@@ -29,6 +29,8 @@ public class MainViewPagerAdapter extends PagerAdapter {
 		this.pageViews=pageViews;
 		notifyDataSetChanged();
 	}
+
+
 	
 //	private void setPageViews(List<View> pageViews) {
 //		if (pageViews==null || pageViews.size()==0) {

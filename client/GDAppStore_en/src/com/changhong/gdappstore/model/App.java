@@ -1,12 +1,14 @@
 package com.changhong.gdappstore.model;
 
+import java.io.Serializable;
+
 /***
  * 应用基础数据模型
  * 
  * @author wangxiufeng
  * 
  */
-public class App {
+public class App implements Serializable{
 	// 应用id
 	protected int appid;
 	// 应用key
@@ -15,6 +17,10 @@ public class App {
 	protected String appname;
 	// 应用大小
 	protected String apkSize;
+	// 简介
+	protected String subtitle;
+	// 上传日期
+	protected String time;
 	// 应用下载量
 	protected String download;
 	// 应用海报地址
@@ -91,6 +97,22 @@ public class App {
 
 	public void setApkSize(String apkSize) {
 		this.apkSize = apkSize;
+	}
+
+	public String getSubtitle() {
+		return subtitle;
+	}
+
+	public void setSubtitle(String subtitle) {
+		this.subtitle = subtitle;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
 	}
 
 	public String getDownload() {

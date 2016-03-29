@@ -25,6 +25,12 @@ public class Category{
 	// 栏目应用
 	protected List<PageApp> categoryPageApps = new ArrayList<PageApp>();
 
+	/**
+	 * New ADD:2016-03-22 Add by Yves Yang
+	 **/
+
+	protected int categoryNumber;
+
 	public Category() {
 		super();
 	}
@@ -78,6 +84,14 @@ public class Category{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public int getCategoryNumber() {
+		return categoryNumber;
+	}
+
+	public void setCategoryNumber(int categoryNumber) {
+		this.categoryNumber = categoryNumber;
 	}
 
 	public String getIconFilePath() {

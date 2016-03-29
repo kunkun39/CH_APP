@@ -30,6 +30,8 @@ public class Config {
 	public static final String baseUpdatePath = "/data/data/com.changhong.gdappstore/loadapp";
 	/** 存放使用Xutil代码下载apk文件目录 */
 	public static final String baseXutilDownPath = "/data/data/com.changhong.gdappstore/xutilloadapp";
+	/** 在这个时间内出现new标志 **/
+	public static final int NEW_TIME = 15 * 24 * 60 * 60 * 1000;
 	/***************************** 网络请求配置项 ******************************************/
 	/** 请求链接超时 */
 	public static int CONNECTION_TIMEOUT = 9000;
@@ -38,6 +40,7 @@ public class Config {
 	public static final String NATIVE_EN = "http://192.168.0.55:8081/appmarket/";// 本地英文版
 	public static final String SERVER_ZH = "http://www.ottserver.com:8081/appmarket/";// 公网中文版
 	public static final String SERVER_EN = "http://chappstore.yuppcdn.net/appmarket/";// 公网英文版
+	public static final String SERVER_PG = "http://192.168.0.112:8080/appmarket/";
 	/** 服务器基础地址 在MyApplication的oncreate（）中调用initBaseUrl()初始化 **/
 	private static String BASEURL = SERVER_ZH;
 	/** 获取分类地址 **/
@@ -72,6 +75,10 @@ public class Config {
 	public static String getBackupApps = BASEURL + "client/getbackupapp.html";
 	/** 删除已备份应用 */
 	public static String deleteBackupApp = BASEURL + "client/deletebackupapp.html";
+	/** 获取首页海报信息 **/
+	public static String obtainMainPagePoster = BASEURL + "client/homepageposter.html";
+
+
 
 	/**
 	 * 
@@ -132,5 +139,6 @@ public class Config {
 		postBackup = BASEURL + "client/requestbackupapp.html";
 		getBackupApps = BASEURL + "client/getbackupapp.html";
 		deleteBackupApp = BASEURL + "client/deletebackupapp.html";
+		obtainMainPagePoster = BASEURL + "client/homepageposter.html";
 	}
 }
