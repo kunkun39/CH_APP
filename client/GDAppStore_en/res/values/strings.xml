@@ -98,4 +98,9 @@
     <string name="addin_downloadlist_success">Add to download list success</string>
 
     <string name="noaccess">You don\'t have authentication to access app store!</string>
+
+    <string name="installed">Installed</string>
+    <string name="installedNow">Install Now</string>
+    <string name="New">New</string>
+
 </resources>

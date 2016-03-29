@@ -97,5 +97,10 @@
     <string name="app_already_indownloadlist">This app is already in download list</string>
     <string name="addin_downloadlist_success">Add to download list success</string>
 
+    <string name="installed">Installed</string>
+    <string name="installedNow">Install Now</string>
+    <string name="New">New</string>
+
+
     <string name="noaccess">You don\'t have authentication to access app store!</string>
 </resources>
