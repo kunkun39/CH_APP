@@ -172,7 +172,9 @@ public class RankingListActivity extends Activity {
                         break;
 
                     case INIT_VIEW_OK:
-                        oldView = gridView_popular.getChildAt(0);
+                        if (oldView == null) {
+                            oldView = gridView_popular.getChildAt(0);
+                        }
                         L.i("INIT_VIEW_OK" + oldView);
                     default:
                         break;
