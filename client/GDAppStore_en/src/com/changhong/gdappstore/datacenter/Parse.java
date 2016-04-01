@@ -725,24 +725,14 @@ public class Parse {
 
             String host = object.getString(HOST).trim();
             host = DesUtils.getDesString(host);
-            JSONArray surgeListJsonArray = object.getJSONArray("FASTEST");
-            JSONArray hotListJsonArray = object.getJSONArray("HOTEST");
-            JSONArray newListJsonArray = object.getJSONArray("NEWEST");
+            JSONArray popularListJsonArray = object.getJSONArray("POPULAR");
 
-            ArrayList<Ranking_Item> newArrayList = parseRankingApp(newListJsonArray);
-            ArrayList<Ranking_Item> hotArrayList = parseRankingApp(hotListJsonArray);
-            ArrayList<Ranking_Item> surgeArrayList = parseRankingApp(surgeListJsonArray);
+            ArrayList<Ranking_Item> popularArrayList = parseRankingApp(popularListJsonArray);
 
             rankingData.setHost(host);
 
-            if (newArrayList != null && !newArrayList.isEmpty()) {
-                rankingData.setNewRankingData(newArrayList);
-            }
-            if (hotArrayList != null && !hotArrayList.isEmpty()) {
-                rankingData.setHotRankingData(hotArrayList);
-            }
-            if (surgeArrayList != null && !surgeArrayList.isEmpty()) {
-                rankingData.setSurgeRankingData(surgeArrayList);
+            if (popularArrayList != null && !popularArrayList.isEmpty()) {
+                rankingData.setPopularArrayList(popularArrayList);
             }
 
         } catch (JSONException e) {
@@ -784,6 +774,9 @@ public class Parse {
                 }
                 if (object.has(APP_SCORES)) {
                     ranking_Item.setScores(object.getInt(APP_SCORES));
+                }
+                if (object.has(APP_SUBTITLE)) {
+                    ranking_Item.setSubtitle(object.getString(APP_SUBTITLE));
                 }
                 ranking_Item.setTopNum(i + 1);
 

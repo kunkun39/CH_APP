@@ -6,9 +6,10 @@ public class RankingData {
 	private static RankingData rankingData;
 	
 	private String strHost;
-	private ArrayList<Ranking_Item> newArrayList = null;
-	private ArrayList<Ranking_Item> hotArrayList = null;
-	private ArrayList<Ranking_Item> surgeArrayList = null;
+	private ArrayList<Ranking_Item> popularArrayList = null;
+//	private ArrayList<Ranking_Item> newArrayList = null;
+//	private ArrayList<Ranking_Item> hotArrayList = null;
+//	private ArrayList<Ranking_Item> surgeArrayList = null;
 	
 	protected RankingData() {
 		// TODO Auto-generated constructor stub
@@ -20,31 +21,15 @@ public class RankingData {
 		}
 		return rankingData;
 	}
-	
-	public void setNewRankingData(ArrayList<Ranking_Item> arrayList) {
-		newArrayList = arrayList;
+
+	public ArrayList<Ranking_Item> getPopularArrayList() {
+		return popularArrayList;
 	}
-	
-	public ArrayList<Ranking_Item> getNewRankingData() {
-		return newArrayList;
+
+	public void setPopularArrayList(ArrayList<Ranking_Item> popularArrayList) {
+		this.popularArrayList = popularArrayList;
 	}
-	
-	public void setHotRankingData(ArrayList<Ranking_Item> arrayList) {
-		hotArrayList = arrayList;
-	}
-	
-	public ArrayList<Ranking_Item> getHotRankingData() {
-		return hotArrayList;
-	}
-	
-	public void setSurgeRankingData(ArrayList<Ranking_Item> arrayList) {
-		surgeArrayList = arrayList;
-	}
-	
-	public ArrayList<Ranking_Item> getSurgeRankingData() {
-		return surgeArrayList;
-	}
-	
+
 	public void setHost(String host) {
 		strHost = host;
 	}

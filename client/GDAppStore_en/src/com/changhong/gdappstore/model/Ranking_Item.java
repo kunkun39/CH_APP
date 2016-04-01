@@ -16,6 +16,7 @@ public class Ranking_Item implements Comparable<Ranking_Item>{
 	private int scores;//评分
 	private int appId;
 	private String appKey;
+	private String subtitle;
 	public Bitmap appBitmap;
 
 	public Ranking_Item() {
@@ -23,12 +24,13 @@ public class Ranking_Item implements Comparable<Ranking_Item>{
 	}
 	
 	public Ranking_Item(int topNum, String imgPath, String appName,
-			String download_num, String appSize) {
+			String download_num, String appSize, String subtitle) {
 		this.topNum = topNum;
 		this.imgPath = imgPath;
 		this.appName = appName;
 		this.download_num = download_num;
 		this.appSize = appSize;
+		this.subtitle = subtitle;
 	}
 	
 	
@@ -105,6 +107,14 @@ public class Ranking_Item implements Comparable<Ranking_Item>{
 		this.scores = scores;
 	}
 
+	public String getSubtitle() {
+		return subtitle;
+	}
+
+	public void setSubtitle(String subtitle) {
+		this.subtitle = subtitle;
+	}
+
 	public Bitmap getAppBitmap() {
 		if(null == appBitmap && null != imgPath) {
 			appBitmap = BitmapFactory.decodeFile(imgPath);
@@ -121,9 +131,19 @@ public class Ranking_Item implements Comparable<Ranking_Item>{
 
 	@Override
 	public String toString() {
-		return "Ranking_Item [topNum=" + topNum + ", imgPath=" + imgPath + ", appIconPath=" + appIconPath
-				+ ", appName=" + appName + ", download_num=" + download_num + ", appSize=" + appSize + ", scores="
-				+ scores + ", appId=" + appId + ", appKey=" + appKey + ", appBitmap=" + appBitmap + "]";
+		return "Ranking_Item{" +
+				"topNum=" + topNum +
+				", imgPath='" + imgPath + '\'' +
+				", appIconPath='" + appIconPath + '\'' +
+				", appName='" + appName + '\'' +
+				", download_num='" + download_num + '\'' +
+				", appSize='" + appSize + '\'' +
+				", scores=" + scores +
+				", appId=" + appId +
+				", appKey='" + appKey + '\'' +
+				", subtitle='" + subtitle + '\'' +
+				", appBitmap=" + appBitmap +
+				'}';
 	}
 
 	public void setTopImg(View view) {

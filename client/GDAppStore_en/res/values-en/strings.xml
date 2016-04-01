@@ -10,7 +10,7 @@
     <string name="update_now">Update now</string>
     <string name="update_nexttime">Not now</string>
     <string name="search">Search</string>
-    <string name="rank_list">Ranking List </string>
+    <string name="rank_list">Popular List </string>
     <string name="nativeapp">App Native</string>
     <string name="yuntongbu">Cloud Service</string>
 
@@ -30,7 +30,8 @@
     <string name="app">app</string>
     <string name="apps">apps</string>
     <!--  -->
-    <string name="str_download">downloads：</string>
+    <string name="str_download">Downloads：</string>
+    <string name="str_size">Size：</string>
     <string name="net_disconnected_pleasecheck">Network disconnected,please check the network</string>
     <string name="weipeizhi">No data</string>
     <string name="str_new">NEWEST</string>

@@ -153,13 +153,13 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 
 	private void initData() {
 		List<Ranking_Item> rankingItems;
-		rankingItems = RankingData.getInstance().getHotRankingData();
+		rankingItems = RankingData.getInstance().getPopularArrayList();
 		if (rankingItems == null || rankingItems.size() <= 0) {
 			DataCenter.getInstance().loadRankingList(context, new LoadObjectListener() {
 
 				@Override
 				public void onComplete(Object object) {
-					List<Ranking_Item> rankingItems2 = RankingData.getInstance().getHotRankingData();
+					List<Ranking_Item> rankingItems2 = RankingData.getInstance().getPopularArrayList();
 					updateRankListData(rankingItems2);
 				}
 			}, true);
