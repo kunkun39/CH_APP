@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ public class RankingListViewAdapter extends BaseAdapter {
 	private LayoutInflater flater = null;
 	private RankingData rankingData;
     private Handler handler;
+	private boolean firstInit;
 
 	public RankingListViewAdapter(Context context,ArrayList<Ranking_Item> array, Handler handler) {
 		// TODO Auto-generated constructor stub
@@ -34,6 +36,7 @@ public class RankingListViewAdapter extends BaseAdapter {
 		flater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		rankingData = RankingData.getInstance();
         this.handler = handler;
+		firstInit = true;
 	}
 
 	@Override
@@ -82,8 +85,13 @@ public class RankingListViewAdapter extends BaseAdapter {
 			holder.app_size = (TextView)convertView.findViewById(R.id.item_app_size);
 
 			convertView.setTag(holder);
-            if (position == 0) {
-                handler.sendEmptyMessage(0x2001);
+            if (firstInit && position == 0) {
+                L.i("firstInit：" + firstInit);
+                firstInit = false;
+                Message msg = new Message();
+                msg.what = 0x2001;
+                msg.obj = convertView;
+                handler.sendMessage(msg);
                 Drawable drawable = mContext.getResources().getDrawable(R.drawable.focues_ranking_item);
                 convertView.findViewById(R.id.popular_item).setBackgroundDrawable(drawable);
             }
