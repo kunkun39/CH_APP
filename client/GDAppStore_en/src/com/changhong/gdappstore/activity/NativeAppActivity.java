@@ -114,7 +114,7 @@ public class NativeAppActivity extends BaseActivity implements OnClickListener, 
 		showLoadingDialog();
 	}
 
-	private void initData() {
+	protected void initData() {
 		nativeApps = Util.getApp(context);
 		if (nativeApps != null) {
 			for (int i = 0; i < nativeApps.size(); i++) {

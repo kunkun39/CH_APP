@@ -26,11 +26,12 @@
         android:name="com.changhong.gdappstore.MyApplication"
         android:allowBackup="true"
         android:largeHeap="true"
-        android:icon="@drawable/img_icon"
+        android:icon="@drawable/yupp_store_icon"
         android:label="@string/app_name"
 
-        android:theme="@style/Theme.AppCompat" >
-        <activity android:name=".activity.LoadingActivity" >
+        android:theme="@style/anim_zoom" >
+        <activity android:name=".activity.LoadingActivity"
+            android:theme="@style/anim_zoom">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

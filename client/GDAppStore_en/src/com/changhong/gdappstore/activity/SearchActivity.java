@@ -1,5 +1,6 @@
 package com.changhong.gdappstore.activity;
 
+import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -8,15 +9,22 @@ import java.util.Map;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,8 +33,12 @@ import android.widget.TextView;
 import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.MyApplication;
 import com.changhong.gdappstore.R;
+import com.changhong.gdappstore.adapter.IndiaAppListPageAdapter;
+import com.changhong.gdappstore.adapter.IndiaCategoryAdapter;
 import com.changhong.gdappstore.base.BaseActivity;
 import com.changhong.gdappstore.datacenter.DataCenter;
+import com.changhong.gdappstore.fragment.RecycleViewFragment;
+import com.changhong.gdappstore.fragment.TabFragment;
 import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.RankingData;
 import com.changhong.gdappstore.model.Ranking_Item;
@@ -51,7 +63,7 @@ import com.post.view.listener.Listener.IItemOnClickListener;
  * @author wangxiufeng
  * 
  */
-public class SearchActivity extends BaseActivity implements OnClickListener {
+public class SearchActivity extends BaseActivity implements OnClickListener ,RecycleViewFragment.OnFragmentInteractionListener{
 
 	private int[] id_keybords = { R.id.bt_fullkeybord_0, R.id.bt_fullkeybord_1, R.id.bt_fullkeybord_2,
 			R.id.bt_fullkeybord_3, R.id.bt_fullkeybord_4, R.id.bt_fullkeybord_5, R.id.bt_fullkeybord_6,
@@ -71,6 +83,7 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 	private TextView tv_searchresult, tv_search_tishi;
 	/** 查询结果 */
 	private PosterLayoutView view_post;
+	private RecyclerView view_post_india;
 	/** 海报配置 */
 	private PostSetting postSetting;
 	/** 搜索结果 */
@@ -85,7 +98,12 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_search);
+		if (Config.IS_INDIA_DAS){
+			setContentView(R.layout.activity_search_india);
+		}else {
+			setContentView(R.layout.activity_search);
+		}
+
 		cacheMap = new LinkedHashMap<String, List<Object>>();
 		showLoadingDialog();
 		initView();
@@ -105,7 +123,11 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 		bt_space = findView(R.id.bt_space);
 		bt_clear = findView(R.id.bt_search_clear);
 		tv_searchresult = findView(R.id.tv_num_searchresult);
-		view_post = findView(R.id.post_search);
+		if (Config.IS_INDIA_DAS){
+			view_post_india = findView(R.id.post_search);
+		}else{
+			view_post = findView(R.id.post_search);
+		}
 		tv_search_tishi = findView(R.id.tv_search_tishi);
 		String tishi = getResources().getString(R.string.tv_search_tishi);
 		SpannableStringBuilder style = new SpannableStringBuilder(tishi);
@@ -137,18 +159,177 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 	private void initPostView() {
 
 		// 海报墙设置，监听器没有可以设为空，行列设为负数则使用默认值
-		postSetting = new PostSetting(3, 2, R.drawable.selector_bg_postitem, iPosteDateListener, null,
-				postItemOnclickListener, null, null);
+		if (Config.IS_INDIA_DAS){
+			postSetting = new PostSetting(3, 2, R.drawable.selector_app_bg, iPosteDateListener, null,
+					postItemOnclickListener, null, null);
+		}else {
+			postSetting = new PostSetting(3, 2, R.drawable.selector_bg_postitem, iPosteDateListener, null,
+					postItemOnclickListener, null, null);
+		}
+
 		postSetting.setVerticalScroll(true);// 纵向滚动
 		postSetting.setVisibleClumn(1f);// 显示的页数
-		postSetting.setMargins(0, 0, -5, -5);// item的距离
+		//postSetting.setMargins(0, 0, -5, -5);// item的距离
+		postSetting.setMargins(0,0,0,0);
 		postSetting.setFirstRowFocusUp(false);// 第一排是否允许焦点再往上
 		postSetting.setFirstClumnFocusLeft(true);
 		postSetting.setFristItemFocus(false);
 		postSetting.setPosttype(PostSetting.TYPE_SEARCHAPP);
 		// 如果需要海报墙使用自己的设置，要先调用设置设置方法，在调用设置数据
-		view_post.init(postSetting);
+		if (view_post_india != null){
+			view_post_india.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
 
+			view_post_india.setAdapter(new SearchViewDataAdapter());
+			view_post_india.setFocusable(false);
+		}
+		if (view_post != null){
+			view_post.init(postSetting);
+		}
+	}
+
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		if (event.getAction() == KeyEvent.ACTION_UP){
+			return super.dispatchKeyEvent(event);
+		}
+
+		View v = getCurrentFocus();
+		if(v.getLayoutParams() instanceof RecyclerView.LayoutParams){
+			if (v.getParent() == view_post_india.getFocusedChild()){
+				switch (event.getKeyCode()){
+					case KeyEvent.KEYCODE_DPAD_DOWN:{
+						((SearchViewDataAdapter)view_post_india.getAdapter()).scrollTo(View.FOCUS_DOWN);
+					}break;
+					case KeyEvent.KEYCODE_DPAD_UP:{
+						((SearchViewDataAdapter)view_post_india.getAdapter()).scrollTo(View.FOCUS_UP);
+					}
+				}
+
+			}
+		}
+
+		return super.dispatchKeyEvent(event);
+
+	}
+
+	class SearchViewDataAdapter extends RecycleViewFragment.RecycleViewAdapter<RecyclerView.ViewHolder>{
+		private static final int APP_COL = 2;
+		private static final int APP_COUNT_PER_PAGE = 6;
+
+		List<Object> appList = new ArrayList<>();
+		List<RecyclerView> recyclerViewList = new ArrayList<>();
+
+		int pageCount = 0,childHeight;
+
+		public SearchViewDataAdapter(){
+			//this.childHeight = childHeight;
+		}
+
+		public SearchViewDataAdapter(int childHeight){
+			//this.childHeight = childHeight;
+		}
+
+		@Override
+		public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+			View view = gennaralOnePage();
+			parent.addView(view);
+			return new ViewHolder(view);
+		}
+
+		@Override
+		public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+			RecyclerView view = (RecyclerView)holder.itemView;
+			int begin = position * APP_COUNT_PER_PAGE;
+			int end = (position + 1)  * APP_COUNT_PER_PAGE;
+			if (end >= appList.size()){
+				end = appList.size();
+			}
+
+//			if (position > 0){
+//				recyclerViewList.get(position -1).setNextFocusDownId(view.getId());
+//				view.setNextFocusUpId(recyclerViewList.get(position -1).getId());
+//			}
+			((IndiaCategoryAdapter) view.getAdapter()).setDataWithUpdate(appList.subList(begin, end));
+		}
+
+		@Override
+		public int getItemCount() {
+			return pageCount;
+		}
+
+		public void scrollTo(int direction){
+			int index = view_post_india.getChildLayoutPosition(view_post_india.getFocusedChild());
+			int position = ((RecyclerView.LayoutParams)getCurrentFocus().getLayoutParams()).getViewLayoutPosition();
+			int nextindex;
+			switch (direction){
+				case View.FOCUS_DOWN:{
+					if (position < (APP_COUNT_PER_PAGE - 2))
+						return;
+					nextindex = index + 1;
+					if (nextindex < view_post_india.getChildCount()){
+						view_post_india.smoothScrollToPosition(nextindex);
+						View child = ((ViewGroup)view_post_india.getChildAt(nextindex)).getChildAt(0);
+						if (child != null){
+							child.requestFocus();
+						}
+						//((RecyclerView)view_post_india.getFocusedChild().focusSearch(View.FOCUS_DOWN)).getChildAt(0).requestFocus();
+					}
+
+				};
+				case View.FOCUS_UP:{
+					if (position >= 2)
+						return;
+					nextindex = index - 1;
+					if (nextindex >= 0){
+						view_post_india.smoothScrollToPosition(nextindex);
+						View child = ((ViewGroup)view_post_india.getChildAt(nextindex)).getChildAt(0);
+						if (child != null){
+							child.requestFocus();
+						}
+						//((RecyclerView)view_post_india.getFocusedChild().focusSearch(View.FOCUS_UP)).getChildAt(0).requestFocus();
+					}
+				}
+			}
+		}
+
+		View gennaralOnePage(){
+			RecyclerView view = new RecyclerView(getBaseContext());
+			view.setId(View.generateViewId());
+			view.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
+			ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(view_post_india.getMeasuredWidth(),view_post_india.getMeasuredHeight() - 1);
+			view.setLayoutParams(layoutParams);
+			view.setLayoutManager(new GridLayoutManager(getBaseContext(), APP_COL));
+			view.setAdapter(new IndiaCategoryAdapter(SearchActivity.this));
+			return view;
+		}
+
+		public void setData(List<Object> appList){
+			if (appList == null
+					|| appList.size() <= 0)
+				return;
+
+
+			this.appList.clear();
+			this.appList.addAll(appList);
+
+			parserData();
+			notifyDataSetChanged();
+		}
+
+		private void parserData(){
+			pageCount = appList.size() / APP_COUNT_PER_PAGE + 1;
+			//view_post_india.requestChildFocus();
+//			ViewGroup.LayoutParams layoutParams = view_post_india.getLayoutParams();
+//			layoutParams.height = view_post_india.getMeasuredHeight() * pageCount;
+//			view_post_india.setLayoutParams(layoutParams);
+//			view_post_india.requestLayout();
+		}
+
+		class ViewHolder extends RecyclerView.ViewHolder{
+			public ViewHolder(View itemView) {
+				super(itemView);
+			}
+		}
 	}
 
 	private void initData() {
@@ -191,11 +372,25 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 			app.setIconFilePath(host + ranking_Item.getAppKey() + "/" + ranking_Item.getAppIconPath());
 			ranklist.add(app);
 		}
-		if (ranklist == null || ranklist.size() <= 0) {
-			view_post.setVisibility(INVISIBLE);
-		} else {
-			view_post.setVisibility(VISIBLE);
-			view_post.refreshAllData(ranklist, postSetting, ranklist.size());
+		viewPostRefresh(ranklist);
+	}
+
+	private void viewPostRefresh(List<Object> apps){
+		if (view_post_india != null){
+			if (apps == null || apps.size() <= 0) {
+				view_post_india.setVisibility(INVISIBLE);
+			} else {
+				view_post_india.setVisibility(VISIBLE);
+				ranklist.clear();
+				((SearchViewDataAdapter)view_post_india.getAdapter()).setData(apps);
+			}
+		}else if(view_post != null){
+			if (apps == null || apps.size() <= 0) {
+				view_post.setVisibility(INVISIBLE);
+			} else {
+				view_post.setVisibility(VISIBLE);
+				view_post.refreshAllData(apps, postSetting, apps.size());
+			}
 		}
 	}
 
@@ -247,18 +442,15 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 			L.d("textWatcher afterTextChanged--" + s.toString());
 			if (TextUtils.isEmpty(s.toString())) {
 				initData();
+				searchList.clear();
 				updateAppnumTextVisible();
+				viewPostRefresh(searchList);
 			} else {
 				if (cacheMap.containsKey(s.toString())) {
 					// 有缓存就用缓存
 					searchList.clear();
 					searchList.addAll(cacheMap.get(s.toString()));
-					if (searchList == null || searchList.size() <= 0) {
-						view_post.setVisibility(INVISIBLE);
-					} else {
-						view_post.setVisibility(VISIBLE);
-						view_post.refreshAllData(searchList, postSetting, searchList.size());
-					}
+					viewPostRefresh(searchList);
 					updateAppnumTextVisible();
 				} else {
 					DataCenter.getInstance().loadAppSearch(s.toString(), new LoadListListener() {
@@ -267,12 +459,7 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 						public void onComplete(List<Object> items) {
 							searchList.clear();
 							searchList.addAll(items);
-							if (searchList == null || searchList.size() <= 0) {
-								view_post.setVisibility(INVISIBLE);
-							} else {
-								view_post.setVisibility(VISIBLE);
-								view_post.refreshAllData(searchList, postSetting, searchList.size());
-							}
+							viewPostRefresh(searchList);
 							updateAppnumTextVisible();
 							int mapsize = cacheMap.size();
 							if (mapsize > CACHESIZE) {
@@ -345,7 +532,7 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 	 * 跟新搜索列表上面文字和按钮显示 如果输入框内容为空，显示换一批按钮。如果有信息，显示搜索结果个数。
 	 */
 	private void updateAppnumTextVisible() {
-		if (TextUtils.isEmpty(editText.getText().toString().trim())) {
+		if (false && TextUtils.isEmpty(editText.getText().toString().trim())) {//去掉推荐
 			// 输入框为空时候，显示推荐。
 			tv_searchresult.setVisibility(INVISIBLE);
 			findViewById(R.id.tv_everybody_search).setVisibility(VISIBLE);
@@ -370,4 +557,8 @@ public class SearchActivity extends BaseActivity implements OnClickListener {
 		cacheMap.clear();
 	}
 
+	@Override
+	public void onFragmentInteraction(Uri uri) {
+
+	}
 }

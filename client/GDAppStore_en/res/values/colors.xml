@@ -22,7 +22,7 @@
 	<color name="detail_content_title_textcolor">#8c8a85</color>
 	<color name="detail_content_textcolor">#72706c</color>
 	<color name="bt_searchnormal">#3b4d51</color>
-	<color name="bt_searchfocues">#3685fc</color>
+	<color name="bt_searchfocues">@color/Orange_500</color>
 	<color name="bt_detail_selectsolidcolor">#F18934</color>
 	<color name="bt_detail_normaltextcolor">#F68F1A</color>
 	<color name="bt_detail_selectedtextcolor">#FFFFFF</color>

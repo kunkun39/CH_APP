@@ -12,7 +12,7 @@ public class TabFragment extends RecycleViewFragment{
     public static TabFragment newInstance( RecycleViewAdapter adapter, String param) {
         TabFragment fragment = new TabFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_PARAM1,adapter);
+        //args.putSerializable(ARG_PARAM1,adapter);
         args.putString(ARG_PARAM2, param);
         fragment.setArguments(args);
         fragment.setName(param);

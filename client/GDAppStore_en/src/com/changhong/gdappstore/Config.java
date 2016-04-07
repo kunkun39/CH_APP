@@ -8,6 +8,9 @@ package com.changhong.gdappstore;
  */
 public class Config {
 
+	/** 客户版本 */
+	public static final boolean IS_INDIA_DAS = true;
+
 	/** 是否定死为英文版本 */
 	public static final boolean IS_ENGLISH_VERSION = true;
 	
@@ -92,6 +95,8 @@ public class Config {
 	public static final String KEY_PARENT_CATEGORYID = "parentcategoryid";
 	/** 当前栏目id **/
 	public static final String KEY_CURRENT_CATEGORYID = "currentcategoryid";
+
+	public static final String KEY_LOCAL_APP = "native_app";
 	/**
 	 * 
 	 * 

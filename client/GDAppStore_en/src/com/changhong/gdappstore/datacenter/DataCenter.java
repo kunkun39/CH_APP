@@ -46,6 +46,7 @@ public class DataCenter {
 
 
 	private static DataCenter dataCenter = null;
+	private static boolean isNeedUpdate = false;
 
 	private DataCenter() {
 
@@ -81,6 +82,15 @@ public class DataCenter {
 	/************************** 缓存数据定义区域end *************************/
 	//
 	//
+
+	public static boolean isNeedUpdate() {
+		return isNeedUpdate;
+	}
+
+	public static void setIsNeedUpdate(boolean isNeedUpdate) {
+		DataCenter.isNeedUpdate = isNeedUpdate;
+	}
+
 	//
 	//
 	/************************** 请求方法定义区域begin *************************/
@@ -144,7 +154,7 @@ public class DataCenter {
 	 * @param completeListener
 	 */
 	public void loadCategories(final Context context, final LoadObjectListener completeListener) {
-		if (Config.ISCACHEABLE && (System.currentTimeMillis() - lastRequestCategoriesTime) < Config.REQUEST_RESTTIEM) {
+		if (!isNeedUpdate() && Config.ISCACHEABLE && (System.currentTimeMillis() - lastRequestCategoriesTime) < Config.REQUEST_RESTTIEM) {
 			String json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_CATEGORIES);
 			categories = Parse.parseCategory(json);
 			if (categories != null && categories.size() > 0 && completeListener != null) {
@@ -191,7 +201,7 @@ public class DataCenter {
 	 */
 	public void loadPageApps(final Context context, final LoadCompleteListener completeListener, boolean getCacheData,
 			Object object) {
-		if (getCacheData && Config.ISCACHEABLE) {
+		if (!isNeedUpdate() && getCacheData && Config.ISCACHEABLE) {
 			String json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_PAGEAPPS);
 			Parse.parsePageApps(json);
 			if (categories != null && categories.size() > 0 && completeListener != null) {
@@ -221,7 +231,7 @@ public class DataCenter {
 	 * @param completeListener
 	 */
 	public void loadPageApps(final Context context, final LoadCompleteListener completeListener) {
-		if (Config.ISCACHEABLE && (System.currentTimeMillis() - lastRequestPageAppsTime) < Config.REQUEST_RESTTIEM) {
+		if (!isNeedUpdate() && Config.ISCACHEABLE && (System.currentTimeMillis() - lastRequestPageAppsTime) < Config.REQUEST_RESTTIEM) {
 			String json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_PAGEAPPS);
 			Parse.parsePageApps(json);
 			if (categories != null && categories.size() > 0 && completeListener != null) {
@@ -267,7 +277,7 @@ public class DataCenter {
 	 */
 	public void loadAppsByCategoryId(final Context context, final int categoryId,
 			final LoadListListener loadAppListListener) {
-		if (Config.ISCACHEABLE && lastRequestAppsByCategoryId.get(categoryId) != null
+		if (!isNeedUpdate() && Config.ISCACHEABLE && lastRequestAppsByCategoryId.get(categoryId) != null
 				&& (System.currentTimeMillis() - lastRequestAppsByCategoryId.get(categoryId)) < Config.REQUEST_RESTTIEM) {
 			String jsonString = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_CATEGORYAPPS + categoryId);
 			if (!TextUtils.isEmpty(jsonString) && loadAppListListener != null) {
@@ -313,7 +323,7 @@ public class DataCenter {
 	 * @param loadAppListListener
 	 */
 	public void loadAppsByTopicId(final Context context, final int topicId, final LoadListListener loadAppListListener) {
-		if (Config.ISCACHEABLE && lastRequestAppsByTopicId.get(topicId) != null
+		if (!isNeedUpdate() && Config.ISCACHEABLE && lastRequestAppsByTopicId.get(topicId) != null
 				&& (System.currentTimeMillis() - lastRequestAppsByTopicId.get(topicId)) < Config.REQUEST_RESTTIEM) {
 			String jsonString = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_TOPICAPPS + topicId);
 			if (!TextUtils.isEmpty(jsonString) && loadAppListListener != null) {
@@ -570,7 +580,7 @@ public class DataCenter {
 	 */
 	public void loadBackUpApps(final Context context, boolean isUserCache, final LoadObjectListener loadObjectListener) {
 		CacheManager.useCacheBackupedApps = true;
-		if (Config.ISCACHEABLE && isUserCache) {
+		if (!isNeedUpdate() && Config.ISCACHEABLE && isUserCache) {
 			String json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_BACKUPEDAPPS);
 			List<SynchApp> ids = Parse.parseGetBackUpApps(json);
 			if (loadObjectListener != null && ids != null && ids.size() > 0) {
@@ -611,7 +621,7 @@ public class DataCenter {
 	 */
 	public void loadRecommendData(final Context context, final int categoryId,
 			final LoadListListener loadAppListListener) {
-		if (Config.ISCACHEABLE && lastRequestRecommendApps.get(categoryId) != null
+		if ( !isNeedUpdate() && Config.ISCACHEABLE && lastRequestRecommendApps.get(categoryId) != null
 				&& (System.currentTimeMillis() - lastRequestRecommendApps.get(categoryId)) < Config.REQUEST_RESTTIEM) {
 			String jsonString = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_RECOMMENDAPPS + categoryId);
 			if (!TextUtils.isEmpty(jsonString) && loadAppListListener != null) {
@@ -774,7 +784,7 @@ public class DataCenter {
 
 	public void loadRankingList(final Context context, final LoadObjectListener objectListener) {
 		boolean result;
-		if (Config.ISCACHEABLE && (System.currentTimeMillis() - lastRequestRankListTime) < Config.REQUEST_RESTTIEM
+		if ( !isNeedUpdate() && Config.ISCACHEABLE && (System.currentTimeMillis() - lastRequestRankListTime) < Config.REQUEST_RESTTIEM
 				&& lastRequestRankListTime != 0) {
 			String json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_RANKLIST);
 			result = Parse.parseRankingList(json);
@@ -822,7 +832,7 @@ public class DataCenter {
 			@Override
 			protected List<HomePagePoster> doInBackground(Void... params) {
 				String json;
-				if (Config.ISCACHEABLE && (System.currentTimeMillis() - getLastRequestHomePagePosterTime) < Config.REQUEST_RESTTIEM
+				if (!isNeedUpdate() && Config.ISCACHEABLE && (System.currentTimeMillis() - getLastRequestHomePagePosterTime) < Config.REQUEST_RESTTIEM
 						&& getLastRequestHomePagePosterTime != 0) {
 					json = CacheManager.getJsonFileCache(context, CacheManager.KEYJSON_HOMEPAGEPOSTER);
 				}else{

@@ -2,6 +2,8 @@ package com.changhong.gdappstore.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,16 +28,20 @@ import java.util.List;
  * Created by Yves Yang on 2016/3/28.
  */
 public class IndiaCategoryAdapter extends RecycleViewFragment.RecycleViewAdapter<IndiaAppItemHolder>{
-    List<App> apps = new ArrayList<App>();
+    List<Object> apps = new ArrayList<Object>();
     Activity activity;
 
     public IndiaCategoryAdapter(Activity activity) {
         this.activity = activity;
     }
 
-    public void setData(List<App> apps){
+    public void setData(List<Object> apps){
         this.apps.clear();
         this.apps.addAll(apps);
+    }
+
+    public void setDataWithUpdate(List<Object> apps){
+        setData(apps);
         notifyDataSetChanged();
     }
 
@@ -50,38 +56,63 @@ public class IndiaCategoryAdapter extends RecycleViewFragment.RecycleViewAdapter
         if (apps.size() == 0)
             return;
         int config = 0;
-        final App pageApp = apps.get(position);
-        if (pageApp.getAppname() != null){
-            NativeApp nativeApp = Util.getNativeApp(activity, pageApp.getAppname());
-            config |= (nativeApp != null) ? IndiaAppItemHolder.FLAG_INSTALLED : 0;
-        }
-        setText(holder.name,pageApp.getAppname());
-        setText(holder.category,pageApp.getSubtitle());
-        if(pageApp.getIconFilePath() != null){
-            ImageLoadUtil.displayImgByMemoryDiscCache(pageApp.getIconFilePath(), holder.icon);
-        }
+        Object app = apps.get(position);
+        if (app instanceof App){
+            final App pageApp = (App)apps.get(position);
+            if (pageApp.getPackageName() != null){
+                NativeApp nativeApp = Util.getNativeApp(activity, pageApp.getPackageName());
+                config |= (nativeApp != null) ? IndiaAppItemHolder.FLAG_INSTALLED : 0;
+            }
+            setText(holder.name,pageApp.getAppname());
+            setText(holder.category,pageApp.getSubtitle());
+            if(pageApp.getIconFilePath() != null){
+                ImageLoadUtil.displayImgByMemoryDiscCache(pageApp.getIconFilePath(), holder.icon);
+            }
 
-        if (pageApp.getTime() != null){
-            try {
-                if(new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse(pageApp.getTime()).getTime()
-                        - System.currentTimeMillis()
-                        < Config.NEW_TIME) {
-                    config |= IndiaAppItemHolder.FLAG_NEW;
+            if (pageApp.getTime() != null){
+                try {
+                    if(new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse(pageApp.getTime()).getTime()
+                            - System.currentTimeMillis()
+                            < Config.NEW_TIME) {
+                        config |= IndiaAppItemHolder.FLAG_NEW;
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
-            } catch (ParseException e) {
-                e.printStackTrace();
             }
-        }
 
-        holder.setStatus(config);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(activity, DetailActivity.class);
-                intent.putExtra(Config.KEY_APPID, pageApp.getAppid());
-                activity.startActivity(intent);
+            holder.setStatus(config);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(activity, DetailActivity.class);
+                    intent.putExtra(Config.KEY_APPID, pageApp.getAppid());
+                    activity.startActivity(intent);
+                }
+            });
+        } else if (app instanceof NativeApp){
+            final NativeApp pageApp = (NativeApp)app;
+            if (pageApp.getAppname() != null){
+                NativeApp nativeApp = Util.getNativeApp(activity, pageApp.getAppPackage());
+                config |= (nativeApp != null) ? IndiaAppItemHolder.FLAG_INSTALLED : 0;
             }
-        });
+            setText(holder.name,pageApp.getAppname());
+            if(pageApp.getAppIcon() != null){
+                holder.icon.setImageDrawable(pageApp.getAppIcon());
+            }
+
+            holder.setStatus(config);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PackageManager packageManager = activity.getPackageManager();
+                    Intent intent = packageManager.getLaunchIntentForPackage(pageApp.getAppPackage());
+                    activity.startActivity(intent);
+                }
+            });
+        }
+        holder.itemView.requestLayout();
     }
 
     @Override
@@ -95,4 +126,6 @@ public class IndiaCategoryAdapter extends RecycleViewFragment.RecycleViewAdapter
         }
 
     }
+
+
 }

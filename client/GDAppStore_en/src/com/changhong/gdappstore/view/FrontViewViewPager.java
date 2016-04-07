@@ -8,6 +8,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -27,7 +29,26 @@ public class FrontViewViewPager extends ViewPager {
         super(context, attrs);
     }
 
-    public void setViewToFront(View view){
+    public void setCurrentItem(int item, boolean smoothScroll,int velocity) {
+        Method method = null;
+        try {
+            method = Class.forName("android.support.v4.view.ViewPager").getDeclaredMethod("setCurrentItemInternal", int.class, boolean.class, boolean.class, int.class);
+            method.setAccessible(true);
+            if (method != null){
+                method.invoke(this,item,smoothScroll,false,velocity);
+            }
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (method == null){
+            super.setCurrentItem(item, smoothScroll);
+        }
 
     }
 
@@ -99,4 +120,6 @@ public class FrontViewViewPager extends ViewPager {
             setOrders(1);
         }
     };
+
+
 }

@@ -94,7 +94,6 @@ public class DialogUtil {
 	public static Dialog showMyAlertDialog(Context context, String title, String content, String positiveBtnName,
 			String negtiveBtnName, boolean isOnlySureBtn, boolean isSystem,boolean isCancelable, final DialogBtnOnClickListener listener) {
 		final Dialog dialog = new Dialog(context, R.style.Dialog_nowindowbg);
-
 		View view = LayoutInflater.from(context).inflate(R.layout.dialog_myalert, null);
 		dialog.setContentView(view);
 		LayoutParams param = dialog.getWindow().getAttributes();
@@ -104,6 +103,7 @@ public class DialogUtil {
 
 		Button bt_submit = (Button) view.findViewById(R.id.bt_alertdia_submit);
 		Button bt_cancel = (Button) view.findViewById(R.id.bt_alertdia_cancel);
+
 		bt_cancel.setVisibility(isOnlySureBtn ? View.GONE : View.VISIBLE);
 		if (!TextUtils.isEmpty(positiveBtnName)) {
 			bt_submit.setText(positiveBtnName);

@@ -2,7 +2,9 @@ package com.changhong.gdappstore.model;
 
 import android.graphics.drawable.Drawable;
 
-public class NativeApp {
+import java.io.Serializable;
+
+public class NativeApp implements Serializable{
 	/*** 应用id，小于等于0表示服务端没该应用 */
 	public int appid = -1;
 	/** 应用名称 */

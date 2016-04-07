@@ -62,6 +62,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	private MyProgressDialog downloadPDialog;
 
 	int appId = -1;
+	NativeApp app;
 	/** 下载量是否需要加1？用于处理下载成功后手动添加下载量，不再请求服务器获取 */
 	private int detailLoadCount = 0;
 	/** 是否有app正在下载中 **/
@@ -73,6 +74,13 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		setContentView(R.layout.activity_detail);
 		if (getIntent() != null) {
 			appId = getIntent().getIntExtra(Config.KEY_APPID, -1);
+		}
+		if (appId == -1){
+			String nativeAppName = getIntent().getStringExtra(Config.KEY_LOCAL_APP);
+			if (nativeAppName != null){
+				app =  Util.getNativeApp(this,nativeAppName);
+			}
+
 		}
 		initView();
 		initData();
@@ -118,33 +126,60 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		updateBtnState();
 	}
 
-	private void initData() {
+	protected void initData() {
 		// updateService = new UpdateService(context, null, downloadPDialog);
 		if (NetworkUtils.ISNET_CONNECT) {
 			showLoadingDialog();
 		}
-		DataCenter.getInstance().loadAppDetail(appId, new LoadObjectListener() {
+		if (app  != null){
+			appDetail = new AppDetail();
+			appDetail.setAppname(app.getAppname());
+			appDetail.setPackageName(app.getAppPackage());
+			appDetail.setCanDownload(false);
 
-			@Override
-			public void onComplete(Object object) {
-				appDetail = (AppDetail) object;
-				if (appDetail != null) {
-					tv_appname.setText(appDetail.getAppname());
-					tv_appname.setSelected(true);
-					detailLoadCount = Integer.parseInt(appDetail.getDownload());
-					tv_size.setText(TextUtils.isEmpty(appDetail.getApkSize()) ? "" : appDetail.getApkSize() + " M");
-					tv_version.setText(appDetail.getVersion());
-					tv_introduce.setText(appDetail.getDescription());
-					iv_isvip.setVisibility(appDetail.isVipApp() ? VISIBLE : GONE);
-					// iv_recommend.setVisibility(appDetail.isRecommend()?VISIBLE:INVISIBLE);
-					ImageLoadUtil.displayImgByNoCache(appDetail.getIconFilePath(), iv_icon);
-					ImageLoadUtil.displayImgByNoCache(appDetail.getPosterFilePath(), iv_post);
-					updateBtnState();
-					L.d("appdetail appdetail=" + appDetail.toString());
+			tv_appname.setText(app.getAppname());
+			tv_appname.setSelected(true);
+			detailLoadCount = 0;
+			tv_size.setVisibility(View.GONE);
+			tv_version.setVisibility(View.GONE);
+			findViewById(R.id.tv_version_title).setVisibility(View.GONE);
+			findViewById(R.id.tv_appsize_title).setVisibility(View.GONE);
+			findViewById(R.id.tv_introduce_title).setVisibility(View.GONE);
+			tv_introduce.setVisibility(View.GONE);
+			((TextView)findView(R.id.tv_subtitle)).setVisibility(View.GONE);
+			iv_isvip.setVisibility(View.GONE);;
+			iv_icon.setImageDrawable(app.getAppIcon());
+			iv_icon.setScaleType(ImageView.ScaleType.FIT_XY);
+			iv_post.setImageDrawable(app.getAppIcon());
+			updateBtnState();
+			L.d("appdetail appdetail=" + appDetail.toString());
+			dismissLoadingDialog();
+		}else if(appId != -1){
+			DataCenter.getInstance().loadAppDetail(appId, new LoadObjectListener() {
+
+				@Override
+				public void onComplete(Object object) {
+					appDetail = (AppDetail) object;
+					if (appDetail != null) {
+						tv_appname.setText(appDetail.getAppname());
+						tv_appname.setSelected(true);
+						detailLoadCount = Integer.parseInt(appDetail.getDownload());
+						tv_size.setText(TextUtils.isEmpty(appDetail.getApkSize()) ? "" : appDetail.getApkSize() + " M");
+						tv_version.setText(appDetail.getVersion());
+						tv_introduce.setText(appDetail.getDescription());
+						((TextView)findView(R.id.tv_subtitle)).setText(appDetail.getSubtitle());
+						iv_isvip.setVisibility(appDetail.isVipApp() ? VISIBLE : GONE);
+						// iv_recommend.setVisibility(appDetail.isRecommend()?VISIBLE:INVISIBLE);
+						ImageLoadUtil.displayImgByNoCache(appDetail.getIconFilePath(), iv_icon);
+						ImageLoadUtil.displayImgByNoCache(appDetail.getPosterFilePath(), iv_post);
+						updateBtnState();
+						L.d("appdetail appdetail=" + appDetail.toString());
+					}
+					dismissLoadingDialog();
 				}
-				dismissLoadingDialog();
-			}
-		}, context);
+			}, context);
+		}
+
 
 	}
 
@@ -218,7 +253,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		if (appDetail == null) {
 			return;
 		}
-		DialogUtil.showMyAlertDialog(context, "", "", "", "", false, false, true, new DialogBtnOnClickListener() {
+		DialogUtil.showMyAlertDialog(context, "", "Do you want to uninstall the app ?", "", "", false, false, true, new DialogBtnOnClickListener() {
 
 			@Override
 			public void onSubmit(DialogMessage dialogMessage) {

@@ -202,10 +202,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="1dp"
                 android:gravity="center_vertical"
                 android:text="@string/appisundershelf"
-                android:textColor="@color/blue"
+                android:textColor="@color/Grey_500"
                 android:textSize="20sp"
                 android:visibility="gone" />
         </LinearLayout>

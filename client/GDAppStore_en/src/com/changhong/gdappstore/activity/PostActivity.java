@@ -145,7 +145,7 @@ public class PostActivity extends BaseActivity {
 
 	}
 
-	private void initData() {
+	protected void initData() {
 		dataCenter = DataCenter.getInstance();
 		Intent intent = getIntent();
 		int parentCategoryId = intent.getIntExtra(Config.KEY_PARENT_CATEGORYID, -2);

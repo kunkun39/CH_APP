@@ -28,12 +28,12 @@ android {
         debug {
             keyAlias '1'
             keyPassword 'bigfamily'
-            storeFile file('D:/工作目录/amlogic-s805系统签名/tools/debug.keystore')
+            storeFile file('debug.keystore')
             storePassword 'bigfamily'
         }
     }
     compileSdkVersion 21
-    buildToolsVersion "21.1.1"
+    buildToolsVersion '21.1.1'
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -61,5 +61,11 @@ android {
         debug {
             signingConfig signingConfigs.debug
         }
+    }
+    defaultConfig {
+        minSdkVersion 9
+        targetSdkVersion 19
+    }
+    productFlavors {
     }
 }

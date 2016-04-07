@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -15,6 +16,7 @@ import com.changhong.gdappstore.model.HomePagePoster;
 import com.changhong.gdappstore.util.ImageLoadUtil;
 import com.changhong.gdappstore.util.Util;
 import com.changhong.gdappstore.util.ViewPagerTransformer;
+import com.changhong.gdappstore.view.ImageViewWithShadow;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
@@ -36,16 +38,21 @@ public class IndiaBannerPageAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        ImageView view = null;
+        ImageViewWithShadow view = null;
         if(position < views.size()){
-            view = views.get(position);
+            view = (ImageViewWithShadow)views.get(position);
         }
         if(view == null){
-            view = new ImageView(activity);
+            view = new ImageViewWithShadow(activity);
             view.setTag(String.valueOf(position));
             view.setScaleType(ImageView.ScaleType.FIT_XY);
+            view.setPadding(2, 2, 2, 2);
+            view.setFocusable(false);
+            view.setBackgroundResource(R.drawable.shadow_bg);
+            view.setIsShadow(false);
+
             ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(Util.pxTodip(activity, activity.getWindow().getDecorView().getWidth() / (float)IndiaMainActivity.BANNER_PIC_COUNT),
-                    ViewGroup.LayoutParams.MATCH_PARENT);
+                    Util.pxTodip(activity,container.getHeight()));
             view.setLayoutParams(params);
 
             ImageLoadUtil.displayImgByMemoryDiscCache(posters.get(position).getPicAddress(), view, new ImageLoadingListener() {

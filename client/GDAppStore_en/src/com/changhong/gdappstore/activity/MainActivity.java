@@ -28,6 +28,7 @@ import com.changhong.gdappstore.base.BasePageView;
 import com.changhong.gdappstore.datacenter.DataCenter;
 import com.changhong.gdappstore.model.AppDetail;
 import com.changhong.gdappstore.model.Category;
+import com.changhong.gdappstore.net.LoadListener;
 import com.changhong.gdappstore.net.LoadListener.LoadCompleteListener;
 import com.changhong.gdappstore.service.NetChangeReceiver;
 import com.changhong.gdappstore.service.NetChangeReceiver.NetChangeListener;
@@ -79,8 +80,6 @@ public class MainActivity extends BaseActivity {
 	private HomePageView homePageView;
 	/** 更新提示对话框是否已经显示 */
 	private static boolean isShowedUpdateDialog = false;
-	/** 静默安装Server是否已经启动 */
-	private static boolean isSilentInstallServiceStart = false;
 
 	Handler handler = new Handler() {
 
@@ -109,16 +108,6 @@ public class MainActivity extends BaseActivity {
 		startSilentInstallService();
 	}
 
-	/**
-	 * 静默安装
-	 */
-	private void startSilentInstallService() {
-		// 启动静默安装
-		if (!isSilentInstallServiceStart) {
-			startService(new Intent(MainActivity.this, SilentInstallService.class));
-			isSilentInstallServiceStart = true;
-		}
-	}
 
 	private void initView() {
 		showLoadingDialog();
@@ -128,13 +117,12 @@ public class MainActivity extends BaseActivity {
 		titleView.setTitleItemOnFocuesChangedListener(titleItemOnFocuesChangedListener);
 		homePages[0] = homePageView = new HomePageView(context);// 首页
 		homePageView.setPageIndex(0);
-
-		NetChangeReceiver.listeners.put(context.getClass().getName(), new NetChangeListener() {
+		NetChangeReceiver.listeners.put(context.getClass().getName(), new NetChangeReceiver.NetChangeListener() {
 
 			@Override
 			public void onNetChange(boolean isconnect) {
 				L.d("MainActivity---onnetchanged--" + isconnect + " " + Util.getTopActivity(context) + " ");
-				DataCenter.getInstance().loadCategoryAndPageData(context, new LoadCompleteListener() {
+				DataCenter.getInstance().loadCategoryAndPageData(context, new LoadListener.LoadCompleteListener() {
 
 					@Override
 					public void onComplete() {
@@ -196,7 +184,7 @@ public class MainActivity extends BaseActivity {
 	/**
 	 * 初始化数据
 	 */
-	private void initData() {
+	protected void initData() {
 		// 栏目数据
 		categories = DataCenter.getInstance().getCategories();
 		// 标签距离

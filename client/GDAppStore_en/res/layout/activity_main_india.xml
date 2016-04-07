@@ -6,36 +6,85 @@
     android:layout_height="match_parent"
     android:clipChildren="false"
     android:background="@drawable/bg_main">
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="wrap_content"
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/title"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_heightPercent="15%"
-        android:scaleType="fitCenter"
-        android:src="@drawable/yupptv_store"
-        android:layout_marginLeft="32dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        />
+        android:clipChildren="false"
+        >
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/yupptv_store"
+            app:layout_heightPercent="40%"
+            app:layout_widthPercent="15%"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="64dp"
+            android:layout_marginBottom="8dp"
+            />
+
+        <ImageButton
+            android:id="@+id/search"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_heightPercent="60%"
+            app:layout_widthPercent="5%"
+            android:focusable="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:layout_toLeftOf="@+id/ranking_list"
+            android:background="@color/transparent"
+            android:src="@drawable/btn_search"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:scaleType="fitXY"
+            />
+
+        <ImageView
+            android:id="@id/ranking_list"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/btn_ranklist"
+            android:focusable="true"
+            android:layout_marginRight="32dp"
+            android:layout_alignParentRight="true"
+            app:layout_heightPercent="60%"
+            app:layout_widthPercent="5%"
+            android:paddingTop="17dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="17dp"
+            android:layout_centerVertical="true"
+            android:scaleType="fitXY" />
+    </android.support.percent.PercentRelativeLayout>
+
 
     <com.changhong.gdappstore.view.FrontViewViewPager
         android:id="@+id/banner"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_below="@id/logo"
+        android:layout_below="@id/title"
         app:layout_heightPercent="30%"
-        android:layout_centerInParent="true"
         android:clipChildren="false"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
+        android:focusable="false"
         />
 
-    <android.support.design.widget.TabLayout
+    <com.changhong.gdappstore.view.TabLayoutFullView
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/banner"
-        app:tabGravity="fill"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginRight="48dp"
+        android:layoutMode="opticalBounds"
         app:tabTextColor="@color/Grey_500"
         app:tabSelectedTextColor="@color/Orange_500"
         app:tabIndicatorColor="@color/Orange_500" />

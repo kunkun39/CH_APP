@@ -1,6 +1,7 @@
 package com.changhong.gdappstore.datacenter;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -8,19 +9,26 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 
 import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.MyApplication;
+import com.changhong.gdappstore.R;
+import com.changhong.gdappstore.database.DBManager;
 import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.AppDetail;
 import com.changhong.gdappstore.model.Category;
 import com.changhong.gdappstore.model.HomePagePoster;
+import com.changhong.gdappstore.model.NativeApp;
 import com.changhong.gdappstore.model.PageApp;
 import com.changhong.gdappstore.model.RankingData;
 import com.changhong.gdappstore.model.Ranking_Item;
 import com.changhong.gdappstore.model.SynchApp;
 import com.changhong.gdappstore.model.SynchApp.Type;
+import com.changhong.gdappstore.net.LoadListener;
+import com.changhong.gdappstore.service.AppBroadcastReceiver;
+import com.changhong.gdappstore.util.DateUtils;
 import com.changhong.gdappstore.util.DesUtils;
 import com.changhong.gdappstore.util.L;
 import com.changhong.gdappstore.util.SharedPreferencesUtil;
@@ -205,6 +213,60 @@ public class Parse {
             e.printStackTrace();
         }
         return categories;
+    }
+
+    public static LinkedList<Category> sortUsefulCategory(Context context,List<Category> categories){
+        LinkedList<Category> result = new LinkedList<>();
+        for(Category category : categories){
+            if (category.getCategoryNumber() != 0){
+                result.add(category);
+            }
+        }
+        sortCategory(result, 0, result.size() - 1);
+        result.add(new Category(0,-1,context.getString(R.string.myapps)));
+
+        return result;
+    }
+
+    public static Category sorALLCategory(Context context,List<Category> categories){
+        Category all = new Category(0,-1,context.getString(R.string.all));
+        for(Category category : categories){
+            all.getCategoryPageApps().addAll(category.getCategoryPageApps());
+        }
+
+        return all;
+    }
+
+    private static void sortCategory(LinkedList<Category> categories,int low,int high){
+        if(low >= high)
+        {
+            return;
+        }
+        int first = low;
+        int last = high;
+        Category keyCategory = categories.get(first);/*用字表的第一个记录作为枢轴*/
+        int key = keyCategory.getCategoryNumber();/*用字表的第一个记录作为枢轴*/
+
+        while(first < last)
+        {
+            while(first < last && categories.get(last).getCategoryNumber() >= key)
+            {
+                --last;
+            }
+
+            categories.set(first,categories.get(last));/*将比第一个小的移到低端*/
+
+            while(first < last && categories.get(first).getCategoryNumber() <= key)
+            {
+                ++first;
+            }
+
+            categories.set(last,categories.get(first));/*将比第一个大的移到高端*/
+        }
+        categories.set(first,keyCategory);
+
+        sortCategory(categories, low, first - 1);
+        sortCategory(categories, first + 1, high);
     }
 
     /**

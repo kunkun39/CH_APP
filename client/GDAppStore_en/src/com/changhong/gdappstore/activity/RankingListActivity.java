@@ -110,6 +110,7 @@ public class RankingListActivity extends Activity {
                 view.findViewById(R.id.popular_item).setBackgroundDrawable(drawable);
                 oldView = view;
             }
+
             L.i("popularOnItemSelectedListener : " + id + " view:" + view);
         }
 

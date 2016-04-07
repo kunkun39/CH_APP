@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">ChangHong App Center</string>
+    <string name="app_name">YuppStore</string>
     <!-- 主页 -->
     <string name="homepage">Home</string>
     <string name="zhuanti">Topic</string>
@@ -29,6 +29,7 @@
     <string name="hotapps">Hotest apps</string>
     <string name="app">app</string>
     <string name="apps">apps</string>
+    <string name="myapps">My Apps</string>
     <!--  -->
     <string name="str_download">Downloads：</string>
     <string name="str_size">Size：</string>
@@ -66,8 +67,8 @@
     <string name="downloadover_installing">Download completed,installing...</string>
     <string name="install_success"> install success</string>
     <string name="install_failed"> install failed</string>
-    <string name="uninstall_success"> unstall success</string>
-    <string name="uninstall_failed"> unstall failed</string>
+    <string name="uninstall_success"> uninstall success</string>
+    <string name="uninstall_failed"> uninstall failed</string>
     <string name="appisundershelf">No stock</string>
     <string name="downloads">Downloads：</string>
     <string name="version">Version：</string>

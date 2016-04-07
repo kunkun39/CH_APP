@@ -54,7 +54,7 @@ public class RecycleViewFragment extends Fragment {
     public static  RecycleViewFragment newInstance(RecycleViewAdapter  adapter, String param) {
         RecycleViewFragment fragment = new RecycleViewFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_PARAM1,adapter);
+        //args.putSerializable(ARG_PARAM1,adapter);
         args.putString(ARG_PARAM2, param);
         fragment.setArguments(args);
         return fragment;
@@ -70,7 +70,7 @@ public class RecycleViewFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mAdapter = (RecycleViewAdapter)getArguments().getSerializable(ARG_PARAM1);
+            //mAdapter = (RecycleViewAdapter)getArguments().getSerializable(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
             mCol = getArguments().getInt(ARG_PARAM3);
         }
