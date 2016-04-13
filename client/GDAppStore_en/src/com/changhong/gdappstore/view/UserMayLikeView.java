@@ -98,27 +98,27 @@ public class UserMayLikeView extends BasePageView implements OnFocusChangeListen
 			L.d(TAG + "jingpinview onfocueschange " + v.getId());
 			currentFocuesId = v.getId();
 			curFocuesView=v;
-			RelativeLayout.LayoutParams mlayout = new RelativeLayout.LayoutParams(100, 100);
-			// RelativeLayout.LayoutParams tmplayout = (LayoutParams) v
-			// .getLayoutParams();
-			RelativeLayout.LayoutParams tmplayout = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-					LayoutParams.WRAP_CONTENT);
-			tmplayout.leftMargin = v.getLeft();
-			tmplayout.topMargin = v.getTop();
-			tmplayout.width = v.getWidth();
-			tmplayout.height = v.getHeight();
-			mlayout.leftMargin = tmplayout.leftMargin - 15 - tmplayout.width / 20;
-			mlayout.topMargin = tmplayout.topMargin - 15 - tmplayout.height / 20;
-			mlayout.width = tmplayout.width + 23 + (tmplayout.width / 10);
-			mlayout.height = tmplayout.height + 21 + (tmplayout.height / 10);
-			ivFocues.setBackgroundResource(R.drawable.focues_post);
-			ivFocues.setLayoutParams(mlayout);
-			ivFocues.setVisibility(View.VISIBLE);
-
+//			RelativeLayout.LayoutParams mlayout = new RelativeLayout.LayoutParams(100, 100);
+//			// RelativeLayout.LayoutParams tmplayout = (LayoutParams) v
+//			// .getLayoutParams();
+//			RelativeLayout.LayoutParams tmplayout = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+//					LayoutParams.WRAP_CONTENT);
+//			tmplayout.leftMargin = v.getLeft();
+//			tmplayout.topMargin = v.getTop();
+//			tmplayout.width = v.getWidth();
+//			tmplayout.height = v.getHeight();
+//			mlayout.leftMargin = tmplayout.leftMargin - 15 - tmplayout.width / 20;
+//			mlayout.topMargin = tmplayout.topMargin - 15 - tmplayout.height / 20;
+//			mlayout.width = tmplayout.width + 23 + (tmplayout.width / 10);
+//			mlayout.height = tmplayout.height + 21 + (tmplayout.height / 10);
+//			ivFocues.setBackgroundResource(R.drawable.focues_post);
+//			ivFocues.setLayoutParams(mlayout);
+//			ivFocues.setVisibility(View.VISIBLE);
 			v.startAnimation(animationbig);
 			ivFocues.startAnimation(animationbig);
 			v.bringToFront();
 			ivFocues.bringToFront();
+			((PageItemView) v).setItemSelected(true);
 			((PageItemView) v).setSelected(true);
 		} else {
 			v.startAnimation(animationsmall);
@@ -126,6 +126,7 @@ public class UserMayLikeView extends BasePageView implements OnFocusChangeListen
 			v.clearAnimation();
 			ivFocues.clearAnimation();
 			ivFocues.setVisibility(View.INVISIBLE);
+			((PageItemView) v).setItemSelected(false);
 			((PageItemView) v).setSelected(false);
 		}
 	}

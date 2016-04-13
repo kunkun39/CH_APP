@@ -47,7 +47,7 @@ public class TabLayoutFullView extends TabLayout{
             Method method = null;
             TextView v = null;
             try {
-                method = tabClass.getDeclaredMethod("getCustomView",null);
+                method = tabClass.getDeclaredMethod("getCustomView");
                 method.setAccessible(true);
                 if (method != null){
                     v = (TextView)method.invoke(tab);

@@ -81,7 +81,7 @@ import java.util.Vector;
 /**
  * Created by Yves Yang on 2016/3/17.
  */
-public class IndiaMainActivity  extends BaseActivity implements RecycleViewFragment.OnFragmentInteractionListener {
+public class IndiaMainActivity extends BaseActivity implements RecycleViewFragment.OnFragmentInteractionListener {
     final static int BANNER_CHANGE_DELAY = 3000;
     public static final int BANNER_PIC_COUNT = 3;
     public static final int BANNER_SCROLL_VELOCITY = 1;
@@ -89,7 +89,7 @@ public class IndiaMainActivity  extends BaseActivity implements RecycleViewFragm
     FrontViewViewPager banner;
     ViewPager viewPager;
     TabLayout tabs;
-    View foucesdTabView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,54 +99,66 @@ public class IndiaMainActivity  extends BaseActivity implements RecycleViewFragm
         startSilentInstallService();
     }
 
-    void initView(){
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        tabs.requestFocus();//当数据更新的时候，App列表将会被清空，那么这个时候，item的焦点会乱跳，所以强行设置更新时候的焦点
+        ((IndiaAppListPageAdapter) viewPager.getAdapter()).update(); // 更新App列表
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        ;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                if (event.getAction() == KeyEvent.ACTION_DOWN) { // 应用退出
+                    DialogUtil.showMyAlertDialog(context, "", context.getString(R.string.sure_exit_appstore), "", "",
+                            new DialogUtil.DialogBtnOnClickListener() {
+                                @Override
+                                public void onSubmit(DialogUtil.DialogMessage dialogMessage) {
+                                    System.exit(0);
+                                }
+                                @Override
+                                public void onCancel(DialogUtil.DialogMessage dialogMessage) {
+                                    if (dialogMessage.dialogInterface != null) {
+                                        dialogMessage.dialogInterface.dismiss();
+                                    }
+                                }
+                            });
+                }
+                break;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+    /**
+     * ======================================================================================================
+     * Private Functions
+     */
+
+    void initView() {
+        // 海报栏初始化
         banner = findView(R.id.banner);
         banner.setPageTransformer(true, new ViewPager.PageTransformer() {
             @Override
             public void transformPage(View page, float position) {
-                ViewPagerTransformer.scaleView(IndiaMainActivity.this, page);
+                ViewPagerTransformer.scaleView(IndiaMainActivity.this, page);// 滚动动画
             }
         });
         banner.setAdapter(new IndiaBannerPageAdapter(this));
         banner.setOffscreenPageLimit(BANNER_PIC_COUNT);
         banner.disableDrawingOrder();
         banner.setFocusable(false);
-        banner.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                switch (keyCode) {
-                    case KeyEvent.KEYCODE_DPAD_LEFT: {
-                        int index = banner.getCurrentItem() - 1;
-                        if (index > 0) {
-                            banner.setOrders(index);
-                        }
-
-                    }
-                    break;
-                    case KeyEvent.KEYCODE_DPAD_RIGHT: {
-                        int index = banner.getCurrentItem() + 1;
-                        if (index < banner.getChildCount()) {
-                            banner.setOrders(index);
-                        }
-
-                    }
-                    break;
-                }
-
-                return false;
-            }
-        });
-
         banner.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
             @Override
-            public void onPageSelected(int position) {
-
-            }
-
+            public void onPageSelected(int position) {}
             @Override
             public void onPageScrollStateChanged(int state) {
                 switch (state) {
@@ -161,19 +173,18 @@ public class IndiaMainActivity  extends BaseActivity implements RecycleViewFragm
                     break;
                 }
             }
-
         });
 
         findViewById(R.id.search).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { //search事件
                 Intent intent = new Intent();
                 intent.setClass(IndiaMainActivity.this, SearchActivity.class);
                 startActivity(intent);
             }
         });
 
-        findViewById(R.id.search).setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        findViewById(R.id.search).setOnFocusChangeListener(new View.OnFocusChangeListener() { //search按钮变色
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -184,7 +195,7 @@ public class IndiaMainActivity  extends BaseActivity implements RecycleViewFragm
             }
         });
 
-        findViewById(R.id.ranking_list).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.ranking_list).setOnClickListener(new View.OnClickListener() { //search事件
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
@@ -193,7 +204,7 @@ public class IndiaMainActivity  extends BaseActivity implements RecycleViewFragm
             }
         });
 
-        findViewById(R.id.ranking_list).setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        findViewById(R.id.ranking_list).setOnFocusChangeListener(new View.OnFocusChangeListener() { //按钮变色
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -204,6 +215,7 @@ public class IndiaMainActivity  extends BaseActivity implements RecycleViewFragm
             }
         });
 
+        // App列表初始化 & tab初始化
         viewPager = findView(R.id.viewpager);
         IndiaAppListPageAdapter pagerAdapter = new IndiaAppListPageAdapter(this);
         viewPager.setAdapter(pagerAdapter);
@@ -212,30 +224,11 @@ public class IndiaMainActivity  extends BaseActivity implements RecycleViewFragm
         tabs.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabs.requestFocus();
-        ((LinearLayout)tabs.getChildAt(0)).setGravity(Gravity.CENTER);
-
-        runBanner();
+        ((LinearLayout) tabs.getChildAt(0)).setGravity(Gravity.CENTER);
+        runBanner(); //让海报滚动起来
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(foucesdTabView != null){
-            foucesdTabView.requestFocus();
-        }else {
-            tabs.requestFocus();
-        }
-        ((IndiaAppListPageAdapter)viewPager.getAdapter()).update();
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        //foucesdTabView = tabs.getFocusedChild();
-    }
-
-    void runBanner(){
+    void runBanner() {
         Executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -256,16 +249,19 @@ public class IndiaMainActivity  extends BaseActivity implements RecycleViewFragm
         });
     }
 
-    void nextPoster(){
+    /**
+     * 移动到下一个海报，完成海报滚动
+     */
+    void nextPoster() {
         if (banner == null)
             return;
-
         int current = banner.getCurrentItem();
         current += 1;
         banner.setCurrentItem(current, true, BANNER_SCROLL_VELOCITY);
     }
 
-    protected void initData(){
+    protected void initData() {
+        // 初始化APP列表数据
         Executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -280,12 +276,12 @@ public class IndiaMainActivity  extends BaseActivity implements RecycleViewFragm
                         });
                     }
                 });
+                // 初始化海报数据
                 DataCenter.getInstance().loadHomePagePoster(getBaseContext(), new LoadListener.LoadObjectListener() {
                     @Override
                     public void onComplete(final Object object) {
                         if (object == null)
                             return;
-
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -298,19 +294,27 @@ public class IndiaMainActivity  extends BaseActivity implements RecycleViewFragm
         });
     }
 
-    void initViewData(){
+    void initViewData() {
+        checkUpdate();
+        // 获取所有的分类信息
         List<Category> categories = DataCenter.getInstance().getCategories();
-        Category all = Parse.sorALLCategory(getBaseContext(),categories);
+
+        //构建ALL分类
+        Category all = Parse.sorALLCategory(getBaseContext(), categories);
+
+        // 屏蔽掉无用的分类信息
         categories = Parse.sortUsefulCategory(getBaseContext(), categories);
-        ((LinkedList<Category>)categories).addFirst(all);
+
+        //把第一个分类改为ALL
+        ((LinkedList<Category>) categories).addFirst(all);
+
+        //遍历并且完成TAB，和内容Viewpager的生成
         List<ViewPager> viewPagers = new ArrayList<ViewPager>();
-        for(int i = 0;i < categories.size(); i ++){
+        for (int i = 0; i < categories.size(); i++) {
+            //遍历元素
             Category category = categories.get(i);
 
-//            // 线性布局
-//            LinearLayout linearLayout = new LinearLayout(getBaseContext());
-//            linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-//                    LinearLayout.LayoutParams.MATCH_PARENT));
+            //构建TAB里面的view，主要为了修改文字的大小
             TextView textView = new TextView(getBaseContext());
 
             //左边为文本内容
@@ -322,108 +326,50 @@ public class IndiaMainActivity  extends BaseActivity implements RecycleViewFragm
             textView.setTextColor(colorList);
             textView.setGravity(Gravity.CENTER);
             textView.setPadding(Util.dipTopx(getBaseContext(), 24), 0, Util.dipTopx(getBaseContext(), 24), 0);
-//            linearLayout.addView(textView);
-
-//            //除了右边最后一个，其他的都在右边加上竖线
-//            if (i != (categories.size() - 1)){
-//                View view = new View(getBaseContext());
-//
-//                RelativeLayout.MarginLayoutParams params = new RelativeLayout.MarginLayoutParams(Util.dipTopx(getBaseContext(), 1.0f), ViewGroup.LayoutParams.MATCH_PARENT);
-//                params.setMargins(0,
-//                        Util.dipTopx(getBaseContext(), 4.0f),
-//                        0,
-//                        Util.dipTopx(getBaseContext(), 16.0f)
-//                );
-//                view.setLayoutParams(params);
-//                view.setBackgroundResource(R.color.Grey_300);
-//                linearLayout.addView(view);
-//            }
 
             // 设置好布局后，把布局添加进view
             tabs.addTab(tabs.newTab().setCustomView(textView));
-            //tabs.addTab(tabs.newTab().setText(category.getName()));
-            ViewPagerFoucusChildPrority viewPager = new ViewPagerFoucusChildPrority(getBaseContext());
-            //viewPager.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
-            viewPager.setOnKeyListener(new View.OnKeyListener() {
-                @Override
-                public boolean onKey(View v, int keyCode, KeyEvent event) {
-                    ViewPager viewpager = (ViewPager)v;
-                    View childView = viewpager.getChildAt(viewpager.getCurrentItem());
-                    if (childView != null
-                        && childView.onKeyDown(keyCode,event)){
-                        return true;
-                    }else {
-                        return false;
-                    }
-
-                }
-            });
-            viewPager.setId(i);
-            viewPager.setAdapter(new ViewPageAdapter(getSupportFragmentManager()));
-            viewPager.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            viewPagers.add(viewPager);
+            obtainViewPage(viewPagers, i);
         }
+        // 多创建一个，用于修复viewpage加载错误
+        obtainViewPage(viewPagers, categories.size());
 
-        ViewPagerFoucusChildPrority childviewPager = new ViewPagerFoucusChildPrority(getBaseContext());
-        childviewPager.setOnKeyListener(new View.OnKeyListener() {
+        // 设置预加载个数，优化滑动
+        viewPager.setOffscreenPageLimit(categories.size());
+
+        // 设置数据
+        ((IndiaAppListPageAdapter) viewPager.getAdapter()).setData(viewPagers, categories);
+    }
+
+    private void obtainViewPage(List<ViewPager> viewPagers, int index) {
+        // 创建内嵌viewpage，用于放置app列表
+        ViewPagerFoucusChildPrority viewPager = new ViewPagerFoucusChildPrority(getBaseContext());
+        viewPager.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                ViewPager viewpager = (ViewPager)v;
+                ViewPager viewpager = (ViewPager) v;
                 View childView = viewpager.getChildAt(viewpager.getCurrentItem());
                 if (childView != null
-                        && childView.onKeyDown(keyCode,event)){
+                        && childView.onKeyDown(keyCode, event)) {
                     return true;
-                }else {
+                } else {
                     return false;
                 }
-
             }
         });
-        childviewPager.setId(categories.size());
-        childviewPager.setAdapter(new ViewPageAdapter(getSupportFragmentManager()));
-        childviewPager.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        viewPagers.add(childviewPager);
-        viewPager.setOffscreenPageLimit(categories.size());
-        ((IndiaAppListPageAdapter)viewPager.getAdapter()).setData(viewPagers, categories);
+        viewPager.setId(index);
+        viewPager.setAdapter(new ViewPageAdapter(getSupportFragmentManager()));
+        viewPager.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        viewPagers.add(viewPager);
     }
 
-    void initBannerData(List<HomePagePoster> posters){
+    void initBannerData(List<HomePagePoster> posters) {
         if (posters == null)
             return;
-
-        ((IndiaBannerPageAdapter)banner.getAdapter()).setData(posters);
+        ((IndiaBannerPageAdapter) banner.getAdapter()).setData(posters);
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-        ;
-    }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_BACK:
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                    DialogUtil.showMyAlertDialog(context, "", context.getString(R.string.sure_exit_appstore), "", "",
-                            new DialogUtil.DialogBtnOnClickListener() {
-
-                                @Override
-                                public void onSubmit(DialogUtil.DialogMessage dialogMessage) {
-                                    System.exit(0);
-                                }
-
-                                @Override
-                                public void onCancel(DialogUtil.DialogMessage dialogMessage) {
-                                    if (dialogMessage.dialogInterface != null) {
-                                        dialogMessage.dialogInterface.dismiss();
-                                    }
-                                }
-                            });
-                }
-                break;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
 }
 
 

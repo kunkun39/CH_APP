@@ -43,9 +43,9 @@ public class Config {
 	public static final String NATIVE_EN = "http://192.168.0.55:8081/appmarket/";// 本地英文版
 	public static final String SERVER_ZH = "http://www.ottserver.com:8081/appmarket/";// 公网中文版
 	public static final String SERVER_EN = "http://chappstore.yuppcdn.net/appmarket/";// 公网英文版
-	public static final String SERVER_PG = "http://192.168.0.112:8080/appmarket/";
+	public static final String SERVER_PG = "http://192.168.0.55:8081/app_market_en/";
 	/** 服务器基础地址 在MyApplication的oncreate（）中调用initBaseUrl()初始化 **/
-	private static String BASEURL = SERVER_ZH;
+	private static String BASEURL = SERVER_EN;
 	/** 获取分类地址 **/
 	public static String getCategoryUrl = BASEURL + "client/appcategories.html";
 	/** 获取页面数据地址 **/

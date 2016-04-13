@@ -215,6 +215,12 @@ public class Parse {
         return categories;
     }
 
+    /**
+     * 整理列表，去掉number为0的
+     * @param context
+     * @param categories
+     * @return
+     */
     public static LinkedList<Category> sortUsefulCategory(Context context,List<Category> categories){
         LinkedList<Category> result = new LinkedList<>();
         for(Category category : categories){
@@ -224,15 +230,20 @@ public class Parse {
         }
         sortCategory(result, 0, result.size() - 1);
         result.add(new Category(0,-1,context.getString(R.string.myapps)));
-
         return result;
     }
 
+    /**
+     * 生成ALL分类
+     * @param context
+     * @param categories
+     * @return
+     */
     public static Category sorALLCategory(Context context,List<Category> categories){
-        Category all = new Category(0,-1,context.getString(R.string.all));
-        for(Category category : categories){
-            all.getCategoryPageApps().addAll(category.getCategoryPageApps());
-        }
+        Category all = new Category(-1,-1,context.getString(R.string.all));
+//        for(Category category : categories){
+//            all.getCategoryPageApps().addAll(category.getCategoryPageApps());
+//        }
 
         return all;
     }

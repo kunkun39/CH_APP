@@ -2,6 +2,8 @@ package com.changhong.gdappstore.activity;
 
 import java.io.File;
 import java.text.BreakIterator;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,8 +20,10 @@ import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseActivity;
 import com.changhong.gdappstore.datacenter.DataCenter;
+import com.changhong.gdappstore.model.App;
 import com.changhong.gdappstore.model.AppDetail;
 import com.changhong.gdappstore.model.NativeApp;
+import com.changhong.gdappstore.net.LoadListener;
 import com.changhong.gdappstore.net.LoadListener.LoadObjectListener;
 import com.changhong.gdappstore.service.DownLoadManager;
 import com.changhong.gdappstore.util.DialogUtil;
@@ -33,6 +37,7 @@ import com.changhong.gdappstore.util.Util;
 import com.changhong.gdappstore.view.JustifyTextView;
 import com.changhong.gdappstore.view.MyButton;
 import com.changhong.gdappstore.view.MyProgressDialog;
+import com.changhong.gdappstore.view.UserMayLikeView;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
@@ -61,6 +66,9 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	/** 下载进度提示对话框 */
 	private MyProgressDialog downloadPDialog;
 
+	/** 用户喜欢 */
+	private UserMayLikeView view_usermaylike;
+
 	int appId = -1;
 	NativeApp app;
 	/** 下载量是否需要加1？用于处理下载成功后手动添加下载量，不再请求服务器获取 */
@@ -87,6 +95,7 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 	}
 
 	private void initView() {
+		view_usermaylike = findView(R.id.view_usermaylike);
 		bt_dowload = findView(R.id.bt_download);
 		bt_dowload.setOnFocusChangeListener(this);
 		bt_dowload.setOnClickListener(this);
@@ -115,6 +124,17 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		downloadPDialog = new MyProgressDialog(context);
 		downloadPDialog.setUpdateFileSizeName(true);
 		downloadPDialog.dismiss();
+		view_usermaylike.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (v.getTag() != null) {
+					App app = (App) v.getTag();
+					appId = app.getAppid();
+					initData();
+				}
+			}
+		});
 	}
 
 	@Override
@@ -166,6 +186,12 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 						detailLoadCount = Integer.parseInt(appDetail.getDownload());
 						tv_size.setText(TextUtils.isEmpty(appDetail.getApkSize()) ? "" : appDetail.getApkSize() + " M");
 						tv_version.setText(appDetail.getVersion());
+						if (Config.IS_INDIA_DAS){
+							tv_size.setVisibility(View.GONE);
+							findViewById(R.id.tv_appsize_title).setVisibility(View.GONE);
+							tv_version.setVisibility(View.GONE);
+							findViewById(R.id.tv_version_title).setVisibility(View.GONE);
+						}
 						tv_introduce.setText(appDetail.getDescription());
 						((TextView)findView(R.id.tv_subtitle)).setText(appDetail.getSubtitle());
 						iv_isvip.setVisibility(appDetail.isVipApp() ? VISIBLE : GONE);
@@ -173,6 +199,9 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 						ImageLoadUtil.displayImgByNoCache(appDetail.getIconFilePath(), iv_icon);
 						ImageLoadUtil.displayImgByNoCache(appDetail.getPosterFilePath(), iv_post);
 						updateBtnState();
+						if (appDetail.getCategoryId() > 0) {
+							initRecommendData();
+						}
 						L.d("appdetail appdetail=" + appDetail.toString());
 					}
 					dismissLoadingDialog();
@@ -181,6 +210,30 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 		}
 
 
+	}
+
+	/**
+	 * 获取猜你喜欢数据
+	 */
+	private void initRecommendData() {
+		DataCenter.getInstance().loadRecommendData(context, appDetail.getCategoryId(),
+				new LoadListener.LoadListListener() {
+
+					@Override
+					public void onComplete(List<Object> items) {
+						if (items != null && items.size() > 0) {
+							List<App> apps = new ArrayList<App>();
+							for (int i = 0; i < items.size(); i++) {
+								if (((App) items.get(i)).getAppid() != appDetail.getAppid()) {
+									apps.add(((App) items.get(i)));
+								}
+							}
+							view_usermaylike.initData(apps);
+						} else {
+							view_usermaylike.initData(null);
+						}
+					}
+				});
 	}
 
 	/**
@@ -213,10 +266,14 @@ public class DetailActivity extends BaseActivity implements OnFocusChangeListene
 			}
 		}
 		// 焦点控制
-		if (isInstalled || !appDetail.isOnShelf()) {
-			bt_open.requestFocus();
+		if (view_usermaylike.getCurFocuesView() != null) {
+			view_usermaylike.getCurFocuesView().requestFocus();
 		} else {
-			bt_dowload.requestFocus();
+			if (isInstalled || !appDetail.isOnShelf()) {
+				bt_open.requestFocus();
+			} else {
+				bt_dowload.requestFocus();
+			}
 		}
 	}
 

@@ -39,7 +39,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
  */
 public class LoadingActivity extends BaseActivity {
 	/** 动画执行时间 */
-	private final int AnimDuration = 2000;
+	private final int AnimDuration = 3000;
 	private ImageView ivLoading;
 	private AlphaAnimation alphaAnimation;
 	private static final String TAG = "LoadingActivity";

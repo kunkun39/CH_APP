@@ -6,10 +6,12 @@ import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.changhong.gdappstore.Config;
 import com.changhong.gdappstore.R;
 import com.changhong.gdappstore.base.BaseRelativeLayout;
 import com.changhong.gdappstore.model.App;
@@ -67,6 +69,9 @@ public class PageItemView extends BaseRelativeLayout {
 			rl_app = findView(R.id.rl_postitem_apppost);
 			iv_appicon = findView(R.id.iv_appicon);
 			tv_appname = findView(R.id.tv_appname);
+			if (Config.IS_INDIA_DAS){
+				tv_appname.setVisibility(View.GONE);
+			}
 			iv_recommend = findView(R.id.iv_recommend);
 		}
 	}
@@ -165,9 +170,20 @@ public class PageItemView extends BaseRelativeLayout {
 	}
 
 	public void setItemSelected(boolean selected) {
-		if (tv_appname!=null) {
-			tv_appname.setSelected(selected);
+		if(Config.IS_INDIA_DAS){
+			if (tv_appname!=null) {
+				tv_appname.setSelected(selected);
+				tv_appname.setVisibility(selected ? View.VISIBLE : View.GONE);
+			}
+			if (iv_appicon != null){
+				iv_appicon.setSelected(selected);
+			}
+		}else {
+			if (tv_appname!=null) {
+				tv_appname.setSelected(selected);
+			}
 		}
+
 		if (tv_postname!=null) {
 			tv_postname.setVisibility(selected?VISIBLE:INVISIBLE);
 			tv_postname.setSelected(selected);

@@ -67,7 +67,7 @@ public class MyApplication extends Application {
 		this.IS_ZH_LANGUAGE = Util.getLanguageIsZH(context);// 系统语言
 		NetworkUtils.isConnectInternet(this);// 网络链接
 
-		//DeviceInfo.CollectInfo();// 获取设备信息
+		DeviceInfo.CollectInfo();// 获取设备信息
 		this.deviceMac = DeviceInfo.DeviceMac;
 		L.d("devicemac=" + deviceMac + "  netconnect=" + NetworkUtils.ISNET_CONNECT + " IS_ZH_LANGUAGE="
 				+ IS_ZH_LANGUAGE);
@@ -147,10 +147,10 @@ public class MyApplication extends Application {
 
 	private void initBaseUrl() {
 		if (!Config.IS_ENGLISH_VERSION && IS_ZH_LANGUAGE) {
-			Config.setBASEURL(Config.SERVER_ZH);
+			Config.setBASEURL(Config.SERVER_EN);
 			Config.CONNECTION_TIMEOUT = 9000;
 		} else {
-			Config.setBASEURL("http://192.168.0.55:8081/app_market_en/");
+			Config.setBASEURL(Config.SERVER_EN);
 			Config.CONNECTION_TIMEOUT = 15000;
 		}
 //		Config.setBASEURL("http://192.168.0.106:8080/appmarket/");//TODO 临时测试修改IP地址时候使用

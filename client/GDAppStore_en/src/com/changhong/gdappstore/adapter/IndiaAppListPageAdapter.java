@@ -34,6 +34,7 @@ import java.util.Map;
  */
 public class IndiaAppListPageAdapter extends PagerAdapter {
     static final int APP_COL = 4;
+    static final int APP_COUNT_PERPAGE = 16;
     static String NATIVE_APPTABNAME;
     Map<Integer,Collection<? extends Object>> appMap = new HashMap<>();
     Activity activity;
@@ -51,8 +52,8 @@ public class IndiaAppListPageAdapter extends PagerAdapter {
             public void run() {
                 appMap.clear();
                 if (viewPagers.size() > 0) {
-                    initAppPage(viewPagers.get(0), categories.get(viewPagers.get(2).getId()));
-                    for (int i = 2; i < viewPagers.size(); i++) {
+                    initAppPage(viewPagers.get(0), categories.get(viewPagers.get(0).getId()));
+                    for (int i = 1; i < viewPagers.size(); i++) {
                         initAppPage(viewPagers.get(i), categories.get(viewPagers.get(i).getId() - 1));
                     }
                 }
@@ -68,9 +69,6 @@ public class IndiaAppListPageAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
 
         ViewPager viewPager = viewPagers.get(position + 1);
-//        if (position > 0){
-//            viewPager = viewPagers.get(position - 1);
-//        }
 
         if (viewPager.getParent() != null){
             ((ViewGroup)viewPager.getParent()).removeView(viewPager);
@@ -121,15 +119,15 @@ public class IndiaAppListPageAdapter extends PagerAdapter {
         return PagerAdapter.POSITION_NONE;
     }
 
-    void initAppPageAll(final ViewPager viewPager){
-        ArrayList<Object> appList = new ArrayList<>();
-        Iterator<Collection<? extends Object>> it = appMap.values().iterator();
-        while (it.hasNext()){
-            appList.addAll(it.next());
-        }
-
-        obtainOnePage(viewPager,appList);
-    }
+//    void initAppPageAll(final ViewPager viewPager){
+//        ArrayList<Object> appList = new ArrayList<>();
+//        Iterator<Collection<? extends Object>> it = appMap.values().iterator();
+//        while (it.hasNext()){
+//            appList.addAll(it.next());
+//        }
+//
+//        obtainOnePage(viewPager,appList);
+//    }
 
     void initAppPage(final ViewPager viewPager,Category category){
         if (initNativeAppPage(viewPager,category)){
@@ -146,10 +144,10 @@ public class IndiaAppListPageAdapter extends PagerAdapter {
                     @Override
                     public void run() {
                         obtainOnePage(viewPager, items);
-                        appMap.put(viewPagers.indexOf(viewPager), items);
-                        if(appMap.size() == categories.size() - 2){
-                            initAppPageAll(viewPagers.get(1));
-                        }
+//                        appMap.put(viewPagers.indexOf(viewPager), items);
+//                        if(appMap.size() == categories.size() - 2){
+//                            initAppPageAll(viewPagers.get(1));
+//                        }
                     }
                 });
 
@@ -167,9 +165,9 @@ public class IndiaAppListPageAdapter extends PagerAdapter {
                 final List<Object> apps = new ArrayList<Object>();
                 for (int i = 0; i < items.size(); i++) {
                     apps.add(items.get(i));
-                    if ((i + 1) % 8 == 0) {
+                    if ((i + 1) % APP_COUNT_PERPAGE == 0) {
                         IndiaCategoryAdapter adapter = new IndiaCategoryAdapter(activity);
-                        TabFragment fragment = TabFragment.newInstance(adapter, String.valueOf((i + 1) % 8), APP_COL);
+                        TabFragment fragment = TabFragment.newInstance(adapter, String.valueOf((i + 1) % APP_COUNT_PERPAGE), APP_COL);
                         pageAdapter.addItem(fragment);
                         adapter.setDataWithUpdate(apps);
                         apps.clear();
@@ -190,7 +188,7 @@ public class IndiaAppListPageAdapter extends PagerAdapter {
             public void run() {
                 while (viewpager.getParent() == null){
                     try {
-                        Thread.sleep(20000);
+                        Thread.sleep(200);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

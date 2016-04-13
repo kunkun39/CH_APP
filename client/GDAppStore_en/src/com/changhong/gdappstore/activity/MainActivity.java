@@ -60,8 +60,7 @@ public class MainActivity extends BaseActivity {
 	private ViewPager viewPager;
 	/** viewpager适配器 */
 	private MainViewPagerAdapter viewPagerAdapter;
-	/** 更新对话框 */
-	private Dialog updateDialog = null;
+
 	/** viewpager 翻页动画 */
 	private Animation anim_rightin, anim_leftin;
 	/** viewpager 当前选中标签页 */
@@ -70,16 +69,14 @@ public class MainActivity extends BaseActivity {
 	private List<Category> categories = null;
 	/** 设置按钮 */
 	private ImageView iv_setting;
-	/** 下载进度条 */
-	private MyProgressDialog progressDialog;
+
 	/** 默认显示几页 **/
 	private static final int PAGESIZE = 5;
 	/** 当前几页，可能会变化 **/
 	private static int curPageSize = PAGESIZE;
 	private BasePageView[] homePages = new BasePageView[curPageSize];
 	private HomePageView homePageView;
-	/** 更新提示对话框是否已经显示 */
-	private static boolean isShowedUpdateDialog = false;
+
 
 	Handler handler = new Handler() {
 
@@ -143,9 +140,6 @@ public class MainActivity extends BaseActivity {
 				startActivity(intent);
 			}
 		});
-		progressDialog = new MyProgressDialog(context);
-		progressDialog.setUpdateFileSizeName(true);
-		progressDialog.dismiss();
 
 		// init view pager
 		viewPager = findView(R.id.viewpager);
@@ -441,49 +435,5 @@ public class MainActivity extends BaseActivity {
 		public void onPageScrollStateChanged(int arg0) {
 		}
 	};
-
-	/**
-	 * 检测更新
-	 */
-	private void checkUpdate() {
-		if (!MyApplication.UPDATE_ENABLE) {
-			return;
-		}
-		try {
-			int nativeVersion = getPackageManager().getPackageInfo(this.getPackageName(), 0).versionCode;
-			L.d("mainactivity readUpdate navVersion=" + nativeVersion + " serverVer " + MyApplication.SERVER_VERSION);
-			if (NetworkUtils.isConnectInternet(context) && nativeVersion < MyApplication.SERVER_VERSION
-					&& !TextUtils.isEmpty(MyApplication.UPDATE_APKURL) && !isShowedUpdateDialog) {
-				if (updateDialog == null || (updateDialog != null && !updateDialog.isShowing())) {
-					isShowedUpdateDialog = true;
-					updateDialog = DialogUtil.showMyAlertDialog(context, "",
-							context.getString(R.string.checked_newversion), context.getString(R.string.update_now),
-							context.getString(R.string.update_nexttime), new DialogBtnOnClickListener() {
-
-								@Override
-								public void onSubmit(DialogMessage dialogMessage) {
-
-									UpdateService updateService = new UpdateService(context, null, progressDialog);
-									AppDetail appDetail = new AppDetail();
-									appDetail.setApkFilePath(MyApplication.UPDATE_APKURL);
-									updateService.update(appDetail, false);
-									if (dialogMessage != null && dialogMessage.dialogInterface != null) {
-										dialogMessage.dialogInterface.dismiss();
-									}
-								}
-
-								@Override
-								public void onCancel(DialogMessage dialogMessage) {
-									if (dialogMessage != null && dialogMessage.dialogInterface != null) {
-										dialogMessage.dialogInterface.dismiss();
-									}
-								}
-							});
-				}
-			}
-		} catch (NameNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
 
 }

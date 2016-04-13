@@ -3,6 +3,7 @@ package com.changhong.gdappstore.adapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.support.design.widget.Snackbar;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -108,7 +109,13 @@ public class IndiaCategoryAdapter extends RecycleViewFragment.RecycleViewAdapter
                 public void onClick(View v) {
                     PackageManager packageManager = activity.getPackageManager();
                     Intent intent = packageManager.getLaunchIntentForPackage(pageApp.getAppPackage());
-                    activity.startActivity(intent);
+                    try{
+                        activity.startActivity(intent);
+                    }catch (Exception e){
+
+                        Snackbar.make(activity.getWindow().getDecorView().getRootView(),"App has not installed or it can not be opened",Snackbar.LENGTH_SHORT).show();
+                    }
+
                 }
             });
         }

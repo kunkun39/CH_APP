@@ -16,9 +16,9 @@ import com.changhong.gdappstore.view.ImageViewWithShadow;
 public class ViewPagerTransformer {
 
     final static float MAX_SCALE = 1.8f;
-    final static float BASE_SCALE = 1.0f;
-    final static float SCALE_FACTOR = 1;
-    final static float SCALE_FACTOR_Y = 0.5f;
+    final static float BASE_SCALE = 1.2f;
+    final static float SCALE_FACTOR = 1.4f;
+    final static float SCALE_FACTOR_Y = 0.3f;
     final static float SCALE_BEGIN = 0f;
     final static float SCALE_END = 1f;
 
@@ -54,15 +54,16 @@ public class ViewPagerTransformer {
             page.setScaleY(scaleFactorY);
             page.bringToFront();
             page.setBackgroundResource(R.drawable.shadow_bg);
-
+            page.setScaleX(scaleFactor);
             view.clearColorFilter();
         }else{
             scaleFactor = BASE_SCALE;
             page.setScaleY(BASE_SCALE);
-            //setFakeImage(context, view);
-            page.setBackgroundResource(android.R.color.transparent);
+            page.setScaleX(1.2f);
+            setFakeImage(context, view);
+            //page.setBackgroundResource(android.R.color.transparent);
         }
-        page.setScaleX(scaleFactor);
+
         ((ImageViewWithShadow)view).setPercent(scaleFactor - BASE_SCALE);
 
        //L.d("POSITION:" + page.getTag().toString() + ":" + x + ":" + winWidth + ":" + scaleFactor);
