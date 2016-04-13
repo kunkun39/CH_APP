@@ -22,12 +22,12 @@
             gravity="center">
             <ImageView
                 android:id="@+id/item_pic"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
                 />
             <RelativeLayout
                 android:layout_width="0dp"
@@ -41,7 +41,7 @@
                     android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="18dp"
                     android:singleLine="true"
                     android:ellipsize="end"
                     android:marqueeRepeatLimit="3"
@@ -73,7 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@id/card_view"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:text="@string/New"
         android:layout_marginRight="1dp"
         android:paddingLeft="8dp"

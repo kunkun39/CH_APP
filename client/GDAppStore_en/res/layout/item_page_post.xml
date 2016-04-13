@@ -7,35 +7,35 @@
 
     <ImageView
         android:id="@+id/iv_appicon"
-        android:layout_width="67dp"
-        android:layout_height="70dp"
-        android:layout_above="@+id/tv_appname"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="5dp"
-        android:adjustViewBounds="true"
         android:focusable="false"
-        android:scaleType="fitXY" />
+        android:scaleType="fitXY"
+        android:background="@drawable/selector_shadow_bg"/>
 
     <TextView
-        android:id="@+id/tv_appname"
+        android:id="@id/tv_appname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="3dp"
-        android:background="@color/transparent"
         android:ellipsize="marquee"
         android:focusable="false"
         android:gravity="center_horizontal"
         android:marqueeRepeatLimit="marquee_forever"
+        android:requiresFadingEdge="horizontal"
         android:paddingBottom="5dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
+        android:lines="1"
         android:singleLine="true"
+        android:fadingEdge="horizontal"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:text=""
         android:textColor="@color/white"
-        android:textSize="@dimen/txtsize_home_appname" />
-
+        android:layout_marginBottom="20dp"
+        android:textSize="@dimen/txtsize_home_appname"
+        />
     <ImageView
         android:id="@+id/iv_recommend"
         android:layout_width="75dp"

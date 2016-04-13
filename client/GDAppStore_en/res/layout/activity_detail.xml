@@ -1,16 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:myButton="http://schemas.android.com/apk/res/com.changhong.gdappstore"
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myButton="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_main" >
+    xmlns:app="http://schemas.android.com/tools"
+    android:background="@drawable/bg_main">
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:scaleType="fitCenter"
+        android:layout_marginTop="32dp"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/yupptv_store"
+        android:layout_marginLeft="80dp"
+        />
 
-    <RelativeLayout
+    <android.support.v7.widget.CardView
         android:id="@+id/rl_detailcontent"
         android:layout_width="550dp"
         android:layout_height="330dp"
         android:layout_marginLeft="80dp"
-        android:layout_marginTop="100dp" >
+        android:layout_marginTop="100dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+         >
 
         <RelativeLayout
             android:id="@+id/rl_detailheader"
@@ -50,29 +65,30 @@
                 android:singleLine="true"
                 android:text=""
                 android:textColor="@color/black"
-                android:textSize="34sp" />
-        </RelativeLayout>
+                android:textSize="28sp" />
 
-        <TextView
-            android:id="@+id/tv_subtitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/rl_detailheader"
-            android:layout_below="@id/rl_detailheader"
-            android:layout_marginTop="10dp"
-            android:ellipsize="marquee"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:singleLine="true"
-            android:text="My facebook,Inc"
-            android:textColor="@color/detail_content_title_textcolor"
-            android:textSize="20sp" />
+            <TextView
+                android:id="@+id/tv_subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="0dp"
+                android:layout_toRightOf="@id/iv_detailicon"
+                android:layout_below="@id/tv_appname"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:text="My facebook,Inc"
+                android:textColor="@color/detail_content_title_textcolor"
+                android:textSize="18sp" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/ll_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/tv_subtitle"
-            android:layout_below="@id/tv_subtitle"
+            android:layout_alignLeft="@id/rl_detailheader"
+            android:layout_below="@id/rl_detailheader"
             android:layout_marginTop="15dp" >
 
             <TextView
@@ -128,7 +144,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/rl_detailheader"
             android:layout_below="@id/ll_version"
-            android:layout_marginTop="15dp" >
+            android:layout_marginTop="8dp" >
 
             <com.changhong.gdappstore.view.MyButton
                 android:id="@+id/bt_download"
@@ -209,55 +225,76 @@
                 android:textSize="20sp"
                 android:visibility="gone" />
         </LinearLayout>
-    </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_detailappcontent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/rl_detailheader"
+            android:layout_below="@id/ll_btns"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp" >
 
-    <RelativeLayout
+            <TextView
+                android:id="@+id/tv_introduce_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/detail_content_rowmargintop"
+                android:text="@string/description"
+                android:textColor="#444547"
+                android:textSize="18sp" />
+
+            <com.changhong.gdappstore.view.JustifyTextView
+                android:id="@+id/tv_introduce"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_below="@id/tv_introduce_title"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:text=""
+                android:textColor="#999591"
+                android:textSize="13sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
         android:id="@+id/rl_detailpost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/rl_detailcontent"
         android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/rl_detailcontent" >
-
+        android:layout_toRightOf="@id/rl_detailcontent"
+        android:layout_marginRight="50dp"
+        android:layout_alignBottom="@id/rl_detailcontent">
+    <RelativeLayout
+         android:layout_height="match_parent"
+         android:layout_width="match_parent"
+        android:layout_margin="8dp">
         <ImageView
             android:id="@+id/iv_detailpost"
-            android:layout_width="530dp"
-            android:layout_height="300dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="50dp"
-            android:layout_marginTop="0dp"
             android:scaleType="fitXY"
             android:src="@drawable/img_normal_square_cicle" />
     </RelativeLayout>
+    </android.support.v7.widget.CardView>
 
-    <RelativeLayout
-        android:id="@+id/rl_detailappcontent"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tv_usermaylike"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/rl_detailcontent"
         android:layout_below="@id/rl_detailcontent"
-        android:layout_marginTop="0dp" >
+        android:layout_marginTop="@dimen/detail_content_rowmargintop"
+        android:maxLines="2"
+        android:text="@string/similar_apps"
+        android:textColor="@color/black"
+        android:textSize="@dimen/detail_contenttextsize" />
 
-        <TextView
-            android:id="@+id/tv_introduce_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/detail_content_rowmargintop"
-            android:text="@string/description"
-            android:textColor="#444547"
-            android:textSize="28sp" />
-
-        <com.changhong.gdappstore.view.JustifyTextView
-            android:id="@+id/tv_introduce"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_below="@id/tv_introduce_title"
-            android:layout_marginRight="200dp"
-            android:layout_marginTop="10dp"
-            android:ellipsize="end"
-            android:text=""
-            android:textColor="#999591"
-            android:textSize="20sp" />
-    </RelativeLayout>
-
-</RelativeLayout>
+    <com.changhong.gdappstore.view.UserMayLikeView
+        android:id="@+id/view_usermaylike"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_usermaylike"
+        android:layout_marginLeft="55dp" />
+</android.support.percent.PercentRelativeLayout>

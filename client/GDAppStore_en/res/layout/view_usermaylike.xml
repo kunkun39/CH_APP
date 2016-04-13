@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:clipChildren="true"
+    >
 
     <RelativeLayout
         android:id="@+id/rl_usermaylike"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:clipChildren="true"
+        >
 
         <com.changhong.gdappstore.view.PageItemView
             android:id="@+id/usermaylike_item0"
@@ -14,7 +18,7 @@
             android:layout_height="@dimen/item_usermaylike_height"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="30dp"
-            android:background="@drawable/bg_mainpost" />
+            />
 
         <com.changhong.gdappstore.view.PageItemView
             android:id="@+id/usermaylike_item1"
@@ -23,7 +27,7 @@
             android:layout_alignTop="@id/usermaylike_item0"
             android:layout_marginLeft="@dimen/item_usermaylike_marginleft"
             android:layout_toRightOf="@id/usermaylike_item0"
-            android:background="@drawable/bg_mainpost" />
+            />
 
         <com.changhong.gdappstore.view.PageItemView
             android:id="@+id/usermaylike_item2"
@@ -32,7 +36,7 @@
             android:layout_alignTop="@id/usermaylike_item0"
             android:layout_marginLeft="@dimen/item_usermaylike_marginleft"
             android:layout_toRightOf="@id/usermaylike_item1"
-            android:background="@drawable/bg_mainpost" />
+            />
 
         <com.changhong.gdappstore.view.PageItemView
             android:id="@+id/usermaylike_item3"
@@ -41,7 +45,7 @@
             android:layout_alignTop="@id/usermaylike_item0"
             android:layout_marginLeft="@dimen/item_usermaylike_marginleft"
             android:layout_toRightOf="@id/usermaylike_item2"
-            android:background="@drawable/bg_mainpost" />
+            />
 
         <com.changhong.gdappstore.view.PageItemView
             android:id="@+id/usermaylike_item4"
@@ -50,7 +54,7 @@
             android:layout_alignTop="@id/usermaylike_item0"
             android:layout_marginLeft="@dimen/item_usermaylike_marginleft"
             android:layout_toRightOf="@id/usermaylike_item3"
-            android:background="@drawable/bg_mainpost" />
+            />
 
         <com.changhong.gdappstore.view.PageItemView
             android:id="@+id/usermaylike_item5"
@@ -59,7 +63,7 @@
             android:layout_alignTop="@id/usermaylike_item0"
             android:layout_marginLeft="@dimen/item_usermaylike_marginleft"
             android:layout_toRightOf="@id/usermaylike_item4"
-            android:background="@drawable/bg_mainpost" />
+            />
 
         <com.changhong.gdappstore.view.PageItemView
             android:id="@+id/usermaylike_item6"
@@ -68,7 +72,7 @@
             android:layout_alignTop="@id/usermaylike_item0"
             android:layout_marginLeft="@dimen/item_usermaylike_marginleft"
             android:layout_toRightOf="@id/usermaylike_item5"
-            android:background="@drawable/bg_mainpost" />
+            />
 
         <com.changhong.gdappstore.view.PageItemView
             android:id="@+id/usermaylike_item7"
@@ -77,7 +81,7 @@
             android:layout_alignTop="@id/usermaylike_item0"
             android:layout_marginLeft="@dimen/item_usermaylike_marginleft"
             android:layout_toRightOf="@id/usermaylike_item6"
-            android:background="@drawable/bg_mainpost" />
+            />
     </RelativeLayout>
 
     <ImageView

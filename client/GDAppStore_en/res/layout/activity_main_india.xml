@@ -74,6 +74,7 @@
         app:layout_heightPercent="30%"
         android:clipChildren="false"
         android:focusable="false"
+        android:visibility="gone"
         />
 
     <com.changhong.gdappstore.view.TabLayoutFullView
@@ -93,8 +94,8 @@
         android:id="@+id/viewpager"
         android:layout_below="@id/tabs"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
+        android:layout_marginLeft="88dp"
+        android:layout_marginRight="120dp"
         android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

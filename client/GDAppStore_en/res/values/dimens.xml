@@ -56,7 +56,7 @@
     <dimen name="detail_content_rowmargintop">5dp</dimen>
     <dimen name="detail_content_textmarginleft">20dp</dimen>
     <dimen name="item_usermaylike_width">130dp</dimen>
-    <dimen name="item_usermaylike_height">125dp</dimen>
+    <dimen name="item_usermaylike_height">150dp</dimen>
     <dimen name="item_usermaylike_marginleft">8dp</dimen>
 
     <!-- 对话框 -->
